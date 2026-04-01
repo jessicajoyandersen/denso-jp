@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Japanese Workplace Communication</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;font-family:'Inter',sans-serif;background:#F4F6F8;color:#1A1D23;}
+body{display:flex;flex-direction:column;align-items:center;padding:48px 24px 64px;min-height:100vh;}
+.page-header{max-width:760px;width:100%;margin-bottom:32px;display:flex;align-items:center;gap:16px;}
+.logo{width:48px;height:48px;border-radius:8px;background:#C8102E;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.org{font-size:10px;font-weight:700;letter-spacing:3px;color:#6B7585;text-transform:uppercase;margin-bottom:3px;}
+.course-title{font-size:17px;font-weight:700;color:#1A1D23;}
+.sessions{display:flex;flex-direction:column;gap:20px;max-width:760px;width:100%;}
+.session-card{background:#fff;border:1px solid #DDE1E8;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+.session-card.current{border-color:#C8102E;box-shadow:0 0 0 3px rgba(200,16,46,0.08);}
+.session-header{padding:20px 28px 16px;border-bottom:1px solid #DDE1E8;display:flex;align-items:baseline;gap:14px;}
+.session-num{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6B7585;}
+.session-title{font-size:17px;font-weight:800;color:#1A1D23;letter-spacing:-0.3px;}
+.session-desc{font-size:13px;color:#6B7585;margin-top:3px;}
+.session-badge{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:10px;flex-shrink:0;}
+.badge-complete{background:#EDF7F1;color:#1A6E3A;border:1px solid #7DC4A0;}
+.badge-current{background:#C8102E;color:white;}
+.session-body{padding:20px 28px;}
+.links-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.phase-link{display:flex;align-items:center;gap:10px;padding:11px 16px;border:1.5px solid #DDE1E8;border-radius:8px;text-decoration:none;color:#1A1D23;transition:all 0.15s;background:#fff;flex:1;min-width:160px;}
+.phase-link:hover{border-color:#C8102E;background:#FFF5F6;}
+.phase-link:hover .pl-arrow{color:#C8102E;}
+.pl-num{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;flex-shrink:0;white-space:nowrap;}
+.pl-num.p1{background:#FFF8E6;color:#8A6A00;border:1px solid #E8C96A;}
+.pl-num.p2{background:#EEF4FC;color:#1558A6;border:1px solid #92BAE8;}
+.pl-num.p3{background:#EDF7F1;color:#1A6E3A;border:1px solid #7DC4A0;}
+.pl-num.fac{background:#13151C;color:#9B7FD4;border:1px solid #7B5FD0;}
+.pl-body{flex:1;}
+.pl-title{font-size:13px;font-weight:600;margin-bottom:1px;}
+.pl-desc{font-size:11px;color:#6B7585;}
+.pl-arrow{font-size:14px;color:#BCC3CE;transition:color 0.15s;flex-shrink:0;}
+.fac-row{display:flex;gap:10px;padding-top:12px;border-top:1px solid #F0F2F5;}
+.fac-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6B7585;padding-top:14px;white-space:nowrap;}
+.footer{margin-top:40px;font-size:11px;color:#6B7585;text-align:center;font-family:'IBM Plex Mono',monospace;line-height:1.8;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="logo">⛩</div>
+  <div>
+    <div class="org">DENSO Manufacturing · Statesville, NC</div>
+    <div class="course-title">Japanese Workplace Communication</div>
+  </div>
+</div>
+
+<div class="sessions">
+
+  <!-- SESSION 5 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div>
+        <div class="session-num">Session 05</div>
+        <div class="session-title">Acknowledgment &amp; Identity</div>
+        <div class="session-desc">Otsukaresama family · osaki ni · mou ichido · X は Y です · register &amp; hierarchy</div>
+      </div>
+      <span class="session-badge badge-complete">Complete</span>
+    </div>
+    <div class="session-body">
+      <div class="links-row">
+        <a href="denso-jp-s5/denso-s5-phase1.html" class="phase-link">
+          <span class="pl-num p1">Phase 1</span>
+          <div class="pl-body">
+            <div class="pl-title">Recall Blitz</div>
+            <div class="pl-desc">Vocab review · 20 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s5/denso-s5-phase2-learner.html" class="phase-link">
+          <span class="pl-num p2">Phase 2</span>
+          <div class="pl-body">
+            <div class="pl-title">Field Briefing</div>
+            <div class="pl-desc">Phrases, grammar, sentence builder · 30 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s5/denso-s5-phase3.html" class="phase-link">
+          <span class="pl-num p3">Phase 3</span>
+          <div class="pl-body">
+            <div class="pl-title">Floor Sim</div>
+            <div class="pl-desc">16 scenarios · 40 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+      <div class="fac-row">
+        <div class="fac-label">Facilitator</div>
+        <a href="denso-jp-s5/denso-s5-phase2-facilitator.html" class="phase-link" style="flex:0 1 auto;">
+          <span class="pl-num fac">Guide</span>
+          <div class="pl-body"><div class="pl-title">Phase 2 Control Panel</div></div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 6 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div>
+        <div class="session-num">Session 06</div>
+        <div class="session-title">Demonstratives &amp; Negation</div>
+        <div class="session-desc">Ko/so/a/do system · kore/sore/are · kono/sono/ano · ja nai desu</div>
+      </div>
+      <span class="session-badge badge-complete">Complete</span>
+    </div>
+    <div class="session-body">
+      <div class="links-row">
+        <a href="denso-jp-s6/denso-s6-phase1.html" class="phase-link">
+          <span class="pl-num p1">Phase 1</span>
+          <div class="pl-body">
+            <div class="pl-title">Recall Blitz</div>
+            <div class="pl-desc">S1–S5 review · 20 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s6/denso-s6-phase2-learner.html" class="phase-link">
+          <span class="pl-num p2">Phase 2</span>
+          <div class="pl-body">
+            <div class="pl-title">Field Briefing</div>
+            <div class="pl-desc">Demonstratives, negation, sentence builders · 35 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s6/denso-s6-phase3.html" class="phase-link">
+          <span class="pl-num p3">Phase 3</span>
+          <div class="pl-body">
+            <div class="pl-title">Floor Sim</div>
+            <div class="pl-desc">10 scenarios · 40 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+      <div class="fac-row">
+        <div class="fac-label">Facilitator</div>
+        <a href="denso-jp-s6/denso-s6-phase2-facilitator.html" class="phase-link" style="flex:0 1 auto;">
+          <span class="pl-num fac">Guide</span>
+          <div class="pl-body"><div class="pl-title">Phase 2 Control Panel</div></div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 7 -->
+  <div class="session-card">
+    <div class="session-header">
+      <div>
+        <div class="session-num">Session 07</div>
+        <div class="session-title">Possessive, Likes &amp; Small Talk</div>
+        <div class="session-desc">の (possessive) · が好きです · いいお天気ですね / そうですね</div>
+      </div>
+      <span class="session-badge badge-complete">Complete</span>
+    </div>
+    <div class="session-body">
+      <div class="links-row">
+        <a href="denso-jp-s7/denso-s7-phase1.html" class="phase-link">
+          <span class="pl-num p1">Phase 1</span>
+          <div class="pl-body">
+            <div class="pl-title">Recall Blitz</div>
+            <div class="pl-desc">S1–S6 review · 20 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s7/denso-s7-phase2-learner.html" class="phase-link">
+          <span class="pl-num p2">Phase 2</span>
+          <div class="pl-body">
+            <div class="pl-title">Field Briefing</div>
+            <div class="pl-desc">の, が好きです, ice breakers · 35 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s7/denso-s7-phase3.html" class="phase-link">
+          <span class="pl-num p3">Phase 3</span>
+          <div class="pl-body">
+            <div class="pl-title">Floor Sim</div>
+            <div class="pl-desc">10 scenarios · 40 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+      <div class="fac-row">
+        <div class="fac-label">Facilitator</div>
+        <a href="denso-jp-s7/denso-s7-phase2-facilitator.html" class="phase-link" style="flex:0 1 auto;">
+          <span class="pl-num fac">Guide</span>
+          <div class="pl-body"><div class="pl-title">Phase 2 Control Panel</div></div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 8 -->
+  <div class="session-card current">
+    <div class="session-header">
+      <div>
+        <div class="session-num">Session 08</div>
+        <div class="session-title">Object Particle &amp; Topic vs Focus</div>
+        <div class="session-desc">を (object particle) · は vs が · te kudasai · floor exchanges</div>
+      </div>
+      <span class="session-badge badge-current">Current</span>
+    </div>
+    <div class="session-body">
+      <div class="links-row">
+        <a href="denso-jp-s8/denso-s8-phase1.html" class="phase-link">
+          <span class="pl-num p1">Phase 1</span>
+          <div class="pl-body">
+            <div class="pl-title">Recall Blitz</div>
+            <div class="pl-desc">S1–S7 review · 15 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s8/denso-s8-phase2-learner.html" class="phase-link">
+          <span class="pl-num p2">Phase 2</span>
+          <div class="pl-body">
+            <div class="pl-title">Field Briefing</div>
+            <div class="pl-desc">を, は vs が, floor exchanges · 35 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+        <a href="denso-jp-s8/denso-s8-phase3.html" class="phase-link">
+          <span class="pl-num p3">Phase 3</span>
+          <div class="pl-body">
+            <div class="pl-title">Floor Sim</div>
+            <div class="pl-desc">Scenarios · 40 min</div>
+          </div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+      <div class="fac-row">
+        <div class="fac-label">Facilitator</div>
+        <a href="denso-jp-s8/denso-s8-phase2-facilitator.html" class="phase-link" style="flex:0 1 auto;">
+          <span class="pl-num fac">Guide</span>
+          <div class="pl-body"><div class="pl-title">Phase 2 Control Panel</div></div>
+          <span class="pl-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  DENSO Japanese Workplace Communication · Statesville, NC<br>
+  Sessions 05 – 08
+</div>
+
+</body>
+</html>

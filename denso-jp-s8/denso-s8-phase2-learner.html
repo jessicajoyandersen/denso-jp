@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Japanese · Session 08 · Phase 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:#FFF5F6;
+  --bg:#F4F6F8;--surface:#FFFFFF;--surface-2:#F0F2F5;
+  --border:#DDE1E8;--border-strong:#BCC3CE;
+  --text:#1A1D23;--text-2:#4A5260;--text-3:#6B7585;--white:#FFFFFF;
+  --gold:#8A6A00;--gold-bg:#FFF8E6;--gold-border:#E8C96A;
+  --green:#1A6E3A;--green-bg:#EDF7F1;--green-border:#7DC4A0;
+  --blue:#1558A6;--blue-bg:#EEF4FC;--blue-border:#92BAE8;
+  --purple:#5B3E9E;--purple-bg:#F3EFFE;--purple-border:#B9A3E8;
+  --teal:#0E7A6A;--teal-bg:#E8F7F5;--teal-border:#7DD4C8;
+  --warn:#B22020;--warn-bg:#FDF0F0;--warn-border:#E8A0A0;
+  --correct:#1A6E3A;--correct-bg:#EDF7F1;--correct-border:#7DC4A0;
+  --wrong:#B22020;--wrong-bg:#FDF0F0;--wrong-border:#E8A0A0;
+  --focus:0 0 0 3px rgba(200,16,46,0.35);
+  --font-mono:'IBM Plex Mono',monospace;
+  --font-jp:'Noto Sans JP',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;display:flex;flex-direction:column;}
+:focus-visible{outline:none;box-shadow:var(--focus);}
+button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;gap:16px;}
+.topbar-left{display:flex;flex-direction:column;}
+.tb-org{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);}
+.tb-course{font-size:13px;font-weight:600;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:12px;}
+.phase-pill{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid;}
+.phase-pill.p2{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+.timer-box{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;}
+.course-progress{height:3px;background:var(--surface-2);flex-shrink:0;}
+.course-progress-fill{height:100%;background:var(--red);transition:width 0.6s ease;border-radius:0 2px 2px 0;}
+
+/* Scroll body */
+.scroll-body{flex:1;overflow-y:auto;padding:32px 48px 64px;max-width:900px;width:100%;margin:0 auto;}
+.scroll-body::-webkit-scrollbar{width:6px;}
+.scroll-body::-webkit-scrollbar-track{background:var(--surface-2);}
+.scroll-body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px;}
+
+/* Waiting state */
+.waiting-state{text-align:center;padding:56px 24px;}
+.waiting-icon{font-size:40px;margin-bottom:16px;animation:pulse-gentle 2s infinite;}
+@keyframes pulse-gentle{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.waiting-text{font-size:16px;font-weight:600;color:var(--text-2);margin-bottom:8px;}
+.waiting-sub{font-size:13px;color:var(--text-3);}
+
+/* Block accordion */
+.block-section{border:1.5px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden;opacity:0.45;pointer-events:none;transition:all 0.25s;}
+.block-section.unlocked{opacity:0.75;pointer-events:auto;}
+.block-section.active-block{border-color:var(--red);box-shadow:0 0 0 3px rgba(200,16,46,0.08);opacity:1;pointer-events:auto;}
+.block-section.unlocked .bh-status,.block-section.active-block .bh-status{background:var(--green);border-color:var(--green);color:white;}
+.block-header{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;background:var(--surface);user-select:none;}
+.block-header:hover{background:var(--surface-2);}
+.bh-status{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:all 0.2s;}
+.bh-label{flex:1;}
+.bh-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:1px;}
+.bh-title{font-size:14px;font-weight:700;color:var(--text);}
+.bh-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid;}
+.badge-locked{background:var(--surface-2);border-color:var(--border);color:var(--text-3);}
+.badge-current{background:var(--red);border-color:var(--red);color:white;}
+.badge-done{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.bh-chevron{font-size:12px;color:var(--text-3);transition:transform 0.2s;}
+.block-section.open .bh-chevron{transform:rotate(180deg);}
+.block-body{display:none;padding:8px 20px 28px;background:var(--surface);border-top:1px solid var(--border);}
+.block-section.open .block-body{display:block;animation:fadeIn 0.2s ease;}
+
+/* Typography */
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;}
+.section-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.25;}
+.section-sub{font-size:14px;color:var(--text-2);line-height:1.65;margin-bottom:24px;max-width:620px;}
+.div-heading{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:24px 0 12px;border-top:1px solid var(--border);padding-top:16px;}
+.div-heading:first-child{border-top:none;padding-top:0;margin-top:8px;}
+
+/* Frame / warn boxes */
+.frame-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-left:3px solid var(--blue);border-radius:6px;padding:14px 18px;margin-bottom:16px;}
+.frame-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.frame-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.warn-box{background:var(--warn-bg);border:1px solid var(--warn-border);border-left:3px solid var(--warn);border-radius:6px;padding:14px 18px;margin-bottom:16px;}
+.warn-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--warn);margin-bottom:6px;}
+.warn-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.cn-box{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:24px;}
+.cn-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;}
+.cn-text{font-size:13px;color:var(--text-2);line-height:1.75;}
+
+/* Pattern box */
+.pattern-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:16px;}
+.pattern-formula{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:0.5px;}
+.pattern-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
+.pat-slot{background:var(--surface-2);border:1.5px solid var(--border);border-radius:6px;padding:8px 14px;font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);}
+.pat-slot.ko{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+.pat-slot.particle{background:var(--purple-bg);border-color:var(--purple-border);color:var(--purple);}
+.pat-slot.noun{background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold);}
+.pat-slot.verb{background:var(--teal-bg);border-color:var(--teal-border);color:var(--teal);}
+.pat-connector{font-family:var(--font-mono);font-size:18px;color:var(--text-3);}
+.pat-label{font-size:11px;color:var(--text-3);margin-top:2px;}
+
+/* Phrase table */
+.phrase-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px;}
+.phrase-table th{text-align:left;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:6px 12px;border-bottom:2px solid var(--border);}
+.phrase-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.phrase-table tr:last-child td{border-bottom:none;}
+.td-romaji{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);}
+.td-phonetic{font-size:11px;color:var(--text-3);margin-top:2px;}
+.td-jp{font-family:var(--font-jp);font-size:14px;color:var(--text-2);}
+.td-en{font-size:12px;color:var(--text-2);}
+.td-reg{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 6px;border-radius:4px;margin-top:3px;}
+.reg-key{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-border);}
+.reg-new{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+
+/* Speak button */
+.speak-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:var(--font-mono);font-weight:600;transition:all 0.15s;}
+.speak-btn:hover{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+
+/* Backchain drill */
+.backchain-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px 32px;margin-bottom:28px;max-width:640px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.bc-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase;margin-bottom:20px;}
+.bc-steps{display:flex;flex-direction:column;gap:0;}
+.bc-step{display:flex;align-items:stretch;gap:0;position:relative;}
+.bc-step-line{width:2px;background:var(--border);margin:0 18px;flex-shrink:0;}
+.bc-step:last-child .bc-step-line{background:linear-gradient(to bottom,var(--border),transparent);}
+.bc-step-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--teal);background:var(--white);position:absolute;top:12px;left:-4px;transition:background 0.2s;}
+.bc-step.done .bc-step-dot{background:var(--teal);}
+.bc-step-body{padding:8px 0 20px;flex:1;}
+.bc-step-num{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:4px;}
+.bc-phrase{font-size:13px;color:rgba(106,117,133,0.6);margin-bottom:3px;}
+.bc-roman{font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.bc-phonetic{font-family:var(--font-mono);font-size:11px;color:var(--gold);margin-bottom:8px;}
+.bc-step-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bc-say-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--teal-border);border-radius:4px;color:var(--teal);background:none;padding:6px 14px;cursor:pointer;transition:all 0.15s;}
+.bc-say-btn:hover{background:var(--teal-bg);}
+.bc-repeat-btn{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:none;border-radius:4px;color:var(--white);background:var(--teal);padding:6px 14px;cursor:pointer;}
+.bc-tick{font-size:13px;color:var(--teal);display:none;}
+.bc-step.done .bc-tick{display:inline;}
+.bc-progress-row{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.bc-prog-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.bc-prog-fill{height:100%;background:var(--teal);border-radius:2px;transition:width 0.4s ease;}
+.bc-prog-label{font-family:var(--font-mono);font-size:10px;color:var(--text-3);}
+
+/* Exchange cards */
+.exchange-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.exc-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);display:flex;gap:16px;align-items:flex-start;}
+.exc-card-body{flex:1;min-width:0;}
+.exc-diagram{width:160px;flex-shrink:0;}
+.exc-scenario{font-size:12px;font-style:italic;color:var(--text-3);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.exc-line{display:flex;gap:12px;margin-bottom:10px;}
+.exc-line:last-child{margin-bottom:0;}
+.exc-speaker{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);width:52px;flex-shrink:0;padding-top:3px;}
+.exc-bubble{flex:1;}
+.exc-romaji{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.exc-jp{font-family:var(--font-jp);font-size:13px;color:var(--text-2);margin-bottom:2px;}
+.exc-en{font-size:12px;color:var(--text-3);margin-bottom:6px;}
+.exc-actions{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* Suki builder */
+.suki-builder{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin-bottom:16px;}
+.suki-slots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.suki-slot{min-width:110px;padding:9px 14px;border-radius:6px;border:2px dashed var(--border);font-family:var(--font-mono);font-size:13px;color:var(--text-3);text-align:center;transition:all 0.2s;}
+.suki-slot.filled{border-style:solid;color:var(--text);background:var(--surface-2);}
+.suki-slot.topic-filled{border-color:var(--blue-border);background:var(--blue-bg);color:var(--blue);}
+.suki-slot.neg-filled{border-color:var(--warn-border);background:var(--warn-bg);color:var(--warn);}
+.suki-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.suki-chip{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;background:var(--surface);transition:all 0.15s;}
+.suki-chip:hover{border-color:var(--blue-border);background:var(--blue-bg);color:var(--blue);}
+.suki-chip.selected{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.suki-result{border-radius:6px;padding:14px 18px;margin-bottom:12px;display:none;}
+.suki-result.show{display:block;}
+.suki-result.natural{background:var(--correct-bg);border:1px solid var(--correct-border);}
+
+/* Toast */
+#unlock-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1A1D23;color:white;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+#unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Quick ref grid */
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;}
+.ref-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.ref-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.ref-item{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.ref-item span{font-weight:400;color:var(--text-2);}
+
+/* Timing bar */
+.timing-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.timing-icon{font-size:13px;}
+.timing-label{font-size:11px;color:var(--text-3);}
+.timing-val{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--text-2);}
+</style>
+</head>
+<body>
+<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC · Session 08</div>
+      <div class="tb-course">Phase 2 — Field Briefing</div>
+    </div>
+    <div class="tb-right">
+      <div class="phase-pill p2">📋 Briefing</div>
+      <div class="timer-box" id="p2-timer">35:00</div>
+      <div id="conn-dot" style="width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.4s;" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="course-progress">
+    <div class="course-progress-fill" id="learner-progress" style="width:35%;"></div>
+  </div>
+
+  <div class="scroll-body" style="max-width:860px;">
+    <div id="waiting-state" class="waiting-state">
+      <div class="waiting-icon">📋</div>
+      <div class="waiting-text">Your facilitator is about to begin Phase 2.<br>Blocks will appear here as they are unlocked.</div>
+      <div class="waiting-sub" style="margin-top:16px;">● connecting to session…</div>
+    </div>
+
+    <div id="accordion" style="display:none;">
+
+<!-- ══ BLOCK A — Review Blitz ══ -->
+<div class="block-section locked" id="section-review" data-block="review">
+  <div class="block-header" onclick="toggleBlock('review')">
+    <div class="bh-status" id="status-review">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block A · 5–6 min</div>
+      <div class="bh-title">⚡ Block A — Review Blitz</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-review">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-review">
+    <div class="eyebrow" style="margin-top:16px;">Block A — Review</div>
+    <div class="section-title">Everything So Far — Fast</div>
+    <div class="section-sub">A quick pass through S1–S6. Your facilitator will call out a situation — you say the phrase. No looking it up.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">Why this matters</div>
+      <div class="frame-text">Each session adds new tools. This block makes sure the old ones are still sharp. A phrase you used last week should come out without thinking — that's the goal.</div>
+    </div>
+
+    <div class="div-heading">Quick Reference — S1–S6</div>
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--blue);">Greetings</div>
+        <div class="ref-item">Ohayou gozaimasu <span>— good morning</span></div>
+        <div class="ref-item">Otsukaresama desu <span>— acknowledgement</span></div>
+        <div class="ref-item">Otsukaresama deshita <span>— shift close</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--green);">Departures</div>
+        <div class="ref-item">Osaki ni shitsurei shimasu <span>— leaving first</span></div>
+        <div class="ref-item">Ja, mata <span>— see you</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--gold);">Handoffs</div>
+        <div class="ref-item">Yoroshiku onegaishimasu <span>— I'm counting on you</span></div>
+        <div class="ref-item">Hai, wakarimashita <span>— understood</span></div>
+        <div class="ref-item">Omakase kudasai <span>— leave it to me</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--purple);">Recovery</div>
+        <div class="ref-item">Sumimasen, mou ichido <span>— one more time</span></div>
+        <div class="ref-item">Yukkuri itte moraemasu ka <span>— slowly please</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--teal);">Identity — S5</div>
+        <div class="ref-item">[Name] desu <span>— I'm [name]</span></div>
+        <div class="ref-item">[Role] desu <span>— I'm a [role]</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--red);">Demonstratives — S6</div>
+        <div class="ref-item">Kore / Sore / Are <span>— this/that/that over there</span></div>
+        <div class="ref-item">Kono/Sono/Ano ~ <span>— this/that/that [noun]</span></div>
+        <div class="ref-item">~ ja nai desu <span>— it's not ~</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ BLOCK B — を OBJECT PARTICLE ══ -->
+<div class="block-section locked" id="section-wo" data-block="wo">
+  <div class="block-header" onclick="toggleBlock('wo')">
+    <div class="bh-status" id="status-wo">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block B · 6–7 min</div>
+      <div class="bh-title">🎯 Block B — を · The Object Particle</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-wo">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-wo">
+
+    <div class="section-eyebrow">Block B</div>
+    <div class="section-title">を — The Object Particle</div>
+    <div class="section-sub">Mark what's being acted on. One particle, any action verb.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">The Pattern</div>
+      <div class="frame-text">
+        <div class="pattern-box" style="margin-bottom:12px;">
+          <div class="pattern-formula">[ Subject ] は &nbsp;[ Object ] <span style="color:var(--red);font-weight:800;">を</span>&nbsp; [ Verb ]</div>
+        </div>
+        を (pronounced <strong>wo</strong> or just <strong>o</strong>) marks the <em>direct object</em> — the thing being acted on by the verb.<br><br>
+        Watashi wa <strong>kono kikai wo</strong> tsukaimasu. — I use <strong>this machine</strong>.<br>
+        Tejun wo <strong>mite kudasai.</strong> — Please <strong>check</strong> the procedure.
+      </div>
+    </div>
+
+    <div class="warn-box" style="background:var(--gold-bg);border-color:var(--gold-border);border-left-color:var(--gold);">
+      <div class="warn-label" style="color:var(--gold);">⚡ S6 Connection — You Already Used を</div>
+      <div class="warn-text">In Session 6 you heard: <strong>Ano kikai wo tsukatte kudasai</strong> — please use that machine over there. The を was already there, doing its job. Today you just learn its name and how to use it yourself.</div>
+    </div>
+
+    <div class="div-heading">Verb Pairs — -masu form and -te kudasai</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>-masu (I/we ~)</th><th>-te kudasai (Please ~)</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr style="background:var(--surface-2);">
+          <td class="td-romaji">tsukaimasu</td>
+          <td class="td-jp">使います</td>
+          <td class="td-jp">使ってください</td>
+          <td class="td-en">use</td>
+        </tr>
+        <tr>
+          <td class="td-romaji">mimasu</td>
+          <td class="td-jp">見ます</td>
+          <td class="td-jp">見てください</td>
+          <td class="td-en">look at / check</td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td class="td-romaji">kakimasu</td>
+          <td class="td-jp">書きます</td>
+          <td class="td-jp">書いてください</td>
+          <td class="td-en">write</td>
+        </tr>
+        <tr>
+          <td class="td-romaji">yomimasu</td>
+          <td class="td-jp">読みます</td>
+          <td class="td-jp">読んでください</td>
+          <td class="td-en">read</td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td class="td-romaji">oshimasu</td>
+          <td class="td-jp">押します</td>
+          <td class="td-jp">押してください</td>
+          <td class="td-en">press</td>
+        </tr>
+        <tr>
+          <td class="td-romaji">mochimasu</td>
+          <td class="td-jp">持ちます</td>
+          <td class="td-jp">持ってください</td>
+          <td class="td-en">hold / carry</td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td class="td-romaji">shimasu</td>
+          <td class="td-jp">します</td>
+          <td class="td-jp">してください</td>
+          <td class="td-en">do</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <div class="warn-label">💡 Note — Fixed Pairs</div>
+      <div class="warn-text">The -masu and -te kudasai forms are presented as fixed pairs — don't worry about how the ending changes for now. Learn them as chunks: <em>tsukaimasu / tsukatte kudasai, mimasu / mite kudasai</em>. The pattern will become natural with use.</div>
+    </div>
+
+    <div class="div-heading">Phrase Table</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>English</th><th>🔊</th></tr></thead>
+      <tbody>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Kono kikai wo tsukaimasu.</div><div class="td-phonetic">koh-noh kee-kigh woh tsoo-kigh-mas</div></td>
+          <td class="td-jp">この機械を使います。</td>
+          <td class="td-en">I use this machine.</td>
+          <td><button class="speak-btn" onclick="speak('この機械を使います。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Kono kikai wo tsukatte kudasai.</div><div class="td-phonetic">koh-noh kee-kigh woh tsoo-kat-teh koo-dah-sigh</div></td>
+          <td class="td-jp">この機械を使ってください。</td>
+          <td class="td-en">Please use this machine.</td>
+          <td><button class="speak-btn" onclick="speak('この機械を使ってください。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Tejun wo mite kudasai.</div><div class="td-phonetic">teh-joon woh mee-teh koo-dah-sigh</div></td>
+          <td class="td-jp">手順を見てください。</td>
+          <td class="td-en">Please check the procedure.</td>
+          <td><button class="speak-btn" onclick="speak('手順を見てください。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Namae wo kaite kudasai.</div><div class="td-phonetic">nah-mah-eh woh kigh-teh koo-dah-sigh</div></td>
+          <td class="td-jp">名前を書いてください。</td>
+          <td class="td-en">Please write your name.</td>
+          <td><button class="speak-btn" onclick="speak('名前を書いてください。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Botan wo oshite kudasai.</div><div class="td-phonetic">boh-tahn woh oh-shee-teh koo-dah-sigh</div></td>
+          <td class="td-jp">ボタンを押してください。</td>
+          <td class="td-en">Please press the button.</td>
+          <td><button class="speak-btn" onclick="speak('ボタンを押してください。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Kore wo motte kudasai.</div><div class="td-phonetic">koh-reh woh mot-teh koo-dah-sigh</div></td>
+          <td class="td-jp">これを持ってください。</td>
+          <td class="td-en">Please hold / carry this.</td>
+          <td><button class="speak-btn" onclick="speak('これを持ってください。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Repoto wo yonde kudasai.</div><div class="td-phonetic">reh-poh-toh woh yon-deh koo-dah-sigh</div></td>
+          <td class="td-jp">レポートを読んでください。</td>
+          <td class="td-en">Please read the report.</td>
+          <td><button class="speak-btn" onclick="speak('レポートを読んでください。')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="div-heading">Back-Chain Drill — Kono tejun wo mite kudasai.</div>
+    <button onclick="initBackchain('bc-wo')" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--teal-border);background:var(--teal-bg);color:var(--teal);cursor:pointer;">▶ Start Drill</button>
+    <div class="backchain-wrap" id="bc-wo">
+      <div class="bc-label">Drill — Build from the end</div>
+      <div class="bc-steps" id="bc-wo-steps"></div>
+      <div class="bc-progress-row">
+        <div class="bc-prog-bar"><div class="bc-prog-fill" id="bc-wo-fill" style="width:0%"></div></div>
+        <div class="bc-prog-label" id="bc-wo-label">0 / 4</div>
+      </div>
+    </div>
+
+    <div class="div-heading">Sentence Builder — を</div>
+    <div style="font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:16px;">Pick an object and a verb form. See the sentence come together.</div>
+    <button id="wo-builder-btn" onclick="woOpen()" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--green-border);background:var(--green-bg);color:var(--green);cursor:pointer;">▶ Open Builder</button>
+    <div id="wo-builder-body" style="display:none;">
+      <div class="suki-builder">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;">Your sentence</div>
+        <div class="suki-slots" style="align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="suki-slot" id="wo-obj-slot" style="min-width:120px;">[ pick an object ]</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--red);font-weight:800;">を</div>
+          <button class="suki-verb-toggle" id="wo-verb-masu" onclick="woPickVerb('masu')" style="font-family:var(--font-mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:6px;border:1.5px solid var(--green-border);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all 0.15s;">~ masu</button>
+          <button class="suki-verb-toggle" id="wo-verb-te" onclick="woPickVerb('te')" style="font-family:var(--font-mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:6px;border:1.5px solid var(--blue-border);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all 0.15s;">~ te kudasai</button>
+        </div>
+        <div id="wo-result-box" class="suki-result" style="margin-top:16px;"></div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;margin-top:8px;">What?</div>
+        <div id="wo-obj-chips" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"></div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;">Verb</div>
+        <div id="wo-verb-chips" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;"></div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="speak-btn" id="wo-speak-btn" onclick="woSpeak()" style="display:none;">🔊 Hear it</button>
+          <button class="speak-btn" onclick="woReset()">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-heading">Production Drill — Say It First</div>
+    <div style="font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:12px;">A situation appears. Using the vocab reference below, say the Japanese sentence before tapping Reveal. No chips — you assemble it.</div>
+
+    <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--text-2);line-height:1.8;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;">Vocab Reference</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">kono kikai — this machine</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">sono kikai — that machine</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">tejun — procedure</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">repoto — report</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">botan — button</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">namae — name</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">tsukatte kudasai — please use</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">mite kudasai — please check</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">kaite kudasai — please write</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">yonde kudasai — please read</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">oshite kudasai — please press</span>
+        <span style="font-family:var(--font-mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 8px;">motte kudasai — please hold/carry</span>
+      </div>
+    </div>
+
+    <button onclick="initSubDrill()" id="sub-drill-btn" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--purple-border);background:var(--purple-bg);color:var(--purple);cursor:pointer;">▶ Start Production Drill</button>
+
+    <div id="sub-drill-wrap" style="display:none;">
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:24px 28px;margin-bottom:12px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;" id="sub-counter">Prompt 1 of 6</div>
+        <div style="font-size:16px;font-weight:600;color:var(--text);line-height:1.65;margin-bottom:16px;" id="sub-prompt"></div>
+        <div id="sub-answer" style="display:none;background:var(--green-bg);border:1.5px solid var(--green-border);border-radius:8px;padding:16px 20px;margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:6px;">Answer</div>
+          <div style="font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--text);margin-bottom:3px;" id="sub-romaji"></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--gold);margin-bottom:6px;" id="sub-phonetic"></div>
+          <div style="font-family:var(--font-jp);font-size:18px;color:rgba(26,29,35,0.3);margin-bottom:6px;" id="sub-jp"></div>
+          <button class="speak-btn" onclick="subSpeak()" style="margin-top:4px;">🔊 Hear it</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-secondary" id="sub-reveal-btn" onclick="subReveal()">Reveal</button>
+          <button class="btn btn-primary" id="sub-next-btn" onclick="subNext()" style="display:none;">Next →</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;" id="sub-dots"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ BLOCK C — は vs が ══ -->
+<div class="block-section locked" id="section-waga" data-block="waga">
+  <div class="block-header" onclick="toggleBlock('waga')">
+    <div class="bh-status" id="status-waga">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block C · 8–10 min</div>
+      <div class="bh-title">⚖️ Block C — は vs が · Topic vs Focus</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-waga">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-waga">
+
+    <div class="section-eyebrow">Block C</div>
+    <div class="section-title">は vs が — The Core Distinction</div>
+    <div class="section-sub">You've used both. Now you'll understand why.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">Why This Matters</div>
+      <div class="frame-text">は and が are the two particles learners mix up most — and for good reason. They can often appear in the same position in a sentence, but they say different things. Getting this right isn't just grammar — it changes the nuance of what you're communicating.</div>
+    </div>
+
+    <div class="div-heading">Part 1 — は marks the Topic</div>
+    <div class="frame-box">
+      <div class="frame-label">は — "As for X…"</div>
+      <div class="frame-text">
+        は (wa) marks the <strong>topic</strong> of the sentence — what you're talking about. Think of it as "as for X" or "speaking of X." It sets the frame.<br><br>
+        <strong>Watashi wa opereetaa desu.</strong> — <em>As for me</em>, I'm an operator.<br>
+        <strong>Kono kikai wa furui desu.</strong> — <em>As for this machine</em>, it's old.<br>
+        <strong>Yamada-san wa A-rain desu.</strong> — <em>As for Yamada-san</em>, he's on A-line.<br><br>
+        You've been using は since Session 5 with X は Y です. That was always a topic frame: "as for X, it is Y."
+      </div>
+    </div>
+
+    <div class="div-heading">Part 2 — が marks the Subject / Focus</div>
+    <div class="frame-box">
+      <div class="frame-label">が — "X is the one who…"</div>
+      <div class="frame-text">
+        が (ga) marks the <strong>grammatical subject</strong>, and often carries <strong>focus</strong> — it identifies <em>who</em> or <em>what</em> specifically. Think of it as putting a spotlight on something.<br><br>
+        <strong>Dare ga kono tejun wo yomimashita ka?</strong> — <em>Who</em> read this procedure?<br>
+        <strong>Yamada-san ga yomimashita.</strong> — <em>Yamada-san</em> did. (が identifies the answer)<br><br>
+        <strong>Kono kikai ga furui desu.</strong> — <em>This machine</em> is the old one. (identifying which)<br><br>
+        You've also been using が since Session 7: <em>Futtobooru が suki desu</em>. が spotlights what's liked — "as for what I like, it's football."
+      </div>
+    </div>
+
+    <div class="div-heading">Part 3 — Side by Side</div>
+    <div class="frame-box" style="background:var(--purple-bg);border-color:var(--purple-border);border-left-color:var(--purple);">
+      <div class="frame-label" style="color:var(--purple);">The Key Contrast</div>
+      <div class="frame-text">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:left;padding:6px 8px;color:var(--text-3);font-size:10px;letter-spacing:2px;text-transform:uppercase;">は version</th>
+              <th style="text-align:left;padding:6px 8px;color:var(--text-3);font-size:10px;letter-spacing:2px;text-transform:uppercase;">が version</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 8px;"><strong>Tanaka-san wa kimashita.</strong><br><span style="font-size:12px;color:var(--text-3);">As for Tanaka-san, he came.<br>(topic — others may or may not have)</span></td>
+              <td style="padding:10px 8px;"><strong>Tanaka-san ga kimashita.</strong><br><span style="font-size:12px;color:var(--text-3);">Tanaka-san is the one who came.<br>(identifies who — answering "dare ga?")</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 8px;"><strong>Kono kikai wa furui desu.</strong><br><span style="font-size:12px;color:var(--text-3);">As for this machine, it's old.<br>(stating a fact about the topic)</span></td>
+              <td style="padding:10px 8px;"><strong>Kono kikai ga furui desu.</strong><br><span style="font-size:12px;color:var(--text-3);">This machine is the old one.<br>(identifying which machine is old)</span></td>
+            </tr>
+            <tr>
+              <td style="padding:10px 8px;"><strong>Watashi wa wakarimasu.</strong><br><span style="font-size:12px;color:var(--text-3);">As for me, I understand.<br>(may imply: others don't)</span></td>
+              <td style="padding:10px 8px;"><strong>Watashi ga wakarimasu.</strong><br><span style="font-size:12px;color:var(--text-3);">I'm the one who understands.<br>(strong identification)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="div-heading">Part 4 — Contrastive は</div>
+    <div class="warn-box">
+      <div class="warn-label">💡 は Can Imply "But Not Others"</div>
+      <div class="warn-text">
+        は has a subtle contrastive flavour — it can imply contrast with something unstated:<br><br>
+        <strong>Kono tejun wa yomimashita.</strong> — I read <em>this</em> procedure. (implying: maybe not the others)<br>
+        <strong>Yamada-san wa kimashita.</strong> — Yamada-san came. (implying: others maybe didn't)<br><br>
+        が doesn't carry this implication. が just identifies. So if you want to state something neutrally about a subject, が is often the cleaner choice. If you want to set a topic or imply contrast, は.
+      </div>
+    </div>
+
+    <div class="div-heading">Part 5 — Fixed Patterns to Lock In</div>
+    <div class="frame-box">
+      <div class="frame-label">Patterns You Already Know</div>
+      <div class="frame-text">
+        These patterns are fixed — don't swap the particles:<br><br>
+        <strong>X は Y です</strong> (S5) — always は. Topic frame: "as for X, it is Y."<br>
+        <strong>[thing] が 好きです</strong> (S7) — always が. Spotlights what's liked.<br>
+        <strong>Dare が ~?</strong> — always が. が answers "who/what" questions.<br><br>
+        When you're unsure: if you're setting the topic ("speaking of X"), use は. If you're identifying who or what does something, use が.
+      </div>
+    </div>
+
+    <div class="div-heading">Phrase Table</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>English</th><th>🔊</th></tr></thead>
+      <tbody>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Kono kikai wa furui desu.</div><div class="td-phonetic">koh-noh kee-kigh wah foo-roo-ee des</div></td>
+          <td class="td-jp">この機械は古いです。</td>
+          <td class="td-en">As for this machine, it's old. (は — topic)</td>
+          <td><button class="speak-btn" onclick="speak('この機械は古いです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Kono kikai ga furui desu.</div><div class="td-phonetic">koh-noh kee-kigh gah foo-roo-ee des</div></td>
+          <td class="td-jp">この機械が古いです。</td>
+          <td class="td-en">This machine is the old one. (が — identifies)</td>
+          <td><button class="speak-btn" onclick="speak('この機械が古いです。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Dare ga kono kikai wo tsukaimasu ka?</div><div class="td-phonetic">dah-reh gah koh-noh kee-kigh woh tsoo-kigh-mas kah</div></td>
+          <td class="td-jp">誰がこの機械を使いますか？</td>
+          <td class="td-en">Who uses this machine?</td>
+          <td><button class="speak-btn" onclick="speak('誰がこの機械を使いますか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Yamada-san ga tsukaimasu.</div><div class="td-phonetic">yah-mah-dah-sahn gah tsoo-kigh-mas</div></td>
+          <td class="td-jp">山田さんが使います。</td>
+          <td class="td-en">Yamada-san uses it. (が — identifies who)</td>
+          <td><button class="speak-btn" onclick="speak('山田さんが使います。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Watashi wa wakarimasu.</div><div class="td-phonetic">wah-tah-shee wah wah-kah-ree-mas</div></td>
+          <td class="td-jp">私はわかります。</td>
+          <td class="td-en">As for me, I understand. (は — topic)</td>
+          <td><button class="speak-btn" onclick="speak('私はわかります。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Watashi ga wakarimasu.</div><div class="td-phonetic">wah-tah-shee gah wah-kah-ree-mas</div></td>
+          <td class="td-jp">私がわかります。</td>
+          <td class="td-en">I'm the one who understands. (が — identifies)</td>
+          <td><button class="speak-btn" onclick="speak('私がわかります。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Dare ga A-rain wo shimasu ka?</div><div class="td-phonetic">dah-reh gah ay-rain woh shee-mas kah</div></td>
+          <td class="td-jp">誰がAラインをしますか？</td>
+          <td class="td-en">Who is doing A-line?</td>
+          <td><button class="speak-btn" onclick="speak('誰がAラインをしますか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Tanaka-san ga shimasu.</div><div class="td-phonetic">tah-nah-kah-sahn gah shee-mas</div></td>
+          <td class="td-jp">田中さんがします。</td>
+          <td class="td-en">Tanaka-san will do it. (が — identifies)</td>
+          <td><button class="speak-btn" onclick="speak('田中さんがします。')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- ══ BLOCK D — FLOOR EXCHANGES ══ -->
+<div class="block-section locked" id="section-floor" data-block="floor">
+  <div class="block-header" onclick="toggleBlock('floor')">
+    <div class="bh-status" id="status-floor">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block D · 5–6 min</div>
+      <div class="bh-title">🏭 Block D — Floor Exchanges</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-floor">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-floor">
+
+    <div class="section-eyebrow">Block D</div>
+    <div class="section-title">Putting It Together</div>
+    <div class="section-sub">Full exchanges using を verbs, は vs が, and everything from S1–S7.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">HOW TO USE THIS BLOCK</div>
+      <div class="frame-text">Read each exchange with a partner. Say the lines out loud — even quietly. Notice where を, は, and が appear and what they're doing.</div>
+    </div>
+
+    <div class="exchange-cards">
+
+      <!-- Exchange 1: wo verb instruction -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Your Japanese line leader points at a procedure sheet on the bench.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Line leader</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sono tejun wo yonde kudasai.</div>
+              <div class="exc-jp">その手順を読んでください。</div>
+              <div class="exc-en">Please read that procedure.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('その手順を読んでください。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Hai, wakarimashita.</div>
+              <div class="exc-jp">はい、わかりました。</div>
+              <div class="exc-en">Yes, understood.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('はい、わかりました。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 2: dare ga -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">A Japanese engineer is trying to find out who operates a specific machine.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Engineer</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Dare ga kono kikai wo tsukaimasu ka?</div>
+              <div class="exc-jp">誰がこの機械を使いますか？</div>
+              <div class="exc-en">Who uses this machine?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('誰がこの機械を使いますか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Yamada-san ga tsukaimasu.</div>
+              <div class="exc-jp">山田さんが使います。</div>
+              <div class="exc-en">Yamada-san uses it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('山田さんが使います。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 3: wa vs ga in context -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">A Japanese supervisor is asking about the new procedure. You read it; your colleague didn't.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Supervisor</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Atarashii tejun wo yomimashita ka?</div>
+              <div class="exc-jp">新しい手順を読みましたか？</div>
+              <div class="exc-en">Did you read the new procedure?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('新しい手順を読みましたか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Hai. Watashi wa yomimashita.</div>
+              <div class="exc-jp">はい。私は読みました。</div>
+              <div class="exc-en">Yes. As for me, I read it. (は — implying others may not have)</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('はい。私は読みました。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 4: combined wo + identification -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">End of shift. Your supervisor assigns the next task.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Supervisor</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Kono repoto wo kaite kudasai. Yamada-san ga shite kudasai.</div>
+              <div class="exc-jp">このレポートを書いてください。山田さんがしてください。</div>
+              <div class="exc-en">Please write this report. Yamada-san, please do it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('このレポートを書いてください。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">Yamada-san</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Hai, wakarimashita. Yoroshiku onegaishimasu.</div>
+              <div class="exc-jp">はい、わかりました。よろしくお願いします。</div>
+              <div class="exc-en">Yes, understood. I'll take care of it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('はい、わかりました。よろしくお願いします。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="div-heading">Quick Reference — S1–S8</div>
+    <div class="ref-grid">
+      <div class="ref-item">を + verb <span>— marks the object being acted on</span></div>
+      <div class="ref-item">tsukaimasu / tsukatte kudasai <span>— use / please use</span></div>
+      <div class="ref-item">mimasu / mite kudasai <span>— check / please check</span></div>
+      <div class="ref-item">kakimasu / kaite kudasai <span>— write / please write</span></div>
+      <div class="ref-item">yomimasu / yonde kudasai <span>— read / please read</span></div>
+      <div class="ref-item">oshimasu / oshite kudasai <span>— press / please press</span></div>
+      <div class="ref-item">は — topic marker <span>— "as for X…"</span></div>
+      <div class="ref-item">が — subject / focus <span>— "X is the one who…"</span></div>
+      <div class="ref-item">Dare が ~ <span>— who does ~?</span></div>
+      <div class="ref-item">Watashi wa ~ <span>— as for me… (contrast implied)</span></div>
+    </div>
+
+  </div>
+</div>
+
+    </div><!-- /accordion -->
+  </div><!-- /scroll-body -->
+</div>
+<div id="unlock-toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig={
+    apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain:"denso-japanese.firebaseapp.com",
+    databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId:"denso-japanese",
+    storageBucket:"denso-japanese.firebasestorage.app",
+    messagingSenderId:"269608225857",
+    appId:"1:269608225857:web:09d4a7a3d8df21acd01b35"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const dbRef = ref(db, "session8/phase2/unlockedBlocks");
+  window._fbReady = true;
+  window._fbOnValue = (cb) => onValue(dbRef, snap => cb(snap.val()));
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+function speak(text){
+  const AUDIO_MAP={
+    'おはようございます。':'ohayou-gozaimasu',
+    'おはようございます':'ohayou-gozaimasu',
+    'はい、わかりました。':'hai-wakarimashita',
+    'はい、わかりました。よろしくお願いします。':'hai-wakarimashita-yoroshiku-onegaishimasu',
+    'よろしくお願いします。':'yoroshiku-onegaishimasu',
+    'お疲れ様でした。':'otsukaresama-deshita',
+    'お疲れ様です。':'otsukaresama-desu',
+    'お疲れ様でした。よろしくお願いします。':'otsukaresama-yoroshiku',
+    'すみません、もう一度言ってもらえますか？':'sumimasen-mou-ichido-itte-moraemasu-ka',
+    'この機械を使います。':'kono-kikai-wo-tsukaimasu',
+    'この機械を使ってください。':'kono-kikai-wo-tsukatte-kudasai',
+    '手順を見てください。':'tejun-wo-mite-kudasai',
+    '名前を書いてください。':'namae-wo-kaite-kudasai',
+    'ボタンを押してください。':'botan-wo-oshite-kudasai',
+    'これを持ってください。':'kore-wo-motte-kudasai',
+    'レポートを読んでください。':'repoto-wo-yonde-kudasai',
+    'この機械は古いです。':'kono-kikai-wa-furui-desu',
+    'この機械が古いです。':'kono-kikai-ga-furui-desu',
+    '誰がこの機械を使いますか？':'dare-ga-kono-kikai-wo-tsukaimasu-ka',
+    '山田さんが使います。':'yamada-san-ga-tsukaimasu',
+    '私はわかります。':'watashi-wa-wakarimasu',
+    '私がわかります。':'watashi-ga-wakarimasu',
+    '誰がAラインをしますか？':'dare-ga-a-rain-wo-shimasu-ka',
+    '田中さんがします。':'tanaka-san-ga-shimasu',
+    'その手順を読んでください。':'sono-tejun-wo-yonde-kudasai',
+    '手順を読んでください。':'tejun-wo-yonde-kudasai',
+    'その機械を使います。':'sono-kikai-wo-tsukaimasu',
+    'これを持ちます。':'kore-wo-mochimasu',
+    '新しい手順を読みましたか？':'atarashii-tejun-wo-yomimashita-ka',
+    'はい。私は読みました。':'hai-watashi-wa-yomimashita',
+    'このレポートを書いてください。':'kono-repoto-wo-kaite-kudasai',
+  };
+
+  const slug=AUDIO_MAP[text];
+  if(slug){
+    const slugs=slug.split('+');
+    if(slugs.length===1){
+      const a=new Audio('./media/'+slug+'.wav');
+      a.play().catch(()=>fallbackSpeak(text));
+    } else {
+      let i=0;
+      function playNext(){
+        if(i>=slugs.length)return;
+        const a=new Audio('./media/'+slugs[i]+'.wav');
+        a.onended=()=>{i++;playNext();};
+        a.play().catch(()=>fallbackSpeak(text));
+      }
+      playNext();
+    }
+    return;
+  }
+  fallbackSpeak(text);
+}
+function fallbackSpeak(text){
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';u.rate=0.82;
+  window.speechSynthesis.speak(u);
+}
+
+// ── Block accordion ──
+const BLOCK_ORDER=['review','wo','waga','floor'];
+let currentUnlocked=[];
+let isFirstLoad=true;
+
+function applyState(unlockedBlocks){
+  if(!unlockedBlocks||unlockedBlocks.length===0){isFirstLoad=false;document.getElementById('waiting-state').querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';return;}
+  const newBlocks=unlockedBlocks.filter(b=>!currentUnlocked.includes(b));
+  const wasEmpty=currentUnlocked.length===0;
+  currentUnlocked=[...unlockedBlocks];
+  document.getElementById('waiting-state').style.display='none';
+  document.getElementById('accordion').style.display='block';
+  BLOCK_ORDER.forEach(id=>{
+    const section=document.getElementById('section-'+id);
+    const badge=document.getElementById('badge-'+id);
+    const status=document.getElementById('status-'+id);
+    const isUnlocked=unlockedBlocks.includes(id);
+    const isCurrent=id===unlockedBlocks[unlockedBlocks.length-1];
+    const isPast=isUnlocked&&!isCurrent;
+    if(isUnlocked){
+      section.classList.remove('locked');
+      section.classList.toggle('active-block',isCurrent);
+      section.classList.toggle('unlocked',isPast);
+      status.textContent='✓';
+      badge.textContent=isCurrent?'Current':'Done';
+      badge.className='bh-badge '+(isCurrent?'badge-current':'badge-done');
+      if(isCurrent&&newBlocks.includes(id)){
+        openBlock(id);
+        setTimeout(()=>{document.getElementById('section-'+id).scrollIntoView({behavior:'smooth',block:'start'});},200);
+      } else if(isPast&&!wasEmpty&&newBlocks.length>0){
+        closeBlock(id);
+      }
+    } else {
+      section.className='block-section locked';
+      status.textContent='🔒';
+      badge.textContent='Waiting';
+      badge.className='bh-badge badge-locked';
+    }
+  });
+  const pct=35+(unlockedBlocks.length/BLOCK_ORDER.length)*50;
+  document.getElementById('learner-progress').style.width=pct+'%';
+  if(!wasEmpty&&newBlocks.length>0)showToast('🔓 '+newBlocks.map(id=>({review:'Block A',no:'Block B',suki:'Block C',tenki:'Block D',floor:'Block E'})[id]||id).join(', ')+' unlocked');
+  isFirstLoad=false;
+}
+function openBlock(id){
+  const s=document.getElementById('section-'+id);
+  if(s.classList.contains('locked'))return;
+  s.classList.add('open');
+  if(id==='wo')initBackchain('bc-wo');
+  if(id==='waga')initBackchain('bc-waga');
+}
+function closeBlock(id){document.getElementById('section-'+id).classList.remove('open');}
+function toggleBlock(id){const s=document.getElementById('section-'+id);if(s.classList.contains('locked'))return;s.classList.toggle('open');}
+function showToast(msg){const t=document.getElementById('unlock-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3800);}
+
+document.addEventListener('fbReady',()=>{
+  document.getElementById('conn-dot').style.background='var(--green)';
+  document.querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||[]));
+});
+// Fallback: if fbReady already fired before this script ran
+if(window._fbReady && window._fbOnValue){
+  document.getElementById('conn-dot').style.background='var(--green)';
+  document.querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||[]));
+}
+setTimeout(()=>{
+  if(!window._fbReady){document.getElementById('waiting-state').innerHTML='<div class="waiting-icon">⚠️</div><div class="waiting-text" style="color:var(--warn)">Could not connect to the session.</div><div class="waiting-sub">Check your internet connection and reload.</div>';}
+},8000);
+
+// ── Timer ──
+let timerInterval=null;
+function startTimer(secs){
+  clearInterval(timerInterval);
+  let s=secs;
+  const el=document.getElementById('p2-timer');
+  function tick(){s--;const m=Math.floor(s/60),sc=s%60;el.textContent=String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');if(s<=0)clearInterval(timerInterval);}
+  timerInterval=setInterval(tick,1000);
+}
+
+// ── Back-chain drills ──
+const BC_DRILLS={
+  'bc-wo':{steps:[
+    {roman:'kudasai.',phonetic:'koo-dah-sigh',jp:'ください。',phrase:'please (polite request ending)'},
+    {roman:'mite kudasai.',phonetic:'mee-teh koo-dah-sigh',jp:'見てください。',phrase:'please look at / check'},
+    {roman:'tejun wo mite kudasai.',phonetic:'teh-joon woh mee-teh koo-dah-sigh',jp:'手順を見てください。',phrase:'please check the procedure'},
+    {roman:'Kono tejun wo mite kudasai.',phonetic:'koh-noh teh-joon woh mee-teh koo-dah-sigh',jp:'この手順を見てください。',phrase:'please check this procedure'},
+  ]},
+};
+const bcState={};
+
+function initBackchain(id){
+  const drill=BC_DRILLS[id];if(!drill)return;
+  bcState[id]={done:0};
+  const container=document.getElementById(id+'-steps');if(!container)return;
+  const wrap=document.getElementById(id);
+  if(wrap){const btn=wrap.previousElementSibling;if(btn&&btn.tagName==='BUTTON')btn.style.display='none';}
+  container.innerHTML=drill.steps.map((s,i)=>`
+    <div class="bc-step" id="${id}-step-${i}">
+      <div class="bc-step-line"><div class="bc-step-dot"></div></div>
+      <div class="bc-step-body">
+        <div class="bc-step-num">Step ${i+1}</div>
+        <div class="bc-phrase">${s.phrase}</div>
+        <div class="bc-roman">${s.roman}</div>
+        <div class="bc-phonetic">${s.phonetic}</div>
+        <div class="bc-step-actions">
+          <button class="bc-say-btn" onclick="bcSpeak('${id}',${i},'${s.jp.replace(/'/g,"\\'")}',this)">🔊 Hear it</button>
+          <button class="bc-repeat-btn" onclick="bcDone('${id}',${i})">✓ Said it</button>
+          <span class="bc-tick">✓</span>
+        </div>
+      </div>
+    </div>`).join('');
+  updateBcProgress(id);
+}
+function bcSpeak(id,idx,jp,btn){speak(jp);btn.classList.add('spoken');}
+function bcDone(id,idx){
+  const el=document.getElementById(id+'-step-'+idx);
+  if(!el||el.classList.contains('done'))return;
+  el.classList.add('done');bcState[id].done++;updateBcProgress(id);
+}
+function updateBcProgress(id){
+  const drill=BC_DRILLS[id];const done=bcState[id]?bcState[id].done:0;const total=drill.steps.length;
+  const fill=document.getElementById(id+'-fill');const label=document.getElementById(id+'-label');
+  if(fill)fill.style.width=(done/total*100)+'%';
+  if(label)label.textContent=done+' / '+total;
+}
+
+// ── を builder ──
+const WO_OBJECTS=[
+  {id:'kono-kikai',ro:'kono kikai',jp:'この機械',en:'this machine'},
+  {id:'sono-kikai',ro:'sono kikai',jp:'その機械',en:'that machine'},
+  {id:'tejun',ro:'tejun',jp:'手順',en:'procedure'},
+  {id:'repoto',ro:'repoto',jp:'レポート',en:'report'},
+  {id:'botan',ro:'botan',jp:'ボタン',en:'button'},
+  {id:'namae',ro:'namae',jp:'名前',en:'name'},
+  {id:'kore',ro:'kore',jp:'これ',en:'this'},
+  {id:'kaban',ro:'kaban',jp:'カバン',en:'bag'},
+];
+const WO_VERBS=[
+  {id:'tsukaimasu',ro_masu:'tsukaimasu',ro_te:'tsukatte kudasai',jp_masu:'を使います。',jp_te:'を使ってください。',en_masu:'I use ~',en_te:'Please use ~'},
+  {id:'mimasu',ro_masu:'mimasu',ro_te:'mite kudasai',jp_masu:'を見ます。',jp_te:'を見てください。',en_masu:'I check ~',en_te:'Please check ~'},
+  {id:'kakimasu',ro_masu:'kakimasu',ro_te:'kaite kudasai',jp_masu:'を書きます。',jp_te:'を書いてください。',en_masu:'I write ~',en_te:'Please write ~'},
+  {id:'yomimasu',ro_masu:'yomimasu',ro_te:'yonde kudasai',jp_masu:'を読みます。',jp_te:'を読んでください。',en_masu:'I read ~',en_te:'Please read ~'},
+  {id:'oshimasu',ro_masu:'oshimasu',ro_te:'oshite kudasai',jp_masu:'を押します。',jp_te:'を押してください。',en_masu:'I press ~',en_te:'Please press ~'},
+  {id:'mochimasu',ro_masu:'mochimasu',ro_te:'motte kudasai',jp_masu:'を持ちます。',jp_te:'を持ってください。',en_masu:'I hold ~',en_te:'Please hold ~'},
+  {id:'shimasu',ro_masu:'shimasu',ro_te:'shite kudasai',jp_masu:'をします。',jp_te:'をしてください。',en_masu:'I do ~',en_te:'Please do ~'},
+];
+let woObj=null, woForm=null, woVerb=null;
+
+function woOpen(){
+  document.getElementById('wo-builder-btn').style.display='none';
+  document.getElementById('wo-builder-body').style.display='block';
+  woRenderChips();
+}
+function woRenderChips(){
+  const oc=document.getElementById('wo-obj-chips');
+  const vc=document.getElementById('wo-verb-chips');
+  oc.innerHTML=WO_OBJECTS.map(o=>`<button class="suki-chip" onclick="woPickObj('${o.id}')" id="wo-o-${o.id}">${o.ro}<br><span style="font-size:10px;color:var(--text-3);">${o.en}</span></button>`).join('');
+  vc.innerHTML=WO_VERBS.map(v=>`<button class="suki-chip" onclick="woPickVerb2('${v.id}')" id="wo-v-${v.id}">${v.ro_masu}<br><span style="font-size:10px;color:var(--text-3);">${v.en_masu.replace('I ','')}</span></button>`).join('');
+}
+function woPickObj(id){
+  woObj=WO_OBJECTS.find(o=>o.id===id);
+  document.querySelectorAll('[id^="wo-o-"]').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('wo-o-'+id).classList.add('selected');
+  const slot=document.getElementById('wo-obj-slot');
+  slot.textContent=woObj.ro;
+  slot.className='suki-slot filled';
+  woUpdate();
+}
+function woPickVerb(form){
+  woForm=form;
+  const masuBtn=document.getElementById('wo-verb-masu');
+  const teBtn=document.getElementById('wo-verb-te');
+  if(form==='masu'){
+    masuBtn.style.background='var(--green-bg)';masuBtn.style.color='var(--green)';masuBtn.style.borderColor='var(--green-border)';
+    teBtn.style.background='var(--surface)';teBtn.style.color='var(--text-2)';teBtn.style.borderColor='var(--blue-border)';
+  } else {
+    teBtn.style.background='var(--blue-bg)';teBtn.style.color='var(--blue)';teBtn.style.borderColor='var(--blue-border)';
+    masuBtn.style.background='var(--surface)';masuBtn.style.color='var(--text-2)';masuBtn.style.borderColor='var(--green-border)';
+  }
+  woUpdate();
+}
+function woPickVerb2(id){
+  woVerb=WO_VERBS.find(v=>v.id===id);
+  document.querySelectorAll('[id^="wo-v-"]').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('wo-v-'+id).classList.add('selected');
+  woUpdate();
+}
+function woUpdate(){
+  if(!woObj||!woVerb||!woForm)return;
+  const jp = woObj.jp + (woForm==='masu'?woVerb.jp_masu:woVerb.jp_te);
+  const ro = woObj.ro + ' wo ' + (woForm==='masu'?woVerb.ro_masu:woVerb.ro_te);
+  const en = (woForm==='masu'?woVerb.en_masu:woVerb.en_te).replace('~',woObj.en);
+  const box=document.getElementById('wo-result-box');
+  box.className='suki-result natural show';
+  box.innerHTML=`
+    <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--correct);margin-bottom:6px;">✅ Natural</div>
+    <div style="font-family:var(--font-jp);font-size:14px;color:var(--text-2);margin-bottom:4px;">${jp}</div>
+    <div style="font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px;">${ro}</div>
+    <div style="font-size:12px;color:var(--text-3);">${en}</div>
+  `;
+  window._woJp=jp;
+  document.getElementById('wo-speak-btn').style.display='inline-flex';
+}
+function woSpeak(){if(window._woJp)speak(window._woJp);}
+function woReset(){
+  woObj=null;woForm=null;woVerb=null;
+  document.querySelectorAll('.suki-chip').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('wo-obj-slot').textContent='[ pick an object ]';
+  document.getElementById('wo-obj-slot').className='suki-slot';
+  const masuBtn=document.getElementById('wo-verb-masu');
+  const teBtn=document.getElementById('wo-verb-te');
+  if(masuBtn){masuBtn.style.background='var(--surface)';masuBtn.style.color='var(--text-2)';masuBtn.style.borderColor='var(--green-border)';}
+  if(teBtn){teBtn.style.background='var(--surface)';teBtn.style.color='var(--text-2)';teBtn.style.borderColor='var(--blue-border)';}
+  document.getElementById('wo-result-box').className='suki-result';
+  document.getElementById('wo-result-box').innerHTML='';
+  document.getElementById('wo-speak-btn').style.display='none';
+  window._woJp=null;
+}
+
+// ── Substitution Drill ──
+const SUB_PROMPTS=[
+  {
+    prompt:'Tell a colleague to check the procedure sheet.',
+    romaji:'Tejun wo mite kudasai.',phonetic:'teh-joon woh mee-teh koo-dah-sigh',jp:'手順を見てください。'
+  },
+  {
+    prompt:'Tell someone to use this machine — the one right in front of you.',
+    romaji:'Kono kikai wo tsukatte kudasai.',phonetic:'koh-noh kee-kigh woh tsoo-kat-teh koo-dah-sigh',jp:'この機械を使ってください。'
+  },
+  {
+    prompt:'Ask someone to please write their name.',
+    romaji:'Namae wo kaite kudasai.',phonetic:'nah-mah-eh woh kigh-teh koo-dah-sigh',jp:'名前を書いてください。'
+  },
+  {
+    prompt:'Tell someone to press the button.',
+    romaji:'Botan wo oshite kudasai.',phonetic:'boh-tahn woh oh-shee-teh koo-dah-sigh',jp:'ボタンを押してください。'
+  },
+  {
+    prompt:'Say that you use that machine — the one near your colleague.',
+    romaji:'Sono kikai wo tsukaimasu.',phonetic:'soh-noh kee-kigh woh tsoo-kigh-mas',jp:'その機械を使います。'
+  },
+  {
+    prompt:'Tell someone to please read the report.',
+    romaji:'Repoto wo yonde kudasai.',phonetic:'reh-poh-toh woh yon-deh koo-dah-sigh',jp:'レポートを読んでください。'
+  },
+];
+let subCurrent=0;
+
+function initSubDrill(){
+  subCurrent=0;
+  document.getElementById('sub-drill-btn').style.display='none';
+  document.getElementById('sub-drill-wrap').style.display='block';
+  buildSubDots();
+  loadSubPrompt();
+}
+function buildSubDots(){
+  document.getElementById('sub-dots').innerHTML=SUB_PROMPTS.map((_,i)=>`<div style="width:10px;height:10px;border-radius:50%;background:var(--border);transition:background 0.2s;" id="sdot-${i}"></div>`).join('');
+}
+function loadSubPrompt(){
+  const p=SUB_PROMPTS[subCurrent];
+  document.getElementById('sub-counter').textContent='Prompt '+(subCurrent+1)+' of '+SUB_PROMPTS.length;
+  document.getElementById('sub-prompt').textContent=p.prompt;
+  document.getElementById('sub-answer').style.display='none';
+  document.getElementById('sub-reveal-btn').style.display='inline-flex';
+  document.getElementById('sub-next-btn').style.display='none';
+  document.getElementById('sub-romaji').textContent=p.romaji;
+  document.getElementById('sub-phonetic').textContent=p.phonetic;
+  document.getElementById('sub-jp').textContent=p.jp;
+  for(let i=0;i<SUB_PROMPTS.length;i++){
+    const dot=document.getElementById('sdot-'+i);
+    if(dot)dot.style.background=i<subCurrent?'var(--green)':i===subCurrent?'var(--red)':'var(--border)';
+  }
+}
+function subReveal(){
+  document.getElementById('sub-answer').style.display='block';
+  document.getElementById('sub-reveal-btn').style.display='none';
+  document.getElementById('sub-next-btn').style.display='inline-flex';
+  setTimeout(()=>speak(SUB_PROMPTS[subCurrent].jp),300);
+}
+function subSpeak(){speak(SUB_PROMPTS[subCurrent].jp);}
+function subNext(){
+  subCurrent++;
+  if(subCurrent>=SUB_PROMPTS.length){
+    document.getElementById('sub-drill-wrap').innerHTML='<div style="text-align:center;padding:20px;font-size:14px;color:var(--green);font-weight:600;">✅ Drill complete. Reset to go again.</div><div style="text-align:center;margin-top:8px;"><button class="speak-btn" onclick="initSubDrill()">↺ Reset</button></div>';
+    return;
+  }
+  loadSubPrompt();
+}
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig={
+    apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain:"denso-japanese.firebaseapp.com",
+    databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId:"denso-japanese",
+    storageBucket:"denso-japanese.firebasestorage.app",
+    messagingSenderId:"269608225857",
+    appId:"1:269608225857:web:09d4a7a3d8df21acd01b35"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const dbRef = ref(db, "session8/phase2/unlockedBlocks");
+  window._fbReady = true;
+  window._fbOnValue = (cb) => onValue(dbRef, snap => cb(snap.val()));
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
+</body>
+</html>
