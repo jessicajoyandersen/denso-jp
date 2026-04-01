@@ -98,6 +98,8 @@ button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
 .tag-neg{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-border);}
 .tag-doko{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-border);}
 .tag-s5{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);}
+.tag-suki{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);}
+.tag-otsukare{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
 .cue-situation-text{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:8px;font-weight:500;}
 .cue-hint-text{font-size:13px;color:var(--text-3);font-style:italic;}
 .cue-answer-reveal{display:none;width:100%;margin-top:20px;}
@@ -114,6 +116,13 @@ button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
 .cue-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background 0.2s;}
 .cue-dot.seen{background:var(--red);}
 .cue-dot.current{background:var(--text);}
+
+/* hear-it button states */
+.hear-btn-wrap{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.hear-part-btn{background:none;border:1.5px solid var(--border);border-radius:4px;color:var(--text-3);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:5px 11px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;}
+.hear-part-btn:hover{border-color:var(--teal-border);color:var(--teal);background:var(--teal-bg);}
+.hear-part-btn.playing{border-color:var(--green-border);color:var(--green);background:var(--green-bg);}
+
 /* Role picker */
 .role-pick-row{display:flex;gap:14px;width:100%;margin-top:20px;flex-wrap:wrap;}
 .role-btn{flex:1;min-width:140px;padding:18px 16px;border:2px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;text-align:center;transition:all 0.15s;font-family:'Inter',sans-serif;}
@@ -223,7 +232,12 @@ button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
           <div class="cue-ans-jp" id="cue-jp-worker"></div>
         </div>
         <div class="cue-ans-note" id="cue-note"></div>
-        <button class="btn btn-secondary" onclick="speakCue()" style="margin-top:12px;">🔊 Hear it</button>
+        <!-- FIXED: separate buttons for each line + one full exchange button -->
+        <div class="hear-btn-wrap">
+          <button class="hear-part-btn" id="hear-leader-btn" onclick="speakLeader()">🔊 <span id="hear-leader-label">Leader</span></button>
+          <button class="hear-part-btn" id="hear-worker-btn" onclick="speakWorker()">🔊 <span id="hear-worker-label">Worker</span></button>
+          <button class="hear-part-btn" id="hear-both-btn" onclick="speakBoth()">🔊 Full Exchange</button>
+        </div>
       </div>
     </div>
     <div class="cue-nav-row">
@@ -291,56 +305,108 @@ button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
 
 <script>
 // ── AUDIO ──
-function speak(text){
-  const AUDIO_MAP={
-    'おはようございます。':'ohayou-gozaimasu',
-    'おはようございます':'ohayou-gozaimasu',
-    'おはようございます。いいお天気ですね。':'ohayou-gozaimasu+ii-otenki-desu-ne',
-    'いいお天気ですね。':'ii-otenki-desu-ne',
-    'そうですね。':'sou-desu-ne',
-    'はい、わかりました。':'hai-wakarimashita',
-    'はい、わかりました。よろしくお願いします。':'hai-wakarimashita-yoroshiku-onegaishimasu',
-    'お疲れ様でした。':'otsukaresama-deshita',
-    'お疲れ様です。':'otsukaresama-desu',
-    'お疲れ様でした。よろしくお願いします。':'otsukaresama-yoroshiku',
-    'よろしくお願いします。':'yoroshiku-onegaishimasu',
-    'すみません、もう一度言ってもらえますか？':'sumimasen-mou-ichido-itte-moraemasu-ka',
-    'この機械を使ってください。':'kono-kikai-wo-tsukatte-kudasai',
-    'この機械を使います。':'kono-kikai-wo-tsukaimasu',
-    'この機械を使いますか？':'kono-kikai-wo-tsukaimasu-ka',
-    'その機械じゃないです。この機械を使ってください。':'sono-kikai-ja-nai-desu-kono-kikai-wo-tsukatte-kudasai',
-    'すみません、その機械じゃないです。この機械を使ってください。':'sumimasen-sono-kikai-ja-nai-desu-kono-kikai-wo-tsukatte-kudasai',
-    '手順を読んでください。':'tejun-wo-yonde-kudasai',
-    'その手順を読んでください。':'sono-tejun-wo-yonde-kudasai',
-    '誰が新しい手順を読みましたか？':'dare-ga-atarashii-tejun-wo-yomimashita-ka',
-    '新しい手順を読みましたか？':'atarashii-tejun-wo-yomimashita-ka',
-    '私が読みました。':'watashi-ga-yomimashita',
-    '私は読みました。':'watashi-wa-yomimashita',
-    '名前を書いてください。':'namae-wo-kaite-kudasai',
-    'これを持ちます。':'kore-wo-mochimasu',
-    'これを持ってください。':'kore-wo-motte-kudasai',
-    'あの機械が壊れています。':'ano-kikai-ga-kowarete-imasu',
-    '田中さんがレポートをします。':'tanaka-san-ga-repoto-wo-shimasu',
-    'Bラインの検査をしてください。':'b-rain-no-kensa-wo-shite-kudasai',
-    '誰がこの機械を使いますか？':'dare-ga-kono-kikai-wo-tsukaimasu-ka',
-    '山田さんが使います。':'yamada-san-ga-tsukaimasu',
-    'すみません、そのボタンじゃないです。このボタンを押してください。':'sumimasen-sono-botan-ja-nai-desu-kono-botan-wo-oshite-kudasai',
-    'ご苦労様でした。':'gokurousama-deshita',
-    'お先に失礼します。':'osaki-ni-shitsurei-shimasu',
-    'どの機械が壊れていますか？':'dono-kikai-ga-kowarete-imasu-ka',
-  };
+const AUDIO_MAP={
+  'おはようございます。':'ohayou-gozaimasu',
+  'おはようございます':'ohayou-gozaimasu',
+  'おはようございます。いいお天気ですね。':'ohayou-gozaimasu+ii-otenki-desu-ne',
+  'いいお天気ですね。':'ii-otenki-desu-ne',
+  'そうですね。':'sou-desu-ne',
+  'はい、わかりました。':'hai-wakarimashita',
+  'はい、わかりました。よろしくお願いします。':'hai-wakarimashita-yoroshiku-onegaishimasu',
+  'お疲れ様でした。':'otsukaresama-deshita',
+  'お疲れ様です。':'otsukaresama-desu',
+  'お疲れ様でした。よろしくお願いします。':'otsukaresama-yoroshiku',
+  'よろしくお願いします。':'yoroshiku-onegaishimasu',
+  'すみません、もう一度言ってもらえますか？':'sumimasen-mou-ichido-itte-moraemasu-ka',
+  'この機械を使ってください。':'kono-kikai-wo-tsukatte-kudasai',
+  'この機械を使います。':'kono-kikai-wo-tsukaimasu',
+  'この機械を使いますか？':'kono-kikai-wo-tsukaimasu-ka',
+  'その機械じゃないです。この機械を使ってください。':'sono-kikai-ja-nai-desu-kono-kikai-wo-tsukatte-kudasai',
+  'すみません、その機械じゃないです。この機械を使ってください。':'sumimasen-sono-kikai-ja-nai-desu-kono-kikai-wo-tsukatte-kudasai',
+  '手順を読んでください。':'tejun-wo-yonde-kudasai',
+  'その手順を読んでください。':'sono-tejun-wo-yonde-kudasai',
+  '誰が新しい手順を読みましたか？':'dare-ga-atarashii-tejun-wo-yomimashita-ka',
+  '新しい手順を読みましたか？':'atarashii-tejun-wo-yomimashita-ka',
+  '私が読みました。':'watashi-ga-yomimashita',
+  '私は読みました。':'watashi-wa-yomimashita',
+  '名前を書いてください。':'namae-wo-kaite-kudasai',
+  'これを持ちます。':'kore-wo-mochimasu',
+  'これを持ってください。':'kore-wo-motte-kudasai',
+  'あの機械が壊れています。':'ano-kikai-ga-kowarete-imasu',
+  '田中さんがレポートをします。':'tanaka-san-ga-repoto-wo-shimasu',
+  'Bラインの検査をしてください。':'b-rain-no-kensa-wo-shite-kudasai',
+  'どの機械を使いますか？':'dono-kikai-wo-tsukaimasu-ka',
+  '誰がこの機械を使いますか？':'dare-ga-kono-kikai-wo-tsukaimasu-ka',
+  '山田さんが使います。':'yamada-san-ga-tsukaimasu',
+  'すみません、そのボタンじゃないです。このボタンを押してください。':'sumimasen-sono-botan-ja-nai-desu-kono-botan-wo-oshite-kudasai',
+  'ご苦労様でした。':'gokurousama-deshita',
+  'お先に失礼します。':'osaki-ni-shitsurei-shimasu',
+  'どの機械が壊れていますか？':'dono-kikai-ga-kowarete-imasu-ka',
+  'みんなは新しい手順を読みましたか？':'minna-wa-atarashii-tejun-wo-yomimashita-ka',
+};
 
-  const slug=AUDIO_MAP[text];
-  if(slug){
-    const a=new Audio('./media/'+slug+'.wav');
-    a.play().catch(()=>fallbackSpeak(text));
-  } else { fallbackSpeak(text); }
+// ── AUDIO ENGINE (cancellable) ──
+let _currentAudio=null;      // active <Audio> element
+let _seqToken=0;             // incremented on every new sequence; old loops check against it
+
+// Stop everything currently playing
+function stopAll(){
+  _seqToken++;
+  if(_currentAudio){
+    const old=_currentAudio;
+    _currentAudio=null;    // null FIRST — prevents onerror/onended from re-triggering
+    old.onended=null;
+    old.onerror=null;
+    old.pause();
+    try{ old.src=''; }catch(e){}
+  }
+  window.speechSynthesis.cancel();
 }
-function fallbackSpeak(text){
+
+// Speak a single line; returns a Promise that resolves when audio ends.
+// WAV and speechSynthesis are mutually exclusive — only one path runs per call.
+function speak(text){
+  return new Promise((resolve)=>{
+    const slug=AUDIO_MAP[text];
+    if(slug){
+      const a=new Audio('./media/'+slug+'.wav');
+      _currentAudio=a;
+      a.onended=()=>{ _currentAudio=null; resolve(); };
+      a.onerror=()=>{ _currentAudio=null; fallbackSpeak(text, resolve); };
+      a.play().catch(()=>{ _currentAudio=null; fallbackSpeak(text, resolve); });
+    } else {
+      fallbackSpeak(text, resolve);
+    }
+  });
+}
+
+// TTS fallback; calls onDone when the utterance finishes (so sequencing still works)
+function fallbackSpeak(text, onDone){
+  window.speechSynthesis.cancel();   // clear any stale TTS queue first
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='ja-JP';u.rate=0.82;
+  u.lang='ja-JP';
+  u.rate=0.82;
+  u.onend=()=>{ if(onDone)onDone(); };
+  u.onerror=()=>{ if(onDone)onDone(); };
   window.speechSynthesis.speak(u);
 }
+
+// Play texts in sequence; aborts silently if a newer call has started
+async function speakSequence(texts, pauseMs=800){
+  stopAll();
+  const myToken=_seqToken;
+  for(let i=0;i<texts.length;i++){
+    if(_seqToken!==myToken)return;
+    const t=texts[i];
+    if(!t)continue;
+    await speak(t);
+    if(i<texts.length-1){
+      if(_seqToken!==myToken)return;
+      await new Promise(r=>setTimeout(r,pauseMs));
+    }
+  }
+}
+
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -358,7 +424,8 @@ const cueCards=[
     workerPrompt:'Acknowledge the instruction.',
     workerRomaji:'Hai, wakarimashita.',workerPhonetic:'high, wah-kah-ree-mash-tah',workerJp:'はい、わかりました。',
     note:'Pattern: [object] を [verb-te kudasai]. を connects the action to what it acts on.',
-    speakJp:'手順を読んでください。'
+    speakJp:'手順を読んでください。',
+    speakJpWorker:'はい、わかりました。'
   },
   {
     tag:'tag-kono',tagLabel:'を · confirm what you use',
@@ -370,7 +437,8 @@ const cueCards=[
     workerPrompt:'Tell them which machine you use — the one right in front of you.',
     workerRomaji:'Kono kikai wo tsukaimasu.',workerPhonetic:'koh-noh kee-kigh woh tsoo-kigh-mas',workerJp:'この機械を使います。',
     note:'を marks the machine as the object of tsukaimasu. Kono = this one near me.',
-    speakJp:'この機械を使います。'
+    speakJp:'どの機械を使いますか？',
+    speakJpWorker:'この機械を使います。'
   },
   {
     tag:'tag-suki',tagLabel:'は vs が · answering "who?"',
@@ -382,11 +450,12 @@ const cueCards=[
     workerPrompt:'Identify yourself as the one who read it.',
     workerRomaji:'Watashi ga yomimashita.',workerPhonetic:'wah-tah-shee gah yoh-mee-mash-tah',workerJp:'私が読みました。',
     note:'が answers "who?" — it spotlights you as the one. は here would imply others may not have.',
-    speakJp:'私が読みました。'
+    speakJp:'誰が新しい手順を読みましたか？',
+    speakJpWorker:'私が読みました。'
   },
   {
     tag:'tag-suki',tagLabel:'は vs が · contrastive は',
-    situation:"The supervisor asks if everyone on the line read the new procedure. The worker did, but isn\'t sure about the others.",
+    situation:"The supervisor asks if everyone on the line read the new procedure. The worker did, but isn't sure about the others.",
     leaderLabel:'Supervisor',
     leaderPrompt:'Ask if everyone read the new procedure.',
     leaderRomaji:'Minna wa atarashii tejun wo yomimashita ka?',leaderPhonetic:'meen-nah wah ah-tah-rah-shee teh-joon woh yoh-mee-mash-tah kah',leaderJp:'みんなは新しい手順を読みましたか？',
@@ -394,7 +463,8 @@ const cueCards=[
     workerPrompt:'Say that you read it — without speaking for the others.',
     workerRomaji:'Watashi wa yomimashita.',workerPhonetic:'wah-tah-shee wah yoh-mee-mash-tah',workerJp:'私は読みました。',
     note:'は sets you as the topic and implies contrast — I (for my part) read it. が would claim certainty about who did it.',
-    speakJp:'私は読みました。'
+    speakJp:'みんなは新しい手順を読みましたか？',
+    speakJpWorker:'私は読みました。'
   },
   {
     tag:'tag-otsukare',tagLabel:'S7 callback — morning exchange',
@@ -406,7 +476,8 @@ const cueCards=[
     workerPrompt:'Respond to the weather comment.',
     workerRomaji:'Sou desu ne.',workerPhonetic:'soh des neh',workerJp:'そうですね。',
     note:'Full sequence: ohayou gozaimasu → ii otenki desu ne → sou desu ne. Four seconds, then move on.',
-    speakJp:'おはようございます。いいお天気ですね。'
+    speakJp:'おはようございます。いいお天気ですね。',
+    speakJpWorker:'そうですね。'
   },
   {
     tag:'tag-s5',tagLabel:'S6 callback — を + correction',
@@ -416,9 +487,10 @@ const cueCards=[
     leaderRomaji:'Sumimasen, sono kikai ja nai desu. Kono kikai wo tsukatte kudasai.',leaderPhonetic:'soo-mee-mah-sen, soh-noh kee-kigh jah nigh des. koh-noh kee-kigh woh tsoo-kat-teh koo-dah-sigh',leaderJp:'すみません、その機械じゃないです。この機械を使ってください。',
     workerLabel:'Worker',
     workerPrompt:'Acknowledge and confirm.',
-    workerRomaji:'Hai, wakarimashita. Kono kikai desu ne.',workerPhonetic:'high, wah-kah-ree-mash-tah. koh-noh kee-kigh des neh',workerJp:'はい、わかりました。この機械ですね。',
+    workerRomaji:'Hai, wakarimashita. Kono kikai desu ne.',workerPhonetic:'high, wah-kah-ree-mash-tah. koh-noh kee-kigh des neh',workerJp:'はい、わかりました。',
     note:'Two-move correction: sumimasen + ja nai desu (S6) + を instruction (S8). Worker confirms with kore desu ne.',
-    speakJp:'すみません、その機械じゃないです。この機械を使ってください。'
+    speakJp:'すみません、その機械じゃないです。この機械を使ってください。',
+    speakJpWorker:'はい、わかりました。'
   }
 ];
 let cueCurrent=0;
@@ -468,16 +540,35 @@ function revealCue(){
   document.getElementById('cue-romaji-worker').textContent=card.workerRomaji;
   document.getElementById('cue-phonetic-worker').textContent=card.workerPhonetic;
   document.getElementById('cue-jp-worker').textContent=card.workerJp;
+  // Update hear button labels to match role names
+  document.getElementById('hear-leader-label').textContent=card.leaderLabel;
+  document.getElementById('hear-worker-label').textContent=card.workerLabel;
   const noteEl=document.getElementById('cue-note');
   noteEl.textContent=card.note||'';
   noteEl.style.display=card.note?'block':'none';
   document.getElementById('cue-answer').style.display='block';
   document.getElementById('cue-reveal-btn').style.display='none';
   document.getElementById('cue-next-btn').style.display='inline-flex';
-  if(card.speakJp)setTimeout(()=>speak(card.speakJp),400);
+  // No auto-play on reveal — user clicks a button to hear audio
 }
-function speakCue(){speak(cueCards[cueCurrent].speakJp);}
+
+// Each button cancels whatever is playing before starting its own sequence
+function speakLeader(){
+  const card=cueCards[cueCurrent];
+  if(card.speakJp) speakSequence([card.speakJp]);
+}
+function speakWorker(){
+  const card=cueCards[cueCurrent];
+  if(card.speakJpWorker) speakSequence([card.speakJpWorker]);
+}
+function speakBoth(){
+  const card=cueCards[cueCurrent];
+  const texts=[card.speakJp, card.speakJpWorker].filter(Boolean);
+  speakSequence(texts, 900);
+}
+
 function nextCue(){
+  stopAll();
   cueCurrent++;
   if(cueCurrent>=cueCards.length){
     showScreen('screen-p3');
