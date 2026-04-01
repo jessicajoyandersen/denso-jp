@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  ============================================================
+  © 2026 JJA · Joyful Language Academy. All rights reserved.
+  Author        : JJA — Joyful Language Academy
+  Course        : DENSO Japanese Workplace Communication
+  Session       : 6
+  File          : denso-s6-phase2-facilitator.html
+  Created       : 2026-03-16
+  Fingerprint   : 5101a9bb83c03bd1
+  License       : Proprietary. Not for redistribution, resale,
+                  or modification without written permission.
+  Contact       : Joyful Language Academy
+  ============================================================
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO S6 — Phase 2 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}
+body{background:#0F1117;color:#C8D0E0;font-size:14px;}
+a{color:#5E9BDC;}
+
+/* ── PIN ── */
+#pin-gate{position:fixed;inset:0;background:#0F1117;z-index:9999;display:flex;align-items:center;justify-content:center;}
+.pin-card{background:#1A1D25;border:1px solid #2A2D38;border-radius:12px;padding:40px 44px;text-align:center;max-width:360px;width:100%;}
+.pin-logo{width:48px;height:48px;border-radius:8px;background:#C8102E;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 20px;}
+.pin-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;}
+.pin-sub{font-size:13px;color:#6B7585;margin-bottom:28px;line-height:1.6;}
+.pin-dots{display:flex;gap:12px;justify-content:center;margin-bottom:24px;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #3A4050;background:transparent;transition:all 0.15s;}
+.pin-dot.filled{background:#C8102E;border-color:#C8102E;}
+.pin-dot.error{background:#E87070;border-color:#E87070;animation:shake 0.35s ease;}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto;}
+.pin-btn{background:#13151C;border:1px solid #2A2D38;border-radius:8px;color:#C8D0E0;font-size:20px;font-weight:600;padding:16px;cursor:pointer;transition:all 0.12s;font-family:"Inter",sans-serif;}
+.pin-btn:hover{background:#2A2D38;border-color:#3A4050;color:#fff;}
+.pin-btn:active{transform:scale(0.95);}
+.pin-btn.clear{font-size:13px;font-weight:600;letter-spacing:1px;color:#6B7585;}
+.pin-error{font-size:12px;color:#E87070;margin-top:14px;height:16px;font-family:"IBM Plex Mono",monospace;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+/* ── SHELL ── */
+.fac-shell{display:flex;flex-direction:column;height:100%;overflow:hidden;}
+.fac-topbar{background:#1A1D25;border-bottom:3px solid #C8102E;padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:54px;gap:16px;}
+.fac-tb-left{display:flex;flex-direction:column;gap:2px;}
+.fac-tb-org{font-size:9px;font-weight:700;letter-spacing:3px;color:#6B7585;text-transform:uppercase;}
+.fac-tb-title{font-size:15px;font-weight:700;color:#fff;}
+.fac-tb-right{display:flex;align-items:center;gap:10px;}
+.fac-timer-wrap{display:flex;align-items:center;gap:8px;background:#13151C;border:1px solid #2A2D38;border-radius:6px;padding:5px 12px;}
+.fac-timer-display{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:#C8D0E0;min-width:52px;text-align:center;}
+.fac-timer-display.urgent{color:#E87070;}
+.fac-timer-btn{font-size:11px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:4px;border:1px solid #3A4050;background:#1A1D25;color:#9B7FD4;cursor:pointer;font-family:'Inter',sans-serif;}
+.fac-timer-btn:hover{background:#2A2D38;}
+.fac-badge{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1.5px solid #7B5FD0;color:#9B7FD4;background:rgba(142,68,173,0.12);}
+.conn-pill{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:4px 10px;border-radius:10px;border:1px solid;display:flex;align-items:center;gap:6px;}
+.conn-pill.offline{border-color:#3A2D38;color:#6B5060;}
+.conn-pill.online{border-color:#1A4E3A;color:#1ABC9C;background:rgba(26,188,156,0.1);}
+.conn-dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+
+/* ── LAYOUT ── */
+.fac-body{flex:1;overflow:hidden;display:flex;}
+.fac-sidebar{width:230px;flex-shrink:0;background:#13151C;border-right:1px solid #2A2D38;overflow-y:auto;display:flex;flex-direction:column;}
+.fac-sidebar::-webkit-scrollbar{width:4px;}
+.fac-sidebar::-webkit-scrollbar-thumb{background:#2A2D38;border-radius:2px;}
+.fac-nav-label{font-size:9px;font-weight:700;letter-spacing:3px;color:#3A4050;text-transform:uppercase;padding:14px 18px 8px;}
+.fac-nav-btn{width:100%;text-align:left;background:none;border:none;padding:10px 18px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:background 0.12s;border-left:3px solid transparent;}
+.fac-nav-btn:hover{background:rgba(255,255,255,0.04);}
+.fac-nav-btn.viewing{background:rgba(200,16,46,0.08);border-left-color:#C8102E;}
+.fac-nav-btn.pushed{border-left-color:#1ABC9C;}
+.fac-nav-num{font-family:"IBM Plex Mono",monospace;font-size:9px;color:#4A5260;letter-spacing:1px;}
+.fac-nav-title{font-size:12px;font-weight:600;color:#C8D0E0;}
+.fac-nav-btn.viewing .fac-nav-title{color:#fff;}
+.fac-nav-time{font-family:"IBM Plex Mono",monospace;font-size:9px;color:#8A6A00;background:rgba(232,184,75,0.1);border-radius:3px;padding:1px 6px;display:inline-block;margin-top:2px;}
+.fac-nav-status{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.fac-nav-status.pushed{color:#1ABC9C;}
+.sidebar-bottom{padding:16px 18px;border-top:1px solid #2A2D38;margin-top:auto;}
+
+.fac-main{flex:1;overflow-y:auto;padding:28px 36px 56px;background:#111318;}
+.fac-main::-webkit-scrollbar{width:5px;}
+.fac-main::-webkit-scrollbar-thumb{background:#2A2D38;border-radius:3px;}
+.block-panel{display:none;}
+.block-panel.active{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── PANEL COMPONENTS ── */
+.ctrl-bar{background:#1A1D25;border:1px solid #2A2D38;border-radius:8px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.ctrl-bar-left{flex:1;}
+.ctrl-block-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px;}
+.ctrl-block-sub{font-size:12px;color:#6B7585;}
+.ctrl-btn{font-family:"Inter",sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;padding:10px 20px;transition:all 0.15s;display:inline-flex;align-items:center;gap:8px;}
+.ctrl-btn.unlock{background:#C8102E;color:#fff;}
+.ctrl-btn.unlock:hover{background:#A00D24;}
+.ctrl-btn.pushed-state{background:#0E3A2A;color:#1ABC9C;border:1.5px solid #1ABC9C;cursor:default;}
+.ctrl-btn.retract{background:none;border:1.5px solid #3A2D38;color:#6B7585;font-size:11px;padding:8px 14px;}
+.ctrl-btn.retract:hover{border-color:#C8102E;color:#E87070;}
+.fac-nav-arrows{display:flex;gap:8px;align-items:center;margin-bottom:20px;}
+.fac-arr-btn{background:#1A1D25;border:1px solid #2A2D38;border-radius:4px;color:#8A93A8;font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;transition:all 0.12s;}
+.fac-arr-btn:hover{background:#2A2D38;color:#fff;}
+.fac-arr-btn:disabled{opacity:0.3;cursor:default;}
+.fac-curr-indicator{font-family:"IBM Plex Mono",monospace;font-size:11px;color:#4A5260;}
+.fac-eyebrow{font-size:9px;font-weight:700;letter-spacing:3px;color:#6B7585;text-transform:uppercase;margin-bottom:6px;}
+.fac-block-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;}
+.fac-block-sub{font-size:14px;color:#8A93A8;line-height:1.65;margin-bottom:24px;max-width:620px;}
+.fac-card{border-radius:8px;padding:18px 22px;margin-bottom:18px;border:1px solid;}
+.fac-card.blue{background:rgba(21,88,166,0.08);border-color:rgba(146,186,232,0.2);border-left:3px solid #2980B9;}
+.fac-card.red{background:rgba(200,16,46,0.07);border-color:rgba(200,16,46,0.2);border-left:3px solid #C8102E;}
+.fac-card-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+.fac-card.blue .fac-card-label{color:#5E9BDC;}
+.fac-card.red .fac-card-label{color:#E87070;}
+.fac-talking-points{display:flex;flex-direction:column;gap:10px;}
+.fac-tp{display:flex;align-items:flex-start;gap:10px;}
+.fac-tp-bullet{width:18px;height:18px;border-radius:50%;background:#C8102E;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.fac-tp-text{font-size:13px;color:#C8D0E0;line-height:1.65;}
+.fac-tp-text em{color:#E8B84B;font-style:normal;font-weight:600;}
+.watch-list{display:flex;flex-direction:column;gap:8px;}
+.watch-item{display:flex;align-items:flex-start;gap:10px;background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.15);border-radius:6px;padding:10px 14px;}
+.watch-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.watch-text{font-size:13px;color:#C8D0E0;line-height:1.6;}
+.watch-text strong{color:#E87070;font-weight:600;}
+.timing-bar{display:flex;align-items:center;gap:12px;background:#1A1D25;border:1px solid #2A2D38;border-radius:6px;padding:11px 16px;margin-bottom:16px;}
+.timing-icon{font-size:16px;}
+.timing-label{font-size:12px;color:#6B7585;flex:1;}
+.timing-val{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;color:#E8B84B;}
+
+/* quick-ref grid */
+.ksad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:6px;overflow:hidden;margin:16px 0 20px;border:1px solid #2A2D38;}
+.ksad-header{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:#13151C;padding:8px;text-align:center;color:#6B7585;}
+.ksad-cell{background:#1A1D25;padding:10px 8px;text-align:center;}
+.ksad-series{font-size:9px;font-weight:700;letter-spacing:1px;color:#6B7585;text-transform:uppercase;margin-bottom:6px;}
+.ksad-ro{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:#fff;margin-bottom:2px;}
+.ksad-en{font-size:10px;color:#8A93A8;}
+.ksad-cell.ko{border-left:2px solid #2980B9;}
+.ksad-cell.so{border-left:2px solid #8E44AD;}
+.ksad-cell.a{border-left:2px solid #27AE60;}
+.ksad-cell.do{border-left:2px solid #E8B84B;}
+</style>
+</head>
+<body>
+
+<!-- PIN -->
+<div id="pin-gate">
+  <div class="pin-card">
+    <div class="pin-logo">🎓</div>
+    <div class="pin-title">Facilitator Access</div>
+    <div class="pin-sub">Enter your 4-digit PIN to open the control panel.</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-btn" onclick="pinPress('1')">1</button>
+      <button class="pin-btn" onclick="pinPress('2')">2</button>
+      <button class="pin-btn" onclick="pinPress('3')">3</button>
+      <button class="pin-btn" onclick="pinPress('4')">4</button>
+      <button class="pin-btn" onclick="pinPress('5')">5</button>
+      <button class="pin-btn" onclick="pinPress('6')">6</button>
+      <button class="pin-btn" onclick="pinPress('7')">7</button>
+      <button class="pin-btn" onclick="pinPress('8')">8</button>
+      <button class="pin-btn" onclick="pinPress('9')">9</button>
+      <button class="pin-btn clear" onclick="pinClear()">CLR</button>
+      <button class="pin-btn" onclick="pinPress('0')">0</button>
+      <button class="pin-btn clear" onclick="pinBack()">⌫</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+  </div>
+</div>
+
+<div class="fac-shell" id="fac-shell" style="display:none;">
+  <div class="fac-topbar">
+    <div class="fac-tb-left">
+      <div class="fac-tb-org">DENSO Manufacturing · Statesville, NC · Session 06 — Phase 2</div>
+      <div class="fac-tb-title">Facilitator Control Panel</div>
+    </div>
+    <div class="fac-tb-right">
+      <div class="fac-timer-wrap">
+        <div class="fac-timer-display" id="fac-timer">30:00</div>
+        <button class="fac-timer-btn" id="fac-timer-btn" onclick="facToggleTimer()">⏸ Pause</button>
+      </div>
+      <div class="fac-badge">🎓 Facilitator</div>
+      <div class="conn-pill offline" id="conn-pill">
+        <div class="conn-dot"></div>
+        <span id="conn-label">connecting…</span>
+      </div>
+      <button class="ctrl-btn retract" style="font-size:10px;padding:6px 12px;" onclick="resetAll()">↺ Reset Session</button>
+    </div>
+  </div>
+
+  <div class="fac-body">
+    <div class="fac-sidebar">
+      <div class="fac-nav-label">Blocks</div>
+      <button class="fac-nav-btn viewing" id="nav-ksad" onclick="viewBlock('ksad')">
+        <div class="fac-nav-num">Block A</div>
+        <div class="fac-nav-title">🧭 Ko/So/A/Do System</div>
+        <div class="fac-nav-time">5–6 min</div>
+        <div class="fac-nav-status" id="navstatus-ksad"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-practice" onclick="viewBlock('practice')">
+        <div class="fac-nav-num">Block A.5</div>
+        <div class="fac-nav-title">🛠 Try It</div>
+        <div class="fac-nav-time">6–7 min</div>
+        <div class="fac-nav-status" id="navstatus-practice"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-kore" onclick="viewBlock('kore')">
+        <div class="fac-nav-num">Block B</div>
+        <div class="fac-nav-title">👉 Standalone Forms</div>
+        <div class="fac-nav-time">6–7 min</div>
+        <div class="fac-nav-status" id="navstatus-kore"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-kono" onclick="viewBlock('kono')">
+        <div class="fac-nav-num">Block C</div>
+        <div class="fac-nav-title">🔤 Modifier Forms</div>
+        <div class="fac-nav-time">5–6 min</div>
+        <div class="fac-nav-status" id="navstatus-kono"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-neg" onclick="viewBlock('neg')">
+        <div class="fac-nav-num">Block D</div>
+        <div class="fac-nav-title">🚫 Ja Nai Desu</div>
+        <div class="fac-nav-time">7–8 min</div>
+        <div class="fac-nav-status" id="navstatus-neg"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-floor" onclick="viewBlock('floor')">
+        <div class="fac-nav-num">Block E</div>
+        <div class="fac-nav-title">🏭 Floor Exchanges</div>
+        <div class="fac-nav-time">5–6 min</div>
+        <div class="fac-nav-status" id="navstatus-floor"></div>
+      </button>
+      <div class="sidebar-bottom">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:#3A4050;text-transform:uppercase;margin-bottom:8px;">Learner screen</div>
+        <a href="denso-s6-phase2-learner.html" target="_blank" style="font-size:12px;">Open learner view ↗</a>
+        <div style="margin-top:12px;font-size:10px;color:#3A4050;line-height:1.6;">Unlock &amp; Push sends the block live to all connected learner screens instantly.</div>
+      </div>
+    </div>
+
+    <div class="fac-main">
+
+<!-- ── PANEL A: KSAD SYSTEM ── -->
+<div class="block-panel active" id="panel-ksad">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">🧭 Block A — Ko/So/A/Do System</div>
+      <div class="ctrl-block-sub">Block A · 5–6 min · Push to unlock on all learner screens</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-ksad" style="display:none" onclick="retractBlock('ksad')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-ksad" onclick="pushBlock('ksad')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" disabled>← Prev</button>
+    <span class="fac-curr-indicator">1 / 6</span>
+    <button class="fac-arr-btn" onclick="viewBlock('practice')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block A</div>
+  <div class="fac-block-title">The Ko/So/A/Do System</div>
+  <div class="fac-block-sub">The four roots that generate every demonstrative in Japanese. Teach the roots, and they get the whole system.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">5–6 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">Don't teach individual words yet — teach the four roots first</div>
+
+  <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:#6B7585;text-transform:uppercase;margin-bottom:8px;">Quick Reference — The Full Grid</div>
+  <div class="ksad-grid">
+    <div class="ksad-header">KO- · near me</div>
+    <div class="ksad-header">SO- · near you</div>
+    <div class="ksad-header">A- · far from both</div>
+    <div class="ksad-header">DO- · question</div>
+    <div class="ksad-cell ko"><div class="ksad-series">-re (object)</div><div class="ksad-ro">kore</div><div class="ksad-en">this one</div></div>
+    <div class="ksad-cell so"><div class="ksad-series">-re (object)</div><div class="ksad-ro">sore</div><div class="ksad-en">that one</div></div>
+    <div class="ksad-cell a"><div class="ksad-series">-re (object)</div><div class="ksad-ro">are</div><div class="ksad-en">that one (far)</div></div>
+    <div class="ksad-cell do"><div class="ksad-series">-re (object)</div><div class="ksad-ro">dore</div><div class="ksad-en">which one?</div></div>
+    <div class="ksad-cell ko"><div class="ksad-series">-ko (location)</div><div class="ksad-ro">koko</div><div class="ksad-en">here</div></div>
+    <div class="ksad-cell so"><div class="ksad-series">-ko (location)</div><div class="ksad-ro">soko</div><div class="ksad-en">there</div></div>
+    <div class="ksad-cell a"><div class="ksad-series">-ko (location)</div><div class="ksad-ro">asoko</div><div class="ksad-en">over there</div></div>
+    <div class="ksad-cell do"><div class="ksad-series">-ko (location)</div><div class="ksad-ro">doko</div><div class="ksad-en">where?</div></div>
+    <div class="ksad-cell ko"><div class="ksad-series">-no (modifier)</div><div class="ksad-ro">kono</div><div class="ksad-en">this [noun]</div></div>
+    <div class="ksad-cell so"><div class="ksad-series">-no (modifier)</div><div class="ksad-ro">sono</div><div class="ksad-en">that [noun]</div></div>
+    <div class="ksad-cell a"><div class="ksad-series">-no (modifier)</div><div class="ksad-ro">ano</div><div class="ksad-en">that [noun] (far)</div></div>
+    <div class="ksad-cell do"><div class="ksad-series">-no (modifier)</div><div class="ksad-ro">dono</div><div class="ksad-en">which [noun]?</div></div>
+  </div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Open with the frame: "Japanese demonstratives aren't random — they're a <em>system</em>. Learn the four roots and you get all twelve words for free."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Write on the board or point to the grid: <em>ko = near me, so = near you, a = far from both, do = question</em>. Say these out loud and have the group repeat.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Key insight to verbalize: "The suffix tells you the category. -re = identify an object. -ko = identify a location. -no = attach to a noun. Every row follows this pattern."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Floor anchor: "Think about pointing at a part on your line. If it's right in front of you — ko. If it's at the person you're talking to — so. If it's across the room — a."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet" style="background:#8A6A00;">✎</div><div class="fac-tp-text"><strong style="color:#E8B84B;">S5 Correction — flag this before moving on.</strong> In Session 5 we said a nod is sufficient when receiving <em>yoroshiku onegaishimasu</em>. That was a Western-lens mistake. This is a reciprocal exchange — a verbal response is expected. Walk through the two correct options on the learner screen: <em>Hai, wakarimashita. Yoroshiku onegaishimasu.</em> and <em>Omakase kudasai.</em> Also clarify what not to say: <em>Watashi ni makasete kudasai</em> is too casual; <em>Kochira koso yoroshiku onegaishimasu</em> implies a mutual work exchange, which doesn't fit.</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text">Don't get into -no vs. -re yet — that's Block C. This block is about the four spatial roots only. If someone asks "what about kono?" say "that's next — same root, different ending."</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">The grid can be overwhelming at first glance. Reassure them: "You don't memorize all twelve. You learn the four roots, and the rest falls out of the pattern."</div></div>
+      <div class="watch-item"><div class="watch-icon">✎</div><div class="watch-text"><strong>S5 correction:</strong> If learners already know <em>watashi ni makasete kudasai</em> from a previous source, gently redirect — the honorific <em>omakase kudasai</em> is the right form when responding to a senior assigning work. Don't let the casual form get reinforced.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL A.5: TRY IT ── -->
+<div class="block-panel" id="panel-practice">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">🛠 Block A.5 — Try It</div>
+      <div class="ctrl-block-sub">Block A.5 · 6–7 min · Interactive spatial map</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-practice" style="display:none" onclick="retractBlock('practice')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-practice" onclick="pushBlock('practice')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('ksad')">← Prev</button>
+    <span class="fac-curr-indicator">2 / 6</span>
+    <button class="fac-arr-btn" onclick="viewBlock('kore')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block A.5</div>
+  <div class="fac-block-title">Interactive Spatial Map + Sentence Builders</div>
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Direct learners to the spatial map: "Click a zone — the screen will show you which root applies and why. Pay attention to where YOU are and where the OTHER PERSON is."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Walk through each zone together: click ko-, so-, a-, do- and read the explanation aloud. The do- label floats at the bottom — remind them it's not a place, it's a question.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Key question to ask the group: "If I'm holding a bolt and you want to tell me it's the wrong one — which root do you use?" (Answer: so-, because the bolt is near the listener.)</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Quick check: point to something across the room. "Which root?" (a-). Point to something at a learner's desk. "Which root?" (so-). Point to something you're holding. "Which root?" (ko-).</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">Learners often default to ko- for everything. The spatial map click interaction is designed to break that habit — make sure they actually click so- and a- zones, not just ko-.</div></div>
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text">Keep this block short — the map is a bridge from Block A concepts to Block B vocabulary. Don't let discussion here eat into Block B or C time.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL B: STANDALONE FORMS ── -->
+<div class="block-panel" id="panel-kore">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">👉 Block B — Standalone Forms</div>
+      <div class="ctrl-block-sub">Block B · 6–7 min · kore/sore/are/dore + koko/soko/asoko/doko</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-kore" style="display:none" onclick="retractBlock('kore')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-kore" onclick="pushBlock('kore')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('practice')">← Prev</button>
+    <span class="fac-curr-indicator">3 / 6</span>
+    <button class="fac-arr-btn" onclick="viewBlock('kono')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block B</div>
+  <div class="fac-block-title">Standalone Forms — kore / sore / are / dore</div>
+  <div class="fac-block-sub">These stand alone — no noun attached. Point at a thing or a location and they do the whole job.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">6–7 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">Physical pointing makes this click — do it</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Stand up and physically demonstrate. Point at something near you: <em>kore desu</em>. Point at something near a learner: <em>sore desu</em>. Point across the room: <em>are desu</em>. Then ask "dore desu ka?" sweeping your hand across all three.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Repeat for locations: stamp where you're standing (<em>koko</em>), point toward a learner's desk (<em>soko</em>), point at the far wall or door (<em>asoko</em>), then spread your hands: <em>doko desu ka?</em></div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Quick drill: point to random things in the room and have learners call out the right form. Keep it fast — this should feel like a game, not a test.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Useful floor phrases to walk through: <em>kore wa nan desu ka?</em> (what's this?), <em>doko desu ka?</em> (where is it?), <em>dore desu ka?</em> (which one?)</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Most common error:</strong> using kore when the object is near the listener. Drill this specifically — point at something on a learner's desk and ask "kore or sore?" The answer is sore, because it's near them.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">The location series often surprises people — they expect koko/soko/asoko to follow from kore/sore/are, but asoko breaks the -re pattern. Point this out: "asoko is the irregular one. Everything else is clean."</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL C: MODIFIER FORMS ── -->
+<div class="block-panel" id="panel-kono">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">🔤 Block C — Modifier Forms</div>
+      <div class="ctrl-block-sub">Block C · 5–6 min · kono/sono/ano/dono + noun</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-kono" style="display:none" onclick="retractBlock('kono')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-kono" onclick="pushBlock('kono')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('kore')">← Prev</button>
+    <span class="fac-curr-indicator">4 / 6</span>
+    <button class="fac-arr-btn" onclick="viewBlock('neg')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block C</div>
+  <div class="fac-block-title">Modifier Forms — kono / sono / ano / dono + noun</div>
+  <div class="fac-block-sub">Drop -re, add -no, attach to a noun. This form is more specific than the standalone — you name exactly what you're pointing at.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">5–6 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">The rule is simple — give them floor nouns to practice with</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Give them the rule explicitly: "Drop the -re, add -no, then say the noun. Kore → kono. Sore → sono. Are → ano. Dore → dono." Have them say the transformation aloud.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Practice with floor nouns from their vocabulary reference: <em>kono paatsu</em> (this part), <em>sono boruto</em> (that bolt near you), <em>ano kikai</em> (that machine over there), <em>dono rain?</em> (which line?)</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Point to things in the room and have them use the modifier form. "You can't just say kono — you need kono <em>something</em>. That's what makes it a modifier."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Contrast with standalone: "Kore = that thing. Kono + noun = that <em>specific</em> thing. On a parts-heavy floor, the noun form is often more useful."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">At the end of Block C, there's a <strong>Sentence Builder</strong> on the learner screen. Learners need to tap <em>▶ Open Builder</em> first to reveal it. Give them 2 minutes to try it — pick a root, pick a suffix, pick a noun. Then ask a pair to read their sentence aloud. Quick and low-stakes before moving to negation.</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Kore + noun is wrong.</strong> Learners sometimes say "kore paatsu" instead of "kono paatsu." Be clear: kore is standalone only. The modifier form always ends in -no.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">If learners ask about "ano" sounding different from the friendly filler word "ano…" (um…), they're right — it's the same syllable but different meaning. Tone and context distinguish them. Don't dwell on it.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL D: JA NAI DESU ── -->
+<div class="block-panel" id="panel-neg">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">🚫 Block D — Ja Nai Desu</div>
+      <div class="ctrl-block-sub">Block D · 7–8 min · negation + back-chain drill</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-neg" style="display:none" onclick="retractBlock('neg')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-neg" onclick="pushBlock('neg')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('kono')">← Prev</button>
+    <span class="fac-curr-indicator">5 / 6</span>
+    <button class="fac-arr-btn" onclick="viewBlock('floor')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block D</div>
+  <div class="fac-block-title">Ja Nai Desu — It's Not This One</div>
+  <div class="fac-block-sub">The negation pattern that makes every demonstrative correctable. Short, floor-critical, and pair-able with sumimasen for instant politeness.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">7–8 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">Heaviest content in Phase 2 — budget the back-chain time, then let the builder run</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Show the transformation on the board: <em>kore desu → kore ja nai desu</em>. Just insert "ja nai" before desu. Same thing with sore, are, kore, and location words.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Floor application: "Imagine your colleague grabs the wrong bolt. You don't want to say dame (too blunt for a parts mix-up). You say: <em>sumimasen, sore ja nai desu</em>. Polite, clear, done."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Run the back-chain drill together — it's in their learner view: nai desu → ja nai desu → kore ja nai desu → sumimasen, kore ja nai desu. Build it up step by step, group repeating each.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">The full correction pattern is two parts: <em>sumimasen, X ja nai desu + Y desu</em>. Not X — it's Y. Have them practice this with a partner for 60 seconds.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">After the drill, there's a <strong>sentence builder</strong> at the bottom of Block D. Learners need to tap <em>▶ Open Builder</em> first to reveal it. It has three steps: pick a topic (Yamada-san, Tanaka-san, watashi, kore, sore, etc.), pick what it isn't (a job role or A/B-line), pick what it is. The screen assembles the full sentence and gives a verdict — natural, grammatically okay, or doesn't work with an explanation. Give them 2 minutes to explore, then ask someone to read their sentence aloud. The 🔊 button only appears on green (natural) sentences.</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Tone warning is real.</strong> Without sumimasen, "sore ja nai desu" can land as blunt — especially across a language gap. Make sure learners add sumimasen and a slight nod. Model it yourself with and without the softener so they hear the difference.</div></div>
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text">Don't introduce ja arimasen (the more formal negation) here. Ja nai desu is the right register for floor communication. Adding formality options now will muddy the message.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">The builder flags category mismatches — e.g. "kore wa enjinia ja nai desu" gets an ⚠️ with an explanation that a thing can't have a job title. These are teachable moments. If a learner hits one, pause and discuss why before moving on.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">The 🔊 button only appears when the sentence is green. If learners ask why they can't hear a sentence, that's the point — it's not floor-ready.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL E: FLOOR EXCHANGES ── -->
+<div class="block-panel" id="panel-floor">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">🏭 Block E — Floor Exchanges</div>
+      <div class="ctrl-block-sub">Block E · 5–6 min · Full exchanges + quick reference grid</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-floor" style="display:none" onclick="retractBlock('floor')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-floor" onclick="pushBlock('floor')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('neg')">← Prev</button>
+    <span class="fac-curr-indicator">6 / 6</span>
+    <button class="fac-arr-btn" disabled>Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block E</div>
+  <div class="fac-block-title">Floor Exchanges — Everything Together</div>
+  <div class="fac-block-sub">Full 2–3 turn exchanges combining new demonstratives + Session 5 phrases. Read aloud, then discuss. Closes Phase 2.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">5–6 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">Keep it light — this bridges into Phase 3</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Read through the exchanges on their screen together. Have pairs say the lines out loud — not just read. The physical act of saying the exchange matters.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Point out where S5 phrases appear naturally: "See how otsukaresama shows up at the close? And yoroshiku in the handoff? That's real layering — new content on a familiar frame."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">After the exchanges, ask: "Which of these four exchanges would you most likely use this week?" Let two or three people answer. It cements the relevance before Phase 3.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Close Phase 2: "Phase 3 starts with cue cards — same idea as today but with a partner. Then 10 scenarios. You've got the vocabulary. Now you practice reading the situation."</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">Some pairs will rush through the exchanges silently. Encourage them to speak aloud — even a quiet voice counts. The muscle memory of saying the phrase is the point.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">If time is short (Phase 2 running long), it's fine to skip the exchanges and just review the quick reference grid. The grid is in their learner view and they can use it in Phase 3.</div></div>
+    </div>
+  </div>
+</div>
+
+    </div><!-- /fac-main -->
+  </div><!-- /fac-body -->
+</div><!-- /fac-shell -->
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain: "denso-japanese.firebaseapp.com",
+    databaseURL: "https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId: "denso-japanese",
+    storageBucket: "denso-japanese.firebasestorage.app",
+    messagingSenderId: "654718718217",
+    appId: "1:654718718217:web:ecec2672bd5069c0b443d8"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const dbRef = ref(db, "session6/phase2/unlockedBlocks");
+  window._fbPush = (val) => set(dbRef, val);
+  onValue(dbRef, snap => {
+    const val = snap.val() || [];
+    window._syncedState = val;
+    syncUI(val);
+  });
+  window._fbReady = true;
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+const BLOCK_ORDER = ['ksad', 'practice', 'kore', 'kono', 'neg', 'floor'];
+let pushedBlocks = [];
+
+function viewBlock(id){
+  if(!id||id==='None')return;
+  document.querySelectorAll('.block-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.fac-nav-btn').forEach(b=>b.classList.remove('viewing'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('viewing');
+}
+
+function syncUI(unlockedBlocks){
+  pushedBlocks = unlockedBlocks || [];
+  BLOCK_ORDER.forEach(id=>{
+    const isPushed = pushedBlocks.includes(id);
+    const btn      = document.getElementById('pushbtn-'+id);
+    const retract  = document.getElementById('retract-'+id);
+    const navBtn   = document.getElementById('nav-'+id);
+    const navStatus= document.getElementById('navstatus-'+id);
+    if(isPushed){
+      btn.textContent='✓ Pushed to Learners';
+      btn.className='ctrl-btn pushed-state';
+      btn.disabled=true;
+      retract.style.display='inline-flex';
+      navBtn.classList.add('pushed');
+      navStatus.textContent='● Live';
+      navStatus.className='fac-nav-status pushed';
+    } else {
+      btn.innerHTML='🔓 Unlock &amp; Push';
+      btn.className='ctrl-btn unlock';
+      btn.disabled=false;
+      retract.style.display='none';
+      navBtn.classList.remove('pushed');
+      navStatus.textContent='';
+    }
+  });
+}
+
+function pushBlock(id){
+  if(!window._fbReady){alert('Not connected. Check internet connection.');return;}
+  if(!pushedBlocks.includes(id))pushedBlocks.push(id);
+  window._fbPush([...pushedBlocks]);
+}
+function retractBlock(id){
+  if(!confirm('Retract this block from all learner screens?'))return;
+  pushedBlocks=pushedBlocks.filter(b=>b!==id);
+  window._fbPush([...pushedBlocks]);
+}
+function resetAll(){
+  if(!confirm('Reset all unlocks? Learner screens return to waiting state.'))return;
+  pushedBlocks=[];
+  window._fbPush([]);
+}
+
+document.addEventListener('fbReady',()=>{
+  const pill=document.getElementById('conn-pill');
+  const lbl=document.getElementById('conn-label');
+  pill.className='conn-pill online';
+  lbl.textContent='live';
+});
+setTimeout(()=>{if(!window._fbReady)document.getElementById('conn-label').textContent='offline';},9000);
+
+// ── PIN ──
+const CORRECT_PIN='3985';
+let pinEntry='';
+function pinPress(d){if(pinEntry.length>=4)return;pinEntry+=d;updateDots();if(pinEntry.length===4)setTimeout(checkPin,120);}
+function pinBack(){pinEntry=pinEntry.slice(0,-1);updateDots();document.getElementById('pin-error').textContent='';}
+function pinClear(){pinEntry='';updateDots();document.getElementById('pin-error').textContent='';}
+function updateDots(){for(let i=0;i<4;i++){const d=document.getElementById('pd'+i);d.classList.toggle('filled',i<pinEntry.length);d.classList.remove('error');}}
+function checkPin(){
+  if(pinEntry===CORRECT_PIN){
+    document.getElementById('pin-gate').style.display='none';
+    document.getElementById('fac-shell').style.display='flex';
+    if(!facTimerInterval)facTimerInterval=setInterval(facTimerTick,1000);
+  } else {
+    for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.add('error');
+    document.getElementById('pin-error').textContent='Incorrect PIN — try again';
+    setTimeout(()=>{pinEntry='';updateDots();},900);
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('pin-gate').style.display==='none')return;
+  if(e.key>='0'&&e.key<='9')pinPress(e.key);
+  else if(e.key==='Backspace')pinBack();
+  else if(e.key==='Escape')pinClear();
+});
+
+// ── TIMER ──
+let facTimerSecs=30*60,facTimerPaused=false,facTimerInterval=null;
+function facTimerTick(){
+  if(facTimerPaused)return;
+  facTimerSecs--;
+  const m=Math.floor(facTimerSecs/60),s=facTimerSecs%60;
+  const el=document.getElementById('fac-timer');
+  if(el){el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(facTimerSecs<=60)el.classList.add('urgent');}
+  if(facTimerSecs<=0)clearInterval(facTimerInterval);
+}
+function facToggleTimer(){
+  facTimerPaused=!facTimerPaused;
+  const btn=document.getElementById('fac-timer-btn');
+  if(btn)btn.textContent=facTimerPaused?'▶ Resume':'⏸ Pause';
+}
+</script>
+</body>
+</html>

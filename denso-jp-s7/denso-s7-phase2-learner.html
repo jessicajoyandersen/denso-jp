@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Japanese · Session 07 · Phase 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:#FFF5F6;
+  --bg:#F4F6F8;--surface:#FFFFFF;--surface-2:#F0F2F5;
+  --border:#DDE1E8;--border-strong:#BCC3CE;
+  --text:#1A1D23;--text-2:#4A5260;--text-3:#6B7585;--white:#FFFFFF;
+  --gold:#8A6A00;--gold-bg:#FFF8E6;--gold-border:#E8C96A;
+  --green:#1A6E3A;--green-bg:#EDF7F1;--green-border:#7DC4A0;
+  --blue:#1558A6;--blue-bg:#EEF4FC;--blue-border:#92BAE8;
+  --purple:#5B3E9E;--purple-bg:#F3EFFE;--purple-border:#B9A3E8;
+  --teal:#0E7A6A;--teal-bg:#E8F7F5;--teal-border:#7DD4C8;
+  --warn:#B22020;--warn-bg:#FDF0F0;--warn-border:#E8A0A0;
+  --correct:#1A6E3A;--correct-bg:#EDF7F1;--correct-border:#7DC4A0;
+  --wrong:#B22020;--wrong-bg:#FDF0F0;--wrong-border:#E8A0A0;
+  --focus:0 0 0 3px rgba(200,16,46,0.35);
+  --font-mono:'IBM Plex Mono',monospace;
+  --font-jp:'Noto Sans JP',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;display:flex;flex-direction:column;}
+:focus-visible{outline:none;box-shadow:var(--focus);}
+button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;gap:16px;}
+.topbar-left{display:flex;flex-direction:column;}
+.tb-org{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);}
+.tb-course{font-size:13px;font-weight:600;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:12px;}
+.phase-pill{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid;}
+.phase-pill.p2{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+.timer-box{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;}
+.course-progress{height:3px;background:var(--surface-2);flex-shrink:0;}
+.course-progress-fill{height:100%;background:var(--red);transition:width 0.6s ease;border-radius:0 2px 2px 0;}
+
+/* Scroll body */
+.scroll-body{flex:1;overflow-y:auto;padding:32px 48px 64px;max-width:900px;width:100%;margin:0 auto;}
+.scroll-body::-webkit-scrollbar{width:6px;}
+.scroll-body::-webkit-scrollbar-track{background:var(--surface-2);}
+.scroll-body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px;}
+
+/* Waiting state */
+.waiting-state{text-align:center;padding:56px 24px;}
+.waiting-icon{font-size:40px;margin-bottom:16px;animation:pulse-gentle 2s infinite;}
+@keyframes pulse-gentle{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.waiting-text{font-size:16px;font-weight:600;color:var(--text-2);margin-bottom:8px;}
+.waiting-sub{font-size:13px;color:var(--text-3);}
+
+/* Block accordion */
+.block-section{border:1.5px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden;opacity:0.45;pointer-events:none;transition:all 0.25s;}
+.block-section.unlocked{opacity:0.75;pointer-events:auto;}
+.block-section.active-block{border-color:var(--red);box-shadow:0 0 0 3px rgba(200,16,46,0.08);opacity:1;pointer-events:auto;}
+.block-section.unlocked .bh-status,.block-section.active-block .bh-status{background:var(--green);border-color:var(--green);color:white;}
+.block-header{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;background:var(--surface);user-select:none;}
+.block-header:hover{background:var(--surface-2);}
+.bh-status{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:all 0.2s;}
+.bh-label{flex:1;}
+.bh-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:1px;}
+.bh-title{font-size:14px;font-weight:700;color:var(--text);}
+.bh-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid;}
+.badge-locked{background:var(--surface-2);border-color:var(--border);color:var(--text-3);}
+.badge-current{background:var(--red);border-color:var(--red);color:white;}
+.badge-done{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.bh-chevron{font-size:12px;color:var(--text-3);transition:transform 0.2s;}
+.block-section.open .bh-chevron{transform:rotate(180deg);}
+.block-body{display:none;padding:8px 20px 28px;background:var(--surface);border-top:1px solid var(--border);}
+.block-section.open .block-body{display:block;animation:fadeIn 0.2s ease;}
+
+/* Typography */
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;}
+.section-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.25;}
+.section-sub{font-size:14px;color:var(--text-2);line-height:1.65;margin-bottom:24px;max-width:620px;}
+.div-heading{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:24px 0 12px;border-top:1px solid var(--border);padding-top:16px;}
+.div-heading:first-child{border-top:none;padding-top:0;margin-top:8px;}
+
+/* Frame / warn boxes */
+.frame-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-left:3px solid var(--blue);border-radius:6px;padding:14px 18px;margin-bottom:16px;}
+.frame-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.frame-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.warn-box{background:var(--warn-bg);border:1px solid var(--warn-border);border-left:3px solid var(--warn);border-radius:6px;padding:14px 18px;margin-bottom:16px;}
+.warn-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--warn);margin-bottom:6px;}
+.warn-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.cn-box{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:24px;}
+.cn-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;}
+.cn-text{font-size:13px;color:var(--text-2);line-height:1.75;}
+
+/* Pattern box */
+.pattern-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:16px;}
+.pattern-formula{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:0.5px;}
+.pattern-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
+.pat-slot{background:var(--surface-2);border:1.5px solid var(--border);border-radius:6px;padding:8px 14px;font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);}
+.pat-slot.ko{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+.pat-slot.particle{background:var(--purple-bg);border-color:var(--purple-border);color:var(--purple);}
+.pat-slot.noun{background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold);}
+.pat-slot.verb{background:var(--teal-bg);border-color:var(--teal-border);color:var(--teal);}
+.pat-connector{font-family:var(--font-mono);font-size:18px;color:var(--text-3);}
+.pat-label{font-size:11px;color:var(--text-3);margin-top:2px;}
+
+/* Phrase table */
+.phrase-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px;}
+.phrase-table th{text-align:left;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:6px 12px;border-bottom:2px solid var(--border);}
+.phrase-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.phrase-table tr:last-child td{border-bottom:none;}
+.td-romaji{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);}
+.td-phonetic{font-size:11px;color:var(--text-3);margin-top:2px;}
+.td-jp{font-family:var(--font-jp);font-size:14px;color:var(--text-2);}
+.td-en{font-size:12px;color:var(--text-2);}
+.td-reg{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 6px;border-radius:4px;margin-top:3px;}
+.reg-key{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-border);}
+.reg-new{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+
+/* Speak button */
+.speak-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--text-2);cursor:pointer;font-family:var(--font-mono);font-weight:600;transition:all 0.15s;}
+.speak-btn:hover{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+
+/* Backchain drill */
+.backchain-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px 32px;margin-bottom:28px;max-width:640px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.bc-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase;margin-bottom:20px;}
+.bc-steps{display:flex;flex-direction:column;gap:0;}
+.bc-step{display:flex;align-items:stretch;gap:0;position:relative;}
+.bc-step-line{width:2px;background:var(--border);margin:0 18px;flex-shrink:0;}
+.bc-step:last-child .bc-step-line{background:linear-gradient(to bottom,var(--border),transparent);}
+.bc-step-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--teal);background:var(--white);position:absolute;top:12px;left:-4px;transition:background 0.2s;}
+.bc-step.done .bc-step-dot{background:var(--teal);}
+.bc-step-body{padding:8px 0 20px;flex:1;}
+.bc-step-num{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:4px;}
+.bc-phrase{font-size:13px;color:rgba(106,117,133,0.6);margin-bottom:3px;}
+.bc-roman{font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.bc-phonetic{font-family:var(--font-mono);font-size:11px;color:var(--gold);margin-bottom:8px;}
+.bc-step-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bc-say-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--teal-border);border-radius:4px;color:var(--teal);background:none;padding:6px 14px;cursor:pointer;transition:all 0.15s;}
+.bc-say-btn:hover{background:var(--teal-bg);}
+.bc-repeat-btn{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:none;border-radius:4px;color:var(--white);background:var(--teal);padding:6px 14px;cursor:pointer;}
+.bc-tick{font-size:13px;color:var(--teal);display:none;}
+.bc-step.done .bc-tick{display:inline;}
+.bc-progress-row{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.bc-prog-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.bc-prog-fill{height:100%;background:var(--teal);border-radius:2px;transition:width 0.4s ease;}
+.bc-prog-label{font-family:var(--font-mono);font-size:10px;color:var(--text-3);}
+
+/* Exchange cards */
+.exchange-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.exc-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);display:flex;gap:16px;align-items:flex-start;}
+.exc-card-body{flex:1;min-width:0;}
+.exc-diagram{width:160px;flex-shrink:0;}
+.exc-scenario{font-size:12px;font-style:italic;color:var(--text-3);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.exc-line{display:flex;gap:12px;margin-bottom:10px;}
+.exc-line:last-child{margin-bottom:0;}
+.exc-speaker{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);width:52px;flex-shrink:0;padding-top:3px;}
+.exc-bubble{flex:1;}
+.exc-romaji{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.exc-jp{font-family:var(--font-jp);font-size:13px;color:var(--text-2);margin-bottom:2px;}
+.exc-en{font-size:12px;color:var(--text-3);margin-bottom:6px;}
+.exc-actions{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* Suki builder */
+.suki-builder{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin-bottom:16px;}
+.suki-slots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.suki-slot{min-width:110px;padding:9px 14px;border-radius:6px;border:2px dashed var(--border);font-family:var(--font-mono);font-size:13px;color:var(--text-3);text-align:center;transition:all 0.2s;}
+.suki-slot.filled{border-style:solid;color:var(--text);background:var(--surface-2);}
+.suki-slot.topic-filled{border-color:var(--blue-border);background:var(--blue-bg);color:var(--blue);}
+.suki-slot.neg-filled{border-color:var(--warn-border);background:var(--warn-bg);color:var(--warn);}
+.suki-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.suki-chip{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;background:var(--surface);transition:all 0.15s;}
+.suki-chip:hover{border-color:var(--blue-border);background:var(--blue-bg);color:var(--blue);}
+.suki-chip.selected{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+.suki-result{border-radius:6px;padding:14px 18px;margin-bottom:12px;display:none;}
+.suki-result.show{display:block;}
+.suki-result.natural{background:var(--correct-bg);border:1px solid var(--correct-border);}
+
+/* Toast */
+#unlock-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1A1D23;color:white;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+#unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Quick ref grid */
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;}
+.ref-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.ref-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.ref-item{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.ref-item span{font-weight:400;color:var(--text-2);}
+
+/* Timing bar */
+.timing-bar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.timing-icon{font-size:13px;}
+.timing-label{font-size:11px;color:var(--text-3);}
+.timing-val{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--text-2);}
+</style>
+</head>
+<body>
+<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC · Session 07</div>
+      <div class="tb-course">Phase 2 — Field Briefing</div>
+    </div>
+    <div class="tb-right">
+      <div class="phase-pill p2">📋 Briefing</div>
+      <div class="timer-box" id="p2-timer">35:00</div>
+      <div id="conn-dot" style="width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.4s;" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="course-progress">
+    <div class="course-progress-fill" id="learner-progress" style="width:35%;"></div>
+  </div>
+
+  <div class="scroll-body" style="max-width:860px;">
+    <div id="waiting-state" class="waiting-state">
+      <div class="waiting-icon">📋</div>
+      <div class="waiting-text">Your facilitator is about to begin Phase 2.<br>Blocks will appear here as they are unlocked.</div>
+      <div class="waiting-sub" style="margin-top:16px;">● connecting to session…</div>
+    </div>
+
+    <div id="accordion" style="display:none;">
+
+<!-- ══ BLOCK A — Review Blitz ══ -->
+<div class="block-section locked" id="section-review" data-block="review">
+  <div class="block-header" onclick="toggleBlock('review')">
+    <div class="bh-status" id="status-review">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block A · 5–6 min</div>
+      <div class="bh-title">⚡ Block A — Review Blitz</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-review">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-review">
+    <div class="eyebrow" style="margin-top:16px;">Block A — Review</div>
+    <div class="section-title">Everything So Far — Fast</div>
+    <div class="section-sub">A quick pass through S1–S6. Your facilitator will call out a situation — you say the phrase. No looking it up.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">Why this matters</div>
+      <div class="frame-text">Each session adds new tools. This block makes sure the old ones are still sharp. A phrase you used last week should come out without thinking — that's the goal.</div>
+    </div>
+
+    <div class="div-heading">Quick Reference — S1–S6</div>
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--blue);">Greetings</div>
+        <div class="ref-item">Ohayou gozaimasu <span>— good morning</span></div>
+        <div class="ref-item">Otsukaresama desu <span>— acknowledgement</span></div>
+        <div class="ref-item">Otsukaresama deshita <span>— shift close</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--green);">Departures</div>
+        <div class="ref-item">Osaki ni shitsurei shimasu <span>— leaving first</span></div>
+        <div class="ref-item">Ja, mata <span>— see you</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--gold);">Handoffs</div>
+        <div class="ref-item">Yoroshiku onegaishimasu <span>— I'm counting on you</span></div>
+        <div class="ref-item">Hai, wakarimashita <span>— understood</span></div>
+        <div class="ref-item">Omakase kudasai <span>— leave it to me</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--purple);">Recovery</div>
+        <div class="ref-item">Sumimasen, mou ichido <span>— one more time</span></div>
+        <div class="ref-item">Yukkuri itte moraemasu ka <span>— slowly please</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--teal);">Identity — S5</div>
+        <div class="ref-item">[Name] desu <span>— I'm [name]</span></div>
+        <div class="ref-item">[Role] desu <span>— I'm a [role]</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--red);">Demonstratives — S6</div>
+        <div class="ref-item">Kore / Sore / Are <span>— this/that/that over there</span></div>
+        <div class="ref-item">Kono/Sono/Ano ~ <span>— this/that/that [noun]</span></div>
+        <div class="ref-item">~ ja nai desu <span>— it's not ~</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BLOCK B — の Possessive ══ -->
+<div class="block-section locked" id="section-no" data-block="no">
+  <div class="block-header" onclick="toggleBlock('no')">
+    <div class="bh-status" id="status-no">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block B · 6–7 min</div>
+      <div class="bh-title">🔗 Block B — の · Possessive</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-no">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-no">
+    <div class="eyebrow" style="margin-top:16px;">Block B — New Grammar</div>
+    <div class="section-title">の — The Connector</div>
+    <div class="section-sub">One particle. One job. Connect any two nouns and say the first one owns or defines the second.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">The Rule</div>
+      <div class="frame-text"><strong>[Noun A] の [Noun B]</strong> = Noun B that belongs to / is defined by Noun A.<br><br>Yamada-san <strong>の</strong> paatsu → Yamada-san's part<br>A-rain <strong>の</strong> riidaa → A-line's leader<br>kono kikai <strong>の</strong> tejun → this machine's procedure</div>
+    </div>
+
+    <div class="div-heading">Pattern</div>
+    <div class="pattern-box">
+      <div class="pattern-formula">[ Noun A ] の [ Noun B ]</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+        <div class="pat-slot ko">Yamada-san</div>
+        <div class="pat-slot particle">の</div>
+        <div class="pat-slot noun">paatsu</div>
+        <div class="pat-connector">→</div>
+        <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-2);">Yamada-san's part</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+        <div class="pat-slot ko">A-rain</div>
+        <div class="pat-slot particle">の</div>
+        <div class="pat-slot noun">riidaa</div>
+        <div class="pat-connector">→</div>
+        <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-2);">A-line's leader</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div class="pat-slot ko">watashi</div>
+        <div class="pat-slot particle">の</div>
+        <div class="pat-slot noun">shigoto</div>
+        <div class="pat-connector">→</div>
+        <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-2);">my work</div>
+      </div>
+    </div>
+
+    <div class="div-heading">Connection to S6 — You Already Know This</div>
+    <div class="warn-box">
+      <div class="warn-label">⚡ Key Insight</div>
+      <div class="warn-text">The modifier forms from Session 6 — <strong>kono, sono, ano, dono</strong> — are already の in disguise. They're the demonstrative root + の fused together:<br><br>
+        <span style="font-family:var(--font-mono);">ko + no = kono &nbsp;·&nbsp; so + no = sono &nbsp;·&nbsp; a + no = ano &nbsp;·&nbsp; do + no = dono</span><br><br>
+        So when you said <em>kono paatsu</em> in Session 6, you were already using の. Today you just learn to use it with any noun — not just demonstratives.
+      </div>
+    </div>
+
+    <div class="warn-box" style="background:var(--gold-bg);border-color:var(--gold-border);border-left-color:var(--gold);">
+      <div class="warn-label" style="color:var(--gold);">⚠️ One Thing to Watch</div>
+      <div class="warn-text">Never say <strong>このの</strong> or <strong>そのの</strong>. Kono/sono/ano already have の built in — adding another の is like saying "this's's part." Just use <em>kono paatsu, sono paatsu</em> as you did in S6.</div>
+    </div>
+
+    <div class="div-heading">Useful Nouns for の</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>English</th></tr></thead>
+      <tbody>
+        <tr><td class="td-romaji">kaban</td><td class="td-jp">カバン</td><td class="td-en">bag</td></tr>
+        <tr><td class="td-romaji">seki</td><td class="td-jp">席</td><td class="td-en">seat / workstation</td></tr>
+        <tr><td class="td-romaji">hon</td><td class="td-jp">本</td><td class="td-en">book</td></tr>
+        <tr><td class="td-romaji">kuruma</td><td class="td-jp">車</td><td class="td-en">car</td></tr>
+        <tr><td class="td-romaji">kagi</td><td class="td-jp">鍵</td><td class="td-en">key</td></tr>
+        <tr><td class="td-romaji">paatsu</td><td class="td-jp">パーツ</td><td class="td-en">part (production)</td></tr>
+        <tr><td class="td-romaji">kikai</td><td class="td-jp">機械</td><td class="td-en">machine</td></tr>
+        <tr><td class="td-romaji">tejun</td><td class="td-jp">手順</td><td class="td-en">procedure</td></tr>
+      </tbody>
+    </table>
+
+    <div class="div-heading">Phrase Table</div>
+    <table class="phrase-table" style="border-collapse:separate;border-spacing:0 4px;">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>English</th><th>🔊</th></tr></thead>
+      <tbody>
+        <tr style="background:var(--surface-2);border-radius:6px;">
+          <td style="border-radius:6px 0 0 6px;"><div class="td-romaji">Yamada-san no kaban desu.</div><div class="td-phonetic">yah-mah-dah-sahn noh kah-bahn des</div></td>
+          <td class="td-jp">山田さんのカバンです。</td>
+          <td class="td-en">It's Yamada-san's bag.</td>
+          <td style="border-radius:0 6px 6px 0;"><button class="speak-btn" onclick="speak('山田さんのカバンです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">A-rain no tejun desu.</div><div class="td-phonetic">ah-rain noh teh-joon des</div></td>
+          <td class="td-jp">Aラインの手順です。</td>
+          <td class="td-en">It's A-line's procedure.</td>
+          <td><button class="speak-btn" onclick="speak('Aラインの手順です。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Kore wa dare no kaban desu ka?</div><div class="td-phonetic">koh-reh wah dah-reh noh kah-bahn des kah</div></td>
+          <td class="td-jp">これは誰のカバンですか？</td>
+          <td class="td-en">Whose bag is this?</td>
+          <td><button class="speak-btn" onclick="speak('これは誰のカバンですか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Watashi no desu.</div><div class="td-phonetic">wah-tah-shee noh des</div></td>
+          <td class="td-jp">私のです。</td>
+          <td class="td-en">It's mine.</td>
+          <td><button class="speak-btn" onclick="speak('私のです。')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Watashi no seki desu.</div><div class="td-phonetic">wah-tah-shee noh seh-kee des</div></td>
+          <td class="td-jp">私の席です。</td>
+          <td class="td-en">This is my seat / workstation.</td>
+          <td><button class="speak-btn" onclick="speak('私の席です。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Tanaka-san no kikai desu ka?</div><div class="td-phonetic">tah-nah-kah-sahn noh kee-kigh des kah</div></td>
+          <td class="td-jp">田中さんの機械ですか？</td>
+          <td class="td-en">Is this Tanaka-san's machine?</td>
+          <td><button class="speak-btn" onclick="speak('田中さんの機械ですか？')">🔊</button></td>
+        </tr>
+        <tr style="background:var(--surface-2);">
+          <td><div class="td-romaji">Yamada-san no hon desu ka?</div><div class="td-phonetic">yah-mah-dah-sahn noh hohn des kah</div></td>
+          <td class="td-jp">山田さんの本ですか？</td>
+          <td class="td-en">Is this Yamada-san's book?</td>
+          <td><button class="speak-btn" onclick="speak('山田さんの本ですか？')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="frame-box" style="background:var(--teal-bg);border-color:var(--teal-border);border-left-color:var(--teal);">
+      <div class="frame-label" style="color:var(--teal);">🎌 Cultural Note — Sumimasen</div>
+      <div class="frame-text">You'll notice the exchange ends with <strong>sumimasen</strong> — but this isn't quite the same "sorry" you'd say after bumping into someone. In Japanese, sumimasen carries a deeper idea: <em>expressing regret for the trouble or effort that someone else had to go to on your behalf.</em><br><br>
+      In English we'd say "thanks" in this situation — someone found your bag, and you want to acknowledge that. In Japanese, the more natural move is to apologise for having caused the inconvenience in the first place. The gratitude is implied inside the apology.<br><br>
+      This is why you'll often hear Japanese colleagues say sumimasen where you'd expect arigatou gozaimasu — especially when someone has done something extra for them, moved out of the way, or waited. It's not that they're sorry. They're saying: <em>"I recognise the effort you made, and I feel the weight of it."</em><br><br>
+      <strong>Practical rule:</strong> when someone does something for you that required effort — use sumimasen, not just arigatou. It lands warmer.</div>
+    </div>
+
+    <div class="div-heading">Back-Chain Drill — Yamada-san no kaban ja nai desu</div>
+    <button onclick="initBackchain('bc-no')" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--teal-border);background:var(--teal-bg);color:var(--teal);cursor:pointer;">▶ Start Drill</button>
+    <div class="backchain-wrap" id="bc-no">
+      <div class="bc-label">Drill — Build from the end</div>
+      <div class="bc-steps" id="bc-no-steps"></div>
+      <div class="bc-progress-row">
+        <div class="bc-prog-bar"><div class="bc-prog-fill" id="bc-no-fill" style="width:0%"></div></div>
+        <div class="bc-prog-label" id="bc-no-label">0 / 3</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BLOCK C — が好きです ══ -->
+<div class="block-section locked" id="section-suki" data-block="suki">
+  <div class="block-header" onclick="toggleBlock('suki')">
+    <div class="bh-status" id="status-suki">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block C · 7–8 min</div>
+      <div class="bh-title">💬 Block C — が好きです · Likes &amp; Dislikes</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-suki">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-suki">
+    <div class="eyebrow" style="margin-top:16px;">Block C — Expression</div>
+    <div class="section-title">が好きです — I Like ~</div>
+    <div class="section-sub">Say what you like — or don't. On the floor and off it.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">Why This Matters</div>
+      <div class="frame-text">Japanese colleagues won't ask you deeply personal questions — but they will notice if you can talk about something you enjoy. Knowing <em>suki desu</em> opens the door to small moments of connection that don't happen through pure task-talk. It also gives you a natural way to respond when someone shares something about themselves.</div>
+    </div>
+
+    <div class="div-heading">The Pattern</div>
+    <div class="pattern-box">
+      <div class="pattern-formula">[ Noun ] が 好きです / 好きじゃないです</div>
+      <div style="background:var(--correct-bg);border:1.5px solid var(--correct-border);border-radius:6px;padding:12px 16px;margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--correct);text-transform:uppercase;margin-bottom:4px;">✓ Like</div>
+        <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--text);">[Noun] ga suki desu.</div>
+        <div style="font-size:12px;color:var(--text-2);margin-top:4px;">I like [noun]. / [Noun] is what I like.</div>
+      </div>
+      <div style="background:var(--wrong-bg);border:1.5px solid var(--wrong-border);border-radius:6px;padding:12px 16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--wrong);text-transform:uppercase;margin-bottom:4px;">✗ Don't like</div>
+        <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--text);">[Noun] ga suki ja nai desu.</div>
+        <div style="font-size:12px;color:var(--text-2);margin-top:4px;">I don't like [noun].</div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <div class="warn-label">💡 Note — が not は</div>
+      <div class="warn-text">With 好きです, the topic marker shifts to <strong>が</strong> instead of は. This is a fixed pattern — don't swap them. Think of が as spotlighting the thing you like: <em>"As for [thing] — I like it."</em> Just memorise the pattern as a chunk: <strong>[thing] が 好きです。</strong></div>
+    </div>
+
+    <div class="frame-box" style="background:var(--purple-bg);border-color:var(--purple-border);border-left-color:var(--purple);">
+      <div class="frame-label" style="color:var(--purple);">💬 Two Ways to Ask — Know the Difference</div>
+      <div class="frame-text">
+        There are two natural ways a Japanese colleague might ask about your interests, and they mean slightly different things:<br><br>
+        <strong style="font-family:var(--font-mono);">Supootsu ga suki desu ka?</strong><br>
+        <span style="font-size:12px;color:var(--text-3);">スポーツが好きですか？</span><br>
+        "Do you like sports?" — a yes/no question. Asking whether you like it at all.<br><br>
+        <strong style="font-family:var(--font-mono);">Suki na supootsu wa nan desu ka?</strong><br>
+        <span style="font-size:12px;color:var(--text-3);">好きなスポーツは何ですか？</span><br>
+        "What sport do you like?" — assumes you do, asks which one. <em>Suki na</em> is the adjectival form of suki, modifying the noun: "your liked/favourite sport."<br><br>
+        In casual conversation the second form is warmer — it skips the yes/no and invites you straight into the answer. If a colleague uses it, they're already assuming you like something and want to know more.
+      </div>
+    </div>
+
+    <div class="div-heading">Vocabulary — Things to Like</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>English</th></tr></thead>
+      <tbody>
+        <tr><td class="td-romaji">futtobooru</td><td class="td-jp">フットボール</td><td class="td-en">football / soccer</td></tr>
+        <tr><td class="td-romaji">yakyuu</td><td class="td-jp">野球</td><td class="td-en">baseball</td></tr>
+        <tr><td class="td-romaji">ongaku</td><td class="td-jp">音楽</td><td class="td-en">music</td></tr>
+        <tr><td class="td-romaji">ryouri</td><td class="td-jp">料理</td><td class="td-en">cooking / food</td></tr>
+        <tr><td class="td-romaji">anime</td><td class="td-jp">アニメ</td><td class="td-en">anime</td></tr>
+        <tr><td class="td-romaji">kuruma</td><td class="td-jp">車</td><td class="td-en">cars</td></tr>
+        <tr><td class="td-romaji">shigoto</td><td class="td-jp">仕事</td><td class="td-en">work</td></tr>
+        <tr><td class="td-romaji">kono shigoto</td><td class="td-jp">この仕事</td><td class="td-en">this job (uses S6 の!)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="div-heading">Phrase Table</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>English</th><th>🔊</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="td-romaji">Futtobooru ga suki desu.</div><div class="td-phonetic">foot-toh-boh-roo gah soo-kee des</div></td>
+          <td class="td-jp">フットボールが好きです。</td>
+          <td class="td-en">I like football.</td>
+          <td><button class="speak-btn" onclick="speak('フットボールが好きです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Anime ga suki ja nai desu.</div><div class="td-phonetic">ah-nee-meh gah soo-kee jah nigh des</div></td>
+          <td class="td-jp">アニメが好きじゃないです。</td>
+          <td class="td-en">I don't like anime.</td>
+          <td><button class="speak-btn" onclick="speak('アニメが好きじゃないです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Nani ga suki desu ka?</div><div class="td-phonetic">nah-nee gah soo-kee des kah</div></td>
+          <td class="td-jp">何が好きですか？</td>
+          <td class="td-en">What do you like?</td>
+          <td><button class="speak-btn" onclick="speak('何が好きですか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Watashi mo suki desu.</div><div class="td-phonetic">wah-tah-shee moh soo-kee des</div></td>
+          <td class="td-jp">私も好きです。</td>
+          <td class="td-en">I like it too.</td>
+          <td><button class="speak-btn" onclick="speak('私も好きです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Kono shigoto ga suki desu.</div><div class="td-phonetic">koh-noh shee-goh-toh gah soo-kee des</div></td>
+          <td class="td-jp">この仕事が好きです。</td>
+          <td class="td-en">I like this job.</td>
+          <td><button class="speak-btn" onclick="speak('この仕事が好きです。')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="div-heading">Back-Chain Drill — Yakyuu ga suki ja nai desu. Futtobooru ga suki desu.</div>
+    <button onclick="initBackchain('bc-suki')" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--teal-border);background:var(--teal-bg);color:var(--teal);cursor:pointer;">▶ Start Drill</button>
+    <div class="backchain-wrap" id="bc-suki">
+      <div class="bc-label">Drill — Build from the end</div>
+      <div class="bc-steps" id="bc-suki-steps"></div>
+      <div class="bc-progress-row">
+        <div class="bc-prog-bar"><div class="bc-prog-fill" id="bc-suki-fill" style="width:0%"></div></div>
+        <div class="bc-prog-label" id="bc-suki-label">0 / 3</div>
+      </div>
+    </div>
+
+    <div class="div-heading">Sentence Builder — が好きです</div>
+    <div style="font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:16px;">Pick a topic and a verb form. See the sentence come together.</div>
+    <button id="suki-builder-btn" onclick="sukiOpen()" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--green-border);background:var(--green-bg);color:var(--green);cursor:pointer;">▶ Open Builder</button>
+    <div id="suki-builder-body" style="display:none;">
+      <div class="suki-builder">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;">Your sentence</div>
+        <div class="suki-slots" style="align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="suki-slot" id="suki-topic-slot" style="min-width:120px;">[ pick a topic below ]</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--purple);font-weight:700;">が</div>
+          <button class="suki-verb-toggle" id="suki-verb-pos" onclick="sukiPickVerb('suki')" style="font-family:var(--font-mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:6px;border:1.5px solid var(--green-border);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all 0.15s;">suki desu</button>
+          <button class="suki-verb-toggle" id="suki-verb-neg" onclick="sukiPickVerb('suki-nai')" style="font-family:var(--font-mono);font-size:12px;font-weight:600;padding:8px 14px;border-radius:6px;border:1.5px solid var(--warn-border);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all 0.15s;">suki ja nai desu</button>
+        </div>
+        <div id="suki-result-box" class="suki-result" style="margin-top:16px;"></div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;margin-top:8px;">What do you like?</div>
+        <div class="suki-chips" id="suki-topic-chips"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <button class="speak-btn" id="suki-speak-btn" onclick="sukiSpeak()" style="display:none;">🔊 Hear it</button>
+          <button class="speak-btn" onclick="sukiReset()">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BLOCK D — いいお天気ですね ══ -->
+<div class="block-section locked" id="section-tenki" data-block="tenki">
+  <div class="block-header" onclick="toggleBlock('tenki')">
+    <div class="bh-status" id="status-tenki">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block D · 5 min</div>
+      <div class="bh-title">☀️ Block D — Social Ice Breakers</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-tenki">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-tenki">
+    <div class="eyebrow" style="margin-top:16px;">Block D — Social Language</div>
+    <div class="section-title">いいお天気ですね</div>
+    <div class="section-sub">Breaking the ice — Japanese style.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">What This Is Really About</div>
+      <div class="frame-text">In English, we say <em>"How are you?"</em> without expecting a real answer. It's not a question — it's a social signal that says <em>"I see you, I'm friendly, let's coexist."</em><br><br>
+      Japanese has the same thing. <strong>Ohayou gozaimasu</strong> opens the exchange — that's the required greeting. Then <strong>Ii otenki desu ne</strong> ("Nice weather, isn't it?") extends it with a warm observation, and <strong>Sou desu ne</strong> ("Indeed it is") closes the loop. Nobody is actually talking about the weather — they're doing something more important: making a human connection before the shift starts.<br><br>
+      This is the first step toward small talk with Japanese colleagues. It's low-stakes, predictable, and warmly appreciated when an American associate uses it naturally.</div>
+    </div>
+
+    <div class="div-heading">The Exchange</div>
+    <div class="exchange-cards">
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Morning arrival. You see Tanaka-san near the entrance.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Ohayou gozaimasu.</div>
+              <div class="exc-jp">おはようございます。</div>
+              <div class="exc-en">Good morning.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('おはようございます。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">Tanaka</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Ohayou gozaimasu.</div>
+              <div class="exc-jp">おはようございます。</div>
+              <div class="exc-en">Good morning.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('おはようございます。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Ii otenki desu ne.</div>
+              <div class="exc-jp">いいお天気ですね。</div>
+              <div class="exc-en">Nice weather today, isn't it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('いいお天気ですね。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">Tanaka</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sou desu ne.</div>
+              <div class="exc-jp">そうですね。</div>
+              <div class="exc-en">Yes, isn't it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('そうですね。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <div class="warn-label">💡 The Social Convention</div>
+      <div class="warn-text"><strong>Ne (ね)</strong> at the end invites agreement — it's like adding "right?" or "isn't it?" It softens statements into shared observations. Your colleague isn't obligated to agree, but they almost always will, because that's the expected move. The exchange is a ritual, not a conversation.<br><br>
+      <strong>Greeting first, then the observation.</strong> Open with <em>Ohayou gozaimasu</em> — that's the required exchange. The weather comment comes after, as a warm add-on. Colleague mirrors it back with <em>Sou desu ne</em> and you're done. The whole thing is four seconds.</div>
+    </div>
+
+    <div class="div-heading">Phrase Table</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>English</th><th>🔊</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="td-romaji">Ii otenki desu ne.</div><div class="td-phonetic">ee oh-ten-kee des neh</div></td>
+          <td class="td-jp">いいお天気ですね。</td>
+          <td class="td-en">Nice weather, isn't it.</td>
+          <td><button class="speak-btn" onclick="speak('いいお天気ですね。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Sou desu ne.</div><div class="td-phonetic">soh des neh</div></td>
+          <td class="td-jp">そうですね。</td>
+          <td class="td-en">Indeed / You're right / Yes, isn't it.</td>
+          <td><button class="speak-btn" onclick="speak('そうですね。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Samui desu ne.</div><div class="td-phonetic">sah-moo-ee des neh</div></td>
+          <td class="td-jp">寒いですね。</td>
+          <td class="td-en">Cold today, isn't it.</td>
+          <td><button class="speak-btn" onclick="speak('寒いですね。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Atsui desu ne.</div><div class="td-phonetic">ah-tsoo-ee des neh</div></td>
+          <td class="td-jp">暑いですね。</td>
+          <td class="td-en">Hot today, isn't it.</td>
+          <td><button class="speak-btn" onclick="speak('暑いですね。')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ BLOCK E — Floor Exchanges ══ -->
+<div class="block-section locked" id="section-floor" data-block="floor">
+  <div class="block-header" onclick="toggleBlock('floor')">
+    <div class="bh-status" id="status-floor">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block E · 5–6 min</div>
+      <div class="bh-title">🏭 Block E — Floor Exchanges</div>
+    </div>
+    <div class="bh-badge badge-locked" id="badge-floor">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-floor">
+    <div class="eyebrow" style="margin-top:16px;">Block E</div>
+    <div class="section-title">Putting It Together</div>
+    <div class="section-sub">Full exchanges using の, が好きです, and ice breakers alongside everything from S1–S6.</div>
+
+    <div class="cn-box">
+      <div class="cn-label">How to use this block</div>
+      <div class="cn-text">Read each exchange with a partner. Say the lines out loud — even quietly. The muscle memory of speaking is the point. Notice where the new patterns appear naturally.</div>
+    </div>
+
+    <div class="exchange-cards">
+
+      <!-- Exchange 1: Whose bag? -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Break room. Someone's bag is on the table and a colleague isn't sure whose it is.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Colleague</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Kore wa dare no kaban desu ka?</div>
+              <div class="exc-jp">これは誰のカバンですか？</div>
+              <div class="exc-en">Whose bag is this?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('これは誰のカバンですか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Watashi no desu. Sumimasen.</div>
+              <div class="exc-jp">私のです。すみません。</div>
+              <div class="exc-en">It's mine. Sorry.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('私のです。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 2: Wrong procedure -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">You're using a procedure sheet. Your line leader checks in.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Line leader</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sore wa A-rain no tejun desu ka?</div>
+              <div class="exc-jp">それはAラインの手順ですか？</div>
+              <div class="exc-en">Is that A-line's procedure?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('それはAラインの手順ですか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sumimasen, A-rain no ja nai desu. B-rain no desu.</div>
+              <div class="exc-jp">すみません、Aラインのじゃないです。Bラインのです。</div>
+              <div class="exc-en">Sorry — it's not A-line's. It's B-line's.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('すみません、Aラインのじゃないです。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 3: Small talk -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Morning arrival. You see Tanaka-san near the entrance.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Ohayou gozaimasu.</div>
+              <div class="exc-jp">おはようございます。</div>
+              <div class="exc-en">Good morning.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('おはようございます。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">Tanaka</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Ohayou gozaimasu.</div>
+              <div class="exc-jp">おはようございます。</div>
+              <div class="exc-en">Good morning.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('おはようございます。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Ii otenki desu ne.</div>
+              <div class="exc-jp">いいお天気ですね。</div>
+              <div class="exc-en">Nice weather today, isn't it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('いいお天気ですね。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">Tanaka</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sou desu ne.</div>
+              <div class="exc-jp">そうですね。</div>
+              <div class="exc-en">Yes, isn't it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('そうですね。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 4: Likes -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Break time. A Japanese colleague asks what you're into.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Colleague</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Nani ga suki desu ka?</div>
+              <div class="exc-jp">何が好きですか？</div>
+              <div class="exc-en">What do you like?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('何が好きですか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Futtobooru ga suki desu. Tanaka-san wa?</div>
+              <div class="exc-jp">フットボールが好きです。田中さんは？</div>
+              <div class="exc-en">I like football. How about you, Tanaka-san?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('フットボールが好きです。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">Colleague</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Watashi wa yakyuu ga suki desu.</div>
+              <div class="exc-jp">私は野球が好きです。</div>
+              <div class="exc-en">I like baseball.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('私は野球が好きです。')">🔊</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /exchange-cards -->
+
+    <div class="div-heading">Quick Reference — Session 7</div>
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--purple);">の · Possessive</div>
+        <div class="ref-item">Yamada-san no ~ <span>— Yamada-san's ~</span></div>
+        <div class="ref-item">dare no ~ <span>— whose ~</span></div>
+        <div class="ref-item">watashi no <span>— mine</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--green);">が好きです</div>
+        <div class="ref-item">~ ga suki desu <span>— I like ~</span></div>
+        <div class="ref-item">~ ga suki ja nai desu <span>— I don't like ~</span></div>
+        <div class="ref-item">watashi mo <span>— me too</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-label" style="color:var(--gold);">Ice Breakers</div>
+        <div class="ref-item">Ii otenki desu ne <span>— nice weather</span></div>
+        <div class="ref-item">Sou desu ne <span>— indeed / right</span></div>
+        <div class="ref-item">Samui / Atsui desu ne <span>— cold / hot</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    </div><!-- /accordion -->
+  </div><!-- /scroll-body -->
+</div>
+<div id="unlock-toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig={
+    apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain:"denso-japanese.firebaseapp.com",
+    databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId:"denso-japanese",
+    storageBucket:"denso-japanese.firebasestorage.app",
+    messagingSenderId:"269608225857",
+    appId:"1:269608225857:web:09d4a7a3d8df21acd01b35"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const dbRef = ref(db, "session7/phase2/unlockedBlocks");
+  window._fbReady = true;
+  window._fbOnValue = (cb) => onValue(dbRef, snap => cb(snap.val()));
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+function speak(text){
+  const AUDIO_MAP={
+    'いいお天気ですね。':'ii-otenki-desu-ne',
+    'そうですね。':'sou-desu-ne',
+    '寒いですね。':'samui-desu-ne',
+    '暑いですね。':'atsui-desu-ne',
+    'フットボールが好きです。':'futtobooru-ga-suki-desu',
+    '好きじゃないです。':'suki-ja-nai-desu',
+    '野球が好きじゃないです。':'yakyuu-ga-suki-ja-nai-desu',
+    '野球が好きじゃないです。フットボールが好きです。':'yakyuu-ga-suki-ja-nai-desu+futtobooru-ga-suki-desu',
+    'アニメが好きじゃないです。':'anime-ga-suki-ja-nai-desu',
+    '何が好きですか？':'nani-ga-suki-desu-ka',
+    '私も好きです。':'watashi-mo-suki-desu',
+    'この仕事が好きです。':'kono-shigoto-ga-suki-desu',
+    '私は野球が好きです。':'watashi-wa-yakyuu-ga-suki-desu',
+    '山田さんのカバンです。':'yamada-san-no-kaban-desu',
+    'Aラインの手順です。':'a-rain-no-tejun-desu',
+    'これは誰のカバンですか？':'kore-wa-dare-no-kaban-desu-ka',
+    '私の席です。':'watashi-no-seki-desu',
+    '山田さんの本ですか？':'yamada-san-no-hon-desu-ka',
+    '私のです。':'watashi-no-desu',
+    '田中さんの機械ですか？':'tanaka-san-no-kikai-desu-ka',
+    'それはAラインの手順ですか？':'sore-wa-a-rain-no-tejun-desu-ka',
+    'すみません、Aラインのじゃないです。':'sumimasen-a-rain-no-ja-nai-desu',
+    'おはようございます。':'ohayou-gozaimasu',
+    'じゃないです。':'ja-nai-desu',
+    'のじゃないです。':'no-ja-nai-desu',
+    'カバンじゃないです。':'kaban-ja-nai-desu',
+    'のカバンじゃないです。':'no-kaban-ja-nai-desu',
+    '好きです。':'suki-desu',
+    '山田さんのじゃないです。':'yamada-san-no-ja-nai-desu',
+    '山田さんのカバンじゃないです。':'yamada-san-no-kaban-ja-nai-desu',
+  };
+  const slug=AUDIO_MAP[text];
+  if(slug){
+    const slugs=slug.split('+');
+    if(slugs.length===1){
+      const a=new Audio('./media/'+slug+'.wav');
+      a.play().catch(()=>fallbackSpeak(text));
+    } else {
+      let i=0;
+      function playNext(){
+        if(i>=slugs.length)return;
+        const a=new Audio('./media/'+slugs[i]+'.wav');
+        a.onended=()=>{i++;playNext();};
+        a.play().catch(()=>fallbackSpeak(text));
+      }
+      playNext();
+    }
+    return;
+  }
+  fallbackSpeak(text);
+}
+function fallbackSpeak(text){
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';u.rate=0.82;
+  window.speechSynthesis.speak(u);
+}
+
+// ── Block accordion ──
+const BLOCK_ORDER=['review','no','suki','tenki','floor'];
+let currentUnlocked=[];
+let isFirstLoad=true;
+
+function applyState(unlockedBlocks){
+  if(!unlockedBlocks||unlockedBlocks.length===0){isFirstLoad=false;document.getElementById('waiting-state').querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';return;}
+  const newBlocks=unlockedBlocks.filter(b=>!currentUnlocked.includes(b));
+  const wasEmpty=currentUnlocked.length===0;
+  currentUnlocked=[...unlockedBlocks];
+  document.getElementById('waiting-state').style.display='none';
+  document.getElementById('accordion').style.display='block';
+  BLOCK_ORDER.forEach(id=>{
+    const section=document.getElementById('section-'+id);
+    const badge=document.getElementById('badge-'+id);
+    const status=document.getElementById('status-'+id);
+    const isUnlocked=unlockedBlocks.includes(id);
+    const isCurrent=id===unlockedBlocks[unlockedBlocks.length-1];
+    const isPast=isUnlocked&&!isCurrent;
+    if(isUnlocked){
+      section.classList.remove('locked');
+      section.classList.toggle('active-block',isCurrent);
+      section.classList.toggle('unlocked',isPast);
+      status.textContent='✓';
+      badge.textContent=isCurrent?'Current':'Done';
+      badge.className='bh-badge '+(isCurrent?'badge-current':'badge-done');
+      if(isCurrent&&newBlocks.includes(id)){
+        openBlock(id);
+        setTimeout(()=>{document.getElementById('section-'+id).scrollIntoView({behavior:'smooth',block:'start'});},200);
+      } else if(isPast&&!wasEmpty&&newBlocks.length>0){
+        closeBlock(id);
+      }
+    } else {
+      section.className='block-section locked';
+      status.textContent='🔒';
+      badge.textContent='Waiting';
+      badge.className='bh-badge badge-locked';
+    }
+  });
+  const pct=35+(unlockedBlocks.length/BLOCK_ORDER.length)*50;
+  document.getElementById('learner-progress').style.width=pct+'%';
+  if(!wasEmpty&&newBlocks.length>0)showToast('🔓 '+newBlocks.map(id=>({review:'Block A',no:'Block B',suki:'Block C',tenki:'Block D',floor:'Block E'})[id]||id).join(', ')+' unlocked');
+  isFirstLoad=false;
+}
+function openBlock(id){
+  const s=document.getElementById('section-'+id);
+  if(s.classList.contains('locked'))return;
+  s.classList.add('open');
+  if(id==='no')initBackchain('bc-no');
+  if(id==='suki')initBackchain('bc-suki');
+}
+function closeBlock(id){document.getElementById('section-'+id).classList.remove('open');}
+function toggleBlock(id){const s=document.getElementById('section-'+id);if(s.classList.contains('locked'))return;s.classList.toggle('open');}
+function showToast(msg){const t=document.getElementById('unlock-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3800);}
+
+document.addEventListener('fbReady',()=>{
+  document.getElementById('conn-dot').style.background='var(--green)';
+  document.querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||[]));
+});
+setTimeout(()=>{
+  if(!window._fbReady){document.getElementById('waiting-state').innerHTML='<div class="waiting-icon">⚠️</div><div class="waiting-text" style="color:var(--warn)">Could not connect to the session.</div><div class="waiting-sub">Check your internet connection and reload.</div>';}
+},8000);
+
+// ── Timer ──
+let timerInterval=null;
+function startTimer(secs){
+  clearInterval(timerInterval);
+  let s=secs;
+  const el=document.getElementById('p2-timer');
+  function tick(){s--;const m=Math.floor(s/60),sc=s%60;el.textContent=String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');if(s<=0)clearInterval(timerInterval);}
+  timerInterval=setInterval(tick,1000);
+}
+
+// ── Back-chain drills ──
+const BC_DRILLS={
+  'bc-no':{steps:[
+    {roman:'ja nai desu.',phonetic:'jah nigh des',jp:'じゃないです。',phrase:'polite negative ending'},
+    {roman:'kaban ja nai desu.',phonetic:'kah-bahn jah nigh des',jp:'カバンじゃないです。',phrase:"it's not the bag"},
+    {roman:'Yamada-san no kaban ja nai desu.',phonetic:'yah-mah-dah-sahn noh kah-bahn jah nigh des',jp:'山田さんのカバンじゃないです。',phrase:"it's not Yamada-san's bag"},
+  ]},
+  'bc-suki':{steps:[
+    {roman:'suki desu.',phonetic:'soo-kee des',jp:'好きです。',phrase:'I like it'},
+    {roman:'Futtobooru ga suki desu.',phonetic:'foot-toh-boh-roo gah soo-kee des',jp:'フットボールが好きです。',phrase:'I like football'},
+    {roman:'suki ja nai desu.',phonetic:'soo-kee jah nigh des',jp:'好きじゃないです。',phrase:"I don't like it"},
+    {roman:'Yakyuu ga suki ja nai desu.',phonetic:'yah-kyoo gah soo-kee jah nigh des',jp:'野球が好きじゃないです。',phrase:"I don't like baseball"},
+    {roman:'Yakyuu ga suki ja nai desu. Futtobooru ga suki desu.',phonetic:'yah-kyoo gah soo-kee jah nigh des. foot-toh-boh-roo gah soo-kee des',jp:'野球が好きじゃないです。フットボールが好きです。',phrase:"I don't like baseball — I like football"},
+  ]},
+};
+const bcState={};
+
+function initBackchain(id){
+  const drill=BC_DRILLS[id];if(!drill)return;
+  bcState[id]={done:0};
+  const container=document.getElementById(id+'-steps');if(!container)return;
+  const wrap=document.getElementById(id);
+  if(wrap){const btn=wrap.previousElementSibling;if(btn&&btn.tagName==='BUTTON')btn.style.display='none';}
+  container.innerHTML=drill.steps.map((s,i)=>`
+    <div class="bc-step" id="${id}-step-${i}">
+      <div class="bc-step-line"><div class="bc-step-dot"></div></div>
+      <div class="bc-step-body">
+        <div class="bc-step-num">Step ${i+1}</div>
+        <div class="bc-phrase">${s.phrase}</div>
+        <div class="bc-roman">${s.roman}</div>
+        <div class="bc-phonetic">${s.phonetic}</div>
+        <div class="bc-step-actions">
+          <button class="bc-say-btn" onclick="bcSpeak('${id}',${i},'${s.jp.replace(/'/g,"\\'")}',this)">🔊 Hear it</button>
+          <button class="bc-repeat-btn" onclick="bcDone('${id}',${i})">✓ Said it</button>
+          <span class="bc-tick">✓</span>
+        </div>
+      </div>
+    </div>`).join('');
+  updateBcProgress(id);
+}
+function bcSpeak(id,idx,jp,btn){speak(jp);btn.classList.add('spoken');}
+function bcDone(id,idx){
+  const el=document.getElementById(id+'-step-'+idx);
+  if(!el||el.classList.contains('done'))return;
+  el.classList.add('done');bcState[id].done++;updateBcProgress(id);
+}
+function updateBcProgress(id){
+  const drill=BC_DRILLS[id];const done=bcState[id]?bcState[id].done:0;const total=drill.steps.length;
+  const fill=document.getElementById(id+'-fill');const label=document.getElementById(id+'-label');
+  if(fill)fill.style.width=(done/total*100)+'%';
+  if(label)label.textContent=done+' / '+total;
+}
+
+// ── が好きです builder ──
+const SUKI_TOPIC_CATS=[
+  {
+    label:'Sports',
+    topics:[
+      {id:'futtobooru',ro:'futtobooru',jp:'フットボール',en:'football'},
+      {id:'yakyuu',ro:'yakyuu',jp:'野球',en:'baseball'},
+      {id:'sakka',ro:'sakkaa',jp:'サッカー',en:'soccer'},
+      {id:'basuketto',ro:'basukettbooru',jp:'バスケットボール',en:'basketball'},
+      {id:'tenisu',ro:'tenisu',jp:'テニス',en:'tennis'},
+    ]
+  },
+  {
+    label:'Music',
+    topics:[
+      {id:'ongaku',ro:'ongaku',jp:'音楽',en:'music'},
+      {id:'rokku',ro:'rokku',jp:'ロック',en:'rock'},
+      {id:'jazu',ro:'jazu',jp:'ジャズ',en:'jazz'},
+      {id:'hip-hop',ro:'hippu hoppu',jp:'ヒップホップ',en:'hip-hop'},
+      {id:'country',ro:'kauntori',jp:'カントリー',en:'country'},
+    ]
+  },
+  {
+    label:'Food',
+    topics:[
+      {id:'ryouri',ro:'ryouri',jp:'料理',en:'cooking'},
+      {id:'pizza',ro:'piza',jp:'ピザ',en:'pizza'},
+      {id:'sushi',ro:'sushi',jp:'寿司',en:'sushi'},
+      {id:'aisu',ro:'aisu kuriimu',jp:'アイスクリーム',en:'ice cream'},
+      {id:'karai',ro:'karai tabemono',jp:'辛い食べ物',en:'spicy food'},
+    ]
+  },
+  {
+    label:'Other',
+    topics:[
+      {id:'anime',ro:'anime',jp:'アニメ',en:'anime'},
+      {id:'manga',ro:'manga',jp:'漫画',en:'manga'},
+      {id:'eiga',ro:'eiga',jp:'映画',en:'movies'},
+      {id:'kuruma',ro:'kuruma',jp:'車',en:'cars'},
+      {id:'kono-shigoto',ro:'kono shigoto',jp:'この仕事',en:'this job'},
+    ]
+  },
+];
+// Flat list for lookup
+const SUKI_TOPICS=SUKI_TOPIC_CATS.flatMap(c=>c.topics);
+const SUKI_VERBS=[
+  {id:'suki',ro:'suki desu',jp:'が好きです。',en:'I like it',positive:true},
+  {id:'suki-nai',ro:'suki ja nai desu',jp:'が好きじゃないです。',en:"I don't like it",positive:false},
+];
+let sukiTopic=null, sukiVerb=null;
+
+function sukiOpen(){
+  document.getElementById('suki-builder-btn').style.display='none';
+  document.getElementById('suki-builder-body').style.display='block';
+  sukiRenderChips();
+}
+function sukiRenderChips(){
+  const tc=document.getElementById('suki-topic-chips');
+  const vc=document.getElementById('suki-verb-chips');
+  tc.innerHTML=SUKI_TOPIC_CATS.map(cat=>`
+    <div style="width:100%;margin-bottom:12px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);">${cat.label}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${cat.topics.map(t=>`<button class="suki-chip" onclick="sukiPickTopic('${t.id}')" id="suki-t-${t.id}">${t.ro}<br><span style="font-size:10px;color:var(--text-3);">${t.en}</span></button>`).join('')}
+      </div>
+    </div>`).join('');
+  // verb buttons are inline in the sentence row — no chip row needed
+}
+function sukiPickTopic(id){
+  sukiTopic=SUKI_TOPICS.find(t=>t.id===id);
+  document.querySelectorAll('[id^="suki-t-"]').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('suki-t-'+id).classList.add('selected');
+  const slot=document.getElementById('suki-topic-slot');
+  slot.textContent=sukiTopic.ro;
+  slot.className='suki-slot topic-filled';
+  sukiUpdate();
+}
+function sukiPickVerb(id){
+  sukiVerb=SUKI_VERBS.find(v=>v.id===id);
+  // highlight active toggle
+  const posBtn=document.getElementById('suki-verb-pos');
+  const negBtn=document.getElementById('suki-verb-neg');
+  if(id==='suki'){
+    posBtn.style.background='var(--green-bg)';posBtn.style.color='var(--green)';posBtn.style.borderColor='var(--green-border)';
+    negBtn.style.background='var(--surface)';negBtn.style.color='var(--text-2)';negBtn.style.borderColor='var(--warn-border)';
+  } else {
+    negBtn.style.background='var(--warn-bg)';negBtn.style.color='var(--warn)';negBtn.style.borderColor='var(--warn-border)';
+    posBtn.style.background='var(--surface)';posBtn.style.color='var(--text-2)';posBtn.style.borderColor='var(--green-border)';
+  }
+  sukiUpdate();
+}
+function sukiUpdate(){
+  if(!sukiTopic||!sukiVerb)return;
+  const jp=sukiTopic.jp+sukiVerb.jp;
+  const ro=sukiTopic.ro+' ga '+sukiVerb.ro;
+  const box=document.getElementById('suki-result-box');
+  box.className='suki-result natural show';
+  box.innerHTML=`
+    <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--correct);margin-bottom:6px;">✅ Natural</div>
+    <div style="font-family:var(--font-jp);font-size:14px;color:var(--text-2);margin-bottom:4px;">${jp}</div>
+    <div style="font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px;">${ro}</div>
+    <div style="font-size:12px;color:var(--text-3);">I ${sukiVerb.positive?'like':'don\'t like'} ${sukiTopic.en}.</div>
+  `;
+  window._sukiJp=jp;
+  document.getElementById('suki-speak-btn').style.display='inline-flex';
+}
+function sukiSpeak(){if(window._sukiJp)speak(window._sukiJp);}
+function sukiReset(){
+  sukiTopic=null;sukiVerb=null;
+  document.querySelectorAll('.suki-chip').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('suki-topic-slot').textContent='[ pick a topic below ]';
+  document.getElementById('suki-topic-slot').className='suki-slot';
+  const posBtn=document.getElementById('suki-verb-pos');
+  const negBtn=document.getElementById('suki-verb-neg');
+  if(posBtn){posBtn.style.background='var(--surface)';posBtn.style.color='var(--text-2)';posBtn.style.borderColor='var(--green-border)';}
+  if(negBtn){negBtn.style.background='var(--surface)';negBtn.style.color='var(--text-2)';negBtn.style.borderColor='var(--warn-border)';}
+  document.getElementById('suki-result-box').className='suki-result';
+  document.getElementById('suki-result-box').innerHTML='';
+  document.getElementById('suki-speak-btn').style.display='none';
+  window._sukiJp=null;
+}
+</script>
+<div style="max-width:860px;margin:0 auto;padding:32px 48px 64px;display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--border);">
+  <a href="index.html" class="btn btn-secondary" style="text-decoration:none;">← Index</a>
+  <a href="denso-s7-phase1.html" class="btn btn-secondary" style="text-decoration:none;">← Phase 1</a>
+  <a href="denso-s7-phase3.html" class="btn btn-primary" style="text-decoration:none;">Phase 3 →</a>
+</div>
+</body>
+</html>

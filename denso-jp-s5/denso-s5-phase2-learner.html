@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Session 5 — Phase 2: Field Briefing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — LMS / WCAG AA
+═══════════════════════════════════════════ */
+:root{
+  /* Brand */
+  --red:#C8102E; --red-dark:#A00D24; --red-bg:#FFF5F6;
+  /* Neutrals */
+  --bg:#F4F6F8; --surface:#FFFFFF; --surface-2:#F0F2F5;
+  --border:#DDE1E8; --border-strong:#BCC3CE;
+  --text:#1A1D23; --text-2:#4A5260; --text-3:#6B7585;
+  --white:#FFFFFF;
+  /* Accents — WCAG AA on white */
+  --gold:#8A6A00; --gold-bg:#FFF8E6; --gold-border:#E8C96A;
+  --green:#1A6E3A; --green-bg:#EDF7F1; --green-border:#7DC4A0;
+  --blue:#1558A6; --blue-bg:#EEF4FC; --blue-border:#92BAE8;
+  --purple:#5B3E9E; --purple-bg:#F3EFFE; --purple-border:#B9A3E8;
+  --teal:#0E7A6A; --teal-bg:#E8F7F5; --teal-border:#7DD4C8;
+  --warn:#B22020; --warn-bg:#FDF0F0; --warn-border:#E8A0A0;
+  /* Semantic */
+  --correct:#1A6E3A; --correct-bg:#EDF7F1; --correct-border:#7DC4A0;
+  --wrong:#B22020; --wrong-bg:#FDF0F0; --wrong-border:#E8A0A0;
+  /* Focus ring */
+  --focus: 0 0 0 3px rgba(200,16,46,0.35);
+}
+
+/* ═══ RESET & BASE ═══ */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;display:flex;flex-direction:column;}
+
+/* ═══ FOCUS STYLES — WCAG 2.4.11 ═══ */
+:focus-visible{outline:none;box-shadow:var(--focus);}
+button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+
+/* ═══ SCREENS ═══ */
+.screen{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.screen.active{display:flex;animation:fadeIn 0.25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+.scroll-body{flex:1;overflow-y:auto;padding:32px 48px 64px;max-width:900px;width:100%;margin:0 auto;}
+.scroll-body::-webkit-scrollbar{width:6px;}
+.scroll-body::-webkit-scrollbar-track{background:var(--surface-2);}
+.scroll-body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px;}
+
+/* ═══ COURSE HEADER (persistent topbar) ═══ */
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:0 32px;display:flex;align-items:stretch;justify-content:space-between;flex-shrink:0;min-height:56px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.topbar-left{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:10px 0;}
+.tb-org{font-size:10px;font-weight:600;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;}
+.tb-course{font-size:14px;font-weight:700;color:var(--text);letter-spacing:0.2px;}
+.tb-right{display:flex;align-items:center;gap:16px;}
+.phase-pill{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1.5px solid;font-weight:600;}
+.phase-pill.p1{border-color:var(--gold-border);color:var(--gold);background:var(--gold-bg);}
+.phase-pill.p2{border-color:var(--purple-border);color:var(--purple);background:var(--purple-bg);}
+.phase-pill.p3{border-color:var(--green-border);color:var(--green);background:var(--green-bg);}
+.timer-box{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--text);background:var(--surface-2);border:1px solid var(--border);padding:5px 13px;border-radius:4px;min-width:68px;text-align:center;}
+.timer-box.urgent{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-border);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.timer-box.urgent{animation:pulse 1s infinite;}
+
+/* ═══ PROGRESS BAR ═══ */
+.course-progress{height:4px;background:var(--border);flex-shrink:0;}
+.course-progress-fill{height:100%;background:var(--red);transition:width 0.5s ease;border-radius:0 2px 2px 0;}
+
+/* ═══ BUTTONS ═══ */
+.btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.3px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;padding:11px 24px;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px;}
+.btn-primary{background:var(--red);color:var(--white);}
+.btn-primary:hover{background:var(--red-dark);}
+.btn-secondary{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border);}
+.btn-secondary:hover{border-color:var(--border-strong);color:var(--text);}
+.btn-success{background:var(--green);color:var(--white);}
+.btn-success:hover{filter:brightness(0.92);}
+.btn-accent{background:var(--purple);color:var(--white);}
+.btn-accent:hover{filter:brightness(0.92);}
+.btn-gold{background:var(--gold);color:var(--white);}
+.btn-gold:hover{filter:brightness(0.92);}
+.speak-btn{background:none;border:1.5px solid var(--border);border-radius:4px;color:var(--text-3);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:5px 11px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;}
+.speak-btn:hover{border-color:var(--teal-border);color:var(--teal);background:var(--teal-bg);}
+
+/* ═══ TYPOGRAPHY ═══ */
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;}
+.page-title{font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px;}
+.page-subtitle{font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:28px;max-width:640px;}
+.section-heading{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--text-2);text-transform:uppercase;margin:32px 0 14px;display:flex;align-items:center;gap:12px;}
+.section-heading::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ═══ CALLOUT BOXES ═══ */
+.callout{border-radius:6px;padding:16px 20px;margin:16px 0 24px;border:1px solid;}
+.callout-label{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;}
+.callout-text{font-size:13px;line-height:1.75;}
+.callout-text strong{font-weight:600;}
+.callout.purple{background:var(--purple-bg);border-color:var(--purple-border);border-left:3px solid var(--purple);}
+.callout.purple .callout-label{color:var(--purple);}
+.callout.gold{background:var(--gold-bg);border-color:var(--gold-border);border-left:3px solid var(--gold);}
+.callout.gold .callout-label{color:var(--gold);}
+.callout.warn{background:var(--warn-bg);border-color:var(--warn-border);border-left:3px solid var(--warn);}
+.callout.warn .callout-label{color:var(--warn);}
+.callout.teal{background:var(--teal-bg);border-color:var(--teal-border);border-left:3px solid var(--teal);}
+.callout.teal .callout-label{color:var(--teal);}
+.callout.blue{background:var(--blue-bg);border-color:var(--blue-border);border-left:3px solid var(--blue);}
+.callout.blue .callout-label{color:var(--blue);}
+
+/* ═══ PHRASE TABLES ═══ */
+.phrase-table{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:13px;}
+.phrase-table th{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:9px 14px;text-align:left;border-bottom:2px solid var(--border);background:var(--surface-2);}
+.phrase-table td{padding:13px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.phrase-table tr:last-child td{border-bottom:none;}
+.phrase-table tr:hover td{background:var(--surface-2);}
+.td-jp{font-size:12px;font-weight:400;color:var(--text-3);margin-top:3px;}
+.td-romaji{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--text);}
+.td-phonetic{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);margin-top:3px;}
+.td-context{font-size:13px;color:var(--text-2);line-height:1.6;}
+.td-note{font-size:11px;color:var(--text-3);margin-top:4px;font-style:italic;}
+.td-reg{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.5px;padding:2px 8px;border-radius:10px;margin-top:5px;border:1px solid;}
+.reg-use{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border);}
+.reg-formal{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-border);}
+.reg-casual{background:var(--surface-2);color:var(--text-3);border-color:var(--border);}
+.reg-receive{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-border);}
+.reg-response{background:var(--green-bg);color:var(--green);border-color:var(--green-border);}
+.reg-standard{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border);}
+.reg-milestone{background:var(--green-bg);color:var(--green);border-color:var(--green-border);}
+
+/* ═══ BACK-CHAIN DRILL ═══ */
+.backchain-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px 32px;margin-bottom:28px;max-width:640px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.bc-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase;margin-bottom:20px;}
+.bc-steps{display:flex;flex-direction:column;gap:0;}
+.bc-step{display:flex;align-items:stretch;gap:0;position:relative;}
+.bc-step-line{width:2px;background:var(--border);margin:0 18px;flex-shrink:0;position:relative;}
+.bc-step:last-child .bc-step-line{background:linear-gradient(to bottom,var(--border),transparent);}
+.bc-step-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--teal);background:var(--white);position:absolute;top:12px;left:-4px;transition:background 0.2s;}
+.bc-step.done .bc-step-dot{background:var(--teal);}
+.bc-step-body{padding:8px 0 20px;flex:1;}
+.bc-step-num{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:4px;}
+.bc-phrase{font-size:13px;font-weight:400;color:rgba(106,117,133,0.6);margin-bottom:3px;line-height:1.4;}
+.bc-roman{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.bc-phonetic{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:8px;}
+.bc-step-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bc-say-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--teal-border);border-radius:4px;color:var(--teal);background:none;padding:6px 14px;cursor:pointer;transition:all 0.15s;}
+.bc-say-btn:hover{background:var(--teal-bg);}
+.bc-say-btn.spoken{background:var(--teal-bg);}
+.bc-repeat-btn{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:none;border-radius:4px;color:var(--white);background:var(--teal);padding:6px 14px;cursor:pointer;transition:all 0.15s;}
+.bc-repeat-btn:hover{filter:brightness(0.9);}
+.bc-tick{font-size:13px;color:var(--teal);display:none;}
+.bc-step.done .bc-tick{display:inline;}
+.bc-progress-row{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.bc-prog-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.bc-prog-fill{height:100%;background:var(--teal);border-radius:2px;transition:width 0.4s ease;}
+.bc-prog-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-3);}
+
+/* ═══ DESU PATTERN ═══ */
+.desu-hero{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px 32px;margin-bottom:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.desu-equation{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0;}
+.desu-block{background:var(--surface-2);border-radius:6px;padding:12px 18px;text-align:center;border:1.5px solid var(--border);}
+.desu-block.topic{border-color:var(--blue-border);background:var(--blue-bg);}
+.desu-block.comment{border-color:var(--gold-border);background:var(--gold-bg);}
+.desu-block.copula{border-color:var(--teal-border);background:var(--teal-bg);}
+.desu-jp{font-size:12px;font-weight:400;color:var(--text-3);margin-bottom:2px;}
+.desu-roman{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:700;}
+.desu-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--text-3);text-transform:uppercase;margin-top:4px;}
+.desu-op{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--text-3);}
+.desu-arrow{font-size:18px;color:var(--text-3);}
+
+/* ═══ SENTENCE CARDS ═══ */
+.sentence-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.sent-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:all 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.sent-card:hover{border-color:var(--gold-border);background:var(--gold-bg);}
+.sent-card-inner{flex:1;}
+.sent-jp{font-size:12px;font-weight:400;color:var(--text-3);margin-top:3px;}
+.sent-roman{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--text);}
+.sent-phonetic{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);margin-top:2px;}
+.sent-parts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.sent-part{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;border-radius:3px;border:1px solid;}
+.part-wa{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border);}
+.part-y{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-border);}
+.part-desu{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-border);}
+.part-ka{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-border);}
+
+/* ═══ SENTENCE BUILDER ═══ */
+.unlock-builder{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px 28px;margin-bottom:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.ub-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}
+.ub-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+.ub-slot{background:var(--surface-2);border:1.5px dashed var(--border-strong);border-radius:6px;padding:10px 16px;font-size:14px;min-width:120px;text-align:center;color:var(--text-3);transition:all 0.2s;}
+.ub-slot.filled{border-color:var(--gold-border);color:var(--text);border-style:solid;background:var(--gold-bg);}
+.ub-plus{font-family:'IBM Plex Mono',monospace;font-size:16px;color:var(--text-3);}
+.ub-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.ub-chip{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;background:var(--surface-2);border-radius:6px;padding:8px 12px;cursor:pointer;transition:all 0.15s;border:1.5px solid var(--border);font-family:'IBM Plex Mono',monospace;margin:3px;}
+.ub-chip:hover{border-color:var(--gold-border);background:var(--gold-bg);}
+.ub-chip.used{border-color:var(--teal);background:var(--teal-dim);opacity:0.6;}
+.chip-roman{font-size:13px;font-weight:600;color:var(--text);}
+.chip-jp-sub{font-size:10px;color:var(--text-3);font-family:'Noto Sans JP',sans-serif;opacity:0.75;}
+.chip-en{font-size:10px;color:var(--text-2);letter-spacing:0.3px;}
+.chip-badge{font-size:9px;background:var(--gold);color:#fff;border-radius:3px;padding:1px 4px;letter-spacing:1px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;}
+.slot-jp-sub{display:block;font-size:10px;font-weight:400;color:var(--text-3);font-family:'Noto Sans JP',sans-serif;opacity:0.7;margin-top:2px;}
+.ub-reset{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border:1.5px solid var(--border);border-radius:4px;color:var(--text-3);background:none;padding:6px 14px;cursor:pointer;transition:all 0.15s;}
+.ub-reset:hover{border-color:var(--border-strong);color:var(--text);}
+
+/* ═══ RECOVERY SEQUENCE ═══ */
+.recovery-flow{display:flex;flex-direction:column;gap:0;max-width:600px;margin-bottom:24px;}
+.rf-step{display:flex;gap:16px;align-items:flex-start;}
+.rf-num{width:32px;height:32px;border-radius:50%;background:var(--red);color:var(--white);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px;}
+.rf-connector{width:32px;display:flex;justify-content:center;flex-shrink:0;}
+.rf-line{width:2px;height:24px;background:var(--border);}
+.rf-body{padding-bottom:8px;flex:1;}
+.rf-role{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:5px;}
+.rf-roman{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.rf-phonetic{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:4px;}
+.rf-jp{font-size:12px;font-weight:400;color:var(--text-3);margin-bottom:6px;}
+.rf-en{font-size:13px;color:var(--text-2);background:var(--surface-2);border-radius:4px;padding:7px 11px;line-height:1.5;}
+.rf-note{font-size:11px;color:var(--text-3);margin-top:5px;font-style:italic;}
+.rf-speak{margin-top:7px;}
+
+/* ═══ BOW CARDS ═══ */
+.bow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px;}
+.bow-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.bow-icon{font-size:24px;margin-bottom:10px;}
+.bow-title{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;}
+.bow-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.bow-text strong{color:var(--text);font-weight:600;}
+
+/* ═══ FRAME BOX (alias for callout.purple) ═══ */
+.frame-box{background:var(--purple-bg);border:1px solid var(--purple-border);border-left:3px solid var(--purple);border-radius:6px;padding:18px 22px;margin-bottom:24px;}
+.frame-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--purple);text-transform:uppercase;margin-bottom:8px;}
+.frame-text{font-size:13px;color:var(--text-2);line-height:1.8;}
+.frame-text strong{color:var(--purple);font-weight:600;}
+.culture-note{background:var(--gold-bg);border:1px solid var(--gold-border);border-left:3px solid var(--gold);border-radius:6px;padding:16px 20px;margin:16px 0 24px;}
+.cn-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+.cn-text{font-size:13px;color:var(--text-2);line-height:1.78;}
+.cn-text strong{color:var(--gold);font-weight:600;}
+.warn-box{background:var(--warn-bg);border:1px solid var(--warn-border);border-left:3px solid var(--warn);border-radius:6px;padding:14px 18px;margin:14px 0;}
+.warn-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--warn);text-transform:uppercase;margin-bottom:6px;}
+.warn-text{font-size:13px;color:var(--text-2);line-height:1.72;}
+.div-heading{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--text-2);text-transform:uppercase;margin:28px 0 12px;display:flex;align-items:center;gap:12px;}
+.div-heading::after{content:'';flex:1;height:1px;background:var(--border);}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;}
+.section-title{font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px;}
+.section-sub{font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:28px;max-width:640px;}
+
+/* ═══ TAB NAV (Phase 2) ═══ */
+.tab-nav{display:flex;border-bottom:2px solid var(--border);flex-shrink:0;background:var(--surface);padding:0 48px;overflow-x:auto;box-shadow:0 1px 0 var(--border);}
+.tab-nav::-webkit-scrollbar{height:0;}
+.tnav-btn{font-size:12px;font-weight:600;letter-spacing:0.3px;padding:14px 18px;border:none;background:none;color:var(--text-3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:7px;}
+.tnav-btn:hover{color:var(--text);}
+.tnav-btn.active{color:var(--red);border-bottom-color:var(--red);}
+.tnav-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.55;}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeIn 0.2s ease;}
+
+/* ═══ PHASE 1 BLITZ ═══ */
+.recon-stats{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 18px;min-width:110px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.stat-num{font-size:34px;font-weight:800;color:var(--gold);line-height:1;}
+.stat-label{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;}
+.blitz-progress{width:100%;background:var(--border);border-radius:4px;height:5px;margin-bottom:6px;overflow:hidden;}
+.blitz-bar{height:100%;background:var(--gold);border-radius:4px;transition:width 0.35s;}
+.blitz-counter{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3);text-align:center;margin-bottom:20px;}
+.blitz-card{max-width:560px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:36px;text-align:center;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.blitz-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--red);}
+.blitz-category{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;margin-bottom:16px;}
+.blitz-japanese{font-size:38px;font-weight:900;color:rgba(106,117,133,0.3);line-height:1;margin-bottom:6px;}
+.blitz-romaji{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.blitz-phonetic{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold);margin-bottom:24px;}
+.blitz-choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px;}
+.blitz-choice{background:var(--surface-2);border:1.5px solid var(--border);border-radius:6px;padding:13px;cursor:pointer;font-size:13px;color:var(--text);transition:all 0.12s;text-align:center;font-weight:500;}
+.blitz-choice:hover:not(.locked){border-color:var(--gold-border);background:var(--gold-bg);}
+.blitz-choice.correct{border-color:var(--correct-border);background:var(--correct-bg);color:var(--correct);}
+.blitz-choice.wrong{border-color:var(--wrong-border);background:var(--wrong-bg);color:var(--wrong);}
+.blitz-choice.locked{cursor:default;}
+.blitz-feedback{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:10px 14px;border-radius:5px;margin-bottom:14px;display:none;line-height:1.5;text-align:left;border:1px solid;}
+.blitz-feedback.show{display:block;}
+.blitz-feedback.ok{background:var(--correct-bg);color:var(--correct);border-color:var(--correct-border);}
+.blitz-feedback.bad{background:var(--wrong-bg);color:var(--wrong);border-color:var(--wrong-border);}
+
+/* ═══ PHASE 3 FLOOR SIM ═══ */
+.sim-score-track{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 18px;display:flex;align-items:center;gap:12px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.sst-label{font-size:11px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;}
+.sst-val{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;color:var(--gold);line-height:1;margin-left:auto;}
+.scenario-counter{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3);text-align:center;margin-bottom:16px;}
+.scenario-header{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.scenario-icon{font-size:28px;flex-shrink:0;}
+.sc-meta{font-size:10px;font-weight:600;letter-spacing:2.5px;color:var(--text-3);text-transform:uppercase;margin-bottom:5px;}
+.sc-setup{font-size:14px;color:var(--text);line-height:1.65;}
+.dialogue-bubble{border-radius:8px;padding:14px 18px;margin-bottom:12px;max-width:85%;}
+.bubble-jp{background:var(--surface-2);border:1px solid var(--border);margin-right:auto;}
+.bubble-label{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:7px;}
+.bubble-romaji{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.bubble-phonetic{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:2px;}
+.bubble-jp-text{font-size:12px;color:var(--text-3);margin-top:2px;}
+.bubble-hint{font-size:12px;color:var(--text-3);margin-top:6px;font-style:italic;}
+.sim-prompt{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin:18px 0 10px;}
+.sim-choices{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.sim-choice{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:all 0.12s;box-shadow:0 1px 2px rgba(0,0,0,0.04);}
+.sim-choice:hover:not(.locked){border-color:var(--blue-border);background:var(--blue-bg);}
+.sim-choice.correct{border-color:var(--correct-border);background:var(--correct-bg);}
+.sim-choice.wrong{border-color:var(--wrong-border);background:var(--wrong-bg);}
+.sim-choice.locked{cursor:default;}
+.sc-opt-letter{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;padding:3px 7px;color:var(--text-3);flex-shrink:0;margin-top:2px;font-weight:600;}
+.sim-choice.correct .sc-opt-letter{background:var(--correct);color:var(--white);border-color:var(--correct);}
+.sim-choice.wrong .sc-opt-letter{background:var(--wrong);color:var(--white);border-color:var(--wrong);}
+.sc-opt-roman{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.sc-opt-jp{font-size:11px;color:var(--text-3);margin-bottom:2px;}
+.sc-opt-en{font-size:12px;color:var(--text-2);}
+.sim-feedback{border-radius:6px;padding:14px 18px;margin-bottom:14px;font-size:13px;line-height:1.65;display:none;border:1px solid;}
+.sim-feedback.show{display:block;}
+.sim-feedback.ok{background:var(--correct-bg);border-color:var(--correct-border);color:var(--correct);}
+.sim-feedback.bad{background:var(--wrong-bg);border-color:var(--wrong-border);color:var(--wrong);}
+
+/* ═══ RESULTS ═══ */
+#screen-results{overflow-y:auto;}
+.results-content{max-width:620px;margin:48px auto;padding:0 24px 64px;text-align:center;}
+.results-badge{width:72px;height:72px;border-radius:50%;background:var(--gold-bg);border:3px solid var(--gold-border);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;}
+.results-title{font-size:32px;font-weight:800;color:var(--text);margin-bottom:4px;letter-spacing:-0.5px;}
+.results-sub{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;}
+.score-cards{display:flex;gap:12px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
+.score-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 24px;text-align:center;min-width:140px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.sc-num{font-size:44px;font-weight:800;line-height:1;}
+.sc-lbl{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-top:4px;}
+.results-message{font-size:14px;color:var(--text-2);line-height:1.75;margin-bottom:24px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 22px;text-align:left;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.vocab-recap{text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:28px;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.vr-title{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;}
+.vr-list{display:flex;flex-wrap:wrap;gap:7px;}
+.vr-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;padding:4px 10px;color:var(--text-2);}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:640px){
+  .scroll-body{padding:20px 16px 48px;}
+  .tab-nav{padding:0 16px;}
+  .blitz-choices{grid-template-columns:1fr;}
+  .desu-equation{gap:8px;}
+}
+
+
+
+
+.block-section{margin-bottom:12px;border-radius:8px;overflow:hidden;border:1.5px solid var(--border);transition:border-color 0.3s,box-shadow 0.3s,opacity 0.3s;}
+.block-section.locked{opacity:0.52;pointer-events:none;}
+.block-section.active-block{border-color:var(--red);box-shadow:0 0 0 3px rgba(200,16,46,0.08);opacity:1;pointer-events:auto;}
+.block-section.unlocked{opacity:1;pointer-events:auto;}
+.block-header{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--surface);cursor:pointer;user-select:none;transition:background 0.15s;}
+.block-header:hover{background:var(--surface-2);}
+.block-section.locked .block-header{cursor:default;}
+.bh-status{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all 0.3s;}
+.block-section.unlocked .bh-status,.block-section.active-block .bh-status{background:var(--green);border-color:var(--green);color:white;}
+.block-section.locked .bh-status{background:var(--surface-2);color:var(--text-3);}
+.bh-label{flex:1;}
+.bh-num{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;}
+.bh-title{font-size:14px;font-weight:600;color:var(--text);}
+.block-section.locked .bh-title{color:var(--text-3);}
+.bh-badge{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:3px 10px;border-radius:10px;border:1px solid;}
+.badge-locked{background:var(--surface-2);border-color:var(--border);color:var(--text-3);}
+.badge-current{background:var(--red);border-color:var(--red);color:white;}
+.badge-done{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.bh-chevron{font-size:12px;color:var(--text-3);transition:transform 0.25s;flex-shrink:0;}
+.block-section.open .bh-chevron{transform:rotate(180deg);}
+.block-section.locked .bh-chevron{opacity:0;}
+.block-body{display:none;padding:8px 20px 28px;background:var(--surface);border-top:1px solid var(--border);}
+.block-section.open .block-body{display:block;animation:fadeIn 0.2s ease;}
+.unlock-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:white;font-size:13px;font-weight:600;padding:10px 22px;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,0.15);opacity:0;transition:all 0.35s;z-index:999;pointer-events:none;white-space:nowrap;}
+.unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.waiting-state{text-align:center;padding:56px 24px;}
+.waiting-icon{font-size:40px;margin-bottom:16px;animation:pulse-gentle 2s infinite;}
+@keyframes pulse-gentle{0%,100%{opacity:1;}50%{opacity:0.45;}}
+.waiting-text{font-size:15px;color:var(--text-2);line-height:1.7;}
+.waiting-sub{font-size:12px;color:var(--text-3);margin-top:8px;font-family:"IBM Plex Mono",monospace;}
+
+
+/* facilitator timer overlay */
+</style>
+</head>
+<body>
+
+<div class="screen active" style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC · Session 05</div>
+      <div class="tb-course">Phase 2 — Field Briefing</div>
+    </div>
+    <div class="tb-right">
+      <div class="phase-pill p2">📋 Briefing</div>
+      <div class="timer-box" id="p2-timer" style="display:none" aria-label="Time remaining">--:--</div>
+      <div id="conn-dot" title="Live connection status" style="width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.4s;" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="course-progress">
+    <div class="course-progress-fill" id="learner-progress" style="width:45%;transition:width 0.6s ease;"></div>
+  </div>
+
+  <div class="scroll-body" style="max-width:860px;">
+    <div id="waiting-state" class="waiting-state">
+      <div class="waiting-icon">📋</div>
+      <div class="waiting-text">Your facilitator is about to begin Phase 2.<br>Blocks will appear here as they are unlocked.</div>
+      <div class="waiting-sub" style="margin-top:16px;">● connecting to session…</div>
+    </div>
+
+    <div id="accordion" style="display:none;">
+      
+<div class="block-section locked" id="section-why" data-block="why">
+  <div class="block-header" onclick="toggleBlock('why')">
+    <div class="bh-status" id="status-why">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Intro · 3–4 min</div>
+      <div class="bh-title">🧭 Why This Matters</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-why">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-why">
+    <div class="section-eyebrow">Unit 1 — Acknowledgment Rituals</div>
+      <div class="section-title">Why This Matters</div>
+      <div class="section-sub">Before a single new phrase — here's the frame that makes everything else land.</div>
+
+      <div class="frame-box">
+        <div class="frame-label">The Core Idea</div>
+        <div class="frame-text">Japanese workplace culture has phrases that function like <strong>social glue</strong> — they aren't about exchanging information. They're about acknowledging each other as people who are working hard together.<br><br>English doesn't have clean equivalents. That's why these feel awkward to translate but feel <em>completely natural</em> in use. The goal this session isn't memorization — it's understanding <strong>when</strong> they're called for and <strong>why</strong> they matter.</div>
+      </div>
+
+      <div class="div-heading">Before You Start — Watch This</div>
+      <div class="culture-note" style="margin-bottom:24px;">
+        <div class="cn-label">Cultural Context · ~1 min</div>
+        <div class="cn-text" style="margin-bottom:16px;">A Japanese-American artist explains the feeling behind the rituals you're about to learn — including words you already know. This is the <strong>why</strong> underneath the phrases.</div>
+        <div style="display:flex;justify-content:center;">
+          <video width="482" height="857" controls>
+            <source src="./media/movie.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+      <div class="div-heading">What you'll cover today</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:32px;">
+        <div style="background:var(--steel);border-radius:6px;padding:16px;border:1px solid rgba(255,255,255,0.05);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Block A</div>
+          <div style="font-size:13px;color:var(--offwhite);line-height:1.6;">Otsukaresama and Yoroshiku — deepened. You've been using them. Now understand them fully.</div>
+        </div>
+        <div style="background:var(--steel);border-radius:6px;padding:16px;border:1px solid rgba(255,255,255,0.05);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:8px;">Block B</div>
+          <div style="font-size:13px;color:var(--offwhite);line-height:1.6;">Three new phrases: leaving first, project wrap-up, and receiving praise from a manager.</div>
+        </div>
+        <div style="background:var(--steel);border-radius:6px;padding:16px;border:1px solid rgba(255,255,255,0.05);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--teal);text-transform:uppercase;margin-bottom:8px;">Block C</div>
+          <div style="font-size:13px;color:var(--offwhite);line-height:1.6;">X は Y です — the grammar pattern hiding inside phrases you already know.</div>
+        </div>
+        <div style="background:var(--steel);border-radius:6px;padding:16px;border:1px solid rgba(255,255,255,0.05);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:8px;">Block D</div>
+          <div style="font-size:13px;color:var(--offwhite);line-height:1.6;">もう一度言ってもらえますか？ — the single most useful phrase a beginner can have after greetings.</div>
+        </div>
+        <div style="background:var(--steel);border-radius:6px;padding:16px;border:1px solid rgba(255,255,255,0.05);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--silver);text-transform:uppercase;margin-bottom:8px;">Block E</div>
+          <div style="font-size:13px;color:var(--offwhite);line-height:1.6;">The bow — the non-verbal layer that makes every phrase in this unit land properly.</div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="block-section locked" id="section-blockA" data-block="blockA">
+  <div class="block-header" onclick="toggleBlock('blockA')">
+    <div class="bh-status" id="status-blockA">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block A · 6–7 min</div>
+      <div class="bh-title">📖 Block A — Deepen</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-blockA">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-blockA">
+    <div class="section-eyebrow">Block A — Reinforce & Deepen</div>
+      <div class="section-title">Phrases You Already Know</div>
+      <div class="section-sub">You've been using these since Session 1. Now you'll understand the full picture.</div>
+
+      <div class="div-heading">お疲れ様 — Otsukaresama</div>
+      <table class="phrase-table">
+        <thead><tr><th>Romaji / Phonetic</th><th>Japanese</th><th>When</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="td-jp">お疲れ様です</div><span class="td-reg reg-use">use this</span></td>
+            <td><div class="td-romaji">Otsukaresama desu</div><div class="td-phonetic">oht-tsoo-kah-reh-sah-mah des</div></td>
+            <td class="td-en">Mid-shift — colleague is still working. Present-tense feel: "you're working hard right now."</td>
+            <td><button class="speak-btn" onclick="speak('お疲れ様です')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">お疲れ様でした</div><span class="td-reg reg-use">use this</span></td>
+            <td><div class="td-romaji">Otsukaresama deshita</div><div class="td-phonetic">oht-tsoo-kah-reh-sah-mah desh-tah</div></td>
+            <td class="td-en">End of shift or after something is completed. Past-tense feel: "you worked hard and it's done."</td>
+            <td><button class="speak-btn" onclick="speak('お疲れ様でした')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">お疲れ</div><span class="td-reg reg-casual">recognize only</span></td>
+            <td><div class="td-romaji">Otsukare</div><div class="td-phonetic">oht-tsoo-kah-reh</div></td>
+            <td class="td-en">Casual short form — heard among colleagues who are comfortable together. <span style="color:var(--green)">Hearing it is a milestone.</span> Don't lead with it yet.</td>
+            <td><button class="speak-btn" onclick="speak('お疲れ')">🔊</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="culture-note">
+        <div class="cn-label">💡 New This Session</div>
+        <div class="cn-text">You've been using otsukaresama as a greeting. Add this layer: it's also a <strong>closer</strong>. You can end a brief interaction with it — wrapping up a short conversation, stepping away from a workstation, finishing a handoff. Think of it as <em>"good work on that"</em> as well as <em>"good work today."</em></div>
+      </div>
+
+      <div class="div-heading">よろしく — Yoroshiku</div>
+      <table class="phrase-table">
+        <thead><tr><th>Phrase</th><th>Romaji / Phonetic</th><th>Register / Context</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="td-jp">よろしくお願いします</div><span class="td-reg reg-use">always safe</span></td>
+            <td><div class="td-romaji">Yoroshiku onegaishimasu</div><div class="td-phonetic">yoh-roh-shee-koo oh-neh-guy-mas</div></td>
+            <td class="td-en">Standard polite. Use this in all workplace situations — introductions, handoffs, requests.</td>
+            <td><button class="speak-btn" onclick="speak('よろしくお願いします')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">よろしくお願いいたします</div><span class="td-reg reg-formal">very formal</span></td>
+            <td><div class="td-romaji">Yoroshiku onegai itashimasu</div><div class="td-phonetic">yoh-roh-shee-koo oh-neh-guy ee-tah-shee-mas</div></td>
+            <td class="td-en">More formal — use in meetings, first encounters with senior staff, or written notes.</td>
+            <td><button class="speak-btn" onclick="speak('よろしくお願いいたします')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">よろしく</div><span class="td-reg reg-casual">recognize only</span></td>
+            <td><div class="td-romaji">Yoroshiku</div><div class="td-phonetic">yoh-roh-shee-koo</div></td>
+            <td class="td-en">Casual short form. You'll hear this as colleagues get comfortable with you. Don't lead with it yet.</td>
+            <td><button class="speak-btn" onclick="speak('よろしく')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">こちらこそよろしくお願いします</div><span class="td-reg reg-response">response</span></td>
+            <td><div class="td-romaji">Kochira koso yoroshiku onegaishimasu</div><div class="td-phonetic">koh-chee-rah koh-soh yoh-roh-shee-koo</div></td>
+            <td class="td-en">"Likewise / same to you." The gracious full response when someone says yoroshiku to you.</td>
+            <td><button class="speak-btn" onclick="speak('こちらこそよろしくお願いします')">🔊</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="culture-note">
+        <div class="cn-label">💡 New This Session</div>
+        <div class="cn-text">In your self-intro you used yoroshiku as a sign-off. Now add this layer: it's also a <strong>handoff phrase</strong> — when passing work to someone, asking a favor, or wrapping up an agreement. The closer translation: <em>"I'm counting on you / please take good care of this."</em> "Nice to meet you" only scratches the surface.</div>
+      </div>
+  </div>
+</div>
+<div class="block-section locked" id="section-blockB" data-block="blockB">
+  <div class="block-header" onclick="toggleBlock('blockB')">
+    <div class="bh-status" id="status-blockB">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block B · 8–10 min</div>
+      <div class="bh-title">✨ Block B — New Phrases</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-blockB">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-blockB">
+    <div class="section-eyebrow">Block B — New Phrases</div>
+      <div class="section-title">Three New Phrases</div>
+      <div class="section-sub">Each one covers a specific moment that doesn't have a natural English equivalent.</div>
+
+      <table class="phrase-table">
+        <thead><tr><th>Phrase</th><th>Romaji / Phonetic</th><th>When to use</th><th>Likely response</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="td-jp">お先に失礼します</div><span class="td-reg reg-use">use this</span></td>
+            <td><div class="td-romaji">Osaki ni shitsurei shimasu</div><div class="td-phonetic">oh-sah-kee nee shee-tsoo-reh shee-mas</div></td>
+            <td class="td-en">Leaving before your colleagues. Acknowledges you're going ahead while they're still working.</td>
+            <td><div class="td-note">お疲れ様でした<br><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-2);">Otsukaresama deshita</span><br><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-3);">oht-tsoo-kah-reh-sah-mah desh-tah</span></div></td>
+            <td><button class="speak-btn" onclick="speak('お先に失礼します')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">お世話になりました</div><span class="td-reg reg-use">use this</span></td>
+            <td><div class="td-romaji">Osewa ni narimashita</div><div class="td-phonetic">oh-seh-wah nee nah-ree-mash-tah</div></td>
+            <td class="td-en">Wrapping up a project, someone's last day, or end of a rotation. "You looked after me / we had a good run."</td>
+            <td><div class="td-note">こちらこそ / またよろしく<br><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-2);">Kochira koso / Mata yoroshiku</span><br><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-3);">koh-chee-rah koh-soh / mah-tah yoh-roh-shee-koo</span></div></td>
+            <td><button class="speak-btn" onclick="speak('お世話になりました')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">ご苦労様です</div><span class="td-reg reg-receive">receive only</span></td>
+            <td><div class="td-romaji">Gokurousama desu</div><div class="td-phonetic">go-koo-roh-sah-mah des</div></td>
+            <td class="td-en">Said by managers to workers — warm, appreciative. A faux pas if said upward.</td>
+            <td><div class="td-note">nod — no verbal response needed</div></td>
+            <td><button class="speak-btn" onclick="speak('ご苦労様です')">🔊</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="culture-note">
+        <div class="cn-label">🏭 On お先に失礼します</div>
+        <div class="cn-text">Leaving before colleagues in Japanese workplace culture carries mild social weight — you're aware you're going first. This phrase says <strong>"excuse me for heading out before you."</strong> It's considerate rather than apologetic, but it matters. Grabbing your bag and leaving without a word can accidentally signal indifference. This phrase costs nothing and lands well every time.</div>
+      </div>
+      <div class="warn-box">
+        <div class="warn-label">⚠️ Hierarchy — Gokurousama</div>
+        <div class="warn-text">This phrase flows <strong>downward only</strong> — manager to worker. If a supervisor says it to you, receive it with a nod. Do not say it back upward. Otsukaresama is the safe, direction-neutral phrase that works both ways.</div>
+      </div>
+
+      <!-- Back-chain: Osaki ni -->
+      <div class="div-heading">Back-Chain Drill — お先に失礼します</div>
+      <div class="frame-box" style="margin-bottom:16px;">
+        <div class="frame-label">Why back-chaining works</div>
+        <div class="frame-text">Long phrases are easier to learn from the <strong>end backwards</strong>. The ending gets the most repetitions, so it becomes the most natural part. You'll also notice that <em>shitsurei shimasu</em> is already in your vocabulary — this phrase is just <em>osaki ni</em> added to the front.</div>
+      </div>
+      <div class="backchain-wrap" id="bc-osaki">
+        <div class="bc-label">Drill — Build the phrase one chunk at a time</div>
+        <button onclick="initBackchain('bc-osaki')" style="margin-bottom:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--teal-border);background:var(--teal-bg);color:var(--teal);cursor:pointer;">▶ Start Drill</button>
+        <div class="bc-steps" id="bc-osaki-steps"></div>
+        <div class="bc-progress-row">
+          <div class="bc-prog-bar"><div class="bc-prog-fill" id="bc-osaki-fill" style="width:0%"></div></div>
+          <div class="bc-prog-label" id="bc-osaki-label">0 / 3</div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="block-section locked" id="section-desu" data-block="desu">
+  <div class="block-header" onclick="toggleBlock('desu')">
+    <div class="bh-status" id="status-desu">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block C · 7–8 min</div>
+      <div class="bh-title">🔧 Block C — X は Y です</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-desu">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-desu">
+    <div class="section-eyebrow">Block C — Grammar</div>
+      <div class="section-title">X は Y です</div>
+      <div class="section-sub">The pattern that's already inside everything you know — and that will build every sentence you learn from here.</div>
+
+      <div class="frame-box">
+        <div class="frame-label">The Big Idea</div>
+        <div class="frame-text"><strong>です (desu)</strong> does not mean "is." It's not a verb you translate.<br><br>Think of it this way: <strong>desu is a polite period.</strong> It signals two things at once — <em>this sentence is now complete</em>, and <em>I'm being polite about it</em>. English has no equivalent, which is why learners who try to translate it directly get confused.<br><br>Once you hear it as a sentence-ender rather than a word, the whole pattern opens up.</div>
+      </div>
+
+      <!-- Equation -->
+      <div class="desu-hero">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--teal);text-transform:uppercase;margin-bottom:16px;">The Pattern</div>
+        <div class="desu-equation">
+          <div class="desu-block topic">
+            <div class="desu-jp">X は</div>
+            <div class="desu-roman" style="color:var(--blue);">X wa</div>
+            <div class="desu-label">topic + wa</div>
+          </div>
+          <div class="desu-op">+</div>
+          <div class="desu-block comment">
+            <div class="desu-jp">Y</div>
+            <div class="desu-roman" style="color:var(--gold);">Y</div>
+            <div class="desu-label">what you say about it</div>
+          </div>
+          <div class="desu-op">+</div>
+          <div class="desu-block copula">
+            <div class="desu-jp">です</div>
+            <div class="desu-roman" style="color:var(--teal);">desu</div>
+            <div class="desu-label">polite period</div>
+          </div>
+          <div class="desu-arrow">→</div>
+          <div style="font-size:14px;color:var(--offwhite);padding:12px 0;">As for X — it is Y.</div>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--text-2);margin-top:14px;padding:10px 14px;background:var(--surface-2);border-radius:6px;border-left:3px solid var(--purple);">To make it a question: add か (ka) at the end → desu<span style="color:var(--purple)"> ka</span>？</div>
+      </div>
+
+      <!-- Unlock builder -->
+      <div class="div-heading">Sentence Builder — Try It Yourself</div>
+      <div class="culture-note" style="margin-bottom:16px;">
+        <div class="cn-label">How it works</div>
+        <div class="cn-text">Pick a topic chip, then a comment chip. Not every combination makes sense in real life — and that's part of the lesson. The builder will tell you whether your sentence is <strong style="color:var(--green)">natural</strong>, <strong style="color:var(--gold)">grammatically fine but odd</strong>, or <strong style="color:var(--warn)">doesn't work</strong>.<br><br>Also notice the two name chips: <strong>名前 (namae)</strong> is plain — used when talking about your own name or neutrally. <strong>お名前 (o-namae)</strong> adds the polite <em>o-</em> prefix — this form is only used when referring to someone <em>else's</em> name as a sign of respect toward the listener.</div>
+      </div>
+      <div class="unlock-builder">
+        <div class="ub-label">Build a sentence using X は Y です</div>
+        <div class="ub-row">
+          <div class="ub-slot" id="ub-topic">[ Topic wa ]</div>
+          <div class="ub-plus">+</div>
+          <div class="ub-slot" id="ub-comment">[ Y ]</div>
+          <div class="ub-plus">+</div>
+          <div style="background:var(--teal-dim);border:1px solid rgba(26,188,156,0.3);border-radius:6px;padding:10px 14px;font-size:14px;color:var(--teal);">です。</div>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--mid);text-transform:uppercase;margin-bottom:8px;">Topics</div>
+        <div class="ub-chips" id="ub-topic-chips"></div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--mid);text-transform:uppercase;margin-bottom:8px;">Comments (Y)</div>
+        <div class="ub-chips" id="ub-comment-chips"></div>
+        <div id="ub-result-box" style="display:none;margin-top:16px;border-radius:6px;padding:14px 18px;transition:all 0.2s;">
+          <div id="ub-verdict-row" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <span id="ub-verdict-icon" style="font-size:18px;"></span>
+            <span id="ub-verdict-label" style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;"></span>
+          </div>
+          <div id="ub-sentence" style="font-size:20px;font-weight:700;color:var(--white);margin-bottom:4px;"></div>
+          <div id="ub-sentence-roman" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:10px;"></div>
+          <div id="ub-verdict-note" style="font-size:12px;line-height:1.7;"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;">
+          <button class="ub-reset" onclick="resetBuilder()">↺ Reset</button>
+          <button class="speak-btn" id="ub-speak-btn" onclick="speakBuilder()" style="display:none">🔊 Hear it</button>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="block-section locked" id="section-mou" data-block="mou">
+  <div class="block-header" onclick="toggleBlock('mou')">
+    <div class="bh-status" id="status-mou">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block D · 6–7 min</div>
+      <div class="bh-title">🔄 Block D — もう一度</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-mou">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-mou">
+    <div class="section-eyebrow">Block D — New Word</div>
+      <div class="section-title">もう一度言ってもらえますか？</div>
+      <div class="section-sub">The single most useful phrase a beginner can have after greetings — and the key to avoiding nod-along miscommunication on the floor.</div>
+
+      <div class="frame-box">
+        <div class="frame-label">Why This Phrase Matters</div>
+        <div class="frame-text">When a Japanese colleague gives an instruction and you didn't catch it, the instinct is to nod along — because asking for a repeat feels awkward, like admitting failure. <strong>That nod-along is where real miscommunication happens.</strong><br><br>This phrase makes it safe and respectful to ask again. And notice: <em>onegaishimasu</em> is already in your vocabulary from yoroshiku onegaishimasu. The ending is the same — <em>onegai</em> means "a request / I'm asking you."</div>
+      </div>
+
+      <table class="phrase-table">
+        <thead><tr><th>Phrase</th><th>Romaji / Phonetic</th><th>Meaning</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="td-jp">もう一度言ってもらえますか？</div><span class="td-reg reg-use">use this</span></td>
+            <td><div class="td-romaji">Mou ichido itte moraemasu ka?</div><div class="td-phonetic">moh ee-chee-doh it-teh moh-reh-mas kah</div></td>
+            <td class="td-en">One more time, please. Polite and clear — use any time you didn't catch something.</td>
+            <td><button class="speak-btn" onclick="speak('もう一度言ってもらえますか？')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">すみません、もう一度言ってもらえますか？</div><span class="td-reg reg-use">softer version</span></td>
+            <td><div class="td-romaji">Sumimasen, mou ichido itte moraemasu ka?</div><div class="td-phonetic">soo-mee-mah-sen, moh ee-chee-doh it-teh moh-reh-mas kah</div></td>
+            <td class="td-en">Excuse me — one more time please. The sumimasen opener softens it, especially with senior colleagues.</td>
+            <td><button class="speak-btn" onclick="speak('すみません、もう一度言ってもらえますか？')">🔊</button></td>
+          </tr>
+          <tr>
+            <td><div class="td-jp">ゆっくり言ってもらえますか？</div><span class="td-reg reg-use">use this</span></td>
+            <td><div class="td-romaji">Yukkuri itte moraemasu ka?</div><div class="td-phonetic">yook-koo-ree it-teh moh-reh-mas kah</div></td>
+            <td class="td-en">Could you say that more slowly? Use when they repeat at full speed — pair with mou ichido when needed.</td>
+            <td><button class="speak-btn" onclick="speak('ゆっくり言ってもらえますか？')">🔊</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Back-chain: Mou ichido -->
+      <div class="div-heading">Back-Chain Drill — もう一度言ってもらえますか</div>
+      <div class="backchain-wrap" id="bc-mou">
+        <div class="bc-label">Drill — Build the phrase from the end</div>
+        <button onclick="initBackchain('bc-mou')" style="margin-bottom:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--teal-border);background:var(--teal-bg);color:var(--teal);cursor:pointer;">▶ Start Drill</button>
+        <div class="bc-steps" id="bc-mou-steps"></div>
+        <div class="bc-progress-row">
+          <div class="bc-prog-bar"><div class="bc-prog-fill" id="bc-mou-fill" style="width:0%"></div></div>
+          <div class="bc-prog-label" id="bc-mou-label">0 / 4</div>
+        </div>
+      </div>
+
+      <!-- Recovery sequence -->
+      <div class="div-heading">Recovery Sequence — When You Miss Something</div>
+      <div class="culture-note" style="margin-bottom:20px;">
+        <div class="cn-label">The situation</div>
+        <div class="cn-text">Someone gave instructions or introduced themselves and you didn't catch the key detail. Two phrases cover every case: <strong>Sumimasen, mou ichido itte moraemasu ka?</strong> (one more time) and <strong>Yukkuri itte moraemasu ka?</strong> (more slowly). Use mou ichido first — if they repeat at speed, follow with yukkuri.</div>
+      </div>
+      <div class="recovery-flow" id="recovery-flow"></div>
+  </div>
+</div>
+<div class="block-section locked" id="section-bow" data-block="bow">
+  <div class="block-header" onclick="toggleBlock('bow')">
+    <div class="bh-status" id="status-bow">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block E · 3–4 min</div>
+      <div class="bh-title">🙏 Block E — The Bow</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-bow">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-bow">
+    <div class="section-eyebrow">Block E — Non-Verbal</div>
+      <div class="section-title">The Bow</div>
+      <div class="section-sub">These phrases are almost always accompanied by a physical gesture. Knowing the words without the body language is like shaking someone's hand while looking at the floor.</div>
+
+      <div class="frame-box">
+        <div class="frame-label">Why Include This</div>
+        <div class="frame-text">You don't need to perform Japan. You need to <strong>not accidentally signal indifference.</strong> A small nod when you say otsukaresama, a slight bow when you say osaki ni, and a return nod when someone acknowledges you — that's it. These small gestures say "I see you, I respect this space."</div>
+      </div>
+
+      <div class="bow-grid">
+        <div class="bow-card">
+          <div class="bow-icon">🙂</div>
+          <div class="bow-title">What to do</div>
+          <div class="bow-text">A nod or shallow bow — just the head, <strong>10–15 degrees</strong> — with otsukaresama or osaki ni is completely natural on a manufacturing floor. The gesture and the phrase together land as genuine.</div>
+        </div>
+        <div class="bow-card">
+          <div class="bow-icon">↩️</div>
+          <div class="bow-title">Always return a bow</div>
+          <div class="bow-text">If someone bows or nods to you, return it. Standing straight and still when someone bows can read as <strong>cold or dismissive</strong>. A small nod back takes half a second and communicates respect.</div>
+        </div>
+        <div class="bow-card">
+          <div class="bow-icon">👁️</div>
+          <div class="bow-title">Eye contact</div>
+          <div class="bow-text">Brief eye contact with a nod is warm. <strong>Sustained direct eye contact can feel intense</strong> in a Japanese interaction. Think "acknowledge and soften" rather than "hold the gaze."</div>
+        </div>
+        <div class="bow-card">
+          <div class="bow-icon">🏭</div>
+          <div class="bow-title">Floor context</div>
+          <div class="bow-text">Deep formal bows aren't practical or expected on a production floor. A <strong>small head nod</strong> while saying the phrase is the norm. You're showing awareness and respect in a working context — not at a formal dinner.</div>
+        </div>
+      </div>
+  </div>
+</div>
+    </div>
+
+    <div id="continue-section" style="display:none;text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border);">
+      <p style="font-size:13px;color:var(--text-3);margin-bottom:16px;">All blocks complete. Move to Phase 3 when your facilitator gives the go-ahead.</p>
+      <a href="denso-s5-phase3.html" class="btn btn-success" style="text-decoration:none;font-size:14px;padding:13px 32px;display:inline-flex;">Continue to Phase 3 — Floor Sim →</a>
+    </div>
+  </div>
+</div>
+
+<div class="unlock-toast" id="unlock-toast"></div>
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+      authDomain: "denso-japanese.firebaseapp.com",
+      databaseURL: "https://denso-japanese-default-rtdb.firebaseio.com",
+      projectId: "denso-japanese",
+      storageBucket: "denso-japanese.firebasestorage.app",
+      messagingSenderId: "654718718217",
+      appId: "1:654718718217:web:ecec2672bd5069c0b443d8"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+    window._fbRef    = ref(db, "session5/phase2/unlockedBlocks");
+    window._fbSet    = (val) => set(window._fbRef, val);
+    window._fbOnValue= (cb) => onValue(window._fbRef, snap => cb(snap.val()));
+    window._fbReady  = true;
+    document.dispatchEvent(new Event("fbReady"));
+  </script>
+
+<script>
+function speak(text) {
+  const AUDIO_MAP = {
+    '止まれ':                                           'tomare',
+    'どけ':                                             'doke',
+    '危ない':                                           'abunai',
+    'だめ':                                             'dame',
+    '火事':                                             'kaji',
+    '助けて':                                           'tasukete',
+    'おはようございます':                               'ohayou-gozaimasu',
+    'おはようございます。':                             'ohayou-gozaimasu',
+    'おはようございます！':                             'ohayou-gozaimasu-exclaim',
+    'おはよう':                                         'ohayou',
+    'こんにちは':                                       'konnichiwa',
+    'こんばんは':                                       'konbanwa',
+    'さようなら':                                       'sayounara',
+    'さようなら。':                                     'sayounara',
+    'さようなら！':                                     'sayounara',
+    'じゃまた':                                         'ja-mata',
+    'じゃ、また':                                        'ja-mata',
+    'じゃ、また。':                                      'ja-mata',
+    'じゃ、また！':                                      'ja-mata',
+    'じゃまた。':                                       'ja-mata',
+    'じゃまた！':                                       'ja-mata',
+    'お疲れ様です':                                     'otsukaresama-desu',
+    'お疲れ様です。':                                   'otsukaresama-desu',
+    'お疲れ様でした':                                   'otsukaresama-deshita',
+    'お疲れ様でした。':                                 'otsukaresama-deshita',
+    'お疲れ様でした！':                                 'otsukaresama-deshita',
+    'お疲れ':                                           'otsukare',
+    'お疲れ！':                                         'otsukare-exclaim',
+    '(nod) お疲れ様です。':                             'otsukaresama-desu',
+    'お疲れ様でした。よろしくお願いします。':           'otsukaresama-deshita-yoroshiku-onegaishimasu',
+    'お先に失礼します':                                 'osaki-ni-shitsurei-shimasu',
+    'お先に失礼します。':                               'osaki-ni-shitsurei-shimasu',
+    '失礼します':                                       'shitsurei-shimasu',
+    'します':                                           'shimasu',
+    'ご苦労様です':                                     'gokurousama-desu',
+    'ご苦労様です。':                                   'gokurousama-desu',
+    'ご苦労様でした。':                                 'gokurousama-deshita',
+    'お世話になりました':                               'osewa-ni-narimashita',
+    'お世話になりました。':                             'osewa-ni-narimashita',
+    'はじめまして':                                     'hajimemashite',
+    'はじめまして。':                                   'hajimemashite',
+    'はじめまして。山田です。よろしくお願いします。':   'hajimemashite-yamada-desu-yoroshiku-onegaishimasu',
+    'よろしくお願いします':                             'yoroshiku-onegaishimasu',
+    'よろしくお願いします。':                           'yoroshiku-onegaishimasu',
+    'よろしくお願いいたします':                         'yoroshiku-onegaiitashimasu',
+    'よろしく':                                         'yoroshiku',
+    'よろしく！':                                       'yoroshiku',
+    'こちらこそよろしくお願いします':                   'kochira-koso-yoroshiku-onegaishimasu',
+    'こちらこそ、またよろしくお願いします。':           'kochira-koso-mata-yoroshiku-onegaishimasu',
+    'すみません':                                       'sumimasen',
+    'すみません、もう一度言ってもらえますか？':         'sumimasen-mou-ichido-itte-moraemasu-ka',
+    'すみません、お名前をもう一度言ってもらえますか？': 'sumimasen-onamae-wo-mou-ichido-itte-moraemasu-ka',
+    'もう一度言ってもらえますか？':                     'mou-ichido-itte-moraemasu-ka',
+    'もう一度言ってもらえますか？。':                   'mou-ichido-itte-moraemasu-ka',
+    'ゆっくり言ってもらえますか？':                     'yukkuri-itte-moraemasu-ka',
+    'もらえますか？':                                   'moraemasu-ka',
+    'か？':                                             'ka',
+    '言ってもらえますか？':                             'itte-moraemasu-ka',
+    'ありがとうございます。':                           'arigatou-gozaimasu',
+    'はい、わかりました。':                             'hai-wakarimashita',
+    'はい、いいです。':                                 'hai-ii-desu',
+    'いえ、いえ。':                                     'ie-ie',
+    'わかりました。':                                   'wakarimashita',
+    'わかりません。':                                   'wakarimasen',
+    'こんにちは。お疲れ様です。':                       'konnichiwa-otsukaresama-desu',
+    '...この手順でお願いします。いいですか？':          'kono-tejun-de-onegaishimasu-ii-desu-ka',
+    'わたしは田中です。':                               'watashi-tanaka',
+    'わたしは山田です。':                               'watashi-yamada',
+    'わたしはエンジニアです。':                         'watashi-enjinia',
+    'これはだめです。':                                 'kore-dame',
+    'これはなんです。':                                 'kore-nan',
+    '名前は田中です。':                                 'namae-tanaka',
+    '名前は山田です。':                                 'namae-yamada',
+    '名前はなんです。':                                 'namae-nan',
+    'お名前は田中です。':                               'onamae-tanaka',
+    'お名前は山田です。':                               'onamae-yamada',
+    'お名前はなんです。':                               'onamae-nan',
+    'お仕事はエンジニアです。':                         'oshigoto-enjinia',
+    'お仕事はなんです。':                               'oshigoto-nan',
+    '〜です':                                             'desu',
+    'です':                                               'desu',
+  };
+
+  // last-played tracker per phrase for no-repeat shuffle
+  if (!window._speakLast) window._speakLast = {};
+
+  const slug = AUDIO_MAP[text];
+  if (slug) {
+    // single file per phrase for now (3-voice shuffle ready when v2/v3 added)
+    const variants = [slug + '.wav'];
+    // when v2/v3 exist, swap to: [slug+'-v1.wav', slug+'-v2.wav', slug+'-v3.wav']
+    let pick;
+    if (variants.length === 1) {
+      pick = variants[0];
+    } else {
+      const last = window._speakLast[slug];
+      const pool = variants.filter(v => v !== last);
+      pick = pool[Math.floor(Math.random() * pool.length)];
+    }
+    window._speakLast[slug] = pick;
+    const audio = new Audio('./media/' + pick);
+    audio.play().catch(() => {
+      // fallback to Web Speech API if file fails
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ja-JP'; u.rate = 0.82;
+      window.speechSynthesis.speak(u);
+    });
+    return;
+  }
+
+  // fallback: no mapping found
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP'; u.rate = 0.82;
+  window.speechSynthesis.speak(u);
+}
+function startTimer(phase,secs,elId){
+  if(!window._timers)window._timers={};
+  clearInterval(window._timers[phase]);
+  let s=secs;
+  const el=document.getElementById(elId);
+  function tick(){s--;const m=Math.floor(s/60),sec=s%60;
+    el.textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+    if(s<=60)el.classList.add('urgent');else el.classList.remove('urgent');
+    if(s<=0)clearInterval(window._timers[phase]);}
+  window._timers[phase]=setInterval(tick,1000);
+}
+startTimer('p2',1800,'p2-timer');
+
+const BLOCK_ORDER = ['why', 'blockA', 'blockB', 'desu', 'mou', 'bow'];
+let currentUnlocked = [];
+let isFirstLoad = true;
+
+function applyState(unlockedBlocks){
+  if(!unlockedBlocks||unlockedBlocks.length===0){
+    isFirstLoad=false;
+    document.getElementById('waiting-state').querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';
+    return;
+  }
+  const newBlocks = unlockedBlocks.filter(b=>!currentUnlocked.includes(b));
+  const wasEmpty  = currentUnlocked.length===0;
+  currentUnlocked = [...unlockedBlocks];
+
+  document.getElementById('waiting-state').style.display='none';
+  document.getElementById('accordion').style.display='block';
+
+  BLOCK_ORDER.forEach(id=>{
+    const section=document.getElementById('section-'+id);
+    const badge  =document.getElementById('badge-'+id);
+    const status =document.getElementById('status-'+id);
+    const isUnlocked=unlockedBlocks.includes(id);
+    const isCurrent =id===unlockedBlocks[unlockedBlocks.length-1];
+    const isPast    =isUnlocked&&!isCurrent;
+
+    if(isUnlocked){
+      section.classList.remove('locked');
+      section.classList.toggle('active-block',isCurrent);
+      section.classList.toggle('unlocked',isPast);
+      status.textContent='✓';
+      badge.textContent =isCurrent?'Current':'Done';
+      badge.className   ='bh-badge '+(isCurrent?'badge-current':'badge-done');
+      if(isCurrent&&newBlocks.includes(id)){
+        openBlock(id);
+        setTimeout(()=>{document.getElementById('section-'+id).scrollIntoView({behavior:'smooth',block:'start'});},200);
+      } else if(isPast&&!wasEmpty&&newBlocks.length>0){
+        closeBlock(id);
+      }
+    } else {
+      section.className='block-section locked';
+      status.textContent='🔒';
+      badge.textContent='Waiting';
+      badge.className='bh-badge badge-locked';
+    }
+  });
+
+  // Progress bar: 45% at start, 90% when all unlocked
+  const pct=45+(unlockedBlocks.length/BLOCK_ORDER.length)*45;
+  document.getElementById('learner-progress').style.width=pct+'%';
+
+  if(unlockedBlocks.length===BLOCK_ORDER.length){
+    document.getElementById('continue-section').style.display='block';
+    document.getElementById('learner-progress').style.width='90%';
+  }
+
+  if(!wasEmpty&&newBlocks.length>0){
+    const labels=newBlocks.map(id=>{
+      const el=document.querySelector('#section-'+id+' .bh-title');
+      return el?el.textContent.trim():'';
+    }).filter(Boolean).join(', ');
+    showToast('🔓 Unlocked: '+labels);
+  }
+  isFirstLoad=false;
+}
+
+function openBlock(id){
+  const s=document.getElementById('section-'+id);
+  if(s.classList.contains('locked'))return;
+  s.classList.add('open');
+  // init back-chain drills when their block opens
+  if(id==='blockB') initBackchain('bc-osaki');
+  if(id==='mou')    initBackchain('bc-mou');
+  if(id==='desu')   renderBuilder();
+}
+function closeBlock(id){
+  document.getElementById('section-'+id).classList.remove('open');
+}
+function toggleBlock(id){
+  const s=document.getElementById('section-'+id);
+  if(s.classList.contains('locked'))return;
+  s.classList.toggle('open');
+}
+function showToast(msg){
+  const t=document.getElementById('unlock-toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3800);
+}
+
+document.addEventListener('fbReady',()=>{
+  document.getElementById('conn-dot').style.background='var(--green)';
+  document.querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||[]));
+});
+
+setTimeout(()=>{
+  if(!window._fbReady){
+    document.getElementById('conn-dot').style.background='var(--warn)';
+    document.getElementById('waiting-state').innerHTML=`
+      <div class="waiting-icon">⚠️</div>
+      <div class="waiting-text" style="color:var(--warn)">Could not connect to the session.</div>
+      <div class="waiting-sub">Check your internet connection and reload the page.</div>`;
+  }
+},9000);
+
+// ══ SENTENCE BUILDER ══
+// topic key, comment key → { verdict: 'natural'|'odd'|'broken', note }
+// Keys: topic ids × comment ids
+const VERDICTS = {
+  // わたしは (watashi)
+  'watashi:tanaka':  { v:'natural',  note:'This is exactly the pattern from your self-intro. わたしは田中です — I\'m Tanaka. Natural and complete.' },
+  'watashi:yamada':  { v:'natural',  note:'Same pattern, different name. わたしは山田です — works perfectly.' },
+  'watashi:enjinia': { v:'natural',  note:'わたしはエンジニアです — I\'m an engineer. This is exactly the second line of your self-intro.' },
+  'watashi:dame':    { v:'odd',      note:'Grammatically the structure is fine, but "As for me — not okay" would be very strange to say. Dame desu on its own (without a topic) is the natural form.' },
+  'watashi:nan':     { v:'broken',   note:'わたしはなんですか would mean "What am I?" — grammatically possible but deeply odd. This isn\'t a useful combination for your current goals.' },
+  'watashi:onamae':  { v:'broken',   note:'You can\'t use お名前 as a comment — it\'s a topic noun, not a description. "As for me — honorable name" doesn\'t parse as a sentence.' },
+  'watashi:namae':   { v:'broken',   note:'名前 on its own isn\'t a valid comment for this pattern. You\'d need to say something about your name, not just drop the word.' },
+
+  // 名前は (namae — plain, own name / neutral)
+  'namae:tanaka':    { v:'natural',  note:'名前は田中です — My name is Tanaka. Plain namae is correct here since you\'re talking about your own name. Natural.' },
+  'namae:yamada':    { v:'natural',  note:'名前は山田です — My name is Yamada. Same pattern, works well.' },
+  'namae:enjinia':   { v:'broken',   note:'My name is "engineer"? The structure is technically X は Y です, but this doesn\'t make real-world sense — a name and a job title aren\'t the same kind of thing.' },
+  'namae:dame':      { v:'broken',   note:'My name is "not okay"? Structurally it parses, but this combination has no meaningful use.' },
+  'namae:nan':       { v:'natural',  note:'名前はなんですか — What is your (someone\'s) name? This is a real question form, though note: お名前は would be more polite when asking someone directly.' },
+  'namae:onamae':    { v:'broken',   note:'名前 can\'t be its own comment — you can\'t say "my name is name." These are both nouns of the same type.' },
+  'namae:namae':     { v:'broken',   note:'名前は名前です — "The name is name." Circular and meaningless — both slots are the same word. Try a different combination.' },
+
+  // お名前は missing combo
+  'onamae:onamae':   { v:'broken',   note:'お名前はお名前です — "Your honorable name is honorable name." Both slots are the same word. This is circular and has no meaning.' },
+
+  // お名前は (o-namae — polite, asking the LISTENER'S name)
+  'onamae:tanaka':   { v:'natural',  note:'お名前は田中です — Your name is Tanaka (polite). This works as a confirmation: "So your name is Tanaka?" The お- prefix is correct here since you\'re referring to the listener\'s name.' },
+  'onamae:yamada':   { v:'natural',  note:'お名前は山田です — works as a polite confirmation of someone\'s name.' },
+  'onamae:enjinia':  { v:'broken',   note:'Your honorable name is "engineer"? Names and job titles don\'t substitute for each other in Japanese any more than in English.' },
+  'onamae:dame':     { v:'broken',   note:'Your name is "not okay"? The structure technically parses, but this combination has no real-world use at all.' },
+  'onamae:nan':      { v:'natural',  note:'お名前はなんですか — What is your name? (polite) ✅ This is one of the core phrases from this session. The お- makes it respectful toward the listener.' },
+  'onamae:namae':    { v:'broken',   note:'"Your honorable name" can\'t be its own comment — namae is a noun of the same type, not a description.' },
+
+  // お仕事は (o-shigoto — polite, asking the listener's job)
+  'oshigoto:enjinia':{ v:'natural',  note:'お仕事はエンジニアです — Your job is engineer (polite). Works as a confirmation. The お- is correct since you\'re referring to the listener\'s work.' },
+  'oshigoto:nan':    { v:'natural',  note:'お仕事はなんですか — What is your job? (polite) ✅ Another core phrase from this session. Same pattern as お名前はなんですか.' },
+  'oshigoto:tanaka': { v:'broken',   note:'"Your job is Tanaka"? A person\'s name is not a job title. This combination doesn\'t make sense.' },
+  'oshigoto:yamada': { v:'broken',   note:'"Your job is Yamada"? Same issue — a name is not a job. These are different categories of noun.' },
+  'oshigoto:dame':   { v:'odd',      note:'Grammatically this parses as "Your job is not okay" — which is technically a valid sentence structure if, say, a manager is rejecting something. But as a standalone combination here it\'s very context-dependent and not something you\'d say cold.' },
+  'oshigoto:onamae': { v:'broken',   note:'お名前 can\'t be used as a comment here — it\'s a topic noun, not a description of someone\'s job.' },
+  'oshigoto:namae':  { v:'broken',   note:'名前 isn\'t a valid description of a job.' },
+
+  // これは (kore — this thing)
+  'kore:enjinia':    { v:'odd',      note:'これはエンジニアです — "This is an engineer." Grammatically fine, and you could say it pointing at a person in a slightly odd way. More natural would be "this person is an engineer" using a different word for person — but the structure is correct.' },
+  'kore:tanaka':     { v:'odd',      note:'これは田中です — This is Tanaka. You could say this pointing at a photo or introducing someone indirectly. A bit cold in person, but grammatically complete.' },
+  'kore:yamada':     { v:'odd',      note:'これは山田です — same as above. Works pointing at a photo or nameplate. A bit impersonal if pointing at a human standing next to you.' },
+  'kore:dame':       { v:'natural',  note:'これはだめです — This is not okay. ✅ Completely natural — you might say this pointing at a defective part, an unsafe situation, or anything that shouldn\'t be done.' },
+  'kore:nan':        { v:'natural',  note:'これはなんですか — What is this? ✅ Very natural and useful on a manufacturing floor. Pointing at a part, a sign, a tool — this question works everywhere.' },
+  'kore:onamae':     { v:'broken',   note:'お名前 is for referring to a person\'s name with respect — it can\'t describe a physical object. "This thing\'s honorable name" doesn\'t work.' },
+  'kore:namae':      { v:'odd',      note:'これは名前です — "This is a name." Grammatically fine if you were literally pointing at a name written on paper. In most contexts this would be odd, but it\'s not structurally broken.' },
+};
+
+const topics = [
+  { id:'watashi',  text:'わたしは',  roman:'Watashi wa',    en:'As for me',               badge:null },
+  { id:'namae',    text:'名前は',    roman:'Namae wa',      en:'name (plain — own name)', badge:'plain' },
+  { id:'onamae',   text:'お名前は',  roman:'O-namae wa',    en:'name (polite — listener)', badge:'polite' },
+  { id:'oshigoto', text:'お仕事は',  roman:'O-shigoto wa',  en:'job (polite — listener)', badge:'polite' },
+  { id:'kore',     text:'これは',    roman:'Kore wa',       en:'this thing',               badge:null },
+];
+const comments = [
+  { id:'tanaka',  text:'田中',       roman:'Tanaka',       en:'Tanaka (name)' },
+  { id:'yamada',  text:'山田',       roman:'Yamada',       en:'Yamada (name)' },
+  { id:'enjinia', text:'エンジニア', roman:'enjinia',       en:'engineer' },
+  { id:'dame',    text:'だめ',       roman:'dame',          en:'not okay' },
+  { id:'nan',     text:'なん',       roman:'nan',           en:'what?' },
+  { id:'onamae',  text:'お名前',     roman:'o-namae',       en:'(honorable) name' },
+  { id:'namae',   text:'名前',       roman:'namae',         en:'name (plain)' },
+];
+
+
+
+
+
+window.addEventListener('load', () => { renderBuilder(); });
+function renderBuilder() {
+  const tc = document.getElementById('ub-topic-chips');
+  const cc = document.getElementById('ub-comment-chips');
+  if (!tc || !cc) return;
+  tc.innerHTML = topics.map((t,i) =>
+    `<button class="ub-chip" id="tc-${i}" onclick="selectTopic(topics[${i}],${i})">
+      <span class="chip-roman">${t.roman}</span>
+      <span class="chip-jp-sub">${t.text}</span>
+      <span class="chip-en">${t.en}</span>
+      ${t.badge ? `<span class="chip-badge">${t.badge}</span>` : ''}
+    </button>`
+  ).join('');
+  cc.innerHTML = comments.map((c,i) =>
+    `<button class="ub-chip" id="cc-${i}" onclick="selectComment(comments[${i}],${i})">
+      <span class="chip-roman">${c.roman}</span>
+      <span class="chip-jp-sub">${c.text}</span>
+      <span class="chip-en">${c.en}</span>
+    </button>`
+  ).join('');
+}
+
+let ubTopic=null,ubComment=null;
+function selectTopic(t,i){
+  ubTopic=t;
+  document.getElementById('ub-topic').innerHTML=t.roman+'<span class="slot-jp-sub">'+t.text+'</span>';
+  document.getElementById('ub-topic').classList.add('filled');
+  document.querySelectorAll('[id^="tc-"]').forEach(b=>b.classList.remove('used'));
+  document.getElementById('tc-'+i).classList.add('used');
+  updateBuilderResult();
+}
+function selectComment(c,i){
+  ubComment=c;
+  document.getElementById('ub-comment').innerHTML=c.roman+'<span class="slot-jp-sub">'+c.text+'</span>';
+  document.getElementById('ub-comment').classList.add('filled');
+  document.querySelectorAll('[id^="cc-"]').forEach(b=>b.classList.remove('used'));
+  document.getElementById('cc-'+i).classList.add('used');
+  updateBuilderResult();
+}
+function updateBuilderResult(){
+  if(!ubTopic||!ubComment)return;
+  const key=ubTopic.id+':'+ubComment.id;
+  const result=VERDICTS[key]||{v:'odd',note:"This combination hasn't been specifically evaluated."};
+  const full=ubTopic.text+ubComment.text+'です。';
+  const roman=ubTopic.roman+' '+ubComment.roman+' desu.';
+  const box=document.getElementById('ub-result-box');
+  const icon=document.getElementById('ub-verdict-icon');
+  const label=document.getElementById('ub-verdict-label');
+  const sent=document.getElementById('ub-sentence');
+  const sentRoman=document.getElementById('ub-sentence-roman');
+  const note=document.getElementById('ub-verdict-note');
+  const spk=document.getElementById('ub-speak-btn');
+  box.style.display='block';
+  const styles={
+    natural:{bg:'var(--correct-bg)',border:'1px solid var(--correct-border)',icon:'✅',label:'Natural',color:'var(--correct)'},
+    odd:{bg:'var(--gold-bg)',border:'1px solid var(--gold-border)',icon:'⚠️',label:'Grammatically okay — but odd',color:'var(--gold)'},
+    broken:{bg:'var(--wrong-bg)',border:'1px solid var(--wrong-border)',icon:'❌',label:"Doesn't work",color:'var(--wrong)'},
+  };
+  const s=styles[result.v];
+  box.style.background=s.bg; box.style.border=s.border;
+  box.style.borderRadius='6px'; box.style.padding='14px 18px';
+  icon.textContent=s.icon; label.textContent=s.label; label.style.color=s.color;
+  sent.innerHTML='<div style="font-size:12px;font-weight:400;color:var(--text-3);font-family:\'Noto Sans JP\',sans-serif;margin-bottom:4px;">'+full+'</div><span style="font-family:\'IBM Plex Mono\',monospace;font-size:18px;font-weight:700;">'+roman+'</span>'; sent.style.color='var(--text)';
+  sentRoman.textContent=''; sentRoman.style.display='none';
+  note.textContent=result.note; note.style.color='var(--text-2)';
+  const AUDIO_SENTENCES = new Set([
+    'わたしは田中です。','わたしは山田です。','わたしはエンジニアです。',
+    '名前は田中です。','名前は山田です。','名前はなんです。',
+    'お名前は田中です。','お名前は山田です。','お名前はなんです。',
+    'お仕事はエンジニアです。','お仕事はなんです。',
+    'これはだめです。','これはなんです。',
+  ]);
+  if(AUDIO_SENTENCES.has(full)){spk.style.display='inline-block';window._ubFull=full;}
+  else{spk.style.display='none';window._ubFull=null;}
+}
+function speakBuilder(){if(window._ubFull)speak(window._ubFull);}
+function resetBuilder(){
+  ubTopic=null;ubComment=null;
+  document.getElementById('ub-topic').innerHTML='[ Topic wa ]';
+  document.getElementById('ub-topic').classList.remove('filled');
+  document.getElementById('ub-comment').innerHTML='[ Y ]';
+  document.getElementById('ub-comment').classList.remove('filled');
+  document.getElementById('ub-result-box').style.display='none';
+  document.getElementById('ub-speak-btn').style.display='none';
+  document.querySelectorAll('.ub-chip').forEach(b=>b.classList.remove('used'));
+  window._ubFull=null;
+}
+
+
+function startPhase2(){
+  showScreen('screen-p2');
+  startTimer('p2',1800,'p2-timer');
+}
+
+
+function showTab(name,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tnav-btn').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
+  const tab=document.getElementById('tab-'+name);
+  if(tab)tab.classList.add('active');
+  if(btn){btn.classList.add('active');btn.setAttribute('aria-selected','true');}
+}
+
+// Builder state
+
+// ── Back-chain drills ──
+const BC_DRILLS = {
+  'bc-osaki': {
+    steps: [
+      { roman:'shimasu',       phonetic:'shee-mas',                      jp:'します',             phrase:'polite verb ending' },
+      { roman:'shitsurei shimasu', phonetic:'shee-tsoo-reh shee-mas',      jp:'失礼します',         phrase:'excuse my rudeness' },
+      { roman:'osaki ni shitsurei shimasu', phonetic:'oh-sah-kee nee shee-tsoo-reh shee-mas', jp:'お先に失礼します', phrase:'excuse me for leaving first' },
+    ]
+  },
+  'bc-mou': {
+    steps: [
+      { roman:'ka?',                              phonetic:'ka',                                       jp:'か？',                           phrase:'question marker' },
+      { roman:'moraemasu ka?',                    phonetic:'moh-reh-mas kah',                           jp:'もらえますか？',                 phrase:'could I receive…?' },
+      { roman:'itte moraemasu ka?',               phonetic:'it-teh moh-reh-mas kah',                     jp:'言ってもらえますか？',           phrase:'could you say it?' },
+      { roman:'mou ichido itte moraemasu ka?',    phonetic:'moh ee-chee-doh it-teh moh-reh-mas kah',        jp:'もう一度言ってもらえますか？',   phrase:'one more time — could you say it?' },
+    ]
+  }
+};
+
+const bcState = {};
+
+function initBackchain(id) {
+  const drill = BC_DRILLS[id];
+  if (!drill) return;
+  bcState[id] = { done: 0 };
+  const container = document.getElementById(id + '-steps');
+  if (!container) return;
+  // hide the start button
+  const wrap = document.getElementById(id);
+  if (wrap) { const btn = wrap.querySelector('button'); if (btn) btn.style.display = 'none'; }
+  container.innerHTML = drill.steps.map((s, i) => `
+    <div class="bc-step" id="${id}-step-${i}">
+      <div class="bc-step-line"><div class="bc-step-dot"></div></div>
+      <div class="bc-step-body">
+        <div class="bc-step-num">Step ${i + 1}</div>
+        <div class="bc-phrase">${s.phrase}</div>
+        <div class="bc-roman">${s.roman}</div>
+        <div class="bc-phonetic">${s.phonetic}</div>
+        <div class="bc-step-actions">
+          <button class="bc-say-btn" onclick="bcSpeak('${id}',${i},'${s.jp.replace(/'/g,"\\'")}',this)">🔊 Hear it</button>
+          <button class="bc-repeat-btn" onclick="bcDone('${id}',${i})">✓ Said it</button>
+          <span class="bc-tick">✓</span>
+        </div>
+      </div>
+    </div>`).join('');
+  updateBcProgress(id);
+}
+
+function bcSpeak(id, idx, jp, btn) {
+  speak(jp);
+  btn.classList.add('spoken');
+}
+
+function bcDone(id, idx) {
+  const el = document.getElementById(id + '-step-' + idx);
+  if (!el || el.classList.contains('done')) return;
+  el.classList.add('done');
+  bcState[id].done++;
+  updateBcProgress(id);
+}
+
+function updateBcProgress(id) {
+  const drill = BC_DRILLS[id];
+  const done = bcState[id] ? bcState[id].done : 0;
+  const total = drill.steps.length;
+  const fill = document.getElementById(id + '-fill');
+  const label = document.getElementById(id + '-label');
+  if (fill)  fill.style.width = (done / total * 100) + '%';
+  if (label) label.textContent = done + ' / ' + total;
+}
+
+// Init back-chains when their block is unlocked — hooked into openBlock()
+
+// Init
+startTimer('p2',1800,'p2-timer');
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  ============================================================
+  © 2026 JJA · Joyful Language Academy. All rights reserved.
+  Author        : JJA — Joyful Language Academy
+  Course        : DENSO Japanese Workplace Communication
+  Session       : 6
+  File          : denso-s6-phase1.html
+  Created       : 2026-03-16
+  Fingerprint   : 320a55c9a64645c6
+  License       : Proprietary. Not for redistribution, resale,
+                  or modification without written permission.
+  Contact       : Joyful Language Academy
+  ============================================================
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Session 7 — Phase 1: Recall Blitz</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:#FFF5F6;
+  --bg:#F4F6F8;--surface:#FFFFFF;--surface-2:#F0F2F5;
+  --border:#DDE1E8;--border-strong:#BCC3CE;
+  --text:#1A1D23;--text-2:#4A5260;--text-3:#6B7585;--white:#FFFFFF;
+  --gold:#8A6A00;--gold-bg:#FFF8E6;--gold-border:#E8C96A;
+  --green:#1A6E3A;--green-bg:#EDF7F1;--green-border:#7DC4A0;
+  --blue:#1558A6;--blue-bg:#EEF4FC;--blue-border:#92BAE8;
+  --purple:#5B3E9E;--purple-bg:#F3EFFE;--purple-border:#B9A3E8;
+  --teal:#0E7A6A;--teal-bg:#E8F7F5;--teal-border:#7DD4C8;
+  --warn:#B22020;--warn-bg:#FDF0F0;--warn-border:#E8A0A0;
+  --correct:#1A6E3A;--correct-bg:#EDF7F1;--correct-border:#7DC4A0;
+  --wrong:#B22020;--wrong-bg:#FDF0F0;--wrong-border:#E8A0A0;
+  --focus:0 0 0 3px rgba(200,16,46,0.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;display:flex;flex-direction:column;}
+:focus-visible{outline:none;box-shadow:var(--focus);}
+button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+.screen{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.screen.active{display:flex;animation:fadeIn 0.25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.scroll-body{flex:1;overflow-y:auto;padding:32px 48px 64px;max-width:900px;width:100%;margin:0 auto;}
+.scroll-body::-webkit-scrollbar{width:6px;}
+.scroll-body::-webkit-scrollbar-track{background:var(--surface-2);}
+.scroll-body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px;}
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:0 32px;display:flex;align-items:stretch;justify-content:space-between;flex-shrink:0;min-height:56px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.topbar-left{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:10px 0;}
+.tb-org{font-size:10px;font-weight:600;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;}
+.tb-course{font-size:14px;font-weight:700;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:16px;}
+.phase-pill{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1.5px solid;font-weight:600;}
+.phase-pill.p1{border-color:var(--gold-border);color:var(--gold);background:var(--gold-bg);}
+.timer-box{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--text);background:var(--surface-2);border:1px solid var(--border);padding:5px 13px;border-radius:4px;min-width:68px;text-align:center;}
+.timer-box.urgent{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-border);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.course-progress{height:4px;background:var(--border);flex-shrink:0;}
+.course-progress-fill{height:100%;background:var(--red);transition:width 0.5s ease;border-radius:0 2px 2px 0;}
+.btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.3px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;padding:11px 24px;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px;}
+.btn-primary{background:var(--red);color:var(--white);}
+.btn-primary:hover{background:var(--red-dark);}
+.btn-secondary{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border);}
+.btn-secondary:hover{border-color:var(--border-strong);color:var(--text);}
+.btn-success{background:var(--green);color:var(--white);}
+.speak-btn{background:none;border:1.5px solid var(--border);border-radius:4px;color:var(--text-3);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:5px 11px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;}
+.speak-btn:hover{border-color:var(--teal-border);color:var(--teal);background:var(--teal-bg);}
+
+/* Stats */
+.recon-stats{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 18px;min-width:110px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.stat-num{font-size:34px;font-weight:800;color:var(--gold);line-height:1;}
+.stat-label{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;}
+
+/* Blitz card */
+.blitz-progress{width:100%;background:var(--border);border-radius:4px;height:5px;margin-bottom:6px;overflow:hidden;}
+.blitz-bar{height:100%;background:var(--gold);border-radius:4px;transition:width 0.35s;}
+.blitz-counter{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3);text-align:center;margin-bottom:20px;}
+.blitz-card{max-width:600px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:32px 36px;text-align:center;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.blitz-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--red);}
+.blitz-category{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;margin-bottom:14px;}
+.blitz-situation{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:8px;font-style:italic;padding:14px 18px;background:var(--surface-2);border-radius:6px;border-left:3px solid var(--gold-border);text-align:left;}
+.blitz-cue{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);margin:10px 0 20px;text-align:center;}
+.blitz-choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px;}
+.blitz-choice{background:var(--surface-2);border:1.5px solid var(--border);border-radius:6px;padding:14px 12px;cursor:pointer;font-size:12px;color:var(--text);transition:all 0.12s;text-align:center;font-weight:500;line-height:1.4;}
+.blitz-choice:hover:not(.locked){border-color:var(--gold-border);background:var(--gold-bg);}
+.blitz-choice.correct{border-color:var(--correct-border);background:var(--correct-bg);color:var(--correct);}
+.blitz-choice.wrong{border-color:var(--wrong-border);background:var(--wrong-bg);color:var(--wrong);}
+.blitz-choice.locked{cursor:default;}
+.blitz-choice .choice-romaji{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;display:block;margin-bottom:2px;}
+.blitz-choice .choice-jp{font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--text-3);display:block;}
+.blitz-feedback{font-size:13px;padding:10px 14px;border-radius:5px;margin-bottom:14px;display:none;line-height:1.55;text-align:left;border:1px solid;}
+.blitz-feedback.show{display:block;}
+.blitz-feedback.ok{background:var(--correct-bg);color:var(--correct);border-color:var(--correct-border);}
+.blitz-feedback.bad{background:var(--wrong-bg);color:var(--wrong);border-color:var(--wrong-border);}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="screen-splash" class="screen active" style="overflow-y:auto;">
+  <div style="max-width:720px;margin:0 auto;padding:48px 32px 64px;width:100%;">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid var(--border);">
+      <div style="width:44px;height:44px;border-radius:6px;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span style="color:white;font-size:20px;">⛩</span>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;">DENSO Manufacturing · Statesville, NC</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text);">Japanese Workplace Communication — Session 7</div>
+      </div>
+    </div>
+    <div style="margin-bottom:8px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3);background:var(--surface-2);border:1px solid var(--border);border-radius:3px;padding:3px 9px;">Phase 1 of 3</span></div>
+    <h1 style="font-size:clamp(26px,5vw,40px);font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.1;margin-bottom:8px;">Recall Blitz <span style="color:var(--gold);">⚡</span></h1>
+    <p style="font-size:15px;color:var(--text-2);line-height:1.7;margin-bottom:32px;max-width:560px;">A quick review of Sessions 1–6 — greetings, departures, handoffs, hierarchy, demonstratives, and all the ritual phrases. Situations instead of vocabulary lists. Read the scenario and pick the right phrase.</p>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin-bottom:28px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;margin-bottom:14px;">How it works</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;"><div style="width:28px;height:28px;border-radius:50%;background:var(--gold-bg);border:1.5px solid var(--gold-border);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><div style="font-size:14px;color:var(--text);">A real floor situation appears. No Japanese shown — just the context.</div></div>
+        <div style="display:flex;align-items:center;gap:12px;"><div style="width:28px;height:28px;border-radius:50%;background:var(--gold-bg);border:1.5px solid var(--gold-border);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div><div style="font-size:14px;color:var(--text);">Choose the right phrase from four options — romaji shown.</div></div>
+        <div style="display:flex;align-items:center;gap:12px;"><div style="width:28px;height:28px;border-radius:50%;background:var(--gold-bg);border:1.5px solid var(--gold-border);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div><div style="font-size:14px;color:var(--text);">Missed cards come back. All 12 mastered — or time runs out.</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="index.html" class="btn btn-secondary" style="text-decoration:none;">← Index</a>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);">⏱ 15 minutes &nbsp;·&nbsp; 12 scenarios &nbsp;·&nbsp; missed cards re-queue</div>
+      </div>
+      <button class="btn btn-primary" onclick="startPhase1()" style="font-size:14px;padding:13px 32px;">Start Blitz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 1 -->
+<div id="screen-p1" class="screen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC · Session 06</div>
+      <div class="tb-course">Phase 1 — Recall Blitz</div>
+    </div>
+    <div class="tb-right">
+      <div class="phase-pill p1">⚡ Recall</div>
+      <div class="timer-box" id="p1-timer" aria-label="Time remaining">15:00</div>
+    </div>
+  </div>
+  <div class="course-progress"><div class="course-progress-fill" id="p1-progbar" style="width:5%"></div></div>
+  <div class="scroll-body">
+    <div class="recon-stats">
+      <div class="stat-box"><div class="stat-num" id="p1-mastered" style="color:var(--green)">0</div><div class="stat-label">Mastered ✓</div></div>
+      <div class="stat-box"><div class="stat-num" id="p1-queue">12</div><div class="stat-label">In Queue</div></div>
+      <div class="stat-box"><div class="stat-num" id="p1-streak">0</div><div class="stat-label">Streak 🔥</div></div>
+      <div class="stat-box"><div class="stat-num" id="p1-total">0</div><div class="stat-label">Attempts</div></div>
+    </div>
+    <div class="blitz-progress"><div class="blitz-bar" id="p1-bar" style="width:0%"></div></div>
+    <div class="blitz-counter" id="p1-counter">0 mastered · 12 left</div>
+    <div class="blitz-card">
+      <div class="blitz-category" id="p1-cat">—</div>
+      <div class="blitz-situation" id="p1-situation">—</div>
+      <div class="blitz-cue" id="p1-cue">—</div>
+      <div class="blitz-feedback" id="p1-feedback" role="status"></div>
+      <div class="blitz-choices" id="p1-choices" role="group" aria-label="Answer choices"></div>
+      <button class="btn btn-secondary" id="p1-skip" onclick="clearTimeout(autoAdvance);loadBlitz()" style="width:100%;display:none;margin-top:6px;justify-content:center;">Next →</button>
+    </div>
+    <div style="text-align:center;margin-top:24px;">
+      <button class="btn btn-secondary" onclick="if(confirm('End Phase 1 now?'))finishPhase1()" style="opacity:0.5;font-size:11px;padding:8px 16px;">Finish Phase 1 &amp; Move On →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DONE -->
+<div id="screen-done" class="screen" style="overflow-y:auto;">
+  <div style="max-width:560px;margin:64px auto;padding:0 24px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px;">⚡</div>
+    <h2 style="font-size:28px;font-weight:800;color:var(--text);margin-bottom:8px;">Phase 1 Complete</h2>
+    <div id="done-message" style="font-size:14px;line-height:1.7;padding:14px 18px;border-radius:8px;border:1px solid;margin-bottom:24px;text-align:left;"></div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:28px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
+      <div><div style="font-size:36px;font-weight:800;color:var(--green)" id="done-mastered">0</div><div style="font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;">Mastered</div></div>
+      <div><div style="font-size:36px;font-weight:800;color:var(--gold)" id="done-streak">0</div><div style="font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;">Best Streak</div></div>
+      <div><div style="font-size:36px;font-weight:800;color:var(--blue)" id="done-attempts">0</div><div style="font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;">Total Attempts</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--text-3);margin-bottom:20px;">When your facilitator gives the go-ahead, continue to Phase 2.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none;">← Index</a>
+      <button class="btn btn-secondary" onclick="startPhase1()">↺ Restart Blitz</button>
+      <a href="denso-s7-phase2-learner.html" class="btn btn-success" style="text-decoration:none;font-size:14px;padding:13px 32px;display:inline-flex;">Continue to Phase 2 →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function speak(text){
+  const AUDIO_MAP={
+        'おはようございます':'ohayou-gozaimasu',
+    'おはようございます。':'ohayou-gozaimasu',
+    'おはようございます！':'ohayou-gozaimasu',
+    'ありがとうございます。':'arigatou-gozaimasu',
+    'いえ、いえ。':'ie-ie',
+    'さようなら':'sayounara',
+    'さようなら。':'sayounara',
+    'じゃ、また':'ja-mata',
+    'はい、わかりました。':'hai-wakarimashita',
+    'もう一度言ってもらえますか？':'mou-ichido-itte-moraemasu-ka',
+    'よろしく':'yoroshiku',
+    'よろしく！':'yoroshiku',
+    'よろしくお願いいたします':'yoroshiku-onegai-itashimasu',
+    'よろしくお願いいたします。':'yoroshiku-onegai-itashimasu',
+    'わかりません。':'wakarimasen',
+    'ご苦労様でした。':'gokurousama-deshita',
+    'こちらこそよろしく':'kochira-koso-yoroshiku-onegaishimasu',
+    'こちらこそよろしくお願いします。':'kochira-koso-yoroshiku-onegaishimasu',
+    '(nod) お疲れ様です':'otsukaresama-desu',
+    'お疲れ様でした。':'otsukaresama-deshita','お疲れ様でした':'otsukaresama-deshita',
+    'お疲れ様です。':'otsukaresama-desu','お疲れ様です':'otsukaresama-desu',
+    'お先に失礼します。':'osaki-ni-shitsurei-shimasu','お先に失礼します':'osaki-ni-shitsurei-shimasu',
+    'よろしくお願いします。':'yoroshiku-onegaishimasu','よろしくお願いします':'yoroshiku-onegaishimasu',
+    'ご苦労様です。':'gokurousama-desu','ご苦労様です':'gokurousama-desu',
+    'はじめまして。':'hajimemashite','はじめまして':'hajimemashite',
+    'お世話になりました。':'osewa-ni-narimashita','お世話になりました':'osewa-ni-narimashita',
+    'すみません、もう一度言ってもらえますか？':'sumimasen-mou-ichido-itte-moraemasu-ka',
+    'ゆっくり言ってもらえますか？':'yukkuri-itte-moraemasu-ka',
+    'こちらこそ、またよろしくお願いします。':'kochira-koso-mata-yoroshiku-onegaishimasu',
+    'はい、わかりました。よろしくお願いします。':'hai-wakarimashita-yoroshiku-onegaishimasu',
+  };
+  const slug=AUDIO_MAP[text];
+  if(slug){
+    const parts=slug.split('+');
+    function playNext(i){
+      if(i>=parts.length)return;
+      const a=new Audio('./media/'+parts[i]+'.wav');
+      a.onended=()=>playNext(i+1);
+      a.play().catch(()=>{const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);});
+    }
+    playNext(0);
+    return;
+  }
+  const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);
+}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+// ── Scenario cards — S5 recall ──
+const recallCards=[
+  {
+    cat:'Greeting — Morning',
+    situation:'It\'s 6:50 AM. Your Japanese supervisor walks past your station right as your shift starts and makes eye contact.',
+    cue:'What do you say?',
+    answer:{romaji:'Ohayou gozaimasu.',jp:'おはようございます。'},
+    distractors:[
+      {romaji:'Otsukaresama desu.',jp:'お疲れ様です。'},
+      {romaji:'Ii otenki desu ne.',jp:'いいお天気ですね。'},
+      {romaji:'Yoroshiku onegaishimasu.',jp:'よろしくお願いします。'},
+    ],
+    note:'Ohayou gozaimasu opens the morning. Otsukaresama comes later — it acknowledges effort, not arrival.',
+    fb_correct:'✅ Ohayou gozaimasu. Follow it up if you like: ii otenki desu ne → sou desu ne. Full morning sequence done.',
+    fb_wrong:'Morning opener = ohayou gozaimasu. Otsukaresama acknowledges effort — too early here. Ii otenki desu ne is a warm add-on, not the opener itself.'
+  },
+  {
+    cat:'Departure',
+    situation:'It\'s 4:45 PM. Your shift ends 30 minutes before everyone else. Your Japanese colleagues are still at their stations. You grab your bag.',
+    cue:'What do you say as you head out?',
+    answer:{romaji:'Osaki ni shitsurei shimasu.',jp:'お先に失礼します。'},
+    distractors:[
+      {romaji:'Otsukaresama deshita.',jp:'お疲れ様でした。'},
+      {romaji:'Ja, mata.',jp:'じゃ、また。'},
+      {romaji:'Sayounara.',jp:'さようなら。'},
+    ],
+    note:'Osaki ni = ahead of you. Shitsurei shimasu = excuse my rudeness. Together: I\'m sorry for leaving first.',
+    fb_correct:'✅ Osaki ni shitsurei shimasu — the phrase for leaving before your colleagues. Not goodbye; an acknowledgment that you\'re the one heading out first.',
+    fb_wrong:'Osaki ni shitsurei shimasu is the departure phrase when you leave before others. Otsukaresama deshita closes the day for everyone — not just one person slipping out early.'
+  },
+  {
+    cat:'Handoff',
+    situation:'You\'ve just finished briefing Tanaka-san on the B-line assembly task. You hand over the procedure sheet and make eye contact.',
+    cue:'You close the handoff:',
+    answer:{romaji:'Yoroshiku onegaishimasu.',jp:'よろしくお願いします。'},
+    distractors:[
+      {romaji:'Otsukaresama deshita. Yoroshiku onegaishimasu.',jp:'お疲れ様でした。よろしくお願いします。'},
+      {romaji:'Hai, wakarimashita.',jp:'はい、わかりました。'},
+      {romaji:'Osaki ni shitsurei shimasu.',jp:'お先に失礼します。'},
+    ],
+    note:'Yoroshiku onegaishimasu passes the baton. Otsukaresama deshita acknowledges completed effort — Tanaka-san hasn\'t started yet, so it doesn\'t fit here.',
+    fb_correct:'✅ Yoroshiku onegaishimasu — you\'re passing responsibility to someone who hasn\'t started yet. Clean, direct, correct.',
+    fb_wrong:'Yoroshiku onegaishimasu is the handoff word. Otsukaresama deshita would be premature — Tanaka-san is just receiving the work, not finishing it.'
+  },
+  {
+    cat:'Handoff — Receive',
+    situation:'Your supervisor hands off the line to you with "Kono rain wo yoroshiku onegaishimasu." They look at you.',
+    cue:'How do you receive the handoff?',
+    answer:{romaji:'Hai, wakarimashita. Yoroshiku onegaishimasu.',jp:'はい、わかりました。よろしくお願いします。'},
+    distractors:[
+      {romaji:'Gokurousama deshita.',jp:'ご苦労様でした。'},
+      {romaji:'Osaki ni shitsurei shimasu.',jp:'お先に失礼します。'},
+      {romaji:'Nani ga suki desu ka?',jp:'何が好きですか？'},
+    ],
+    note:'Gokurousama flows downward only — from manager to worker. Never send it upward.',
+    fb_correct:'✅ Hai, wakarimashita. Yoroshiku onegaishimasu. — confirm understanding, then mirror the yoroshiku back.',
+    fb_wrong:'Receive with hai wakarimashita + yoroshiku onegaishimasu. Gokurousama goes downward only — sending it to a supervisor is a hierarchy error.'
+  },
+  {
+    cat:'Hierarchy',
+    situation:'Your section manager says "Gokurousama deshita" to you after a tough production run.',
+    cue:'What do you say back?',
+    answer:{romaji:'Otsukaresama deshita.',jp:'お疲れ様でした。'},
+    distractors:[
+      {romaji:'Gokurousama deshita.',jp:'ご苦労様でした。'},
+      {romaji:'Hai, wakarimashita.',jp:'はい、わかりました。'},
+      {romaji:'Watashi mo suki desu.',jp:'私も好きです。'},
+    ],
+    note:'Otsukaresama is direction-neutral — safe at every level. Gokurousama is downward only; mirroring it back to a manager is a hierarchy error.',
+    fb_correct:'✅ Otsukaresama deshita — direction-neutral, always safe to return regardless of who said it first.',
+    fb_wrong:'Never mirror gokurousama upward — it flows downward only. Always return otsukaresama deshita. It works at every level.'
+  },
+  {
+    cat:'Recovery',
+    situation:'A Japanese engineer gave you instructions quickly. You caught the action but missed the location detail.',
+    cue:'What do you say?',
+    answer:{romaji:'Sumimasen, mou ichido itte moraemasu ka?',jp:'すみません、もう一度言ってもらえますか？'},
+    distractors:[
+      {romaji:'Yukkuri itte moraemasu ka?',jp:'ゆっくり言ってもらえますか？'},
+      {romaji:'Wakarimasen.',jp:'わかりません。'},
+      {romaji:'Doko desu ka?',jp:'どこですか？'},
+    ],
+    note:'Mou ichido = one more time. If they repeat but still too fast, follow up with yukkuri itte moraemasu ka (slowly, please).',
+    fb_correct:'✅ Sumimasen, mou ichido itte moraemasu ka. If they repeat at full speed, follow with: yukkuri itte moraemasu ka?',
+    fb_wrong:'Mou ichido = one more time. Use this first. If they repeat too fast, then ask: yukkuri itte moraemasu ka?'
+  },
+  {
+    cat:'Self-Introduction',
+    situation:'A new Japanese engineer arrives on your line for a month-long rotation and introduces themselves fully.',
+    cue:'What is the correct full response?',
+    answer:{romaji:'Hajimemashite. [Name] desu. Yoroshiku onegaishimasu.',jp:'はじめまして。[名前]です。よろしくお願いします。'},
+    distractors:[
+      {romaji:'Ohayou gozaimasu. Ii otenki desu ne.',jp:'おはようございます。いいお天気ですね。'},
+      {romaji:'Yoroshiku onegaishimasu.',jp:'よろしくお願いします。'},
+      {romaji:'Watashi no desu.',jp:'私のです。'},
+    ],
+    note:'Three parts: hajimemashite + [name] desu + yoroshiku onegaishimasu. Yoroshiku alone skips your name and the opening — incomplete.',
+    fb_correct:'✅ Hajimemashite + [name] desu + yoroshiku onegaishimasu. Mirror the full three-part structure.',
+    fb_wrong:'Full intro = hajimemashite + [name] desu + yoroshiku onegaishimasu. All three parts. Yoroshiku alone is incomplete.'
+  },
+  {
+    cat:'Register',
+    situation:'You\'ve been asked to write a brief formal note to the visiting plant director introducing yourself.',
+    cue:'Which yoroshiku form is appropriate for written formal communication?',
+    answer:{romaji:'Yoroshiku onegai itashimasu.',jp:'よろしくお願いいたします。'},
+    distractors:[
+      {romaji:'Yoroshiku onegaishimasu.',jp:'よろしくお願いします。'},
+      {romaji:'Yoroshiku.',jp:'よろしく。'},
+      {romaji:'Ii otenki desu ne.',jp:'いいお天気ですね。'},
+    ],
+    note:'Itashimasu is the humble/formal form of shimasu — it elevates the phrase above onegaishimasu. Use for senior staff and written notes.',
+    fb_correct:'✅ Yoroshiku onegai itashimasu — the most formal register. Itashimasu elevates it beyond onegaishimasu.',
+    fb_wrong:'Formal register = yoroshiku onegai itashimasu. Itashimasu > onegaishimasu > yoroshiku. Match the register to the audience.'
+  },
+];
+
+let queue=[],mastered=new Set();
+let p1Total=0,p1Streak=0,p1BestStreak=0;
+let autoAdvance=null;
+const TOTAL=recallCards.length;
+
+function shuffle(arr){return arr.sort(()=>Math.random()-0.5);}
+
+function startPhase1(){
+  showScreen('screen-p1');
+  startTimer();
+  queue=shuffle([...recallCards]);
+  mastered.clear();
+  p1Total=0;p1Streak=0;p1BestStreak=0;
+  updateStats();loadBlitz();
+}
+
+function updateStats(){
+  document.getElementById('p1-mastered').textContent=mastered.size;
+  document.getElementById('p1-queue').textContent=queue.length;
+  document.getElementById('p1-streak').textContent=p1Streak;
+  document.getElementById('p1-total').textContent=p1Total;
+  const pct=mastered.size/TOTAL*100;
+  document.getElementById('p1-bar').style.width=pct+'%';
+  document.getElementById('p1-progbar').style.width=(5+pct*0.3)+'%';
+  const el=document.getElementById('p1-counter');
+  el.textContent=queue.length===0?'🎉 All mastered!':mastered.size+' mastered · '+queue.length+' left';
+}
+
+function loadBlitz(){
+  clearTimeout(autoAdvance);
+  if(queue.length===0){updateStats();finishPhase1(true);return;}
+  const card=queue[0];
+  document.getElementById('p1-cat').textContent=card.cat;
+  document.getElementById('p1-situation').textContent=card.situation;
+  document.getElementById('p1-cue').textContent='→ '+card.cue;
+  document.getElementById('p1-feedback').className='blitz-feedback';
+  document.getElementById('p1-feedback').textContent='';
+  document.getElementById('p1-skip').style.display='none';
+  updateStats();
+  const wrong=shuffle([...card.distractors]).slice(0,3);
+  const opts=shuffle([...wrong,card.answer]);
+  const ch=document.getElementById('p1-choices');
+  ch.innerHTML='';
+  opts.forEach(o=>{
+    const btn=document.createElement('button');
+    btn.className='blitz-choice';
+    btn.innerHTML=`<span class="choice-romaji">${o.romaji}</span>${o.jp?`<span class="choice-jp">${o.jp}</span>`:''}`;    
+    btn.onclick=()=>checkBlitz(btn,o.romaji===card.answer.romaji,card);
+    ch.appendChild(btn);
+  });
+}
+
+function checkBlitz(btn,correct,card){
+  if(btn.classList.contains('locked'))return;
+  clearTimeout(autoAdvance);
+  document.querySelectorAll('.blitz-choice').forEach(b=>b.classList.add('locked'));
+  p1Total++;
+  const fb=document.getElementById('p1-feedback');
+  if(correct){
+    btn.classList.add('correct');
+    p1Streak++;if(p1Streak>p1BestStreak)p1BestStreak=p1Streak;
+    mastered.add(card.answer.romaji);
+    queue.shift();
+    fb.innerHTML='✅ <strong>'+card.answer.romaji+'</strong>'+(card.answer.jp?'<br><span style="font-family:\'Noto Sans JP\',sans-serif;font-size:13px;color:var(--text-2);">'+card.answer.jp+'</span>':'')+(card.note?'<br><span style="font-size:11px;color:var(--text-2);margin-top:4px;display:block;">💡 '+card.note+'</span>':'');
+    fb.classList.add('show','ok');
+    if(card.answer.jp)setTimeout(()=>speak(card.answer.jp),300);
+  }else{
+    btn.classList.add('wrong');
+    p1Streak=0;
+    document.querySelectorAll('.blitz-choice').forEach(b=>{
+      if(b.querySelector('.choice-romaji')&&b.querySelector('.choice-romaji').textContent===card.answer.romaji)b.classList.add('correct');
+    });
+    fb.innerHTML='❌ <strong>'+card.answer.romaji+'</strong>'+(card.answer.jp?'<br><span style="font-family:\'Noto Sans JP\',sans-serif;font-size:13px;color:var(--wrong);">'+card.answer.jp+'</span>':'')+'<br><span style="font-size:11px;color:var(--wrong);">Coming back around</span>'+(card.note?'<br><span style="font-size:11px;color:var(--text-2);margin-top:4px;display:block;">💡 '+card.note+'</span>':'');
+    fb.classList.add('show','bad');
+    queue.shift();
+    const insertAt=Math.min(queue.length,2+Math.floor(Math.random()*3));
+    queue.splice(insertAt,0,card);
+    if(card.answer.jp)setTimeout(()=>speak(card.answer.jp),400);
+  }
+  updateStats();
+  document.getElementById('p1-skip').style.display='block';
+}
+
+function finishPhase1(perfect=false){
+  clearInterval(window._timerInterval);clearTimeout(autoAdvance);
+  const mc=mastered.size;
+  document.getElementById('done-mastered').textContent=mc+'/'+TOTAL;
+  document.getElementById('done-streak').textContent=p1BestStreak;
+  document.getElementById('done-attempts').textContent=p1Total;
+  const msgEl=document.getElementById('done-message');
+  if(perfect||mc===TOTAL){
+    msgEl.textContent='完璧！(Kanpeki!) — All 12 scenarios correct. Session 5 is locked in. Move to Phase 2.';
+    msgEl.style.cssText='background:var(--correct-bg);border-color:var(--correct-border);color:var(--correct);';
+  }else{
+    const left=TOTAL-mc;
+    msgEl.textContent=left+' scenario'+(left>1?'s':'')+' still in queue. Phase 2 will reinforce these in context.';
+    msgEl.style.cssText='background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold);';
+  }
+  showScreen('screen-done');
+}
+
+// Timer
+let timerSecs=15*60;
+function startTimer(){
+  clearInterval(window._timerInterval);
+  timerSecs=15*60;
+  const el=document.getElementById('p1-timer');
+  function tick(){
+    timerSecs--;
+    const m=Math.floor(timerSecs/60),s=timerSecs%60;
+    el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(timerSecs<=60)el.classList.add('urgent');else el.classList.remove('urgent');
+    if(timerSecs<=0){clearInterval(window._timerInterval);finishPhase1(false);}
+  }
+  window._timerInterval=setInterval(tick,1000);
+}
+</script>
+</body>
+</html>

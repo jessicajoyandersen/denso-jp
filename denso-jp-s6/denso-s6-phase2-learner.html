@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  ============================================================
+  © 2026 JJA · Joyful Language Academy. All rights reserved.
+  Author        : JJA — Joyful Language Academy
+  Course        : DENSO Japanese Workplace Communication
+  Session       : 6
+  File          : denso-s6-phase2-learner.html
+  Created       : 2026-03-16
+  Fingerprint   : 0629b8a97e16ad91
+  License       : Proprietary. Not for redistribution, resale,
+                  or modification without written permission.
+  Contact       : Joyful Language Academy
+  ============================================================
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Session 6 — Phase 2: Field Briefing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:#FFF5F6;
+  --bg:#F4F6F8;--surface:#FFFFFF;--surface-2:#F0F2F5;
+  --border:#DDE1E8;--border-strong:#BCC3CE;
+  --text:#1A1D23;--text-2:#4A5260;--text-3:#6B7585;--white:#FFFFFF;
+  --gold:#8A6A00;--gold-bg:#FFF8E6;--gold-border:#E8C96A;
+  --green:#1A6E3A;--green-bg:#EDF7F1;--green-border:#7DC4A0;
+  --blue:#1558A6;--blue-bg:#EEF4FC;--blue-border:#92BAE8;
+  --purple:#5B3E9E;--purple-bg:#F3EFFE;--purple-border:#B9A3E8;
+  --teal:#0E7A6A;--teal-bg:#E8F7F5;--teal-border:#7DD4C8;
+  --warn:#B22020;--warn-bg:#FDF0F0;--warn-border:#E8A0A0;
+  --correct:#1A6E3A;--correct-bg:#EDF7F1;--correct-border:#7DC4A0;
+  --wrong:#B22020;--wrong-bg:#FDF0F0;--wrong-border:#E8A0A0;
+  --focus:0 0 0 3px rgba(200,16,46,0.35);
+  --font-mono:'IBM Plex Mono',monospace;
+  --font-jp:'Noto Sans JP',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;display:flex;flex-direction:column;}
+:focus-visible{outline:none;box-shadow:var(--focus);}
+button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.scroll-body{flex:1;overflow-y:auto;padding:32px 48px 64px;max-width:900px;width:100%;margin:0 auto;}
+.scroll-body::-webkit-scrollbar{width:6px;}
+.scroll-body::-webkit-scrollbar-track{background:var(--surface-2);}
+.scroll-body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px;}
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:0 32px;display:flex;align-items:stretch;justify-content:space-between;flex-shrink:0;min-height:56px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.topbar-left{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:10px 0;}
+.tb-org{font-size:10px;font-weight:600;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;}
+.tb-course{font-size:14px;font-weight:700;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:16px;}
+.phase-pill{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1.5px solid;font-weight:600;}
+.phase-pill.p2{border-color:var(--purple-border);color:var(--purple);background:var(--purple-bg);}
+.timer-box{font-family:var(--font-mono);font-size:15px;font-weight:600;color:var(--text);background:var(--surface-2);border:1px solid var(--border);padding:5px 13px;border-radius:4px;min-width:68px;text-align:center;}
+.timer-box.urgent{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-border);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.course-progress{height:4px;background:var(--border);flex-shrink:0;}
+.course-progress-fill{height:100%;background:var(--red);transition:width 0.5s ease;border-radius:0 2px 2px 0;}
+.btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.3px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;padding:11px 24px;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px;}
+.btn-primary{background:var(--red);color:var(--white);}
+.btn-primary:hover{background:var(--red-dark);}
+.btn-secondary{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border);}
+.btn-secondary:hover{border-color:var(--border-strong);color:var(--text);}
+.btn-success{background:var(--green);color:var(--white);}
+.speak-btn{background:none;border:1.5px solid var(--border);border-radius:4px;color:var(--text-3);font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;padding:5px 11px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;}
+.speak-btn:hover{border-color:var(--teal-border);color:var(--teal);background:var(--teal-bg);}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;}
+.section-title{font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px;}
+.section-sub{font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:28px;max-width:640px;}
+.div-heading{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--text-2);text-transform:uppercase;margin:28px 0 12px;display:flex;align-items:center;gap:12px;}
+.div-heading::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Phrase table */
+.phrase-table{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:13px;}
+.phrase-table th{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:9px 14px;text-align:left;border-bottom:2px solid var(--border);background:var(--surface-2);}
+.phrase-table td{padding:13px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.phrase-table tr:last-child td{border-bottom:none;}
+.phrase-table tr:hover td{background:var(--surface-2);}
+.td-romaji{font-family:var(--font-mono);font-size:15px;font-weight:600;color:var(--text);}
+.td-jp{font-size:12px;color:var(--text-3);margin-top:3px;}
+.td-phonetic{font-family:var(--font-mono);font-size:11px;color:var(--gold);margin-top:3px;}
+.td-en{font-size:13px;color:var(--text-2);line-height:1.6;}
+.td-note{font-size:11px;color:var(--text-3);margin-top:4px;font-style:italic;}
+.td-reg{display:inline-block;font-size:10px;font-weight:600;letter-spacing:0.5px;padding:2px 8px;border-radius:10px;margin-top:5px;border:1px solid;}
+.reg-use{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border);}
+.reg-key{background:var(--red-bg);color:var(--red);border-color:#E8A0A0;}
+
+/* Callouts */
+.frame-box{background:var(--purple-bg);border:1px solid var(--purple-border);border-left:3px solid var(--purple);border-radius:6px;padding:18px 22px;margin-bottom:24px;}
+.frame-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--purple);text-transform:uppercase;margin-bottom:8px;}
+.frame-text{font-size:13px;color:var(--text-2);line-height:1.8;}
+.frame-text strong{color:var(--purple);font-weight:600;}
+.culture-note{background:var(--gold-bg);border:1px solid var(--gold-border);border-left:3px solid var(--gold);border-radius:6px;padding:16px 20px;margin:16px 0 24px;}
+.cn-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+.cn-text{font-size:13px;color:var(--text-2);line-height:1.78;}
+.cn-text strong{color:var(--gold);font-weight:600;}
+.warn-box{background:var(--warn-bg);border:1px solid var(--warn-border);border-left:3px solid var(--warn);border-radius:6px;padding:14px 18px;margin:14px 0 24px;}
+.warn-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--warn);text-transform:uppercase;margin-bottom:6px;}
+.warn-text{font-size:13px;color:var(--text-2);line-height:1.72;}
+.teal-box{background:var(--teal-bg);border:1px solid var(--teal-border);border-left:3px solid var(--teal);border-radius:6px;padding:16px 20px;margin:16px 0 24px;}
+.teal-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase;margin-bottom:8px;}
+.teal-text{font-size:13px;color:var(--text-2);line-height:1.78;}
+.teal-text strong{color:var(--teal);font-weight:600;}
+
+/* Ko/so/a/do grid */
+.ksad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.ksad-card{border-radius:8px;padding:16px 14px;text-align:center;border:1.5px solid;}
+.ksad-card.ko{background:var(--blue-bg);border-color:var(--blue-border);}
+.ksad-card.so{background:var(--green-bg);border-color:var(--green-border);}
+.ksad-card.a{background:var(--gold-bg);border-color:var(--gold-border);}
+.ksad-card.do-q{background:var(--purple-bg);border-color:var(--purple-border);}
+.ksad-jp{font-size:28px;font-weight:800;line-height:1;margin-bottom:6px;}
+.ksad-card.ko .ksad-jp{color:var(--blue);}
+.ksad-card.so .ksad-jp{color:var(--green);}
+.ksad-card.a .ksad-jp{color:var(--gold);}
+.ksad-card.do-q .ksad-jp{color:var(--purple);}
+.ksad-roman{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.ksad-meaning{font-size:12px;color:var(--text-2);line-height:1.4;margin-bottom:6px;}
+.ksad-spatial{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);background:var(--surface-2);border-radius:3px;padding:2px 8px;display:inline-block;}
+
+/* Demonstrative table */
+.demo-table-wrap{overflow-x:auto;margin-bottom:24px;}
+.demo-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px;}
+.demo-table th{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:9px 14px;text-align:left;border-bottom:2px solid var(--border);background:var(--surface-2);}
+.demo-table th.hdr-ko{color:var(--blue);}
+.demo-table th.hdr-so{color:var(--green);}
+.demo-table th.hdr-a{color:var(--gold);}
+.demo-table th.hdr-do{color:var(--purple);}
+.demo-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.demo-table tr:last-child td{border-bottom:none;}
+.demo-table tr:hover td{background:var(--surface-2);}
+.dt-row-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);}
+.dt-cell{text-align:center;}
+.dt-romaji{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text);}
+.dt-jp{font-size:11px;color:var(--text-3);margin-top:2px;}
+.dt-phonetic{font-family:var(--font-mono);font-size:10px;color:var(--gold);}
+
+/* Negation pattern */
+.neg-equation{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0;}
+.neg-block{border-radius:6px;padding:12px 16px;text-align:center;border:1.5px solid;}
+.neg-block.x{border-color:var(--blue-border);background:var(--blue-bg);}
+.neg-block.wa{border-color:var(--teal-border);background:var(--teal-bg);}
+.neg-block.y{border-color:var(--gold-border);background:var(--gold-bg);}
+.neg-block.janai{border-color:var(--warn-border);background:var(--warn-bg);}
+.neg-block.desu{border-color:var(--teal-border);background:var(--teal-bg);}
+.neg-jp{font-size:11px;color:var(--text-3);margin-bottom:3px;}
+.neg-roman{font-family:var(--font-mono);font-size:16px;font-weight:700;}
+.neg-label{font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:var(--text-3);text-transform:uppercase;margin-top:4px;}
+.neg-op{font-family:var(--font-mono);font-size:16px;color:var(--text-3);}
+
+/* Back-chain */
+.backchain-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px 32px;margin-bottom:28px;max-width:640px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.bc-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase;margin-bottom:20px;}
+.bc-steps{display:flex;flex-direction:column;gap:0;}
+.bc-step{display:flex;align-items:stretch;gap:0;position:relative;}
+.bc-step-line{width:2px;background:var(--border);margin:0 18px;flex-shrink:0;}
+.bc-step:last-child .bc-step-line{background:linear-gradient(to bottom,var(--border),transparent);}
+.bc-step-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--teal);background:var(--white);position:absolute;top:12px;left:-4px;transition:background 0.2s;}
+.bc-step.done .bc-step-dot{background:var(--teal);}
+.bc-step-body{padding:8px 0 20px;flex:1;}
+.bc-step-num{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:4px;}
+.bc-phrase{font-size:13px;color:rgba(106,117,133,0.6);margin-bottom:3px;}
+.bc-roman{font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.bc-phonetic{font-family:var(--font-mono);font-size:11px;color:var(--gold);margin-bottom:8px;}
+.bc-step-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bc-say-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--teal-border);border-radius:4px;color:var(--teal);background:none;padding:6px 14px;cursor:pointer;transition:all 0.15s;}
+.bc-say-btn:hover{background:var(--teal-bg);}
+.bc-repeat-btn{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:none;border-radius:4px;color:var(--white);background:var(--teal);padding:6px 14px;cursor:pointer;}
+.bc-tick{font-size:13px;color:var(--teal);display:none;}
+.bc-step.done .bc-tick{display:inline;}
+.bc-progress-row{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.bc-prog-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.bc-prog-fill{height:100%;background:var(--teal);border-radius:2px;transition:width 0.4s ease;}
+.bc-prog-label{font-family:var(--font-mono);font-size:10px;color:var(--text-3);}
+
+/* Sentence builder */
+.unlock-builder{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px 28px;margin-bottom:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.ub-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:var(--red);text-transform:uppercase;margin-bottom:16px;}
+.ub-slots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+.ub-slot{background:var(--surface-2);border:1.5px dashed var(--border-strong);border-radius:6px;padding:9px 14px;font-size:13px;min-width:100px;text-align:center;color:var(--text-3);transition:all 0.2s;}
+.ub-slot.filled{border-color:var(--red);color:var(--text);border-style:solid;background:var(--red-bg);}
+.ub-static{background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:6px;padding:9px 14px;font-size:13px;color:var(--teal);font-family:var(--font-mono);font-weight:600;}
+.ub-static.neg{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn);}
+.ub-op{font-family:var(--font-mono);font-size:14px;color:var(--text-3);}
+.ub-chips-label{font-family:var(--font-mono);font-size:9px;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;}
+.ub-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.ub-chip{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;background:var(--surface-2);border-radius:6px;padding:8px 12px;cursor:pointer;transition:all 0.15s;border:1.5px solid var(--border);font-family:var(--font-mono);}
+.ub-chip:hover{border-color:var(--red);background:var(--red-bg);}
+.ub-chip.selected{border-color:var(--red);background:var(--red-bg);}
+.chip-roman{font-size:13px;font-weight:600;color:var(--text);}
+.chip-en{font-size:10px;color:var(--text-2);}
+.ub-result{display:none;margin-top:16px;border-radius:6px;padding:14px 18px;}
+.ub-result.natural{background:var(--correct-bg);border:1px solid var(--correct-border);}
+.ub-result.odd{background:var(--gold-bg);border:1px solid var(--gold-border);}
+.ub-result.broken{background:var(--wrong-bg);border:1px solid var(--wrong-border);}
+.ub-result-sentence{font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.ub-result-note{font-size:13px;line-height:1.65;}
+
+/* Exchange cards */
+.exchange-cards{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.exc-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.exc-card-body{flex:1;min-width:0;}
+.exc-diagram{max-width:260px;margin-top:14px;cursor:zoom-in;opacity:0.9;transition:opacity 0.15s;}
+.exc-diagram:hover{opacity:1;}
+.exc-diagram svg{width:100%;display:block;border-radius:6px;border:1px solid var(--border);}
+.exc-diagram-hint{font-size:10px;color:var(--text-3);font-family:var(--font-mono);letter-spacing:1px;margin-top:4px;text-align:center;}
+.exc-diagram-wrap{display:flex;gap:16px;align-items:flex-start;}
+/* Lightbox */
+.diag-lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;}
+.diag-lightbox.open{display:flex;}
+.diag-lightbox-inner{background:var(--surface);border-radius:12px;padding:24px;max-width:420px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.25);}
+.diag-lightbox-inner svg{width:100%;display:block;}
+.diag-lightbox-label{font-size:11px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;text-align:center;margin-top:12px;}
+.exc-scenario{font-size:12px;color:var(--text-3);font-style:italic;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.exc-line{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
+.exc-line:last-child{margin-bottom:0;}
+.exc-speaker{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);min-width:52px;margin-top:3px;flex-shrink:0;}
+.exc-bubble{flex:1;}
+.exc-romaji{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.exc-jp{font-size:11px;color:var(--text-3);margin-bottom:2px;}
+.exc-en{font-size:12px;color:var(--text-2);}
+.exc-actions{display:flex;gap:8px;margin-top:4px;}
+
+/* Block accordion */
+.block-section{margin-bottom:12px;border-radius:8px;overflow:hidden;border:1.5px solid var(--border);transition:border-color 0.3s,box-shadow 0.3s,opacity 0.3s;}
+.block-section.locked{opacity:0.52;pointer-events:none;}
+.block-section.active-block{border-color:var(--red);box-shadow:0 0 0 3px rgba(200,16,46,0.08);opacity:1;pointer-events:auto;}
+.block-section.unlocked{opacity:1;pointer-events:auto;}
+.block-header{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--surface);cursor:pointer;user-select:none;transition:background 0.15s;}
+.block-header:hover{background:var(--surface-2);}
+.block-section.locked .block-header{cursor:default;}
+.bh-status{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all 0.3s;}
+.block-section.unlocked .bh-status,.block-section.active-block .bh-status{background:var(--green);border-color:var(--green);color:white;}
+.block-section.locked .bh-status{background:var(--surface-2);color:var(--text-3);}
+.bh-label{flex:1;}
+.bh-num{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;}
+.bh-title{font-size:14px;font-weight:600;color:var(--text);}
+.block-section.locked .bh-title{color:var(--text-3);}
+.bh-badge{font-family:var(--font-mono);font-size:10px;padding:3px 10px;border-radius:10px;border:1px solid;}
+.badge-locked{background:var(--surface-2);border-color:var(--border);color:var(--text-3);}
+.badge-current{background:var(--red);border-color:var(--red);color:white;}
+.badge-done{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.bh-chevron{font-size:12px;color:var(--text-3);transition:transform 0.25s;flex-shrink:0;}
+.block-section.open .bh-chevron{transform:rotate(180deg);}
+.block-section.locked .bh-chevron{opacity:0;}
+.block-body{display:none;padding:8px 20px 28px;background:var(--surface);border-top:1px solid var(--border);}
+.block-section.open .block-body{display:block;animation:fadeIn 0.2s ease;}
+.unlock-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:white;font-size:13px;font-weight:600;padding:10px 22px;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,0.15);opacity:0;transition:all 0.35s;z-index:999;pointer-events:none;white-space:nowrap;}
+.unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.waiting-state{text-align:center;padding:56px 24px;}
+.waiting-icon{font-size:40px;margin-bottom:16px;animation:pulse-gentle 2s infinite;}
+@keyframes pulse-gentle{0%,100%{opacity:1;}50%{opacity:0.45;}}
+.waiting-text{font-size:15px;color:var(--text-2);line-height:1.7;}
+.waiting-sub{font-size:12px;color:var(--text-3);margin-top:8px;font-family:var(--font-mono);}
+
+@media(max-width:640px){
+  .scroll-body{padding:20px 16px 48px;}
+  .ksad-grid{grid-template-columns:repeat(2,1fr);}
+  .ub-slots{gap:5px;}
+}
+/* ── Sentence builders ── */
+.sb-btn{padding:7px 13px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface-2);font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;transition:all 0.15s;font-family:var(--font-mono);}
+.sb-btn:hover{border-color:var(--blue);color:var(--blue);}
+.sb-btn.selected{color:#fff;border-color:transparent;}
+.sb-ko.selected{background:var(--blue);}
+.sb-so.selected{background:var(--green);}
+.sb-a.selected{background:var(--gold);}
+.sb-do.selected{background:var(--purple);}
+.sb-btn:not(.sb-ko):not(.sb-so):not(.sb-a):not(.sb-do).selected{background:var(--blue);color:#fff;}
+.sb-clear{border-style:dashed;color:var(--text-3);}
+.sb-clear:hover{border-color:var(--warn);color:var(--warn);}
+/* ── Word bank tiles ── */
+.wb-tile{display:inline-flex;flex-direction:column;align-items:center;padding:8px 12px;border-radius:7px;border:1.5px solid var(--border);background:var(--surface-2);cursor:pointer;transition:all 0.12s;font-size:15px;font-weight:700;color:var(--text);line-height:1.2;font-family:var(--font-jp);}
+.wb-tile:hover{border-color:var(--blue);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.12);}
+.wb-tile.used{opacity:0.3;pointer-events:none;}
+.wb-ro{font-family:var(--font-mono);font-size:9px;font-weight:600;color:var(--text-3);margin-top:3px;text-transform:lowercase;}
+.wb-ko{border-color:var(--blue-border);background:var(--blue-bg);}
+.wb-ko .wb-ro{color:var(--blue);}
+.wb-so{border-color:var(--green-border);background:var(--green-bg);}
+.wb-so .wb-ro{color:var(--green);}
+.wb-a{border-color:var(--gold-border);background:var(--gold-bg);}
+.wb-a .wb-ro{color:var(--gold);}
+.wb-neg{border-color:var(--warn-border);background:var(--warn-bg);}
+.wb-neg .wb-ro{color:var(--warn);}
+/* Placed tokens in sentence slot */
+.sb2-token{display:inline-flex;flex-direction:column;align-items:center;padding:5px 10px;border-radius:6px;background:var(--blue);color:#fff;cursor:pointer;font-size:14px;font-weight:700;line-height:1.2;transition:opacity 0.1s;font-family:var(--font-jp);}
+.sb2-token:hover{opacity:0.7;}
+.sb2-token .tok-ro{font-family:var(--font-mono);font-size:9px;font-weight:500;opacity:0.8;margin-top:2px;}
+.sb2-token.tok-so{background:var(--green);}
+.sb2-token.tok-a{background:var(--gold);color:var(--text);}
+.sb2-token.tok-neg{background:var(--warn);}
+.sb2-token.tok-neutral{background:var(--teal);}
+
+/* ── Builder v2 layout ── */
+.wb-row{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+.wb-row:last-child{border-bottom:none;}
+.wb-row-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;min-width:64px;padding-top:12px;flex-shrink:0;line-height:1.4;text-align:right;}
+.wb-row-tiles{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;flex:1;}
+.wb-spatial-group{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;}
+.wb-spatial-sep{width:1px;background:var(--border);align-self:stretch;margin:0 4px;flex-shrink:0;}
+.wb-spatial-hdr{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;width:100%;padding-bottom:4px;}
+.sb2-example-btn{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:0.5px;padding:5px 12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-2);cursor:pointer;transition:all 0.12s;white-space:nowrap;}
+.sb2-example-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-bg);}
+</style>
+</head>
+<body>
+<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC · Session 06</div>
+      <div class="tb-course">Phase 2 — Field Briefing</div>
+    </div>
+    <div class="tb-right">
+      <div class="phase-pill p2">📋 Briefing</div>
+      <div class="timer-box" id="p2-timer" aria-label="Time remaining">30:00</div>
+      <div id="conn-dot" style="width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.4s;" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="course-progress">
+    <div class="course-progress-fill" id="learner-progress" style="width:35%;"></div>
+  </div>
+
+  <div class="scroll-body" style="max-width:860px;">
+    <div id="waiting-state" class="waiting-state">
+      <div class="waiting-icon">📋</div>
+      <div class="waiting-text">Your facilitator is about to begin Phase 2.<br>Blocks will appear here as they are unlocked.</div>
+      <div class="waiting-sub" style="margin-top:16px;">● connecting to session…</div>
+    </div>
+
+    <div id="accordion" style="display:none;">
+
+<!-- ══ BLOCK A — Ko/So/A/Do System ══ -->
+<div class="block-section locked" id="section-ksad" data-block="ksad">
+  <div class="block-header" onclick="toggleBlock('ksad')">
+    <div class="bh-status" id="status-ksad">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block A · 5–6 min</div>
+      <div class="bh-title">🗺 Block A — This / That / Which</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-ksad">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-ksad">
+    <div class="eyebrow" style="margin-top:16px;">Block A — The System</div>
+    <div class="section-title">This, That, That Over There — and Which?</div>
+    <div class="section-sub">Japanese organizes "pointing" words by distance — from you, from the listener, or far from both. Once you see the pattern, every word in the system falls into place.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">The Big Idea</div>
+      <div class="frame-text">Japanese has four pointing roots: <strong>ko-</strong> (close to me), <strong>so-</strong> (close to you), <strong>a-</strong> (far from both of us), and <strong>do-</strong> (question). Every demonstrative word in Japanese is built from one of these four roots. Learn the roots — you get the whole system.<br><br>On a manufacturing floor, this unlocks real communication: <em>"Is it this part or that part?"</em> <em>"That machine over there."</em> <em>"Which station?"</em></div>
+    </div>
+
+    <div class="ksad-grid">
+      <div class="ksad-card ko">
+        <div class="ksad-jp">こ</div>
+        <div class="ksad-roman">KO-</div>
+        <div class="ksad-meaning">Close to <strong>me</strong> (speaker)</div>
+        <div class="ksad-spatial">THIS side</div>
+        <button class="speak-btn" onclick="speak('root-ko')" style="margin-top:8px;font-size:9px;">🔊 ko</button>
+      </div>
+      <div class="ksad-card so">
+        <div class="ksad-jp">そ</div>
+        <div class="ksad-roman">SO-</div>
+        <div class="ksad-meaning">Close to <strong>you</strong> (listener)</div>
+        <div class="ksad-spatial">YOUR side</div>
+        <button class="speak-btn" onclick="speak('root-so')" style="margin-top:8px;font-size:9px;">🔊 so</button>
+      </div>
+      <div class="ksad-card a">
+        <div class="ksad-jp">あ</div>
+        <div class="ksad-roman">A-</div>
+        <div class="ksad-meaning">Far from <strong>both</strong></div>
+        <div class="ksad-spatial">OVER THERE</div>
+        <button class="speak-btn" onclick="speak('root-a')" style="margin-top:8px;font-size:9px;">🔊 a</button>
+      </div>
+      <div class="ksad-card do-q">
+        <div class="ksad-jp">ど</div>
+        <div class="ksad-roman">DO-</div>
+        <div class="ksad-meaning">Question / which?</div>
+        <div class="ksad-spatial">? UNKNOWN</div>
+        <button class="speak-btn" onclick="speak('root-do')" style="margin-top:8px;font-size:9px;">🔊 do</button>
+      </div>
+    </div>
+
+    <div class="culture-note">
+      <div class="cn-label">💡 Floor Context</div>
+      <div class="cn-text">The so- / a- distinction matters most at DENSO. If a colleague is standing at their station holding a part: <strong>sore</strong> (that — near you). If both of you are looking across the floor at something: <strong>are</strong> (that over there). In practice, pointing + context makes this clear even when you're not sure which to use.</div>
+    </div>
+
+    <div style="background:var(--surface);border:1.5px solid var(--gold-border);border-radius:8px;padding:16px 20px;margin-top:16px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">📝 S5 Correction — Responding to Yoroshiku Onegaishimasu</div>
+      <div style="font-size:13px;color:var(--text-2);line-height:1.75;margin-bottom:14px;">In Session 5 we said a nod is a sufficient response when receiving work with <strong>yoroshiku onegaishimasu</strong>. That was a Western-lens mistake — in a Japanese workplace context this is actually a <strong>reciprocal exchange</strong>, and a verbal response is expected. Here are the natural options:</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+        <div style="background:var(--surface-2);border-radius:6px;padding:10px 14px;border-left:3px solid var(--blue);">
+          <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;">Hai, wakarimashita. Yoroshiku onegaishimasu.</div>
+          <div style="font-size:11px;color:var(--text-3);font-style:italic;margin-bottom:3px;">はい、わかりました。よろしくお願いします。</div>
+          <div style="font-size:12px;color:var(--text-2);">Yes, understood. I'll take good care of it. — mirrors the yoroshiku back, closes the loop</div>
+        </div>
+        <div style="background:var(--surface-2);border-radius:6px;padding:10px 14px;border-left:3px solid var(--green);">
+          <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;">Omakase kudasai.</div>
+          <div style="font-size:11px;color:var(--text-3);font-style:italic;margin-bottom:3px;">お任せください。</div>
+          <div style="font-size:12px;color:var(--text-2);">Please leave it to me. — confident, honorific; appropriate when receiving from a senior</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:6px;padding:10px 14px;">
+          <div style="font-size:12px;color:var(--warn);line-height:1.6;"><strong>⚠️ Not this:</strong> <span style="font-family:var(--font-mono);">Watashi ni makasete kudasai</span> — too casual. The honorific form <span style="font-family:var(--font-mono);">omakase kudasai</span> is correct when responding to a senior.</div>
+        </div>
+        <div style="background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:6px;padding:10px 14px;">
+          <div style="font-size:12px;color:var(--warn);line-height:1.6;"><strong>⚠️ Not this:</strong> <span style="font-family:var(--font-mono);">Kochira koso yoroshiku onegaishimasu</span> — implies a mutual exchange of work between equals. That's not the dynamic when receiving an assignment.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BLOCK A.5 — Spatial Map + Sentence Builders ══ -->
+<div class="block-section locked" id="section-practice" data-block="practice">
+  <div class="block-header" onclick="toggleBlock('practice')">
+    <div class="bh-status" id="status-practice">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block A.5 · 6–7 min</div>
+      <div class="bh-title">🛠 Block A.5 — Try It</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-practice">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-practice">
+    <div class="eyebrow" style="margin-top:16px;">Block A.5 — Practice</div>
+    <div class="section-title">Spatial Map</div>
+    <div class="section-sub">Click a zone to see which root applies and why.</div>
+
+    <!-- ── Interactive Spatial Map ── -->
+    <div class="div-heading">Where does each root apply?</div>
+    <div style="font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:16px;">Click a zone on the floor map to see which root applies and why.</div>
+
+    <div id="spatial-map" style="position:relative;width:100%;max-width:520px;margin:0 auto 8px;user-select:none;">
+      <svg viewBox="0 0 520 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <!-- A zone (far) — centered on whole diagram -->
+        <ellipse cx="260" cy="140" rx="240" ry="118" fill="var(--gold-bg)" stroke="var(--gold-border)" stroke-width="1.5" id="zone-a" class="zone-ellipse" onclick="selectZone('a')" style="cursor:pointer;"/>
+        <!-- SO zone — centered between speaker and mid-right -->
+        <ellipse cx="230" cy="140" rx="155" ry="82" fill="var(--green-bg)" stroke="var(--green-border)" stroke-width="1.5" id="zone-so" class="zone-ellipse" onclick="selectZone('so')" style="cursor:pointer;"/>
+        <!-- KO zone — centered on speaker -->
+        <ellipse cx="130" cy="140" rx="80" ry="50" fill="var(--blue-bg)" stroke="var(--blue-border)" stroke-width="1.5" id="zone-ko" class="zone-ellipse" onclick="selectZone('ko')" style="cursor:pointer;"/>
+
+        <!-- Speaker figure -->
+        <circle cx="108" cy="136" r="14" fill="var(--blue)" opacity="0.85"/>
+        <text x="108" y="141" text-anchor="middle" font-size="13" fill="white" font-family="Inter,sans-serif" font-weight="700">YOU</text>
+        <text x="108" y="162" text-anchor="middle" font-size="10" fill="var(--blue)" font-family="Inter,sans-serif" font-weight="600">speaker</text>
+
+        <!-- Listener figure — inside so- zone, right of center -->
+        <circle cx="330" cy="136" r="14" fill="var(--green)" opacity="0.85"/>
+        <text x="330" y="141" text-anchor="middle" font-size="10" fill="white" font-family="Inter,sans-serif" font-weight="700">THEM</text>
+        <text x="330" y="162" text-anchor="middle" font-size="10" fill="var(--green)" font-family="Inter,sans-serif" font-weight="600">listener</text>
+
+        <!-- KO label — top of ko- ellipse, above speaker -->
+        <text x="108" y="82" text-anchor="middle" font-size="18" font-weight="800" fill="var(--blue)" font-family="Inter,sans-serif" id="lbl-ko" onclick="selectZone('ko')" style="cursor:pointer;">こ KO-</text>
+        <text x="108" y="97" text-anchor="middle" font-size="10" fill="var(--blue)" font-family="Inter,sans-serif" opacity="0.8" onclick="selectZone('ko')" style="cursor:pointer;">near me</text>
+
+        <!-- SO label — top of so- ring, between figures -->
+        <text x="295" y="52" text-anchor="middle" font-size="18" font-weight="800" fill="var(--green)" font-family="Inter,sans-serif" id="lbl-so" onclick="selectZone('so')" style="cursor:pointer;">そ SO-</text>
+        <text x="295" y="67" text-anchor="middle" font-size="10" fill="var(--green)" font-family="Inter,sans-serif" opacity="0.8" onclick="selectZone('so')" style="cursor:pointer;">near you</text>
+
+        <!-- A label — far right of a- zone -->
+        <text x="462" y="88" text-anchor="middle" font-size="18" font-weight="800" fill="var(--gold)" font-family="Inter,sans-serif" id="lbl-a" onclick="selectZone('a')" style="cursor:pointer;">あ A-</text>
+        <text x="462" y="104" text-anchor="middle" font-size="10" fill="var(--gold)" font-family="Inter,sans-serif" opacity="0.8" onclick="selectZone('a')" style="cursor:pointer;">far from both</text>
+
+        <!-- DO label (floating bottom) -->
+        <text x="260" y="272" text-anchor="middle" font-size="15" font-weight="800" fill="var(--purple)" font-family="Inter,sans-serif" id="lbl-do" onclick="selectZone('do')" style="cursor:pointer;">ど DO- · unknown / question</text>
+      </svg>
+    </div>
+
+    <!-- Zone info panel -->
+    <div id="zone-info" style="min-height:90px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;margin:0 auto 24px;max-width:520px;transition:border-color 0.2s;">
+      <div id="zone-info-inner" style="font-size:13px;color:var(--text-3);text-align:center;padding-top:12px;">Click a zone or root label to see it explained.</div>
+    </div>
+
+    <!-- ── Sentence Builder 1: Ko/So/A/Do ── -->
+    <!-- moved to end of Block C -->
+
+    <!-- ── Sentence Builder 2: Ja Nai Desu ── -->
+    <!-- moved to end of Block D -->
+
+  </div>
+</div>
+
+<!-- ══ BLOCK B — Kore/Sore/Are/Dore (standalone things) ══ -->
+<div class="block-section locked" id="section-kore" data-block="kore">
+  <div class="block-header" onclick="toggleBlock('kore')">
+    <div class="bh-status" id="status-kore">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block B · 6–7 min</div>
+      <div class="bh-title">🔩 Block B — Pointing at Things</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-kore">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-kore">
+    <div class="eyebrow" style="margin-top:16px;">Block B — Standalone Demonstratives</div>
+    <div class="section-title">Kore, Sore, Are, Dore</div>
+    <div class="section-sub">Point at a thing — no noun needed. The most immediately useful form on the floor.</div>
+
+    <div class="div-heading">The -re series (pointing at things)</div>
+    <div class="demo-table-wrap">
+      <table class="demo-table">
+        <thead>
+          <tr>
+            <th>Use</th>
+            <th class="hdr-ko">KO · This (near me)</th>
+            <th class="hdr-so">SO · That (near you)</th>
+            <th class="hdr-a">A · That over there</th>
+            <th class="hdr-do">DO · Which?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dt-row-label">Pointing at a thing</td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Kore</div>
+              <div class="dt-jp">これ</div>
+              <div class="dt-phonetic">koh-reh</div>
+              <button class="speak-btn" onclick="speak('これ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Sore</div>
+              <div class="dt-jp">それ</div>
+              <div class="dt-phonetic">soh-reh</div>
+              <button class="speak-btn" onclick="speak('それ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Are</div>
+              <div class="dt-jp">あれ</div>
+              <div class="dt-phonetic">ah-reh</div>
+              <button class="speak-btn" onclick="speak('あれ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Dore</div>
+              <div class="dt-jp">どれ</div>
+              <div class="dt-phonetic">doh-reh</div>
+              <button class="speak-btn" onclick="speak('どれ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="dt-row-label">Pointing at a place</td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Koko</div>
+              <div class="dt-jp">ここ</div>
+              <div class="dt-phonetic">koh-koh</div>
+              <button class="speak-btn" onclick="speak('ここ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Soko</div>
+              <div class="dt-jp">そこ</div>
+              <div class="dt-phonetic">soh-koh</div>
+              <button class="speak-btn" onclick="speak('そこ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Asoko</div>
+              <div class="dt-jp">あそこ</div>
+              <div class="dt-phonetic">ah-soh-koh</div>
+              <button class="speak-btn" onclick="speak('あそこ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Doko</div>
+              <div class="dt-jp">どこ</div>
+              <div class="dt-phonetic">doh-koh</div>
+              <button class="speak-btn" onclick="speak('どこ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="div-heading">Floor phrases — kore/sore/are + desu</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>When to use it</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="td-romaji">Kore desu.</div><div class="td-phonetic">koh-reh des</div><span class="td-reg reg-use">use this</span></td>
+          <td><div class="td-jp">これです。</div></td>
+          <td class="td-en">It's this one. Pointing at something near you — confirming identity of a part, tool, or document.</td>
+          <td><button class="speak-btn" onclick="speak('これです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Sore desu.</div><div class="td-phonetic">soh-reh des</div><span class="td-reg reg-use">use this</span></td>
+          <td><div class="td-jp">それです。</div></td>
+          <td class="td-en">That's it / that's the one. Pointing at something near the listener — confirming they're holding the right part.</td>
+          <td><button class="speak-btn" onclick="speak('それです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Are desu.</div><div class="td-phonetic">ah-reh des</div><span class="td-reg reg-use">use this</span></td>
+          <td><div class="td-jp">あれです。</div></td>
+          <td class="td-en">It's that one over there. Both of you are looking at something across the floor.</td>
+          <td><button class="speak-btn" onclick="speak('あれです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Dore desu ka?</div><div class="td-phonetic">doh-reh des kah</div><span class="td-reg reg-use">use this</span></td>
+          <td><div class="td-jp">どれですか？</div></td>
+          <td class="td-en">Which one is it? Asking someone to identify which part/item among several options.</td>
+          <td><button class="speak-btn" onclick="speak('どれですか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Kore wa nan desu ka?</div><div class="td-phonetic">koh-reh wah nahn des kah</div><span class="td-reg reg-use">use this</span></td>
+          <td><div class="td-jp">これは何ですか？</div></td>
+          <td class="td-en">What is this? Asking about an unfamiliar part, label, or tool near you.</td>
+          <td><button class="speak-btn" onclick="speak('これは何ですか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Koko desu ka?</div><div class="td-phonetic">koh-koh des kah</div><span class="td-reg reg-use">use this</span></td>
+          <td><div class="td-jp">ここですか？</div></td>
+          <td class="td-en">Is it here? Confirming a location — "at this station? in this bin?"</td>
+          <td><button class="speak-btn" onclick="speak('ここですか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Doko desu ka?</div><div class="td-phonetic">doh-koh des kah</div><span class="td-reg reg-use">use this</span></td>
+          <td><div class="td-jp">どこですか？</div></td>
+          <td class="td-en">Where is it? A universal floor question — where is the part / station / exit?</td>
+          <td><button class="speak-btn" onclick="speak('どこですか？')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ BLOCK C — Kono/Sono/Ano/Dono + noun ══ -->
+<div class="block-section locked" id="section-kono" data-block="kono">
+  <div class="block-header" onclick="toggleBlock('kono')">
+    <div class="bh-status" id="status-kono">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block C · 5–6 min</div>
+      <div class="bh-title">🔧 Block C — This [Noun]</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-kono">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-kono">
+    <div class="eyebrow" style="margin-top:16px;">Block C — Modifier Form</div>
+    <div class="section-title">Kono / Sono / Ano / Dono + Noun</div>
+    <div class="section-sub">Add a noun and you go from pointing at a thing to naming it. "This part." "That machine." "Which station?"</div>
+
+    <div class="frame-box">
+      <div class="frame-label">The Rule</div>
+      <div class="frame-text">Kore/Sore/Are/Dore stand alone — they <em>are</em> the thing. Kono/Sono/Ano/Dono come before a noun — they <em>describe</em> the thing. Drop the final -re, add -no: ko<strong>re</strong> → ko<strong>no</strong>. Same roots, same spatial logic.</div>
+    </div>
+
+    <div class="div-heading">The -no series (modifier + noun)</div>
+    <div class="demo-table-wrap">
+      <table class="demo-table">
+        <thead>
+          <tr>
+            <th>Use</th>
+            <th class="hdr-ko">KO · This ~</th>
+            <th class="hdr-so">SO · That ~</th>
+            <th class="hdr-a">A · That ~ over there</th>
+            <th class="hdr-do">DO · Which ~?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dt-row-label">Before a noun</td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Kono ~</div>
+              <div class="dt-jp">この〜</div>
+              <div class="dt-phonetic">koh-noh</div>
+              <button class="speak-btn" onclick="speak('このパーツ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Sono ~</div>
+              <div class="dt-jp">その〜</div>
+              <div class="dt-phonetic">soh-noh</div>
+              <button class="speak-btn" onclick="speak('そのパーツ')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Ano ~</div>
+              <div class="dt-jp">あの〜</div>
+              <div class="dt-phonetic">ah-noh</div>
+              <button class="speak-btn" onclick="speak('あの機械')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+            <td class="dt-cell">
+              <div class="dt-romaji">Dono ~</div>
+              <div class="dt-jp">どの〜</div>
+              <div class="dt-phonetic">doh-noh</div>
+              <button class="speak-btn" onclick="speak('root-dono')" style="margin-top:4px;font-size:9px;">🔊</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="div-heading">Floor phrases — kono/sono/dono + noun</div>
+    <table class="phrase-table">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>Context</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="td-romaji">Kono pātsu desu.</div><div class="td-phonetic">koh-noh pah-tsoo des</div></td>
+          <td><div class="td-jp">このパーツです。</div></td>
+          <td class="td-en">It's this part. Holding the part or pointing to it right in front of you.</td>
+          <td><button class="speak-btn" onclick="speak('このパーツです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Sono bōru desu.</div><div class="td-phonetic">soh-noh boh-roo des</div></td>
+          <td><div class="td-jp">そのボルトです。</div></td>
+          <td class="td-en">It's that bolt. The listener is near the bolt — you're pointing to it from a distance.</td>
+          <td><button class="speak-btn" onclick="speak('そのボルトです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Ano kikai desu.</div><div class="td-phonetic">ah-noh kee-kigh des</div></td>
+          <td><div class="td-jp">あの機械です。</div></td>
+          <td class="td-en">It's that machine over there. Both of you are looking across the floor at it.</td>
+          <td><button class="speak-btn" onclick="speak('あの機械です。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Dono rain desu ka?</div><div class="td-phonetic">doh-noh rye-n des kah</div></td>
+          <td><div class="td-jp">どのラインですか？</div></td>
+          <td class="td-en">Which line is it? Asking which production line — among several visible options.</td>
+          <td><button class="speak-btn" onclick="speak('どのラインですか？')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Kono tejun desu ka?</div><div class="td-phonetic">koh-noh teh-joon des kah</div></td>
+          <td><div class="td-jp">この手順ですか？</div></td>
+          <td class="td-en">Is this the procedure? Confirming you're looking at the right process sheet or steps.</td>
+          <td><button class="speak-btn" onclick="speak('この手順ですか？')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="culture-note">
+      <div class="cn-label">💡 Useful floor vocabulary</div>
+      <div class="cn-text">
+        Words you can drop after kono/sono/ano/dono right now:<br>
+        <strong>パーツ (pātsu)</strong> — part &nbsp;·&nbsp; <strong>ボルト (boruto)</strong> — bolt &nbsp;·&nbsp; <strong>機械 (kikai)</strong> — machine &nbsp;·&nbsp; <strong>ライン (rain)</strong> — line &nbsp;·&nbsp; <strong>ステーション (sutēshon)</strong> — station &nbsp;·&nbsp; <strong>手順 (tejun)</strong> — procedure &nbsp;·&nbsp; <strong>箱 (hako)</strong> — box/bin &nbsp;·&nbsp; <strong>工具 (kōgu)</strong> — tool
+      </div>
+    </div>
+
+    <div class="div-heading">Sentence Builder — Demonstratives</div>
+    <div style="font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:16px;">Pick a root, a suffix, and a noun. See the full demonstrative system come together.</div>
+    <button id="sb1-start-btn" onclick="sb1Open()" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--blue-border);background:var(--blue-bg);color:var(--blue);cursor:pointer;">▶ Open Builder</button>
+    <div id="sb1-body" style="display:none;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:8px;">
+      <div style="margin-bottom:14px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;">1 · Root</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sb1-roots">
+          <button class="sb-btn sb-ko" onclick="sb1Pick('root','ko')" data-group="root" data-val="ko">こ KO-</button>
+          <button class="sb-btn sb-so" onclick="sb1Pick('root','so')" data-group="root" data-val="so">そ SO-</button>
+          <button class="sb-btn sb-a" onclick="sb1Pick('root','a')" data-group="root" data-val="a">あ A-</button>
+          <button class="sb-btn sb-do" onclick="sb1Pick('root','do')" data-group="root" data-val="do">ど DO-</button>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;">2 · Suffix</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sb1-suffixes">
+          <button class="sb-btn" onclick="sb1Pick('suffix','re')" data-group="suffix" data-val="re">-れ · thing</button>
+          <button class="sb-btn" onclick="sb1Pick('suffix','ko')" data-group="suffix" data-val="ko">-こ · place</button>
+          <button class="sb-btn" onclick="sb1Pick('suffix','no')" data-group="suffix" data-val="no">-の · + noun</button>
+        </div>
+      </div>
+      <div id="sb1-noun-row" style="margin-bottom:14px;display:none;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;">3 · Noun</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sb1-nouns">
+          <button class="sb-btn" onclick="sb1Pick('noun','paatsu')" data-group="noun" data-val="paatsu">パーツ pātsu</button>
+          <button class="sb-btn" onclick="sb1Pick('noun','kikai')" data-group="noun" data-val="kikai">機械 kikai</button>
+          <button class="sb-btn" onclick="sb1Pick('noun','rain')" data-group="noun" data-val="rain">ライン rain</button>
+          <button class="sb-btn" onclick="sb1Pick('noun','tejun')" data-group="noun" data-val="tejun">手順 tejun</button>
+          <button class="sb-btn" onclick="sb1Pick('noun','boruto')" data-group="noun" data-val="boruto">ボルト boruto</button>
+        </div>
+      </div>
+      <div id="sb1-output" style="background:var(--surface-2);border-radius:8px;padding:14px 16px;min-height:64px;border:1.5px solid var(--border);">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:6px;">Your sentence</div>
+        <div id="sb1-jp" style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px;min-height:28px;">—</div>
+        <div id="sb1-ro" style="font-family:var(--font-mono);font-size:13px;color:var(--blue);margin-bottom:2px;"></div>
+        <div id="sb1-en" style="font-size:12px;color:var(--text-2);"></div>
+      </div>
+      <button id="sb1-speak" onclick="sb1Speak()" style="display:none;margin-top:10px;padding:7px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--text-2);cursor:pointer;font-family:var(--font-mono);">🔊 Hear it</button>
+    </div>
+    </div><!-- /sb1-body -->
+  </div>
+</div>
+
+<!-- ══ BLOCK D — Ja nai desu (negation) ══ -->
+<div class="block-section locked" id="section-neg" data-block="neg">
+  <div class="block-header" onclick="toggleBlock('neg')">
+    <div class="bh-status" id="status-neg">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block D · 7–8 min</div>
+      <div class="bh-title">❌ Block D — Ja Nai Desu</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-neg">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-neg">
+    <div class="eyebrow" style="margin-top:16px;">Block D — Negation</div>
+    <div class="section-title">Ja Nai Desu — "It's not ~"</div>
+    <div class="section-sub">The flip side of desu. Once you can say what something is, you need to say what it isn't — especially when correcting mistakes on the floor.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">Why This Matters First</div>
+      <div class="frame-text">On a production floor, the most important thing you can do is <strong>flag a mistake fast</strong>. "It's not this part." "That's not the right procedure." "Not here — over there." These corrections prevent errors from moving down the line.<br><br>ja nai desu is the polite, professional negation form. It connects directly to the X wa Y desu pattern from Session 5 — same structure, negated ending.</div>
+    </div>
+
+    <div class="div-heading">The Pattern</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px 28px;margin-bottom:24px;">
+      <div style="font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:3px;color:var(--teal);text-transform:uppercase;margin-bottom:16px;">Positive → Negative</div>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20px;">
+        <div style="background:var(--correct-bg);border:1.5px solid var(--correct-border);border-radius:6px;padding:12px 18px;text-align:center;">
+          <div style="font-size:11px;color:var(--correct);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Affirmative</div>
+          <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--text);">[X] desu.</div>
+          <div style="font-size:12px;color:var(--text-2);margin-top:3px;">It is [X].</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:20px;color:var(--text-3);">→</div>
+        <div style="background:var(--wrong-bg);border:1.5px solid var(--wrong-border);border-radius:6px;padding:12px 18px;text-align:center;">
+          <div style="font-size:11px;color:var(--wrong);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Negative</div>
+          <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--text);">[X] ja nai desu.</div>
+          <div style="font-size:12px;color:var(--text-2);margin-top:3px;">It is <em>not</em> [X].</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--text-2);padding:10px 14px;background:var(--surface-2);border-radius:6px;border-left:3px solid var(--purple);">Replace <strong>desu</strong> → <strong>ja nai desu</strong>. Everything else stays the same.</div>
+    </div>
+
+    <table class="phrase-table">
+      <thead><tr><th>Romaji / Phonetic</th><th>Japanese</th><th>Floor context</th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="td-romaji">Kore ja nai desu.</div><div class="td-phonetic">koh-reh jah nigh des</div><span class="td-reg reg-key">⚠️ floor-critical</span></td>
+          <td><div class="td-jp">これじゃないです。</div></td>
+          <td class="td-en">It's not this one. Pointing at the wrong part to flag an error.</td>
+          <td><button class="speak-btn" onclick="speak('これじゃないです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Sore ja nai desu.</div><div class="td-phonetic">soh-reh jah nigh des</div><span class="td-reg reg-key">⚠️ floor-critical</span></td>
+          <td><div class="td-jp">それじゃないです。</div></td>
+          <td class="td-en">That's not it. The listener is holding or pointing at the wrong item.</td>
+          <td><button class="speak-btn" onclick="speak('それじゃないです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Koko ja nai desu.</div><div class="td-phonetic">koh-koh jah nigh des</div></td>
+          <td><div class="td-jp">ここじゃないです。</div></td>
+          <td class="td-en">Not here. Correcting a location — wrong bin, wrong station, wrong placement.</td>
+          <td><button class="speak-btn" onclick="speak('ここじゃないです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Kono pātsu ja nai desu.</div><div class="td-phonetic">koh-noh pah-tsoo jah nigh des</div></td>
+          <td><div class="td-jp">このパーツじゃないです。</div></td>
+          <td class="td-en">It's not this part. More specific than "kore ja nai desu" — names the category.</td>
+          <td><button class="speak-btn" onclick="speak('このパーツじゃないです。')">🔊</button></td>
+        </tr>
+        <tr>
+          <td><div class="td-romaji">Yamada-san ja nai desu.</div><div class="td-phonetic">yah-mah-dah-sahn jah nigh des</div></td>
+          <td><div class="td-jp">山田さんじゃないです。</div></td>
+          <td class="td-en">It's not Yamada-san (it's someone else). Works for any name — clarifying who someone was asking for.</td>
+          <td><button class="speak-btn" onclick="speak('山田さんじゃないです。')">🔊</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <div class="warn-label">⚠️ Tone — How to say this without sounding harsh</div>
+      <div class="warn-text">In English, "it's not this one" can land abruptly. In Japanese, <strong>ja nai desu</strong> is already the polite form — it's softer than it sounds in translation. For extra softness, add <strong>sumimasen</strong> first: <em>Sumimasen, sore ja nai desu.</em> This is not required, but it's the norm when correcting a colleague.</div>
+    </div>
+
+    <div class="div-heading">Back-Chain Drill — これじゃないです</div>
+    <div class="backchain-wrap" id="bc-neg">
+      <div class="bc-label">Drill — Build the negation from the end</div>
+      <button onclick="initBackchain('bc-neg')" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--teal-border);background:var(--teal-bg);color:var(--teal);cursor:pointer;">▶ Start Drill</button>
+      <div class="bc-steps" id="bc-neg-steps"></div>
+      <div class="bc-progress-row">
+        <div class="bc-prog-bar"><div class="bc-prog-fill" id="bc-neg-fill" style="width:0%"></div></div>
+        <div class="bc-prog-label" id="bc-neg-label">0 / 4</div>
+      </div>
+    </div>
+
+    <div class="div-heading">Sentence Builder — Ja Nai Desu</div>
+    <div style="font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:16px;">Pick a <strong>topic</strong>, what it <em>isn&#39;t</em>, then what it <em>is</em>. The builder shows the full sentence and tells you whether it works.</div>
+    <button id="sb2-start-btn" onclick="sb2Open()" style="margin-bottom:16px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:6px;border:1.5px solid var(--warn-border);background:var(--warn-bg);color:var(--warn);cursor:pointer;">▶ Open Builder</button>
+    <div id="sb2-body" style="display:none;">
+    <div class="unlock-builder" style="padding:24px 28px;">
+      <div class="ub-label" style="color:var(--warn);font-size:16px;margin-bottom:20px;">X は Y じゃないです。Z です。</div>
+
+      <!-- Slots row -->
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:24px;">
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:4px;">Topic</div>
+          <div class="ub-slot" id="jn-topic" style="min-width:120px;">[ who / what ]</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-3);">wa</div>
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:4px;">Not this</div>
+          <div class="ub-slot" id="jn-not" style="min-width:120px;">[ what it isn&#39;t ]</div>
+        </div>
+        <div style="background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:6px;padding:8px 12px;font-family:var(--font-mono);font-size:12px;color:var(--warn);font-weight:600;white-space:nowrap;">ja nai desu.</div>
+        <div style="font-family:var(--font-mono);font-size:13px;color:var(--teal);font-weight:700;">→</div>
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--teal);text-transform:uppercase;margin-bottom:4px;">Actually is</div>
+          <div class="ub-slot" id="jn-is" style="min-width:120px;">[ what it is ]</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-3);">desu.</div>
+      </div>
+
+      <!-- Step 1 -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;">Step 1 — Topic (who or what?)</div>
+      <div class="ub-chips" id="jn-topic-chips" style="margin-bottom:20px;"></div>
+
+      <!-- Step 2 -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;">Step 2 — What is it NOT?</div>
+      <div class="ub-chips" id="jn-not-chips" style="margin-bottom:20px;"></div>
+
+      <!-- Step 3 -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;">Step 3 — What IS it?</div>
+      <div class="ub-chips" id="jn-is-chips" style="margin-bottom:20px;"></div>
+
+      <!-- Result -->
+      <div id="jn-result-box" style="display:none;border-radius:6px;padding:16px 20px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span id="jn-verdict-icon" style="font-size:18px;"></span>
+          <span id="jn-verdict-label" style="font-family:var(--font-mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;"></span>
+        </div>
+        <div id="jn-jp" style="font-size:13px;color:var(--text-3);margin-bottom:4px;"></div>
+        <div id="jn-roman" style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.5;"></div>
+        <div id="jn-note" style="font-size:13px;color:var(--text-2);line-height:1.72;"></div>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <button class="ub-reset" onclick="jnReset()">&#8635; Reset</button>
+        <button class="speak-btn" id="jn-speak-btn" onclick="jnSpeak()" style="display:none;">&#128266; Hear it</button>
+      </div>
+    </div>
+    </div><!-- /sb2-body -->
+
+  </div><!-- /block-body body-neg -->
+</div><!-- /block-section section-neg -->
+
+<!-- ══ BLOCK E — Putting it together ══ -->
+<div class="block-section locked" id="section-floor" data-block="floor">
+  <div class="block-header" onclick="toggleBlock('floor')">
+    <div class="bh-status" id="status-floor">🔒</div>
+    <div class="bh-label">
+      <div class="bh-num">Block E · 5–6 min</div>
+      <div class="bh-title">🏭 Block E — Floor Exchanges</div>
+    </div>
+    <span class="bh-badge badge-locked" id="badge-floor">Waiting</span>
+    <span class="bh-chevron">▼</span>
+  </div>
+  <div class="block-body" id="body-floor">
+    <div class="eyebrow" style="margin-top:16px;">Block E — Applied</div>
+    <div class="section-title">Full Floor Exchanges</div>
+    <div class="section-sub">Combine everything: ko/so/a/do + ja nai desu + phrases from Sessions 1–5. Real scenarios, full mini-conversations.</div>
+
+    <div class="culture-note">
+      <div class="cn-label">How to read these</div>
+      <div class="cn-text">Each exchange shows a situation from DENSO's floor. Click 🔊 to hear each line. Notice how a single demonstrative + desu or ja nai desu resolves the whole interaction — no long explanations needed.</div>
+    </div>
+
+    <div class="exchange-cards">
+
+      <!-- Exchange 1: Parts bin mix-up -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Parts bin mix-up. You grab a part, engineer stops you.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Engineer</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sore ja nai desu.</div>
+              <div class="exc-jp">それじゃないです。</div>
+              <div class="exc-en">That's not it.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('それじゃないです。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Kore desu ka?</div>
+              <div class="exc-jp">これですか？</div>
+              <div class="exc-en">Is it this one? (picking up the next part)</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('これですか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">Engineer</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Hai, sore desu. Yoroshiku onegaishimasu.</div>
+              <div class="exc-jp">はい、それです。よろしくお願いします。</div>
+              <div class="exc-en">Yes, that's it. Counting on you.</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('はい、それです。よろしくお願いします。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-diagram" onclick="openDiagramLightbox(this,'Parts bin — sore · そ (near you)')" title="Click to enlarge">
+            <svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+            <rect width="160" height="120" fill="var(--surface-2)" rx="6"/>
+            <circle cx="32" cy="52" r="20" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="32" y="48" text-anchor="middle" font-size="8" font-weight="700" fill="var(--text-2)" font-family="Inter,sans-serif">ENGR</text>
+            <text x="32" y="60" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">speaks</text>
+            <circle cx="128" cy="52" r="20" fill="var(--blue-bg)" stroke="var(--blue-border)" stroke-width="1.5"/>
+            <text x="128" y="48" text-anchor="middle" font-size="8" font-weight="700" fill="var(--blue)" font-family="Inter,sans-serif">YOU</text>
+            <text x="128" y="60" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">holding</text>
+            <rect x="106" y="78" width="22" height="14" rx="3" fill="var(--green-bg)" stroke="var(--green)" stroke-width="1.5"/>
+            <text x="117" y="88" text-anchor="middle" font-size="7" font-weight="700" fill="var(--green)" font-family="Inter,sans-serif">part</text>
+            <defs><marker id="a1" markerWidth="5" markerHeight="5" refX="3" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="var(--warn)"/></marker></defs>
+            <line x1="54" y1="64" x2="104" y2="80" stroke="var(--warn)" stroke-width="1.5" marker-end="url(#a1)"/>
+            <text x="80" y="69" text-anchor="middle" font-size="9" font-weight="700" fill="var(--warn)" font-family="Inter,sans-serif">sore</text>
+            <text x="80" y="108" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">near you → SO-</text>
+          </svg>
+            <div class="exc-diagram-hint">🔍 click to enlarge</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yoroshiku response note -->
+      <div style="background:var(--surface);border:1.5px solid var(--blue-border);border-radius:8px;padding:16px 20px;margin-bottom:12px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:10px;">💬 Responding to Yoroshiku Onegaishimasu</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.75;margin-bottom:12px;">When a colleague — especially a senior — passes work to you with <strong>yoroshiku onegaishimasu</strong>, this is a reciprocal exchange. A nod alone is below the expected register. Here are the natural responses:</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+          <div style="background:var(--surface-2);border-radius:6px;padding:10px 14px;border-left:3px solid var(--blue);">
+            <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;">Hai, wakarimashita. Yoroshiku onegaishimasu.</div>
+            <div style="font-size:11px;color:var(--text-3);font-style:italic;margin-bottom:3px;">はい、わかりました。よろしくお願いします。</div>
+            <div style="font-size:12px;color:var(--text-2);">Yes, understood. I'll take good care of it. — mirrors the yoroshiku back, closes the loop</div>
+          </div>
+          <div style="background:var(--surface-2);border-radius:6px;padding:10px 14px;border-left:3px solid var(--green);">
+            <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;">Omakase kudasai.</div>
+            <div style="font-size:11px;color:var(--text-3);font-style:italic;margin-bottom:3px;">お任せください。</div>
+            <div style="font-size:12px;color:var(--text-2);">Please leave it to me. — confident, honorific; appropriate when receiving from a senior</div>
+          </div>
+        </div>
+        <div style="background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:6px;padding:10px 14px;">
+          <div style="font-size:12px;color:var(--warn);line-height:1.6;"><strong>⚠️ Not this one:</strong> <span style="font-family:var(--font-mono);">Kochira koso yoroshiku onegaishimasu</span> implies a mutual exchange — like both parties are entrusting work to each other. That's not the case when receiving an assignment, so it doesn't fit here.</div>
+        </div>
+      </div>
+
+      <!-- Exchange 2: Which machine -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">New colleague asks which machine to use.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Colleague</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Dono kikai desu ka?</div>
+              <div class="exc-jp">どの機械ですか？</div>
+              <div class="exc-en">Which machine is it?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('どの機械ですか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Ano kikai desu.</div>
+              <div class="exc-jp">あの機械です。</div>
+              <div class="exc-en">It's that machine over there. (pointing across the floor)</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('あの機械です。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-diagram" onclick="openDiagramLightbox(this,'Machine — ano · あ (far from both)')" title="Click to enlarge">
+            <svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+            <rect width="160" height="120" fill="var(--surface-2)" rx="6"/>
+            <circle cx="28" cy="52" r="18" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="28" y="48" text-anchor="middle" font-size="7" font-weight="700" fill="var(--text-2)" font-family="Inter,sans-serif">COLL.</text>
+            <text x="28" y="60" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">asks</text>
+            <circle cx="80" cy="52" r="18" fill="var(--blue-bg)" stroke="var(--blue-border)" stroke-width="1.5"/>
+            <text x="80" y="48" text-anchor="middle" font-size="8" font-weight="700" fill="var(--blue)" font-family="Inter,sans-serif">YOU</text>
+            <text x="80" y="60" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">answer</text>
+            <rect x="130" y="36" width="22" height="30" rx="4" fill="var(--gold-bg)" stroke="var(--gold-border)" stroke-width="1.5"/>
+            <text x="141" y="50" text-anchor="middle" font-size="7" font-weight="700" fill="var(--gold)" font-family="Inter,sans-serif">kikai</text>
+            <text x="141" y="60" text-anchor="middle" font-size="7" fill="var(--gold)" font-family="Inter,sans-serif">機械</text>
+            <defs><marker id="a2" markerWidth="5" markerHeight="5" refX="3" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="var(--gold)"/></marker></defs>
+            <line x1="99" y1="50" x2="128" y2="50" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#a2)"/>
+            <text x="114" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="var(--gold)" font-family="Inter,sans-serif">ano</text>
+            <text x="80" y="108" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">far from both → A-</text>
+          </svg>
+            <div class="exc-diagram-hint">🔍 click to enlarge</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 3: Procedure sheet -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Engineer asks about a procedure sheet you're holding.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Engineer</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sono tejun desu ka?</div>
+              <div class="exc-jp">その手順ですか？</div>
+              <div class="exc-en">Is this the procedure?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('その手順ですか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Sumimasen, kore ja nai desu. Sore desu.</div>
+              <div class="exc-jp">すみません、これじゃないです。それです。</div>
+              <div class="exc-en">Sorry, it's not this one. It's that one. (pointing to the sheet they're holding)</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('すみません、これじゃないです。それです。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-diagram" onclick="openDiagramLightbox(this,'Procedure sheet — sono · そ (near you)')" title="Click to enlarge">
+            <svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+            <rect width="160" height="120" fill="var(--surface-2)" rx="6"/>
+            <circle cx="38" cy="52" r="18" fill="var(--blue-bg)" stroke="var(--blue-border)" stroke-width="1.5"/>
+            <text x="38" y="48" text-anchor="middle" font-size="8" font-weight="700" fill="var(--blue)" font-family="Inter,sans-serif">YOU</text>
+            <text x="38" y="60" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">holding</text>
+            <rect x="18" y="76" width="22" height="14" rx="3" fill="var(--blue-bg)" stroke="var(--blue)" stroke-width="1.5"/>
+            <text x="29" y="86" text-anchor="middle" font-size="7" font-weight="700" fill="var(--blue)" font-family="Inter,sans-serif">tejun</text>
+            <text x="29" y="108" text-anchor="middle" font-size="7" fill="var(--blue)" font-family="Inter,sans-serif">kore → KO-</text>
+            <circle cx="126" cy="52" r="18" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="126" y="48" text-anchor="middle" font-size="7" font-weight="700" fill="var(--text-2)" font-family="Inter,sans-serif">ENGR</text>
+            <text x="126" y="60" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">asks</text>
+            <defs><marker id="a3" markerWidth="5" markerHeight="5" refX="3" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="var(--green)"/></marker></defs>
+            <line x1="106" y1="65" x2="43" y2="80" stroke="var(--green)" stroke-width="1.5" marker-end="url(#a3)"/>
+            <text x="80" y="68" text-anchor="middle" font-size="9" font-weight="700" fill="var(--green)" font-family="Inter,sans-serif">sono</text>
+            <text x="80" y="108" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">near you → SO-</text>
+          </svg>
+            <div class="exc-diagram-hint">🔍 click to enlarge</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange 4: Where to put the part -->
+      <div class="exc-card">
+        <div class="exc-card-body">
+          <div class="exc-scenario">Colleague asks where to put a finished part.</div>
+          <div class="exc-line">
+            <div class="exc-speaker">Colleague</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Doko desu ka?</div>
+              <div class="exc-jp">どこですか？</div>
+              <div class="exc-en">Where does it go?</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('どこですか？')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-line">
+            <div class="exc-speaker">You</div>
+            <div class="exc-bubble">
+              <div class="exc-romaji">Koko ja nai desu. Asoko desu.</div>
+              <div class="exc-jp">ここじゃないです。あそこです。</div>
+              <div class="exc-en">Not here. Over there. (pointing to the right bin)</div>
+              <div class="exc-actions"><button class="speak-btn" onclick="speak('ここじゃないです。あそこです。')">🔊</button></div>
+            </div>
+          </div>
+          <div class="exc-diagram" onclick="openDiagramLightbox(this,'Location — asoko · あ (far from both)')" title="Click to enlarge">
+            <svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+            <rect width="160" height="120" fill="var(--surface-2)" rx="6"/>
+            <circle cx="28" cy="52" r="18" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="28" y="48" text-anchor="middle" font-size="7" font-weight="700" fill="var(--text-2)" font-family="Inter,sans-serif">COLL.</text>
+            <circle cx="80" cy="52" r="18" fill="var(--blue-bg)" stroke="var(--blue-border)" stroke-width="1.5"/>
+            <text x="80" y="48" text-anchor="middle" font-size="8" font-weight="700" fill="var(--blue)" font-family="Inter,sans-serif">YOU</text>
+            <text x="80" y="60" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">answer</text>
+            <rect x="62" y="76" width="22" height="14" rx="3" fill="var(--warn-bg)" stroke="var(--warn-border)" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <text x="73" y="86" text-anchor="middle" font-size="7" fill="var(--warn)" font-family="Inter,sans-serif">✗ koko</text>
+            <rect x="130" y="36" width="22" height="30" rx="4" fill="var(--gold-bg)" stroke="var(--gold-border)" stroke-width="1.5"/>
+            <text x="141" y="50" text-anchor="middle" font-size="7" font-weight="700" fill="var(--gold)" font-family="Inter,sans-serif">bin</text>
+            <text x="141" y="62" text-anchor="middle" font-size="8" fill="var(--gold)" font-family="Inter,sans-serif">✓</text>
+            <defs><marker id="a4" markerWidth="5" markerHeight="5" refX="3" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="var(--gold)"/></marker></defs>
+            <line x1="99" y1="50" x2="128" y2="50" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#a4)"/>
+            <text x="114" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="var(--gold)" font-family="Inter,sans-serif">asoko</text>
+            <text x="80" y="108" text-anchor="middle" font-size="7" fill="var(--text-3)" font-family="Inter,sans-serif">far from both → A-</text>
+          </svg>
+            <div class="exc-diagram-hint">🔍 click to enlarge</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="div-heading">Quick Reference — Everything from today</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:8px;">This side (ko-)</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.9;">
+            <strong>Kore</strong> — this (thing)<br>
+            <strong>Koko</strong> — here<br>
+            <strong>Kono ~</strong> — this [noun]
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:8px;">Your side (so-)</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.9;">
+            <strong>Sore</strong> — that (thing)<br>
+            <strong>Soko</strong> — there<br>
+            <strong>Sono ~</strong> — that [noun]
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Over there (a-)</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.9;">
+            <strong>Are</strong> — that (thing) over there<br>
+            <strong>Asoko</strong> — over there<br>
+            <strong>Ano ~</strong> — that [noun] over there
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--purple);text-transform:uppercase;margin-bottom:8px;">Question (do-)</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.9;">
+            <strong>Dore</strong> — which (one)?<br>
+            <strong>Doko</strong> — where?<br>
+            <strong>Dono ~</strong> — which [noun]?
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border);" id="continue-section" style="display:none;">
+      <p style="font-size:13px;color:var(--text-3);margin-bottom:16px;">All blocks complete. Move to Phase 3 when your facilitator gives the go-ahead.</p>
+      <a href="denso-s6-phase3.html" class="btn btn-success" style="text-decoration:none;font-size:14px;padding:13px 32px;display:inline-flex;">Continue to Phase 3 — Floor Sim →</a>
+    </div>
+  </div>
+</div>
+
+    </div><!-- /accordion -->
+  </div><!-- /scroll-body -->
+</div><!-- /screen -->
+
+<!-- Diagram lightbox -->
+<div class="diag-lightbox" id="diag-lightbox" onclick="closeDiagramLightbox()">
+  <div class="diag-lightbox-inner" onclick="event.stopPropagation()">
+    <div id="diag-lightbox-svg"></div>
+    <div class="diag-lightbox-label" id="diag-lightbox-label"></div>
+    <div style="text-align:center;margin-top:12px;">
+      <button onclick="closeDiagramLightbox()" style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border:1.5px solid var(--border);border-radius:4px;background:none;color:var(--text-3);padding:6px 16px;cursor:pointer;">✕ Close</button>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig={
+    apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain:"denso-japanese.firebaseapp.com",
+    databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId:"denso-japanese",
+    storageBucket:"denso-japanese.firebasestorage.app",
+    messagingSenderId:"654718718217",
+    appId:"1:654718718217:web:ecec2672bd5069c0b443d8"
+  };
+  const app=initializeApp(firebaseConfig);
+  const db=getDatabase(app);
+  window._fbRef=ref(db,"session6/phase2/unlockedBlocks");
+  window._fbOnValue=(cb)=>onValue(window._fbRef,snap=>cb(snap.val()));
+  window._fbReady=true;
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+// Audio
+function speak(text){
+  const AUDIO_MAP={
+    'root-ko':'ko',
+    'あの機械':'ano',
+    'このパーツ':'kono',
+    'そのパーツ':'sono',
+    'そのボルトです。':'sono-boruto-desu',
+    'どのラインですか？':'dono-rain-desu-ka',
+    'root-so':'so',
+    'root-a':'a',
+    'root-do':'do',
+    'root-dono':'dono',
+    'これ':'kore','それ':'sore','あれ':'are','どれ':'dore',
+    'ここ':'koko','そこ':'soko','あそこ':'asoko','どこ':'doko',
+    'これです。':'kore-desu','それです。':'sore-desu',
+    'あれです。':'are-desu','どれですか？':'dore-desu-ka',
+    'これですか？':'kore-desu-ka','ここですか？':'koko-desu-ka',
+    'どこですか？':'doko-desu-ka','どの機械ですか？':'dono-kikai-desu-ka',
+    'あの機械です。':'ano-kikai-desu','その手順ですか？':'sono-tejun-desu-ka','この手順ですか？':'kono-tejun-desu-ka',
+    'このパーツです。':'kono-paatsu-desu',
+    'これじゃないです。':'kore-ja-nai-desu','それじゃないです。':'sore-ja-nai-desu',
+    'ここじゃないです。':'koko-ja-nai-desu','このパーツじゃないです。':'kono-paatsu-ja-nai-desu',
+    'これは何ですか？':'kore-wa-nan-desu-ka',
+    'じゃないです。':'ja-nai-desu',
+    'ないです。':'nai-desu',
+    '山田さんじゃないです。':'yamada-san-ja-nai-desu',
+    'あそこです。':'asoko-desu',
+    'ここじゃないです。あそこです。':'koko-ja-nai-desu+asoko-desu',
+    '山田さんはエンジニアじゃないです。保全担当です。':'yamada-san-wa+enjinia+ja-nai-desu+hozen-tantou-desu',
+    '山田さんはエンジニアじゃないです。品質管理担当です。':'yamada-san-wa+enjinia+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '山田さんはエンジニアじゃないです。物量担当です。':'yamada-san-wa+enjinia+ja-nai-desu+butsuryou-tantou-desu',
+    '山田さんは技術員じゃないです。保全担当です。':'yamada-san-wa+gijutsuin+ja-nai-desu+hozen-tantou-desu',
+    '山田さんは技術員じゃないです。品質管理担当です。':'yamada-san-wa+gijutsuin+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '山田さんは技術員じゃないです。物量担当です。':'yamada-san-wa+gijutsuin+ja-nai-desu+butsuryou-tantou-desu',
+    '山田さんはオペレーターじゃないです。保全担当です。':'yamada-san-wa+opereetaa+ja-nai-desu+hozen-tantou-desu',
+    '山田さんはオペレーターじゃないです。品質管理担当です。':'yamada-san-wa+opereetaa+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '山田さんはオペレーターじゃないです。物量担当です。':'yamada-san-wa+opereetaa+ja-nai-desu+butsuryou-tantou-desu',
+    '山田さんはラインリーダーじゃないです。保全担当です。':'yamada-san-wa+rain-riidaa+ja-nai-desu+hozen-tantou-desu',
+    '山田さんはラインリーダーじゃないです。品質管理担当です。':'yamada-san-wa+rain-riidaa+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '山田さんはラインリーダーじゃないです。物量担当です。':'yamada-san-wa+rain-riidaa+ja-nai-desu+butsuryou-tantou-desu',
+    '山田さんは係長じゃないです。保全担当です。':'yamada-san-wa+kakarichou+ja-nai-desu+hozen-tantou-desu',
+    '山田さんは係長じゃないです。品質管理担当です。':'yamada-san-wa+kakarichou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '山田さんは係長じゃないです。物量担当です。':'yamada-san-wa+kakarichou+ja-nai-desu+butsuryou-tantou-desu',
+    '山田さんは保全担当じゃないです。品質管理担当です。':'yamada-san-wa+hozen-tantou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '山田さんは保全担当じゃないです。物量担当です。':'yamada-san-wa+hozen-tantou+ja-nai-desu+butsuryou-tantou-desu',
+    '山田さんは品質管理担当じゃないです。保全担当です。':'yamada-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+hozen-tantou-desu',
+    '山田さんは品質管理担当じゃないです。物量担当です。':'yamada-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+butsuryou-tantou-desu',
+    '山田さんは物量担当じゃないです。保全担当です。':'yamada-san-wa+butsuryou-tantou+ja-nai-desu+hozen-tantou-desu',
+    '山田さんは物量担当じゃないです。品質管理担当です。':'yamada-san-wa+butsuryou-tantou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '田中さんはエンジニアじゃないです。保全担当です。':'tanaka-san-wa+enjinia+ja-nai-desu+hozen-tantou-desu',
+    '田中さんはエンジニアじゃないです。品質管理担当です。':'tanaka-san-wa+enjinia+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '田中さんはエンジニアじゃないです。物量担当です。':'tanaka-san-wa+enjinia+ja-nai-desu+butsuryou-tantou-desu',
+    '田中さんは技術員じゃないです。保全担当です。':'tanaka-san-wa+gijutsuin+ja-nai-desu+hozen-tantou-desu',
+    '田中さんは技術員じゃないです。品質管理担当です。':'tanaka-san-wa+gijutsuin+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '田中さんは技術員じゃないです。物量担当です。':'tanaka-san-wa+gijutsuin+ja-nai-desu+butsuryou-tantou-desu',
+    '田中さんはオペレーターじゃないです。保全担当です。':'tanaka-san-wa+opereetaa+ja-nai-desu+hozen-tantou-desu',
+    '田中さんはオペレーターじゃないです。品質管理担当です。':'tanaka-san-wa+opereetaa+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '田中さんはオペレーターじゃないです。物量担当です。':'tanaka-san-wa+opereetaa+ja-nai-desu+butsuryou-tantou-desu',
+    '田中さんはラインリーダーじゃないです。保全担当です。':'tanaka-san-wa+rain-riidaa+ja-nai-desu+hozen-tantou-desu',
+    '田中さんはラインリーダーじゃないです。品質管理担当です。':'tanaka-san-wa+rain-riidaa+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '田中さんはラインリーダーじゃないです。物量担当です。':'tanaka-san-wa+rain-riidaa+ja-nai-desu+butsuryou-tantou-desu',
+    '田中さんは係長じゃないです。保全担当です。':'tanaka-san-wa+kakarichou+ja-nai-desu+hozen-tantou-desu',
+    '田中さんは係長じゃないです。品質管理担当です。':'tanaka-san-wa+kakarichou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '田中さんは係長じゃないです。物量担当です。':'tanaka-san-wa+kakarichou+ja-nai-desu+butsuryou-tantou-desu',
+    '田中さんは保全担当じゃないです。品質管理担当です。':'tanaka-san-wa+hozen-tantou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '田中さんは保全担当じゃないです。物量担当です。':'tanaka-san-wa+hozen-tantou+ja-nai-desu+butsuryou-tantou-desu',
+    '田中さんは品質管理担当じゃないです。保全担当です。':'tanaka-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+hozen-tantou-desu',
+    '田中さんは品質管理担当じゃないです。物量担当です。':'tanaka-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+butsuryou-tantou-desu',
+    '田中さんは物量担当じゃないです。保全担当です。':'tanaka-san-wa+butsuryou-tantou+ja-nai-desu+hozen-tantou-desu',
+    '田中さんは物量担当じゃないです。品質管理担当です。':'tanaka-san-wa+butsuryou-tantou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    'わたしはエンジニアじゃないです。保全担当です。':'watashi-wa+enjinia+ja-nai-desu+hozen-tantou-desu',
+    'わたしはエンジニアじゃないです。品質管理担当です。':'watashi-wa+enjinia+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    'わたしはエンジニアじゃないです。物量担当です。':'watashi-wa+enjinia+ja-nai-desu+butsuryou-tantou-desu',
+    'わたしは技術員じゃないです。保全担当です。':'watashi-wa+gijutsuin+ja-nai-desu+hozen-tantou-desu',
+    'わたしは技術員じゃないです。品質管理担当です。':'watashi-wa+gijutsuin+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    'わたしは技術員じゃないです。物量担当です。':'watashi-wa+gijutsuin+ja-nai-desu+butsuryou-tantou-desu',
+    'わたしはオペレーターじゃないです。保全担当です。':'watashi-wa+opereetaa+ja-nai-desu+hozen-tantou-desu',
+    'わたしはオペレーターじゃないです。品質管理担当です。':'watashi-wa+opereetaa+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    'わたしはオペレーターじゃないです。物量担当です。':'watashi-wa+opereetaa+ja-nai-desu+butsuryou-tantou-desu',
+    'わたしはラインリーダーじゃないです。保全担当です。':'watashi-wa+rain-riidaa+ja-nai-desu+hozen-tantou-desu',
+    'わたしはラインリーダーじゃないです。品質管理担当です。':'watashi-wa+rain-riidaa+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    'わたしはラインリーダーじゃないです。物量担当です。':'watashi-wa+rain-riidaa+ja-nai-desu+butsuryou-tantou-desu',
+    'わたしは係長じゃないです。保全担当です。':'watashi-wa+kakarichou+ja-nai-desu+hozen-tantou-desu',
+    'わたしは係長じゃないです。品質管理担当です。':'watashi-wa+kakarichou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    'わたしは係長じゃないです。物量担当です。':'watashi-wa+kakarichou+ja-nai-desu+butsuryou-tantou-desu',
+    'わたしは保全担当じゃないです。品質管理担当です。':'watashi-wa+hozen-tantou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    'わたしは保全担当じゃないです。物量担当です。':'watashi-wa+hozen-tantou+ja-nai-desu+butsuryou-tantou-desu',
+    'わたしは品質管理担当じゃないです。保全担当です。':'watashi-wa+hinshitsu-kanri-tantou+ja-nai-desu+hozen-tantou-desu',
+    'わたしは品質管理担当じゃないです。物量担当です。':'watashi-wa+hinshitsu-kanri-tantou+ja-nai-desu+butsuryou-tantou-desu',
+    'わたしは物量担当じゃないです。保全担当です。':'watashi-wa+butsuryou-tantou+ja-nai-desu+hozen-tantou-desu',
+    'わたしは物量担当じゃないです。品質管理担当です。':'watashi-wa+butsuryou-tantou+ja-nai-desu+hinshitsu-kanri-tantou-desu',
+    '山田さんはエンジニアじゃないです。オペレーターです。':'yamada-san-wa+enjinia+ja-nai-desu+opereetaa-desu',
+    '山田さんは技術員じゃないです。オペレーターです。':'yamada-san-wa+gijutsuin+ja-nai-desu+opereetaa-desu',
+    '山田さんは技術員じゃないです。ラインリーダーです。':'yamada-san-wa+gijutsuin+ja-nai-desu+rain-riidaa-desu',
+    '山田さんは技術員じゃないです。係長です。':'yamada-san-wa+gijutsuin+ja-nai-desu+kakarichou-desu',
+    '山田さんはオペレーターじゃないです。技術員です。':'yamada-san-wa+opereetaa+ja-nai-desu+gijutsuin-desu',
+    '山田さんはオペレーターじゃないです。係長です。':'yamada-san-wa+opereetaa+ja-nai-desu+kakarichou-desu',
+    '山田さんはラインリーダーじゃないです。技術員です。':'yamada-san-wa+rain-riidaa+ja-nai-desu+gijutsuin-desu',
+    '山田さんはラインリーダーじゃないです。オペレーターです。':'yamada-san-wa+rain-riidaa+ja-nai-desu+opereetaa-desu',
+    '山田さんはラインリーダーじゃないです。係長です。':'yamada-san-wa+rain-riidaa+ja-nai-desu+kakarichou-desu',
+    '山田さんは係長じゃないです。技術員です。':'yamada-san-wa+kakarichou+ja-nai-desu+gijutsuin-desu',
+    '山田さんは係長じゃないです。オペレーターです。':'yamada-san-wa+kakarichou+ja-nai-desu+opereetaa-desu',
+    '山田さんは係長じゃないです。ラインリーダーです。':'yamada-san-wa+kakarichou+ja-nai-desu+rain-riidaa-desu',
+    '山田さんは保全担当じゃないです。エンジニアです。':'yamada-san-wa+hozen-tantou+ja-nai-desu+enjinia-desu',
+    '山田さんは保全担当じゃないです。技術員です。':'yamada-san-wa+hozen-tantou+ja-nai-desu+gijutsuin-desu',
+    '山田さんは保全担当じゃないです。オペレーターです。':'yamada-san-wa+hozen-tantou+ja-nai-desu+opereetaa-desu',
+    '山田さんは保全担当じゃないです。ラインリーダーです。':'yamada-san-wa+hozen-tantou+ja-nai-desu+rain-riidaa-desu',
+    '山田さんは保全担当じゃないです。係長です。':'yamada-san-wa+hozen-tantou+ja-nai-desu+kakarichou-desu',
+    '山田さんは品質管理担当じゃないです。エンジニアです。':'yamada-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+enjinia-desu',
+    '山田さんは品質管理担当じゃないです。技術員です。':'yamada-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+gijutsuin-desu',
+    '山田さんは品質管理担当じゃないです。オペレーターです。':'yamada-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+opereetaa-desu',
+    '山田さんは品質管理担当じゃないです。ラインリーダーです。':'yamada-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+rain-riidaa-desu',
+    '山田さんは品質管理担当じゃないです。係長です。':'yamada-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+kakarichou-desu',
+    '山田さんは物量担当じゃないです。エンジニアです。':'yamada-san-wa+butsuryou-tantou+ja-nai-desu+enjinia-desu',
+    '山田さんは物量担当じゃないです。技術員です。':'yamada-san-wa+butsuryou-tantou+ja-nai-desu+gijutsuin-desu',
+    '山田さんは物量担当じゃないです。オペレーターです。':'yamada-san-wa+butsuryou-tantou+ja-nai-desu+opereetaa-desu',
+    '山田さんは物量担当じゃないです。ラインリーダーです。':'yamada-san-wa+butsuryou-tantou+ja-nai-desu+rain-riidaa-desu',
+    '山田さんは物量担当じゃないです。係長です。':'yamada-san-wa+butsuryou-tantou+ja-nai-desu+kakarichou-desu',
+    '田中さんはエンジニアじゃないです。技術員です。':'tanaka-san-wa+enjinia+ja-nai-desu+gijutsuin-desu',
+    '田中さんはエンジニアじゃないです。オペレーターです。':'tanaka-san-wa+enjinia+ja-nai-desu+opereetaa-desu',
+    '田中さんは技術員じゃないです。エンジニアです。':'tanaka-san-wa+gijutsuin+ja-nai-desu+enjinia-desu',
+    '田中さんは技術員じゃないです。オペレーターです。':'tanaka-san-wa+gijutsuin+ja-nai-desu+opereetaa-desu',
+    '田中さんは技術員じゃないです。係長です。':'tanaka-san-wa+gijutsuin+ja-nai-desu+kakarichou-desu',
+    '田中さんはオペレーターじゃないです。エンジニアです。':'tanaka-san-wa+opereetaa+ja-nai-desu+enjinia-desu',
+    '田中さんはオペレーターじゃないです。ラインリーダーです。':'tanaka-san-wa+opereetaa+ja-nai-desu+rain-riidaa-desu',
+    '田中さんはオペレーターじゃないです。係長です。':'tanaka-san-wa+opereetaa+ja-nai-desu+kakarichou-desu',
+    '田中さんはラインリーダーじゃないです。技術員です。':'tanaka-san-wa+rain-riidaa+ja-nai-desu+gijutsuin-desu',
+    '田中さんはラインリーダーじゃないです。オペレーターです。':'tanaka-san-wa+rain-riidaa+ja-nai-desu+opereetaa-desu',
+    '田中さんはラインリーダーじゃないです。係長です。':'tanaka-san-wa+rain-riidaa+ja-nai-desu+kakarichou-desu',
+    '田中さんは係長じゃないです。エンジニアです。':'tanaka-san-wa+kakarichou+ja-nai-desu+enjinia-desu',
+    '田中さんは係長じゃないです。技術員です。':'tanaka-san-wa+kakarichou+ja-nai-desu+gijutsuin-desu',
+    '田中さんは係長じゃないです。オペレーターです。':'tanaka-san-wa+kakarichou+ja-nai-desu+opereetaa-desu',
+    '田中さんは係長じゃないです。ラインリーダーです。':'tanaka-san-wa+kakarichou+ja-nai-desu+rain-riidaa-desu',
+    '田中さんは保全担当じゃないです。エンジニアです。':'tanaka-san-wa+hozen-tantou+ja-nai-desu+enjinia-desu',
+    '田中さんは保全担当じゃないです。技術員です。':'tanaka-san-wa+hozen-tantou+ja-nai-desu+gijutsuin-desu',
+    '田中さんは保全担当じゃないです。オペレーターです。':'tanaka-san-wa+hozen-tantou+ja-nai-desu+opereetaa-desu',
+    '田中さんは保全担当じゃないです。ラインリーダーです。':'tanaka-san-wa+hozen-tantou+ja-nai-desu+rain-riidaa-desu',
+    '田中さんは保全担当じゃないです。係長です。':'tanaka-san-wa+hozen-tantou+ja-nai-desu+kakarichou-desu',
+    '田中さんは品質管理担当じゃないです。エンジニアです。':'tanaka-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+enjinia-desu',
+    '田中さんは品質管理担当じゃないです。技術員です。':'tanaka-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+gijutsuin-desu',
+    '田中さんは品質管理担当じゃないです。オペレーターです。':'tanaka-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+opereetaa-desu',
+    '田中さんは品質管理担当じゃないです。ラインリーダーです。':'tanaka-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+rain-riidaa-desu',
+    '田中さんは品質管理担当じゃないです。係長です。':'tanaka-san-wa+hinshitsu-kanri-tantou+ja-nai-desu+kakarichou-desu',
+    '田中さんは物量担当じゃないです。エンジニアです。':'tanaka-san-wa+butsuryou-tantou+ja-nai-desu+enjinia-desu',
+    '田中さんは物量担当じゃないです。技術員です。':'tanaka-san-wa+butsuryou-tantou+ja-nai-desu+gijutsuin-desu',
+    '田中さんは物量担当じゃないです。オペレーターです。':'tanaka-san-wa+butsuryou-tantou+ja-nai-desu+opereetaa-desu',
+    '田中さんは物量担当じゃないです。ラインリーダーです。':'tanaka-san-wa+butsuryou-tantou+ja-nai-desu+rain-riidaa-desu',
+    '田中さんは物量担当じゃないです。係長です。':'tanaka-san-wa+butsuryou-tantou+ja-nai-desu+kakarichou-desu',
+    'わたしはエンジニアじゃないです。技術員です。':'watashi-wa+enjinia+ja-nai-desu+gijutsuin-desu',
+    'わたしはエンジニアじゃないです。係長です。':'watashi-wa+enjinia+ja-nai-desu+kakarichou-desu',
+    'わたしは技術員じゃないです。オペレーターです。':'watashi-wa+gijutsuin+ja-nai-desu+opereetaa-desu',
+    'わたしは技術員じゃないです。ラインリーダーです。':'watashi-wa+gijutsuin+ja-nai-desu+rain-riidaa-desu',
+    'わたしは技術員じゃないです。係長です。':'watashi-wa+gijutsuin+ja-nai-desu+kakarichou-desu',
+    'わたしはオペレーターじゃないです。技術員です。':'watashi-wa+opereetaa+ja-nai-desu+gijutsuin-desu',
+    'わたしはオペレーターじゃないです。ラインリーダーです。':'watashi-wa+opereetaa+ja-nai-desu+rain-riidaa-desu',
+    'わたしはオペレーターじゃないです。係長です。':'watashi-wa+opereetaa+ja-nai-desu+kakarichou-desu',
+    'わたしはラインリーダーじゃないです。技術員です。':'watashi-wa+rain-riidaa+ja-nai-desu+gijutsuin-desu',
+    'わたしはラインリーダーじゃないです。オペレーターです。':'watashi-wa+rain-riidaa+ja-nai-desu+opereetaa-desu',
+    'わたしはラインリーダーじゃないです。係長です。':'watashi-wa+rain-riidaa+ja-nai-desu+kakarichou-desu',
+    'わたしは係長じゃないです。エンジニアです。':'watashi-wa+kakarichou+ja-nai-desu+enjinia-desu',
+    'わたしは係長じゃないです。技術員です。':'watashi-wa+kakarichou+ja-nai-desu+gijutsuin-desu',
+    'わたしは係長じゃないです。オペレーターです。':'watashi-wa+kakarichou+ja-nai-desu+opereetaa-desu',
+    'わたしは保全担当じゃないです。エンジニアです。':'watashi-wa+hozen-tantou+ja-nai-desu+enjinia-desu',
+    'わたしは保全担当じゃないです。オペレーターです。':'watashi-wa+hozen-tantou+ja-nai-desu+opereetaa-desu',
+    'わたしは保全担当じゃないです。ラインリーダーです。':'watashi-wa+hozen-tantou+ja-nai-desu+rain-riidaa-desu',
+    'わたしは保全担当じゃないです。係長です。':'watashi-wa+hozen-tantou+ja-nai-desu+kakarichou-desu',
+    'わたしは品質管理担当じゃないです。エンジニアです。':'watashi-wa+hinshitsu-kanri-tantou+ja-nai-desu+enjinia-desu',
+    'わたしは品質管理担当じゃないです。技術員です。':'watashi-wa+hinshitsu-kanri-tantou+ja-nai-desu+gijutsuin-desu',
+    'わたしは品質管理担当じゃないです。ラインリーダーです。':'watashi-wa+hinshitsu-kanri-tantou+ja-nai-desu+rain-riidaa-desu',
+    'わたしは品質管理担当じゃないです。係長です。':'watashi-wa+hinshitsu-kanri-tantou+ja-nai-desu+kakarichou-desu',
+    'わたしは物量担当じゃないです。エンジニアです。':'watashi-wa+butsuryou-tantou+ja-nai-desu+enjinia-desu',
+    'わたしは物量担当じゃないです。技術員です。':'watashi-wa+butsuryou-tantou+ja-nai-desu+gijutsuin-desu',
+    'わたしは物量担当じゃないです。オペレーターです。':'watashi-wa+butsuryou-tantou+ja-nai-desu+opereetaa-desu',
+    'わたしは物量担当じゃないです。ラインリーダーです。':'watashi-wa+butsuryou-tantou+ja-nai-desu+rain-riidaa-desu',
+    'わたしは物量担当じゃないです。係長です。':'watashi-wa+butsuryou-tantou+ja-nai-desu+kakarichou-desu',
+    'あれはBラインじゃないです。Aラインです。':'are-wa+b-rain+ja-nai-desu+a-rain-desu',
+    'このラインはBラインじゃないです。Aラインです。':'kono-rain-wa+b-rain+ja-nai-desu+a-rain-desu',
+    '山田さんはエンジニアじゃないです。ラインリーダーです。':'yamada-san-wa+enjinia+ja-nai-desu+rain-riidaa-desu',
+    '山田さんはラインリーダーじゃないです。エンジニアです。':'yamada-san-wa+rain-riidaa+ja-nai-desu+enjinia-desu',
+    '山田さんはオペレーターじゃないです。エンジニアです。':'yamada-san-wa+opereetaa+ja-nai-desu+enjinia-desu',
+    '山田さんはオペレーターじゃないです。ラインリーダーです。':'yamada-san-wa+opereetaa+ja-nai-desu+rain-riidaa-desu',
+    '山田さんはエンジニアじゃないです。係長です。':'yamada-san-wa+enjinia+ja-nai-desu+kakarichou-desu',
+    '山田さんは係長じゃないです。エンジニアです。':'yamada-san-wa+kakarichou+ja-nai-desu+enjinia-desu',
+    '山田さんは技術員じゃないです。エンジニアです。':'yamada-san-wa+gijutsuin+ja-nai-desu+enjinia-desu',
+    '山田さんはエンジニアじゃないです。技術員です。':'yamada-san-wa+enjinia+ja-nai-desu+gijutsuin-desu',
+    '田中さんはエンジニアじゃないです。ラインリーダーです。':'tanaka-san-wa+enjinia+ja-nai-desu+rain-riidaa-desu',
+    '田中さんはラインリーダーじゃないです。エンジニアです。':'tanaka-san-wa+rain-riidaa+ja-nai-desu+enjinia-desu',
+    '田中さんはオペレーターじゃないです。技術員です。':'tanaka-san-wa+opereetaa+ja-nai-desu+gijutsuin-desu',
+    '田中さんは技術員じゃないです。ラインリーダーです。':'tanaka-san-wa+gijutsuin+ja-nai-desu+rain-riidaa-desu',
+    '田中さんはエンジニアじゃないです。係長です。':'tanaka-san-wa+enjinia+ja-nai-desu+kakarichou-desu',
+    'わたしはエンジニアじゃないです。オペレーターです。':'watashi-wa+enjinia+ja-nai-desu+opereetaa-desu',
+    'わたしはオペレーターじゃないです。エンジニアです。':'watashi-wa+opereetaa+ja-nai-desu+enjinia-desu',
+    'わたしはラインリーダーじゃないです。エンジニアです。':'watashi-wa+rain-riidaa+ja-nai-desu+enjinia-desu',
+    'わたしはエンジニアじゃないです。ラインリーダーです。':'watashi-wa+enjinia+ja-nai-desu+rain-riidaa-desu',
+    'わたしは係長じゃないです。ラインリーダーです。':'watashi-wa+kakarichou+ja-nai-desu+rain-riidaa-desu',
+    'わたしは技術員じゃないです。エンジニアです。':'watashi-wa+gijutsuin+ja-nai-desu+enjinia-desu',
+    'わたしは保全担当じゃないです。技術員です。':'watashi-wa+hozen-tantou+ja-nai-desu+gijutsuin-desu',
+    'わたしは品質管理担当じゃないです。オペレーターです。':'watashi-wa+hinshitsu-kanri-tantou+ja-nai-desu+opereetaa-desu',
+    'これはAラインじゃないです。Bラインです。':'kore-wa+a-rain+ja-nai-desu+b-rain-desu',
+    'それはAラインじゃないです。Bラインです。':'sore-wa+a-rain+ja-nai-desu+b-rain-desu',
+    'あれはAラインじゃないです。Bラインです。':'are-wa+a-rain+ja-nai-desu+b-rain-desu',
+    'このラインはAラインじゃないです。Bラインです。':'kono-rain-wa+a-rain+ja-nai-desu+b-rain-desu',
+    'これはBラインじゃないです。Aラインです。':'kore-wa+b-rain+ja-nai-desu+a-rain-desu',
+    'それはBラインじゃないです。Aラインです。':'sore-wa+b-rain+ja-nai-desu+a-rain-desu',
+    'すみません、これじゃないです。それです。':'sumimasen-kore-janai-sore',
+    'すみません、これじゃないです。':'sumimasen-kore-ja-nai-desu',
+    'すみません、そこじゃないです。あそこです。':'sumimasen-soko-janai-asoko',
+    'よろしくお願いします。':'yoroshiku-onegaishimasu',
+    'こちらこそ、またよろしくお願いします。':'kochira-koso-mata-yoroshiku-onegaishimasu',
+    'はい、わかりました。よろしくお願いします。':'hai-wakarimashita-yoroshiku-onegaishimasu',
+    'はい、それです。よろしくお願いします。':'hai+sore-desu+yoroshiku-onegaishimasu',
+    'お疲れ様でした。':'otsukaresama-deshita',
+  };
+  const slug=AUDIO_MAP[text];
+  if(slug){
+    const slugs=slug.split('+');
+    if(slugs.length===1){
+      const a=new Audio('./media/'+slug+'.wav');
+      a.play().catch(()=>{const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);});
+    } else {
+      // Chain multiple clips sequentially
+      let i=0;
+      function playNext(){
+        if(i>=slugs.length)return;
+        const a=new Audio('./media/'+slugs[i]+'.wav');
+        a.onended=()=>{i++;playNext();};
+        a.play().catch(()=>{const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);});
+      }
+      playNext();
+    }
+    return;
+  }
+  const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);
+}
+
+// Timer
+let timerSecs=30*60;
+let timerInterval=setInterval(()=>{
+  timerSecs--;
+  const m=Math.floor(timerSecs/60),s=timerSecs%60;
+  const el=document.getElementById('p2-timer');
+  if(el){el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timerSecs<=60)el.classList.add('urgent');else el.classList.remove('urgent');}
+  if(timerSecs<=0)clearInterval(timerInterval);
+},1000);
+
+// Block ordering
+const BLOCK_ORDER=['ksad','practice','kore','kono','neg','floor'];
+let currentUnlocked=[];
+let isFirstLoad=true;
+
+function applyState(unlockedBlocks){
+  if(!unlockedBlocks||unlockedBlocks.length===0){isFirstLoad=false;document.getElementById('waiting-state').querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';return;}
+  const newBlocks=unlockedBlocks.filter(b=>!currentUnlocked.includes(b));
+  const wasEmpty=currentUnlocked.length===0;
+  currentUnlocked=[...unlockedBlocks];
+  document.getElementById('waiting-state').style.display='none';
+  document.getElementById('accordion').style.display='block';
+  BLOCK_ORDER.forEach(id=>{
+    const section=document.getElementById('section-'+id);
+    const badge=document.getElementById('badge-'+id);
+    const status=document.getElementById('status-'+id);
+    const isUnlocked=unlockedBlocks.includes(id);
+    const isCurrent=id===unlockedBlocks[unlockedBlocks.length-1];
+    const isPast=isUnlocked&&!isCurrent;
+    if(isUnlocked){
+      section.classList.remove('locked');
+      section.classList.toggle('active-block',isCurrent);
+      section.classList.toggle('unlocked',isPast);
+      status.textContent='✓';
+      badge.textContent=isCurrent?'Current':'Done';
+      badge.className='bh-badge '+(isCurrent?'badge-current':'badge-done');
+      if(isCurrent&&newBlocks.includes(id)){
+        openBlock(id);
+        setTimeout(()=>{document.getElementById('section-'+id).scrollIntoView({behavior:'smooth',block:'start'});},200);
+      } else if(isPast&&!wasEmpty&&newBlocks.length>0){
+        closeBlock(id);
+      }
+    } else {
+      section.className='block-section locked';
+      status.textContent='🔒';
+      badge.textContent='Waiting';
+      badge.className='bh-badge badge-locked';
+    }
+  });
+  const pct=35+(unlockedBlocks.length/BLOCK_ORDER.length)*50;
+  document.getElementById('learner-progress').style.width=pct+'%';
+  if(unlockedBlocks.length===BLOCK_ORDER.length){
+    document.getElementById('continue-section').style.display='block';
+  }
+  if(!wasEmpty&&newBlocks.length>0){
+    const labels=newBlocks.map(id=>{const el=document.querySelector('#section-'+id+' .bh-title');return el?el.textContent.trim():'';}).filter(Boolean).join(', ');
+    showToast('🔓 Unlocked: '+labels);
+  }
+  isFirstLoad=false;
+}
+
+function openBlock(id){
+  const s=document.getElementById('section-'+id);
+  if(s.classList.contains('locked'))return;
+  s.classList.add('open');
+  if(id==='neg')initBackchain('bc-neg');
+}
+function closeBlock(id){document.getElementById('section-'+id).classList.remove('open');}
+function toggleBlock(id){const s=document.getElementById('section-'+id);if(s.classList.contains('locked'))return;s.classList.toggle('open');}
+function showToast(msg){const t=document.getElementById('unlock-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3800);}
+
+document.addEventListener('fbReady',()=>{
+  document.getElementById('conn-dot').style.background='var(--green)';
+  document.querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||[]));
+});
+setTimeout(()=>{
+  if(!window._fbReady){document.getElementById('conn-dot').style.background='var(--warn)';
+  document.getElementById('waiting-state').innerHTML='<div class="waiting-icon">⚠️</div><div class="waiting-text" style="color:var(--warn)">Could not connect to the session.</div><div class="waiting-sub">Check your internet connection and reload.</div>';}
+},9000);
+
+// Back-chain drills
+const BC_DRILLS={
+  'bc-neg':{steps:[
+    {roman:'nai desu.',phonetic:'nigh des',jp:'ないです。',phrase:'polite negative ending'},
+    {roman:'ja nai desu.',phonetic:'jah nigh des',jp:'じゃないです。',phrase:'it is not ~'},
+    {roman:'kore ja nai desu.',phonetic:'koh-reh jah nigh des',jp:'これじゃないです。',phrase:'it&#39;s not this one'},
+    {roman:'Sumimasen, kore ja nai desu.',phonetic:'soo-mee-mah-sen, koh-reh jah nigh des',jp:'すみません、これじゃないです。',phrase:'sorry — it&#39;s not this one (softened)'},
+  ]}
+};
+const bcState={};
+function initBackchain(id){
+  const drill=BC_DRILLS[id];if(!drill)return;
+  bcState[id]={done:0};
+  const container=document.getElementById(id+'-steps');if(!container)return;
+  const wrap=document.getElementById(id);
+  if(wrap){const btn=wrap.querySelector('button');if(btn)btn.style.display='none';}
+  container.innerHTML=drill.steps.map((s,i)=>`
+    <div class="bc-step" id="${id}-step-${i}">
+      <div class="bc-step-line"><div class="bc-step-dot"></div></div>
+      <div class="bc-step-body">
+        <div class="bc-step-num">Step ${i+1}</div>
+        <div class="bc-phrase">${s.phrase}</div>
+        <div class="bc-roman">${s.roman}</div>
+        <div class="bc-phonetic">${s.phonetic}</div>
+        <div class="bc-step-actions">
+          <button class="bc-say-btn" onclick="bcSpeak('${id}',${i},'${s.jp.replace(/'/g,"\\'")}',this)">🔊 Hear it</button>
+          <button class="bc-repeat-btn" onclick="bcDone('${id}',${i})">✓ Said it</button>
+          <span class="bc-tick">✓</span>
+        </div>
+      </div>
+    </div>`).join('');
+  updateBcProgress(id);
+}
+function bcSpeak(id,idx,jp,btn){speak(jp);btn.classList.add('spoken');}
+function bcDone(id,idx){
+  const el=document.getElementById(id+'-step-'+idx);
+  if(!el||el.classList.contains('done'))return;
+  el.classList.add('done');bcState[id].done++;updateBcProgress(id);
+}
+function updateBcProgress(id){
+  const drill=BC_DRILLS[id];const done=bcState[id]?bcState[id].done:0;const total=drill.steps.length;
+  const fill=document.getElementById(id+'-fill');const label=document.getElementById(id+'-label');
+  if(fill)fill.style.width=(done/total*100)+'%';
+  if(label)label.textContent=done+' / '+total;
+}
+
+// ── Spatial Map ──
+const ZONE_DATA={
+  ko:{color:'var(--blue)',label:'こ KO-',title:'KO- · Near the speaker (you)',body:'Use <strong>ko-</strong> words for things close to you — in your hands, at your station, within arm\'s reach.<br><br><span style="font-family:\'IBM Plex Mono\',monospace;">kore</span> (this thing) · <span style="font-family:\'IBM Plex Mono\',monospace;">koko</span> (here) · <span style="font-family:\'IBM Plex Mono\',monospace;">kono ~</span> (this noun)',example:'Kore desu. → It\'s this one. (holding it)'},
+  so:{color:'var(--green)',label:'そ SO-',title:'SO- · Near the listener (them)',body:'Use <strong>so-</strong> words for things close to the person you\'re talking to — at their station, in their hands, on their side.<br><br><span style="font-family:\'IBM Plex Mono\',monospace;">sore</span> (that thing) · <span style="font-family:\'IBM Plex Mono\',monospace;">soko</span> (there) · <span style="font-family:\'IBM Plex Mono\',monospace;">sono ~</span> (that noun)',example:'Sore ja nai desu. → That\'s not it. (pointing to what they\'re holding)'},
+  a:{color:'var(--gold)',label:'あ A-',title:'A- · Far from both of you',body:'Use <strong>a-</strong> words for things distant from both speaker and listener — across the floor, in another section, not near either person.<br><br><span style="font-family:\'IBM Plex Mono\',monospace;">are</span> (that thing over there) · <span style="font-family:\'IBM Plex Mono\',monospace;">asoko</span> (over there) · <span style="font-family:\'IBM Plex Mono\',monospace;">ano ~</span> (that noun over there)',example:'Asoko desu. → It\'s over there. (pointing across the floor)'},
+  do:{color:'var(--purple)',label:'ど DO-',title:'DO- · Question / unknown',body:'Use <strong>do-</strong> words when the location or identity is unknown — you\'re asking, not pointing.<br><br><span style="font-family:\'IBM Plex Mono\',monospace;">dore</span> (which one?) · <span style="font-family:\'IBM Plex Mono\',monospace;">doko</span> (where?) · <span style="font-family:\'IBM Plex Mono\',monospace;">dono ~</span> (which noun?)',example:'Doko desu ka? → Where is it?'},
+};
+function selectZone(zone){
+  const d=ZONE_DATA[zone];
+  document.querySelectorAll('.zone-ellipse').forEach(el=>{
+    el.classList.toggle('zone-dim',el.id!=='zone-'+zone);
+    el.classList.toggle('zone-active',el.id==='zone-'+zone);
+  });
+  document.getElementById('zone-info').style.borderColor=d.color;
+  document.getElementById('zone-info-inner').innerHTML=
+    '<div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:'+d.color+'">'+d.label+'</div>'+
+    '<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;">'+d.title+'</div>'+
+    '<div style="font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:8px;">'+d.body+'</div>'+
+    '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:'+d.color+';background:var(--surface-2);border-radius:5px;padding:6px 10px;display:inline-block;">'+d.example+'</div>';
+}
+
+function sb1Open() {
+  document.getElementById('sb1-start-btn').style.display = 'none';
+  document.getElementById('sb1-body').style.display = 'block';
+}
+function sb2Open() {
+  document.getElementById('sb2-start-btn').style.display = 'none';
+  document.getElementById('sb2-body').style.display = 'block';
+  jnRenderChips();
+}
+
+// ── Sentence Builder 1: Demonstratives ──
+const sb1State={root:null,suffix:null,noun:null};
+const SB1_DATA={
+  re:{jp:{ko:'これ',so:'それ',a:'あれ',do:'どれ'},ro:{ko:'kore',so:'sore',a:'are',do:'dore'},en:{ko:'this one',so:'that one',a:'that one (over there)',do:'which one?'},q:{do:true}},
+  ko:{jp:{ko:'ここ',so:'そこ',a:'あそこ',do:'どこ'},ro:{ko:'koko',so:'soko',a:'asoko',do:'doko'},en:{ko:'here',so:'there',a:'over there',do:'where?'},q:{do:true}},
+  no:{jp:{ko:'この',so:'その',a:'あの',do:'どの'},ro:{ko:'kono',so:'sono',a:'ano',do:'dono'},en:{ko:'this',so:'that',a:'that (over there)',do:'which'},q:{do:true}},
+};
+const SB1_NOUNS={paatsu:{jp:'パーツ',ro:'pātsu',en:'part'},kikai:{jp:'機械',ro:'kikai',en:'machine'},rain:{jp:'ライン',ro:'rain',en:'line'},tejun:{jp:'手順',ro:'tejun',en:'procedure'},boruto:{jp:'ボルト',ro:'boruto',en:'bolt'}};
+
+function sb1Pick(group,val){
+  sb1State[group]=val;
+  if(group==='suffix'&&val!=='no'){sb1State.noun=null;document.querySelectorAll('[data-group="noun"]').forEach(b=>b.classList.remove('selected'));}
+  document.getElementById('sb1-noun-row').style.display=(val==='no'&&group==='suffix')?'block':'none';
+  document.querySelectorAll('[data-group="'+group+'"]').forEach(b=>b.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  sb1Render();
+}
+function sb1Render(){
+  const {root,suffix,noun}=sb1State;
+  if(!root||!suffix){document.getElementById('sb1-jp').textContent='—';document.getElementById('sb1-ro').textContent='';document.getElementById('sb1-en').textContent='';document.getElementById('sb1-speak').style.display='none';return;}
+  if(suffix==='no'&&!noun){document.getElementById('sb1-jp').textContent='—';document.getElementById('sb1-ro').textContent='Pick a noun to complete the sentence.';document.getElementById('sb1-en').textContent='';document.getElementById('sb1-speak').style.display='none';return;}
+  const d=SB1_DATA[suffix];
+  const isQ=d.q&&d.q[root];
+  let jp=d.jp[root],ro=d.ro[root],en=d.en[root];
+  if(suffix==='no'&&noun){const n=SB1_NOUNS[noun];jp+=n.jp;ro+=' '+n.ro;en+=' '+n.en;}
+  const jpFull=jp+(suffix==='no'?'です。':isQ?'ですか？':'です。');
+  const roFull=ro+(isQ?' desu ka?':' desu.');
+  document.getElementById('sb1-jp').textContent=jpFull;
+  document.getElementById('sb1-ro').textContent=roFull;
+  document.getElementById('sb1-en').textContent=en+(isQ?' (question)':'');
+  document.getElementById('sb1-speak').style.display='inline-block';
+  document.getElementById('sb1-speak').dataset.jp=jpFull;
+}
+function sb1Speak(){speak(document.getElementById('sb1-speak').dataset.jp||'');}
+
+// ── Sentence Builder: Ja Nai Desu ──
+// Vocab: S1-S5 phrases + S6 demonstratives + job titles learners know.
+// No particle "no". Pattern: X wa Y ja nai desu. Z desu.
+
+const JN_TOPICS = [
+  { id:'yamada',  jp:'山田さんは',   ro:'Yamada-san wa',  en:'Yamada-san',        cat:'person' },
+  { id:'tanaka',  jp:'田中さんは',   ro:'Tanaka-san wa',  en:'Tanaka-san',        cat:'person' },
+  { id:'watashi', jp:'わたしは',          ro:'Watashi wa',     en:'I / Me',            cat:'person' },
+  { id:'kore',    jp:'これは',                  ro:'Kore wa',        en:'This (thing)',      cat:'thing'  },
+  { id:'sore',    jp:'それは',                  ro:'Sore wa',        en:'That (near you)',   cat:'thing'  },
+  { id:'are',     jp:'あれは',                  ro:'Are wa',         en:'That (over there)', cat:'thing'  },
+  { id:'rain',    jp:'このラインは', ro:'Kono rain wa', en:'This line',       cat:'thing'  },
+];
+
+const JN_PREDS = [
+  { id:'enjinia',   jp:'エンジニア',              ro:'enjinia',         en:'an engineer',         cat:'role'  },
+  { id:'gijutsuin', jp:'技術員',                            ro:'gijutsuin',       en:'a technician',        cat:'role'  },
+  { id:'opereetaa', jp:'オペレーター',       ro:'opereetaa',       en:'an operator',         cat:'role'  },
+  { id:'riidaa',    jp:'ラインリーダー',ro:'rain riidaa',     en:'a line leader',       cat:'role'  },
+  { id:'kanrisha',  jp:'係長',                                   ro:'kakarichou',      en:'a supervisor',        cat:'role'  },
+  { id:'hozen',     jp:'保全担当',                     ro:'hozen tantou',    en:'maintenance',         cat:'role'  },
+  { id:'hinshitsu', jp:'品質管理担当',       ro:'hinshitsu kanri tantou', en:'quality / QC', cat:'role'  },
+  { id:'butsuryo',  jp:'物量担当',                     ro:'butsuryou tantou',en:'logistics',           cat:'role'  },
+  { id:'a-rain',    jp:'Aライン',                          ro:'A-rain',          en:'A-line',              cat:'thing' },
+  { id:'b-rain',    jp:'Bライン',                ro:'B-rain',          en:'B-line',             cat:'thing' },
+];
+
+const JN_VERDICTS = {
+  // Natural: person + role correction
+  'yamada:enjinia:riidaa': "Yamada-san wa enjinia ja nai desu. Rain riidaa desu. Natural and floor-ready. This is exactly the kind of role clarification you will use on the line. The two job titles contrast cleanly.",
+  'yamada:riidaa:enjinia': "Yamada-san wa rain riidaa ja nai desu. Enjinia desu. Natural. Correcting the role in the other direction.",
+  'yamada:opereetaa:enjinia': "Yamada-san wa opereetaa ja nai desu. Enjinia desu. Natural. Correcting a role assumption about Yamada-san.",
+  'yamada:opereetaa:riidaa': "Yamada-san wa opereetaa ja nai desu. Rain riidaa desu. Natural. Good role correction.",
+  'yamada:enjinia:kanrisha': "Yamada-san wa enjinia ja nai desu. Kakarichou desu. Natural. Clarifying a more senior position.",
+  'yamada:kanrisha:enjinia': "Yamada-san wa kakarichou ja nai desu. Enjinia desu. Natural.",
+  'yamada:gijutsuin:enjinia': "Yamada-san wa gijutsuin ja nai desu. Enjinia desu. Natural. Technician vs. engineer is a common distinction at DENSO.",
+  'yamada:enjinia:gijutsuin': "Yamada-san wa enjinia ja nai desu. Gijutsuin desu. Natural.",
+  'tanaka:enjinia:riidaa': "Tanaka-san wa enjinia ja nai desu. Rain riidaa desu. Natural. Clean role correction.",
+  'tanaka:riidaa:enjinia': "Tanaka-san wa rain riidaa ja nai desu. Enjinia desu. Natural.",
+  'tanaka:opereetaa:gijutsuin': "Tanaka-san wa opereetaa ja nai desu. Gijutsuin desu. Natural.",
+  'tanaka:gijutsuin:riidaa': "Tanaka-san wa gijutsuin ja nai desu. Rain riidaa desu. Natural.",
+  'tanaka:enjinia:kanrisha': "Tanaka-san wa enjinia ja nai desu. Kakarichou desu. Natural.",
+  'watashi:enjinia:opereetaa': "Watashi wa enjinia ja nai desu. Opereetaa desu. Natural. Correcting someone's assumption about your own role.",
+  'watashi:opereetaa:enjinia': "Watashi wa opereetaa ja nai desu. Enjinia desu. Natural. Self-correction of your role.",
+  'watashi:riidaa:enjinia': "Watashi wa rain riidaa ja nai desu. Enjinia desu. Natural.",
+  'watashi:enjinia:riidaa': "Watashi wa enjinia ja nai desu. Rain riidaa desu. Natural.",
+  'watashi:kanrisha:riidaa': "Watashi wa kakarichou ja nai desu. Rain riidaa desu. Natural.",
+  'watashi:gijutsuin:enjinia': "Watashi wa gijutsuin ja nai desu. Enjinia desu. Natural. A common distinction to clarify.",
+  'watashi:hozen:gijutsuin': "Watashi wa hozen tantou ja nai desu. Gijutsuin desu. Natural.",
+  'watashi:hinshitsu:opereetaa': "Watashi wa hinshitsu kanri tantou ja nai desu. Opereetaa desu. Natural.",
+
+  // Natural: person + state
+
+  // Odd: person + mondai
+
+  // Natural: thing/situation + state
+
+  // Natural: thing + thing (line correction)
+  'kore:a-rain:b-rain': "Kore wa A-rain ja nai desu. B-rain desu. Natural. Clarifying which production line something belongs to. Short, clear, floor-ready.",
+  'sore:a-rain:b-rain': "Sore wa A-rain ja nai desu. B-rain desu. Natural. Correcting which line that item (near the listener) belongs to.",
+  'are:a-rain:b-rain': "Are wa A-rain ja nai desu. B-rain desu. Natural.",
+  'rain:a-rain:b-rain': "Kono rain wa A-rain ja nai desu. B-rain desu. Natural. Specifying which production line you mean.",
+  'kore:b-rain:a-rain': "Kore wa B-rain ja nai desu. A-rain desu. Natural.",
+  'sore:b-rain:a-rain': "Sore wa B-rain ja nai desu. A-rain desu. Natural.",
+
+  // Odd: thing topic + role predicate
+
+  'kore:enjinia:riidaa': "ODD: Kore (this thing) cannot have a job title. Use a person — Yamada-san, Tanaka-san, or watashi — as the topic when correcting someone's role.",
+  'rain:enjinia:riidaa': "ODD: A production line cannot be an engineer. Use a person as the topic for role corrections.",
+};
+
+let jnTopic = null, jnNot = null, jnIs = null;
+
+function jnRenderChips() {
+  const tc = document.getElementById('jn-topic-chips');
+  const nc = document.getElementById('jn-not-chips');
+  const ic = document.getElementById('jn-is-chips');
+  if (!tc) return;
+  tc.innerHTML = JN_TOPICS.map((t,i) =>
+    '<button class="ub-chip jn-t" onclick="jnPickTopic(' + i + ')">' +
+    '<span class="chip-roman">' + t.ro + '</span><span class="chip-en">' + t.en + '</span></button>'
+  ).join('');
+  nc.innerHTML = JN_PREDS.map((p,i) =>
+    '<button class="ub-chip jn-n" onclick="jnPickNot(' + i + ')">' +
+    '<span class="chip-roman">' + p.ro + '</span><span class="chip-en">' + p.en + '</span></button>'
+  ).join('');
+  ic.innerHTML = JN_PREDS.map((p,i) =>
+    '<button class="ub-chip jn-i" onclick="jnPickIs(' + i + ')">' +
+    '<span class="chip-roman">' + p.ro + '</span><span class="chip-en">' + p.en + '</span></button>'
+  ).join('');
+}
+
+function jnPickTopic(i) {
+  jnTopic = JN_TOPICS[i];
+  document.querySelectorAll('.jn-t').forEach((b,j) => b.classList.toggle('used', j===i));
+  const s = document.getElementById('jn-topic');
+  s.textContent = jnTopic.ro; s.classList.add('filled');
+  jnUpdate();
+}
+function jnPickNot(i) {
+  jnNot = JN_PREDS[i];
+  document.querySelectorAll('.jn-n').forEach((b,j) => b.classList.toggle('used', j===i));
+  const s = document.getElementById('jn-not');
+  s.textContent = jnNot.ro; s.classList.add('filled');
+  jnUpdate();
+}
+function jnPickIs(i) {
+  jnIs = JN_PREDS[i];
+  document.querySelectorAll('.jn-i').forEach((b,j) => b.classList.toggle('used', j===i));
+  const s = document.getElementById('jn-is');
+  s.textContent = jnIs.ro; s.classList.add('filled');
+  jnUpdate();
+}
+
+function jnUpdate() {
+  if (!jnTopic || !jnNot || !jnIs) return;
+
+  const jpFull = jnTopic.jp + jnNot.jp + '\u3058\u3083\u306a\u3044\u3067\u3059\u3002' + jnIs.jp + '\u3067\u3059\u3002';
+  const roFull = jnTopic.ro + ' ' + jnNot.ro + ' ja nai desu. ' + jnIs.ro + ' desu.';
+
+  if (jnNot.id === jnIs.id) {
+    jnShowResult(roFull, jpFull, 'odd', 'You picked the same word for both slots. The sentence says "X is not Y — Y," which contradicts itself. Pick a different correction.');
+    return;
+  }
+
+  const key = jnTopic.id + ':' + jnNot.id + ':' + jnIs.id;
+  if (JN_VERDICTS[key]) {
+    const raw = JN_VERDICTS[key];
+    if (raw.startsWith('ODD:')) {
+      jnShowResult(roFull, jpFull, 'odd', raw.slice(5).trim());
+    } else {
+      jnShowResult(roFull, jpFull, 'natural', raw);
+    }
+    return;
+  }
+
+  // Inference for unlisted combinations
+  const notCat = jnNot.cat;
+  const isCat  = jnIs.cat;
+  const topCat = jnTopic.cat;
+
+  if (topCat === 'person' && notCat === 'role' && isCat === 'role') {
+    jnShowResult(roFull, jpFull, 'natural', 'Natural — correcting one job role with another. The pattern is complete and floor-appropriate.');
+  } else if (topCat === 'person' && notCat === 'state' && isCat === 'state') {
+    jnShowResult(roFull, jpFull, 'natural', "Natural — correcting one description of a person's situation with another.");
+  } else if (topCat === 'thing' && notCat === 'state' && isCat === 'state') {
+    jnShowResult(roFull, jpFull, 'natural', 'Natural — correcting a description of a situation or thing. The pattern is complete.');
+  } else if (topCat === 'thing' && notCat === 'thing' && isCat === 'thing') {
+    jnShowResult(roFull, jpFull, 'natural', "Natural — correcting which thing is meant. Clear and direct.");
+  } else if (topCat === 'thing' && notCat === 'role') {
+    jnShowResult(roFull, jpFull, 'odd', 'Category mismatch: a thing or situation cannot have a job title. Use a person as the topic when correcting roles.');
+  } else if (topCat === 'person' && notCat === 'thing') {
+    jnShowResult(roFull, jpFull, 'odd', 'Category mismatch: a person is not usually described as a line or a physical object. Match role or state predicates with person topics.');
+  } else {
+    jnShowResult(roFull, jpFull, 'good', "Grammatically valid. The structure is correct — check that the topic and predicates belong to the same category for the sentence to make real-world sense.");
+  }
+}
+
+function jnShowResult(ro, jp, verdict, note) {
+  const box   = document.getElementById('jn-result-box');
+  const icon  = document.getElementById('jn-verdict-icon');
+  const label = document.getElementById('jn-verdict-label');
+  const jpEl  = document.getElementById('jn-jp');
+  const roEl  = document.getElementById('jn-roman');
+  const noteEl = document.getElementById('jn-note');
+  const spk   = document.getElementById('jn-speak-btn');
+
+  const styles = {
+    natural: { bg:'var(--correct-bg)', border:'1px solid var(--correct-border)', icon:'\u2705', label:'Natural \u2014 floor-ready',         col:'var(--correct)' },
+    good:    { bg:'var(--blue-bg)',    border:'1px solid var(--blue-border)',    icon:'\ud83d\udc4d', label:'Grammatically correct',  col:'var(--blue)'   },
+    odd:     { bg:'var(--gold-bg)',    border:'1px solid var(--gold-border)',    icon:'\u26a0\ufe0f', label:"Doesn't quite work \u2014 read why", col:'var(--gold)' },
+  };
+  const s = styles[verdict] || styles.good;
+  box.style.cssText = 'display:block;border-radius:6px;padding:16px 20px;margin-bottom:16px;background:' + s.bg + ';border:' + s.border + ';';
+  icon.textContent  = s.icon;
+  label.textContent = s.label;
+  label.style.color = s.col;
+  jpEl.textContent  = jp;
+  roEl.textContent  = ro;
+  noteEl.textContent = note;
+  window._jnJp = jp;
+  spk.style.display = (verdict === 'natural') ? 'inline-flex' : 'none';
+}
+
+function jnSpeak() {
+  if (window._jnJp) { speak(window._jnJp); }
+}
+
+function jnReset() {
+  jnTopic = null; jnNot = null; jnIs = null;
+  document.querySelectorAll('.jn-t,.jn-n,.jn-i').forEach(b => b.classList.remove('used'));
+  document.getElementById('jn-topic').textContent = '[ who / what ]';
+  document.getElementById('jn-not').textContent   = '[ what it isn\'t ]';
+  document.getElementById('jn-is').textContent    = '[ what it is ]';
+  ['jn-topic','jn-not','jn-is'].forEach(id => document.getElementById(id).classList.remove('filled'));
+  document.getElementById('jn-result-box').style.display = 'none';
+  document.getElementById('jn-speak-btn').style.display  = 'none';
+  window._jnJp = null;
+}
+
+// Diagram lightbox
+function openDiagramLightbox(el, label) {
+  const svg = el.querySelector('svg');
+  if (!svg) return;
+  document.getElementById('diag-lightbox-svg').innerHTML = svg.outerHTML;
+  document.getElementById('diag-lightbox-label').textContent = label;
+  document.getElementById('diag-lightbox').classList.add('open');
+}
+function closeDiagramLightbox() {
+  document.getElementById('diag-lightbox').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDiagramLightbox(); });
+
+
+function jnInit() { jnRenderChips(); }
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', jnInit);
+} else {
+  jnInit();
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  ============================================================
+  © 2026 JJA · Joyful Language Academy. All rights reserved.
+  Author        : JJA — Joyful Language Academy
+  Course        : DENSO Japanese Workplace Communication
+  Session       : 6
+  File          : denso-s6-phase2-facilitator.html
+  Created       : 2026-03-16
+  Fingerprint   : 5101a9bb83c03bd1
+  License       : Proprietary. Not for redistribution, resale,
+                  or modification without written permission.
+  Contact       : Joyful Language Academy
+  ============================================================
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO S6 — Phase 2 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}
+body{background:#0F1117;color:#C8D0E0;font-size:14px;}
+a{color:#5E9BDC;}
+
+/* ── PIN ── */
+#pin-gate{position:fixed;inset:0;background:#0F1117;z-index:9999;display:flex;align-items:center;justify-content:center;}
+.pin-card{background:#1A1D25;border:1px solid #2A2D38;border-radius:12px;padding:40px 44px;text-align:center;max-width:360px;width:100%;}
+.pin-logo{width:48px;height:48px;border-radius:8px;background:#C8102E;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 20px;}
+.pin-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;}
+.pin-sub{font-size:13px;color:#6B7585;margin-bottom:28px;line-height:1.6;}
+.pin-dots{display:flex;gap:12px;justify-content:center;margin-bottom:24px;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #3A4050;background:transparent;transition:all 0.15s;}
+.pin-dot.filled{background:#C8102E;border-color:#C8102E;}
+.pin-dot.error{background:#E87070;border-color:#E87070;animation:shake 0.35s ease;}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto;}
+.pin-btn{background:#13151C;border:1px solid #2A2D38;border-radius:8px;color:#C8D0E0;font-size:20px;font-weight:600;padding:16px;cursor:pointer;transition:all 0.12s;font-family:"Inter",sans-serif;}
+.pin-btn:hover{background:#2A2D38;border-color:#3A4050;color:#fff;}
+.pin-btn:active{transform:scale(0.95);}
+.pin-btn.clear{font-size:13px;font-weight:600;letter-spacing:1px;color:#6B7585;}
+.pin-error{font-size:12px;color:#E87070;margin-top:14px;height:16px;font-family:"IBM Plex Mono",monospace;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+/* ── SHELL ── */
+.fac-shell{display:flex;flex-direction:column;height:100%;overflow:hidden;}
+.fac-topbar{background:#1A1D25;border-bottom:3px solid #C8102E;padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:54px;gap:16px;}
+.fac-tb-left{display:flex;flex-direction:column;gap:2px;}
+.fac-tb-org{font-size:9px;font-weight:700;letter-spacing:3px;color:#6B7585;text-transform:uppercase;}
+.fac-tb-title{font-size:15px;font-weight:700;color:#fff;}
+.fac-tb-right{display:flex;align-items:center;gap:10px;}
+.fac-timer-wrap{display:flex;align-items:center;gap:8px;background:#13151C;border:1px solid #2A2D38;border-radius:6px;padding:5px 12px;}
+.fac-timer-display{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:#C8D0E0;min-width:52px;text-align:center;}
+.fac-timer-display.urgent{color:#E87070;}
+.fac-timer-btn{font-size:11px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:4px;border:1px solid #3A4050;background:#1A1D25;color:#9B7FD4;cursor:pointer;font-family:'Inter',sans-serif;}
+.fac-timer-btn:hover{background:#2A2D38;}
+.fac-badge{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1.5px solid #7B5FD0;color:#9B7FD4;background:rgba(142,68,173,0.12);}
+.conn-pill{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:4px 10px;border-radius:10px;border:1px solid;display:flex;align-items:center;gap:6px;}
+.conn-pill.offline{border-color:#3A2D38;color:#6B5060;}
+.conn-pill.online{border-color:#1A4E3A;color:#1ABC9C;background:rgba(26,188,156,0.1);}
+.conn-dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+
+/* ── LAYOUT ── */
+.fac-body{flex:1;overflow:hidden;display:flex;}
+.fac-sidebar{width:230px;flex-shrink:0;background:#13151C;border-right:1px solid #2A2D38;overflow-y:auto;display:flex;flex-direction:column;}
+.fac-sidebar::-webkit-scrollbar{width:4px;}
+.fac-sidebar::-webkit-scrollbar-thumb{background:#2A2D38;border-radius:2px;}
+.fac-nav-label{font-size:9px;font-weight:700;letter-spacing:3px;color:#3A4050;text-transform:uppercase;padding:14px 18px 8px;}
+.fac-nav-btn{width:100%;text-align:left;background:none;border:none;padding:10px 18px;cursor:pointer;display:flex;flex-direction:column;gap:3px;transition:background 0.12s;border-left:3px solid transparent;}
+.fac-nav-btn:hover{background:rgba(255,255,255,0.04);}
+.fac-nav-btn.viewing{background:rgba(200,16,46,0.08);border-left-color:#C8102E;}
+.fac-nav-btn.pushed{border-left-color:#1ABC9C;}
+.fac-nav-num{font-family:"IBM Plex Mono",monospace;font-size:9px;color:#4A5260;letter-spacing:1px;}
+.fac-nav-title{font-size:12px;font-weight:600;color:#C8D0E0;}
+.fac-nav-btn.viewing .fac-nav-title{color:#fff;}
+.fac-nav-time{font-family:"IBM Plex Mono",monospace;font-size:9px;color:#8A6A00;background:rgba(232,184,75,0.1);border-radius:3px;padding:1px 6px;display:inline-block;margin-top:2px;}
+.fac-nav-status{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.fac-nav-status.pushed{color:#1ABC9C;}
+.sidebar-bottom{padding:16px 18px;border-top:1px solid #2A2D38;margin-top:auto;}
+
+.fac-main{flex:1;overflow-y:auto;padding:28px 36px 56px;background:#111318;}
+.fac-main::-webkit-scrollbar{width:5px;}
+.fac-main::-webkit-scrollbar-thumb{background:#2A2D38;border-radius:3px;}
+.block-panel{display:none;}
+.block-panel.active{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── PANEL COMPONENTS ── */
+.ctrl-bar{background:#1A1D25;border:1px solid #2A2D38;border-radius:8px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.ctrl-bar-left{flex:1;}
+.ctrl-block-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px;}
+.ctrl-block-sub{font-size:12px;color:#6B7585;}
+.ctrl-btn{font-family:"Inter",sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;padding:10px 20px;transition:all 0.15s;display:inline-flex;align-items:center;gap:8px;}
+.ctrl-btn.unlock{background:#C8102E;color:#fff;}
+.ctrl-btn.unlock:hover{background:#A00D24;}
+.ctrl-btn.pushed-state{background:#0E3A2A;color:#1ABC9C;border:1.5px solid #1ABC9C;cursor:default;}
+.ctrl-btn.retract{background:none;border:1.5px solid #3A2D38;color:#6B7585;font-size:11px;padding:8px 14px;}
+.ctrl-btn.retract:hover{border-color:#C8102E;color:#E87070;}
+.fac-nav-arrows{display:flex;gap:8px;align-items:center;margin-bottom:20px;}
+.fac-arr-btn{background:#1A1D25;border:1px solid #2A2D38;border-radius:4px;color:#8A93A8;font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;transition:all 0.12s;}
+.fac-arr-btn:hover{background:#2A2D38;color:#fff;}
+.fac-arr-btn:disabled{opacity:0.3;cursor:default;}
+.fac-curr-indicator{font-family:"IBM Plex Mono",monospace;font-size:11px;color:#4A5260;}
+.fac-eyebrow{font-size:9px;font-weight:700;letter-spacing:3px;color:#6B7585;text-transform:uppercase;margin-bottom:6px;}
+.fac-block-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;}
+.fac-block-sub{font-size:14px;color:#8A93A8;line-height:1.65;margin-bottom:24px;max-width:620px;}
+.fac-card{border-radius:8px;padding:18px 22px;margin-bottom:18px;border:1px solid;}
+.fac-card.blue{background:rgba(21,88,166,0.08);border-color:rgba(146,186,232,0.2);border-left:3px solid #2980B9;}
+.fac-card.red{background:rgba(200,16,46,0.07);border-color:rgba(200,16,46,0.2);border-left:3px solid #C8102E;}
+.fac-card-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+.fac-card.blue .fac-card-label{color:#5E9BDC;}
+.fac-card.red .fac-card-label{color:#E87070;}
+.fac-talking-points{display:flex;flex-direction:column;gap:10px;}
+.fac-tp{display:flex;align-items:flex-start;gap:10px;}
+.fac-tp-bullet{width:18px;height:18px;border-radius:50%;background:#C8102E;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.fac-tp-text{font-size:13px;color:#C8D0E0;line-height:1.65;}
+.fac-tp-text em{color:#E8B84B;font-style:normal;font-weight:600;}
+.watch-list{display:flex;flex-direction:column;gap:8px;}
+.watch-item{display:flex;align-items:flex-start;gap:10px;background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.15);border-radius:6px;padding:10px 14px;}
+.watch-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.watch-text{font-size:13px;color:#C8D0E0;line-height:1.6;}
+.watch-text strong{color:#E87070;font-weight:600;}
+.timing-bar{display:flex;align-items:center;gap:12px;background:#1A1D25;border:1px solid #2A2D38;border-radius:6px;padding:11px 16px;margin-bottom:16px;}
+.timing-icon{font-size:16px;}
+.timing-label{font-size:12px;color:#6B7585;flex:1;}
+.timing-val{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;color:#E8B84B;}
+
+/* quick-ref grid */
+.ksad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;border-radius:6px;overflow:hidden;margin:16px 0 20px;border:1px solid #2A2D38;}
+.ksad-header{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:#13151C;padding:8px;text-align:center;color:#6B7585;}
+.ksad-cell{background:#1A1D25;padding:10px 8px;text-align:center;}
+.ksad-series{font-size:9px;font-weight:700;letter-spacing:1px;color:#6B7585;text-transform:uppercase;margin-bottom:6px;}
+.ksad-ro{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:#fff;margin-bottom:2px;}
+.ksad-en{font-size:10px;color:#8A93A8;}
+.ksad-cell.ko{border-left:2px solid #2980B9;}
+.ksad-cell.so{border-left:2px solid #8E44AD;}
+.ksad-cell.a{border-left:2px solid #27AE60;}
+.ksad-cell.do{border-left:2px solid #E8B84B;}
+</style>
+</head>
+<body>
+
+<!-- PIN -->
+<div id="pin-gate">
+  <div class="pin-card">
+    <div class="pin-logo">🎓</div>
+    <div class="pin-title">Facilitator Access</div>
+    <div class="pin-sub">Enter your 4-digit PIN to open the control panel.</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-btn" onclick="pinPress('1')">1</button>
+      <button class="pin-btn" onclick="pinPress('2')">2</button>
+      <button class="pin-btn" onclick="pinPress('3')">3</button>
+      <button class="pin-btn" onclick="pinPress('4')">4</button>
+      <button class="pin-btn" onclick="pinPress('5')">5</button>
+      <button class="pin-btn" onclick="pinPress('6')">6</button>
+      <button class="pin-btn" onclick="pinPress('7')">7</button>
+      <button class="pin-btn" onclick="pinPress('8')">8</button>
+      <button class="pin-btn" onclick="pinPress('9')">9</button>
+      <button class="pin-btn clear" onclick="pinClear()">CLR</button>
+      <button class="pin-btn" onclick="pinPress('0')">0</button>
+      <button class="pin-btn clear" onclick="pinBack()">⌫</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+  </div>
+</div>
+
+<div class="fac-shell" id="fac-shell" style="display:none;">
+  <div class="fac-topbar">
+    <div class="fac-tb-left">
+      <div class="fac-tb-org">DENSO Manufacturing · Statesville, NC · Session 07 — Phase 2</div>
+      <div class="fac-tb-title">Facilitator Control Panel</div>
+    </div>
+    <div class="fac-tb-right">
+      <div class="fac-timer-wrap">
+        <div class="fac-timer-display" id="fac-timer">30:00</div>
+        <button class="fac-timer-btn" id="fac-timer-btn" onclick="facToggleTimer()">⏸ Pause</button>
+      </div>
+      <div class="fac-badge">🎓 Facilitator</div>
+      <div class="conn-pill offline" id="conn-pill">
+        <div class="conn-dot"></div>
+        <span id="conn-label">connecting…</span>
+      </div>
+      <button class="ctrl-btn retract" style="font-size:10px;padding:6px 12px;" onclick="resetAll()">↺ Reset Session</button>
+    </div>
+  </div>
+
+  <div class="fac-body">
+    <div class="fac-sidebar">
+      <div class="fac-nav-label">Blocks</div>
+      <button class="fac-nav-btn viewing" id="nav-review" onclick="viewBlock('review')">
+        <div class="fac-nav-num">Block A</div>
+        <div class="fac-nav-title">⚡ Review Blitz</div>
+        <div class="fac-nav-time">5–6 min</div>
+        <div class="fac-nav-status" id="navstatus-review"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-no" onclick="viewBlock('no')">
+        <div class="fac-nav-num">Block B</div>
+        <div class="fac-nav-title">🔗 の Possessive</div>
+        <div class="fac-nav-time">6–7 min</div>
+        <div class="fac-nav-status" id="navstatus-no"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-suki" onclick="viewBlock('suki')">
+        <div class="fac-nav-num">Block C</div>
+        <div class="fac-nav-title">💬 が好きです</div>
+        <div class="fac-nav-time">7–8 min</div>
+        <div class="fac-nav-status" id="navstatus-suki"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-tenki" onclick="viewBlock('tenki')">
+        <div class="fac-nav-num">Block D</div>
+        <div class="fac-nav-title">☀️ Ice Breakers</div>
+        <div class="fac-nav-time">5 min</div>
+        <div class="fac-nav-status" id="navstatus-tenki"></div>
+      </button>
+      <button class="fac-nav-btn" id="nav-floor" onclick="viewBlock('floor')">
+        <div class="fac-nav-num">Block E</div>
+        <div class="fac-nav-title">🏭 Floor Exchanges</div>
+        <div class="fac-nav-time">5–6 min</div>
+        <div class="fac-nav-status" id="navstatus-floor"></div>
+      </button>
+      <div class="sidebar-bottom">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:#3A4050;text-transform:uppercase;margin-bottom:8px;">Learner screen</div>
+        <a href="denso-s6-phase2-learner.html" target="_blank" style="font-size:12px;">Open learner view ↗</a>
+        <div style="margin-top:12px;font-size:10px;color:#3A4050;line-height:1.6;">Unlock &amp; Push sends the block live to all connected learner screens instantly.</div>
+      </div>
+    </div>
+
+    <div class="fac-main">
+
+<!-- ── PANEL A: REVIEW BLITZ ── -->
+<div class="block-panel" id="panel-review">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">⚡ Block A — Review Blitz</div>
+      <div class="ctrl-block-sub">Block A · 5–6 min · Push to unlock on all learner screens</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-review" style="display:none" onclick="retractBlock('review')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-review" onclick="pushBlock('review')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" disabled>← Prev</button>
+    <span class="fac-curr-indicator">1 / 5</span>
+    <button class="fac-arr-btn" onclick="viewBlock('no')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block A</div>
+  <div class="fac-block-title">Review Blitz — S1–S6</div>
+  <div class="fac-block-sub">A fast oral review of everything learned so far. Facilitator-driven — call out a situation, learners respond. The quick reference grid on their screen is the cheat sheet they shouldn't need.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">5–6 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">Fast and oral — this is recall, not re-teaching</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Open by naming the range: "We're going to do a quick pass through everything — S1 through S6. I'll give you a situation, you give me the phrase. No looking things up."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Use the quick reference grid on their screen as a fallback if someone gets stuck — the goal is to identify gaps, not to punish them. If no one gets it, that's a note for you.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Hit the high-frequency phrases: ohayou gozaimasu, otsukaresama, osaki ni, mou ichido, yoroshiku, ja nai desu, kore/sore/are, kono/sono/ano. That's the core.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Keep the pace brisk. If a phrase comes out fast and clean, move on. If someone hesitates, pause and have the group say it together once — then move on.</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">If most learners are solid, keep this block short — 4 minutes is fine. The time is better spent on new content. If gaps appear, slow down on that phrase only, then pick back up.</div></div>
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text">The gokurousama/otsukaresama hierarchy trap still trips people. If it comes up, one quick reminder: otsukaresama goes in every direction; gokurousama only flows downward. Then move on.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL B: の POSSESSIVE ── -->
+<div class="block-panel" id="panel-no">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">🔗 Block B — の Possessive</div>
+      <div class="ctrl-block-sub">Block B · 6–7 min · [A] の [B] = B that belongs to A</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-no" style="display:none" onclick="retractBlock('no')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-no" onclick="pushBlock('no')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('review')">← Prev</button>
+    <span class="fac-curr-indicator">2 / 5</span>
+    <button class="fac-arr-btn" onclick="viewBlock('suki')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block B</div>
+  <div class="fac-block-title">の — The Possessive Connector</div>
+  <div class="fac-block-sub">One rule: の connects two nouns and says the first one owns or defines the second. Teach the rule once, then drill with floor vocabulary.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">6–7 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">The S6 connection is the key insight — use it</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Write the rule on the board: <em>[Noun A] の [Noun B] = Noun B that belongs to Noun A.</em> Say it with a floor example: "Yamada-san の paatsu = Yamada-san's part. A-rain の tejun = A-line's procedure."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">The S6 connection is the key insight — say it explicitly: "You already used の in Session 6. Kono, sono, ano, dono are ko/so/a/do + の fused together. When you said kono paatsu, you were already using の." This reframes new content as prior knowledge.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Flag the one watch-out: <em>このの / そのの does not exist.</em> Kono already has の built in. You never add another の after kono/sono/ano.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Drill the question form: <em>Kore wa dare no ~ desu ka?</em> (whose ~ is this?) and the short answer: <em>Watashi no desu.</em> Point out that you can drop the noun when both people can see what's being discussed — the の carries it.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Run the back-chain drill together — it's on their learner screen. Learners tap ▶ Start Drill to open it.</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>このの is the main error.</strong> Learners sometimes try to add の after kono/sono/ano. Correct it once clearly — kono already contains の, so adding another is redundant.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">If learners get the pattern quickly, have them generate their own examples: their name + no + a floor noun. "Tanaka-san no kikai" etc. Producing their own examples is stronger than repeating yours.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL C: が好きです ── -->
+<div class="block-panel" id="panel-suki">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">💬 Block C — が好きです</div>
+      <div class="ctrl-block-sub">Block C · 7–8 min · likes/dislikes + sentence builder</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-suki" style="display:none" onclick="retractBlock('suki')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-suki" onclick="pushBlock('suki')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('no')">← Prev</button>
+    <span class="fac-curr-indicator">3 / 5</span>
+    <button class="fac-arr-btn" onclick="viewBlock('tenki')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block C</div>
+  <div class="fac-block-title">が好きです — Likes &amp; Dislikes</div>
+  <div class="fac-block-sub">The pattern that makes communication personal. Heaviest new content in Phase 2 — budget time for the particle explanation and the sentence builder.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">7–8 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">The が particle is the sticking point — spend the time here</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Write the pattern: <em>[Noun] が 好きです。</em> Say it out loud with examples: "Futtobooru ga suki desu. Yakyuu ga suki desu. Kono shigoto ga suki desu." Let them hear the rhythm before they try it.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Spend a moment on the particle: "It's が, not は. With suki desu, が is always the particle — it spotlights the thing being liked. Don't swap it out. Memorise the chunk: [thing] が suki desu." You don't need to explain why — just lock in the pattern.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Show both forms side by side: <em>~ ga suki desu</em> (I like ~) and <em>~ ga suki ja nai desu</em> (I don't like ~). Point out that suki ja nai desu uses the same ja nai desu from Session 6 — one more instance of prior knowledge.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text"><strong>Point out the two question forms on their screen.</strong> <em>Supootsu ga suki desu ka?</em> = "Do you like sports?" — yes/no. <em>Suki na supootsu wa nan desu ka?</em> = "What sport do you like?" — assumes they do, asks which. The second is warmer and more natural as a conversation opener. If a Japanese colleague asks it, they're already assuming common ground.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Run the back-chain drill together. Then give them 2–3 minutes with the sentence builder — learners tap ▶ Open Builder first. The builder now has categories (Sports, Music, Food, Other) with 20 options. Ask one or two people to share what they built and say it aloud.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">The "me too" response: <em>Watashi mo suki desu.</em> Demonstrate a mini-exchange: you say "Futtobooru ga suki desu, Tanaka-san wa?" and have a learner respond with either their own preference or "watashi mo suki desu."</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>は for が.</strong> The most common error. If you hear "futtobooru wa suki desu" — correct it once, clearly: が is the fixed particle with suki. Don't explain the full grammar; just redirect to the chunk.</div></div>
+      <div class="watch-item"><div class="watch-icon">😄</div><div class="watch-text"><strong>You don't need to ask if someone likes food.</strong> Tabemono ga suki desu ka? ("Do you like food?") is technically correct but basically meaningless — we all like food. Skip the yes/no and go straight to <em>Suki na tabemono wa nan desu ka?</em> (What food do you like?). Worth a laugh if it comes up in the builder.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">If learners get the back-chain quickly, push to the exchange: "Tell your partner one thing you like, then ask them — Tanaka-san wa? / [Name]-san wa?" A 60-second pair practice is worth more than another drill repetition.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">The sentence builder only shows 🔊 on natural sentences. If someone asks why they can't hear one, that's the point — it's not floor-ready. Use it as a teachable moment.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL D: ICE BREAKERS ── -->
+<div class="block-panel" id="panel-tenki">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">☀️ Block D — Social Ice Breakers</div>
+      <div class="ctrl-block-sub">Block D · 5 min · ii otenki desu ne / sou desu ne</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-tenki" style="display:none" onclick="retractBlock('tenki')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-tenki" onclick="pushBlock('tenki')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('suki')">← Prev</button>
+    <span class="fac-curr-indicator">4 / 5</span>
+    <button class="fac-arr-btn" onclick="viewBlock('floor')">Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block D</div>
+  <div class="fac-block-title">Social Ice Breakers — いいお天気ですね</div>
+  <div class="fac-block-sub">Light content, high cultural value. The goal is one insight and one exchange. Don't over-drill — let the cultural explanation do the work.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">5 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">One exchange, one insight — keep it light</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Lead with the comparison: "In English we say 'how are you?' and we don't actually expect an honest answer. It's a social signal — 'I see you, I'm friendly.' Japanese has the same thing, and the weather is the most common vehicle for it."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Important: sequence matters. <em>Ohayou gozaimasu</em> opens — that's the required greeting. <em>Ii otenki desu ne</em> comes after, as a warm add-on. Their colleague responds <em>sou desu ne</em>. That's the full sequence: greeting → observation → agreement → move on.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Explain ね: "The ne at the end is like adding 'right?' or 'isn't it?' — you're sharing an observation and inviting agreement, not asking a real question. Your colleague knows the expected move."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Run through the variants: <em>ii otenki desu ne</em> (nice weather), <em>samui desu ne</em> (cold today), <em>atsui desu ne</em> (hot today). Three phrases covers most days of the year.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Practice the full sequence as a group: ohayou gozaimasu → ii otenki desu ne → sou desu ne. Do it twice — once you say the opener, once a learner does. Four seconds total. That's the point.</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">Some learners will want to ask "but what if the weather is actually bad?" — that's the right question. Samui desu ne and atsui desu ne work for those days. The point isn't the weather; it's the ritual. Any benign shared observation does the job.</div></div>
+      <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text">Don't let this block run long. It's intentionally light. If discussion opens up around Japanese small talk culture, give it 60 seconds then move to Block E.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANEL E: FLOOR EXCHANGES ── -->
+<div class="block-panel" id="panel-floor">
+  <div class="ctrl-bar">
+    <div class="ctrl-bar-left">
+      <div class="ctrl-block-title">🏭 Block E — Floor Exchanges</div>
+      <div class="ctrl-block-sub">Block E · 5–6 min · Full exchanges + quick reference grid</div>
+    </div>
+    <button class="ctrl-btn retract" id="retract-floor" style="display:none" onclick="retractBlock('floor')">↩ Retract</button>
+    <button class="ctrl-btn unlock" id="pushbtn-floor" onclick="pushBlock('floor')">🔓 Unlock &amp; Push</button>
+  </div>
+  <div class="fac-nav-arrows">
+    <button class="fac-arr-btn" onclick="viewBlock('tenki')">← Prev</button>
+    <span class="fac-curr-indicator">5 / 5</span>
+    <button class="fac-arr-btn" disabled>Next →</button>
+  </div>
+  <div class="fac-eyebrow">Block E</div>
+  <div class="fac-block-title">Floor Exchanges — Everything Together</div>
+  <div class="fac-block-sub">Full 2–3 turn exchanges combining の, が好きです, ice breakers, and S1–S6 phrases. Read aloud with a partner, then discuss. Closes Phase 2.</div>
+  <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Suggested time</div><div class="timing-val">5–6 min</div></div>
+  <div style="font-size:11px;color:#4A5260;margin-top:-12px;margin-bottom:20px;font-style:italic;">Keep it light — this bridges into Phase 3</div>
+
+  <div class="fac-card blue" style="margin-bottom:18px;">
+    <div class="fac-card-label">💬 Talking Points</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Have pairs read the exchanges out loud — not just read silently. Even a quiet voice counts. The physical act of speaking the phrase is the point.</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Point out where the new patterns land: "See exchange 1 — 'watashi no desu' with の. Exchange 3 — the full ice breaker sequence. Exchange 4 — が好きです in a real conversation."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet">›</div><div class="fac-tp-text">Close Phase 2 with: "Phase 3 starts with cue cards — you'll use today's new patterns plus everything from S1–S6. Then 10 floor scenarios. You've got the vocabulary. Now you practice reading the situation."</div></div>
+    </div>
+  </div>
+  <div class="fac-card red">
+    <div class="fac-card-label">👁 Watch For</div>
+    <div class="watch-list">
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">Some pairs will rush through silently. Encourage speaking aloud — even a murmur counts. Muscle memory of the phrase is the goal.</div></div>
+      <div class="watch-item"><div class="watch-icon">💡</div><div class="watch-text">If time is short, it's fine to skip the exchanges and just review the quick reference grid. The grid is on their screen and they can use it in Phase 3.</div></div>
+    </div>
+  </div>
+
+  <div class="fac-card blue" style="margin-top:24px;background:rgba(26,110,58,0.06);border-color:rgba(125,196,160,0.4);border-left:3px solid var(--green);">
+    <div class="fac-card-label" style="color:var(--green);">✅ Closing — Parting Words &amp; Homework</div>
+    <div class="fac-talking-points">
+      <div class="fac-tp"><div class="fac-tp-bullet" style="background:var(--green);">›</div><div class="fac-tp-text"><strong>Closing questions to ask the group (pick 2–3):</strong><br>
+        · Which phrase from today would you most likely use this week on the floor?<br>
+        · Is there a situation at work where you wished you had the Japanese for something?<br>
+        · What felt solid? What still feels shaky?<br>
+        · Did the weather feel like the weirdest thing we taught today — and does it make sense now why it matters?
+      </div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet" style="background:var(--green);">›</div><div class="fac-tp-text"><strong>Parting words:</strong> "You came in knowing phrases. You're leaving knowing grammar — の, が好きです. That's a real shift. The phrases were vocabulary. Today was structure. Those are different things and you should feel good about it."</div></div>
+      <div class="fac-tp"><div class="fac-tp-bullet" style="background:var(--green);">›</div><div class="fac-tp-text"><strong>Low-stakes homework (no submission):</strong> Before the next session, notice one moment this week where you could have used の or が好きです — with a Japanese colleague or even just in your head. You don't have to say it out loud. Just notice the moment. That's it.</div></div>
+    </div>
+  </div>
+
+</div>
+    </div><!-- /fac-main -->
+  </div><!-- /fac-body -->
+</div><!-- /fac-shell -->
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain: "denso-japanese.firebaseapp.com",
+    databaseURL: "https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId: "denso-japanese",
+    storageBucket: "denso-japanese.firebasestorage.app",
+    messagingSenderId: "654718718217",
+    appId: "1:654718718217:web:ecec2672bd5069c0b443d8"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const dbRef = ref(db, "session7/phase2/unlockedBlocks");
+  window._fbPush = (val) => set(dbRef, val);
+  onValue(dbRef, snap => {
+    const val = snap.val() || [];
+    window._syncedState = val;
+    syncUI(val);
+  });
+  window._fbReady = true;
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+const BLOCK_ORDER = ['review', 'no', 'suki', 'tenki', 'floor'];
+let pushedBlocks = [];
+
+function viewBlock(id){
+  if(!id||id==='None')return;
+  document.querySelectorAll('.block-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.fac-nav-btn').forEach(b=>b.classList.remove('viewing'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('viewing');
+}
+
+function syncUI(unlockedBlocks){
+  pushedBlocks = unlockedBlocks || [];
+  BLOCK_ORDER.forEach(id=>{
+    const isPushed = pushedBlocks.includes(id);
+    const btn      = document.getElementById('pushbtn-'+id);
+    const retract  = document.getElementById('retract-'+id);
+    const navBtn   = document.getElementById('nav-'+id);
+    const navStatus= document.getElementById('navstatus-'+id);
+    if(isPushed){
+      btn.textContent='✓ Pushed to Learners';
+      btn.className='ctrl-btn pushed-state';
+      btn.disabled=true;
+      retract.style.display='inline-flex';
+      navBtn.classList.add('pushed');
+      navStatus.textContent='● Live';
+      navStatus.className='fac-nav-status pushed';
+    } else {
+      btn.innerHTML='🔓 Unlock &amp; Push';
+      btn.className='ctrl-btn unlock';
+      btn.disabled=false;
+      retract.style.display='none';
+      navBtn.classList.remove('pushed');
+      navStatus.textContent='';
+    }
+  });
+}
+
+function pushBlock(id){
+  if(!window._fbReady){alert('Not connected. Check internet connection.');return;}
+  if(!pushedBlocks.includes(id))pushedBlocks.push(id);
+  window._fbPush([...pushedBlocks]);
+}
+function retractBlock(id){
+  if(!confirm('Retract this block from all learner screens?'))return;
+  pushedBlocks=pushedBlocks.filter(b=>b!==id);
+  window._fbPush([...pushedBlocks]);
+}
+function resetAll(){
+  if(!confirm('Reset all unlocks? Learner screens return to waiting state.'))return;
+  pushedBlocks=[];
+  window._fbPush([]);
+}
+
+document.addEventListener('fbReady',()=>{
+  const pill=document.getElementById('conn-pill');
+  const lbl=document.getElementById('conn-label');
+  pill.className='conn-pill online';
+  lbl.textContent='live';
+});
+setTimeout(()=>{if(!window._fbReady)document.getElementById('conn-label').textContent='offline';},9000);
+
+// ── PIN ──
+const CORRECT_PIN='3985';
+let pinEntry='';
+function pinPress(d){if(pinEntry.length>=4)return;pinEntry+=d;updateDots();if(pinEntry.length===4)setTimeout(checkPin,120);}
+function pinBack(){pinEntry=pinEntry.slice(0,-1);updateDots();document.getElementById('pin-error').textContent='';}
+function pinClear(){pinEntry='';updateDots();document.getElementById('pin-error').textContent='';}
+function updateDots(){for(let i=0;i<4;i++){const d=document.getElementById('pd'+i);d.classList.toggle('filled',i<pinEntry.length);d.classList.remove('error');}}
+function checkPin(){
+  if(pinEntry===CORRECT_PIN){
+    document.getElementById('pin-gate').style.display='none';
+    document.getElementById('fac-shell').style.display='flex';
+    if(!facTimerInterval)facTimerInterval=setInterval(facTimerTick,1000);
+  } else {
+    for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.add('error');
+    document.getElementById('pin-error').textContent='Incorrect PIN — try again';
+    setTimeout(()=>{pinEntry='';updateDots();},900);
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('pin-gate').style.display==='none')return;
+  if(e.key>='0'&&e.key<='9')pinPress(e.key);
+  else if(e.key==='Backspace')pinBack();
+  else if(e.key==='Escape')pinClear();
+});
+
+// ── TIMER ──
+let facTimerSecs=30*60,facTimerPaused=false,facTimerInterval=null;
+function facTimerTick(){
+  if(facTimerPaused)return;
+  facTimerSecs--;
+  const m=Math.floor(facTimerSecs/60),s=facTimerSecs%60;
+  const el=document.getElementById('fac-timer');
+  if(el){el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(facTimerSecs<=60)el.classList.add('urgent');}
+  if(facTimerSecs<=0)clearInterval(facTimerInterval);
+}
+function facToggleTimer(){
+  facTimerPaused=!facTimerPaused;
+  const btn=document.getElementById('fac-timer-btn');
+  if(btn)btn.textContent=facTimerPaused?'▶ Resume':'⏸ Pause';
+}
+</script>
+</body>
+</html>
