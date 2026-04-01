@@ -800,6 +800,13 @@ button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
 </div>
 
     </div><!-- /accordion -->
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:32px 0 8px;">
+      <a href="../index.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-weight:600;color:var(--text-2);text-decoration:none;background:var(--surface);">← Index</a>
+      <a href="denso-s8-phase1.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-weight:600;color:var(--text-2);text-decoration:none;background:var(--surface);">← Phase 1</a>
+      <a href="denso-s8-phase3.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:1.5px solid var(--red);border-radius:6px;font-size:13px;font-weight:600;color:var(--white);text-decoration:none;background:var(--red);">Phase 3 →</a>
+    </div>
+
   </div><!-- /scroll-body -->
 </div>
 <div id="unlock-toast"></div>
@@ -1175,26 +1182,6 @@ function subNext(){
   }
   loadSubPrompt();
 }
-</script>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-  const firebaseConfig={
-    apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
-    authDomain:"denso-japanese.firebaseapp.com",
-    databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
-    projectId:"denso-japanese",
-    storageBucket:"denso-japanese.firebasestorage.app",
-    messagingSenderId:"269608225857",
-    appId:"1:269608225857:web:09d4a7a3d8df21acd01b35"
-  };
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const dbRef = ref(db, "session8/phase2/unlockedBlocks");
-  window._fbReady = true;
-  window._fbOnValue = (cb) => onValue(dbRef, snap => cb(snap.val()));
-  document.dispatchEvent(new Event("fbReady"));
 </script>
 
 </body>
