@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  ============================================================
+  © 2026 JJA · Joyful Language Academy. All rights reserved.
+  Author        : JJA — Joyful Language Academy
+  Course        : DENSO Japanese Workplace Communication
+  Session       : 9
+  File          : denso-s9-phase3.html
+  Created       : 2026-04-05
+  License       : Proprietary. Not for redistribution, resale,
+                  or modification without written permission.
+  Contact       : Joyful Language Academy
+  ============================================================
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Session 9 — Phase 3: Floor Sim</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:#FFF5F6;
+  --bg:#F4F6F8;--surface:#FFFFFF;--surface-2:#F0F2F5;
+  --border:#DDE1E8;--border-strong:#BCC3CE;
+  --text:#1A1D23;--text-2:#4A5260;--text-3:#6B7585;--white:#FFFFFF;
+  --gold:#8A6A00;--gold-bg:#FFF8E6;--gold-border:#E8C96A;
+  --green:#1A6E3A;--green-bg:#EDF7F1;--green-border:#7DC4A0;
+  --blue:#1558A6;--blue-bg:#EEF4FC;--blue-border:#92BAE8;
+  --purple:#5B3E9E;--purple-bg:#F3EFFE;--purple-border:#B9A3E8;
+  --teal:#0E7A6A;--teal-bg:#E8F7F5;--teal-border:#7DD4C8;
+  --warn:#B22020;--warn-bg:#FDF0F0;--warn-border:#E8A0A0;
+  --correct:#1A6E3A;--correct-bg:#EDF7F1;--correct-border:#7DC4A0;
+  --wrong:#B22020;--wrong-bg:#FDF0F0;--wrong-border:#E8A0A0;
+  --focus:0 0 0 3px rgba(200,16,46,0.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;display:flex;flex-direction:column;}
+:focus-visible{outline:none;box-shadow:var(--focus);}
+button:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+.screen{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.screen.active{display:flex;animation:fadeIn 0.25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.scroll-body{flex:1;overflow-y:auto;padding:32px 48px 64px;max-width:900px;width:100%;margin:0 auto;}
+.scroll-body::-webkit-scrollbar{width:6px;}
+.scroll-body::-webkit-scrollbar-track{background:var(--surface-2);}
+.scroll-body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px;}
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:0 32px;display:flex;align-items:stretch;justify-content:space-between;flex-shrink:0;min-height:56px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.topbar-left{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:10px 0;}
+.tb-org{font-size:10px;font-weight:600;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;}
+.tb-course{font-size:14px;font-weight:700;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:16px;}
+.phase-pill{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1.5px solid;font-weight:600;}
+.phase-pill.p3{border-color:var(--green-border);color:var(--green);background:var(--green-bg);}
+.timer-box{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--text);background:var(--surface-2);border:1px solid var(--border);padding:5px 13px;border-radius:4px;min-width:68px;text-align:center;}
+.timer-box.urgent{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-border);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.course-progress{height:4px;background:var(--border);flex-shrink:0;}
+.course-progress-fill{height:100%;background:var(--red);transition:width 0.5s ease;border-radius:0 2px 2px 0;}
+.btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.3px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;padding:11px 24px;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px;}
+.btn-primary{background:var(--red);color:var(--white);}
+.btn-primary:hover{background:var(--red-dark);}
+.btn-secondary{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border);}
+.btn-secondary:hover{border-color:var(--border-strong);color:var(--text);}
+.btn-success{background:var(--green);color:var(--white);}
+.btn-success:hover{filter:brightness(0.92);}
+.speak-btn{background:none;border:1.5px solid var(--border);border-radius:4px;color:var(--text-3);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:5px 11px;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;}
+.speak-btn:hover{border-color:var(--teal-border);color:var(--teal);background:var(--teal-bg);}
+#screen-splash{overflow-y:auto;justify-content:flex-start;}
+.splash-inner{max-width:580px;margin:48px auto;padding:0 24px 64px;text-align:center;}
+.splash-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:4px 14px;border-radius:20px;border:1.5px solid var(--green-border);color:var(--green);background:var(--green-bg);margin-bottom:16px;}
+.splash-title{font-size:30px;font-weight:800;color:var(--text);letter-spacing:-0.5px;margin-bottom:8px;}
+.splash-sub{font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:24px;}
+.phase-pills{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;}
+.phase-pill-item{flex:1;min-width:120px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;text-align:center;}
+.ppi-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;}
+.ppi-val{font-size:14px;font-weight:700;color:var(--text);}
+/* Cue cards */
+#screen-cue{overflow-y:auto;}
+.cue-shell{display:flex;flex-direction:column;align-items:center;padding:32px 24px;max-width:680px;margin:0 auto;width:100%;}
+.cue-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.cue-sub{font-size:14px;color:var(--text-2);line-height:1.65;margin-bottom:16px;text-align:center;}
+.cue-card-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:32px 36px;width:100%;text-align:center;margin-bottom:20px;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.cue-pattern-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:12px;margin-bottom:16px;display:inline-block;}
+.tag-te{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);}
+.tag-ni{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-border);}
+.tag-combo{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border);}
+.tag-s8{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);}
+.cue-situation-text{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:8px;font-weight:500;}
+.cue-hint-text{font-size:13px;color:var(--text-3);font-style:italic;}
+.cue-answer-reveal{display:none;width:100%;margin-top:20px;}
+.cue-answer-inner{background:var(--green-bg);border:1.5px solid var(--green-border);border-radius:8px;padding:20px 24px;text-align:center;}
+.cue-ans-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
+.cue-ans-romaji{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.cue-ans-phonetic{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3);margin-bottom:6px;}
+.cue-ans-jp{font-family:'Noto Sans JP',sans-serif;font-size:20px;color:rgba(26,29,35,0.25);margin-bottom:6px;}
+.cue-ans-en{font-size:13px;color:var(--text-2);}
+.cue-ans-note{font-size:12px;color:var(--text-3);margin-top:8px;font-style:italic;line-height:1.6;}
+.cue-nav-row{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:16px;}
+.cue-counter-txt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-3);}
+.cue-dots-row{display:flex;gap:6px;justify-content:center;margin-bottom:16px;}
+.cue-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background 0.2s;}
+.cue-dot.seen{background:var(--red);}
+.cue-dot.current{background:var(--text);}
+.hear-btn-wrap{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.role-pick-row{display:flex;gap:14px;width:100%;margin-top:20px;flex-wrap:wrap;}
+.role-btn{flex:1;min-width:140px;padding:18px 16px;border:2px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;text-align:center;transition:all 0.15s;font-family:'Inter',sans-serif;}
+.role-btn:hover{border-color:var(--red);background:var(--red-bg);}
+.role-btn.selected{border-color:var(--red);background:var(--red-bg);}
+.role-btn-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.role-btn-title{font-size:15px;font-weight:700;color:var(--text);}
+.role-prompt-box{display:none;width:100%;margin-top:16px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;padding:18px 22px;}
+.role-prompt-box.show{display:block;}
+.role-prompt-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;}
+.role-prompt-text{font-size:14px;color:var(--text);line-height:1.65;}
+/* Sim */
+.sim-score-track{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:11px 18px;display:flex;align-items:center;gap:12px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.sst-label{font-size:11px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;}
+.sst-val{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;color:var(--gold);line-height:1;margin-left:auto;}
+.scenario-counter{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3);text-align:center;margin-bottom:16px;}
+.sc-icon{font-size:28px;margin-bottom:8px;}
+.sc-setup{font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px;}
+.sc-meta{font-size:10px;font-weight:600;letter-spacing:2.5px;color:var(--text-3);text-transform:uppercase;margin-bottom:5px;}
+.dialogue-bubble{border-radius:8px;padding:14px 18px;margin-bottom:12px;max-width:88%;}
+.bubble-jp{background:var(--surface-2);border:1px solid var(--border);margin-right:auto;}
+.bubble-label{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:7px;}
+.bubble-romaji{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.bubble-phonetic{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:2px;}
+.bubble-jp-text{font-size:12px;color:var(--text-3);margin-top:2px;}
+.sim-prompt{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin:18px 0 10px;}
+.sim-choices{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.sim-choice{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:all 0.12s;box-shadow:0 1px 2px rgba(0,0,0,0.04);}
+.sim-choice:hover:not(.locked){border-color:var(--blue-border);background:var(--blue-bg);}
+.sim-choice.correct{border-color:var(--correct-border);background:var(--correct-bg);}
+.sim-choice.wrong{border-color:var(--wrong-border);background:var(--wrong-bg);}
+.sim-choice.locked{cursor:default;}
+.sc-opt-letter{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;padding:3px 7px;color:var(--text-3);flex-shrink:0;margin-top:2px;font-weight:600;}
+.sim-choice.correct .sc-opt-letter{background:var(--correct);color:var(--white);border-color:var(--correct);}
+.sim-choice.wrong .sc-opt-letter{background:var(--wrong);color:var(--white);border-color:var(--wrong);}
+.sc-opt-roman{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.sc-opt-jp{font-size:11px;color:var(--text-3);margin-bottom:2px;}
+.sc-opt-en{font-size:12px;color:var(--text-2);}
+.sim-feedback{border-radius:6px;padding:14px 18px;margin-bottom:14px;font-size:13px;line-height:1.65;display:none;border:1px solid;}
+.sim-feedback.show{display:block;}
+.sim-feedback.ok{background:var(--correct-bg);border-color:var(--correct-border);color:var(--correct);}
+.sim-feedback.bad{background:var(--wrong-bg);border-color:var(--wrong-border);color:var(--wrong);}
+.sim-next-btn{display:none;margin-top:4px;}
+#screen-results{overflow-y:auto;}
+@media(max-width:640px){.scroll-body{padding:20px 16px 48px;}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="screen-splash" class="screen active">
+  <div class="splash-inner">
+    <div class="splash-badge">Phase 3 · Session 9</div>
+    <div class="splash-title">Floor Sim 🏭</div>
+    <div class="splash-sub">Part 1: cue card partner exchange. Part 2: 10 floor scenarios combining て-form, に (destination), を (S8), and a full S1–S8 review.</div>
+    <div class="phase-pills">
+      <div class="phase-pill-item"><div class="ppi-label">Part 1</div><div class="ppi-val">Cue Card Exchange</div></div>
+      <div class="phase-pill-item"><div class="ppi-label">Part 2</div><div class="ppi-val">Floor Sim · 10 scenarios</div></div>
+      <div class="phase-pill-item"><div class="ppi-label">Time</div><div class="ppi-val">40 min</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="showScreen('screen-cue');initCue()">Start →</button>
+  </div>
+</div>
+
+<!-- CUE CARDS -->
+<div id="screen-cue" class="screen">
+  <div class="cue-shell">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div class="cue-title">Part 1 — Cue Card Exchange</div>
+      <div class="cue-sub">Read the situation, pick your role, say your line before tapping Reveal.</div>
+    </div>
+    <div class="cue-dots-row" id="cue-dots"></div>
+    <div class="cue-card-wrap">
+      <div class="cue-pattern-tag" id="cue-tag"></div>
+      <div class="cue-situation-text" id="cue-situation"></div>
+      <div class="cue-hint-text" id="cue-hint"></div>
+      <div class="role-pick-row">
+        <button class="role-btn" id="role-btn-leader" onclick="pickRole('leader')">
+          <div class="role-btn-label" id="role-label-leader">Role A</div>
+          <div class="role-btn-title">I'll play this role</div>
+        </button>
+        <button class="role-btn" id="role-btn-worker" onclick="pickRole('worker')">
+          <div class="role-btn-label" id="role-label-worker">Role B</div>
+          <div class="role-btn-title">I'll play this role</div>
+        </button>
+      </div>
+      <div class="role-prompt-box" id="role-prompt-box">
+        <div class="role-prompt-label" id="role-prompt-label"></div>
+        <div class="role-prompt-text" id="role-prompt-text"></div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="cue-reveal-btn" onclick="revealCue()" style="display:none;">Reveal Answer →</button>
+    <div class="cue-answer-reveal" id="cue-answer">
+      <div class="cue-answer-inner">
+        <div class="cue-ans-label" id="reveal-leader-label">Role A</div>
+        <div class="cue-ans-romaji" id="cue-romaji-leader"></div>
+        <div class="cue-ans-phonetic" id="cue-phonetic-leader"></div>
+        <div class="cue-ans-jp" id="cue-jp-leader"></div>
+        <div style="height:12px;border-top:1px solid var(--green-border);margin:12px 0;"></div>
+        <div class="cue-ans-label" id="reveal-worker-label">Role B</div>
+        <div class="cue-ans-romaji" id="cue-romaji-worker"></div>
+        <div class="cue-ans-phonetic" id="cue-phonetic-worker"></div>
+        <div class="cue-ans-jp" id="cue-jp-worker"></div>
+        <div class="hear-btn-wrap">
+          <button class="speak-btn" id="hear-leader-btn" onclick="speakLeader()">🔊 <span id="hear-leader-label">Role A</span></button>
+          <button class="speak-btn" id="hear-worker-btn" onclick="speakWorker()">🔊 <span id="hear-worker-label">Role B</span></button>
+          <button class="speak-btn" onclick="speakBoth()">🔊 Both</button>
+        </div>
+        <div class="cue-ans-note" id="cue-note" style="display:none;margin-top:12px;padding:10px 14px;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:6px;text-align:left;"></div>
+      </div>
+    </div>
+    <div class="cue-nav-row">
+      <span class="cue-counter-txt" id="cue-counter">Card 1 of 6</span>
+      <button class="btn btn-success" id="cue-next-btn" onclick="nextCue()" style="display:none;">Next Card →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIM -->
+<div id="screen-p3" class="screen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC · Session 09</div>
+      <div class="tb-course">Phase 3 — Floor Sim</div>
+    </div>
+    <div class="tb-right">
+      <div class="phase-pill p3">🏭 Floor Sim</div>
+      <div class="timer-box" id="p3-timer">35:00</div>
+    </div>
+  </div>
+  <div class="course-progress"><div class="course-progress-fill" id="p3-progbar" style="width:65%"></div></div>
+  <div class="scroll-body">
+    <div class="sim-score-track">
+      <div class="sst-label">Score</div>
+      <div class="sst-val" id="sim-score">0</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-3);">/ 10</div>
+    </div>
+    <div class="scenario-counter" id="sc-counter">Scenario 1 of 10</div>
+    <div id="sim-card">
+      <div class="sc-icon" id="sc-icon"></div>
+      <div class="sc-setup" id="sc-setup"></div>
+      <div class="sc-meta" id="sc-meta"></div>
+      <div class="dialogue-bubble bubble-jp" id="sc-bubble" style="display:none;">
+        <div class="bubble-label" id="sc-bubble-label"></div>
+        <div class="bubble-romaji" id="sc-romaji"></div>
+        <div class="bubble-phonetic" id="sc-phonetic"></div>
+        <div class="bubble-jp-text" id="sc-jp"></div>
+        <div style="margin-top:8px;"><button class="speak-btn" id="sc-speak-btn">🔊 Hear it</button></div>
+      </div>
+      <div class="sim-prompt" id="sc-prompt"></div>
+      <div class="sim-choices" id="sc-choices"></div>
+      <div class="sim-feedback" id="sc-feedback"></div>
+      <button class="btn btn-primary sim-next-btn" id="sc-next-btn" onclick="nextScenario()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="screen-results" class="screen">
+  <div style="max-width:560px;margin:64px auto;padding:0 24px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px;">🏭</div>
+    <h2 style="font-size:28px;font-weight:800;color:var(--text);margin-bottom:8px;">Session 9 Complete</h2>
+    <div id="results-message" style="font-size:14px;line-height:1.7;padding:14px 18px;border-radius:8px;border:1px solid;margin-bottom:24px;text-align:left;"></div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:28px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
+      <div><div style="font-size:36px;font-weight:800;color:var(--green)" id="res-score">0</div><div style="font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;">Score</div></div>
+      <div><div style="font-size:36px;font-weight:800;color:var(--gold)">10</div><div style="font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;">Scenarios</div></div>
+    </div>
+    <div style="background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:8px;padding:16px 20px;margin-bottom:24px;text-align:left;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Session 10 Preview</div>
+      <div style="font-size:13px;color:var(--text-2);line-height:1.7;">S10 completes the て-form picture — Group 1 (U-verbs) with all sub-patterns. You'll also get full location grammar: で (where actions happen), あります/います (existence), and どこ (where questions). Everything locks together.</div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="../index.html" class="btn btn-secondary" style="text-decoration:none;">← Index</a>
+      <button class="btn btn-secondary" onclick="showScreen('screen-splash')">↺ Restart</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let _seqToken=0;
+function stopAll(){_seqToken++;window.speechSynthesis.cancel();}
+function speak(text,onDone){
+  stopAll();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';u.rate=0.82;
+  u.onend=()=>{if(onDone)onDone();};
+  u.onerror=()=>{if(onDone)onDone();};
+  window.speechSynthesis.speak(u);
+}
+async function speakSequence(texts,pauseMs=800){
+  stopAll();
+  const myToken=_seqToken;
+  for(let i=0;i<texts.length;i++){
+    if(_seqToken!==myToken)return;
+    const t=texts[i];if(!t)continue;
+    await new Promise(r=>{const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';u.rate=0.82;u.onend=r;u.onerror=r;window.speechSynthesis.speak(u);});
+    if(i<texts.length-1){if(_seqToken!==myToken)return;await new Promise(r=>setTimeout(r,pauseMs));}
+  }
+}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+// ── CUE CARDS ──
+const cueCards=[
+  {
+    tag:'tag-te',tagLabel:'Group 2 て-form',
+    situation:'A quality inspector points at a safety cover and needs the worker to open it before the check.',
+    leaderLabel:'Inspector',leaderPrompt:'Tell the worker to open the cover.',
+    leaderRomaji:'Kono kabaa wo akete kudasai.',leaderPhonetic:'koh-noh kah-bah woh ah-keh-teh koo-dah-sigh',leaderJp:'このカバーを開けてください。',
+    workerLabel:'Worker',workerPrompt:'Acknowledge.',
+    workerRomaji:'Hai, wakarimashita.',workerPhonetic:'high wah-kah-ree-mash-tah',workerJp:'はい、わかりました。',
+    note:'Akeru → drop る → ake → add て → akete. Group 2. Object: kono kabaa + を.',
+    speakJp:'このカバーを開けてください。',speakJpWorker:'はい、わかりました。'
+  },
+  {
+    tag:'tag-te',tagLabel:'Irregular — shite',
+    situation:'A supervisor needs a worker to do a quality check on the parts on the bench.',
+    leaderLabel:'Supervisor',leaderPrompt:'Ask the worker to do the quality check.',
+    leaderRomaji:'Kono buhin no kakunin wo shite kudasai.',leaderPhonetic:'koh-noh boo-heen noh kah-koo-neen woh shee-teh koo-dah-sigh',leaderJp:'この部品の確認をしてください。',
+    workerLabel:'Worker',workerPrompt:'Acknowledge.',
+    workerRomaji:'Hai, wakarimashita. Yoroshiku onegaishimasu.',workerPhonetic:'high wah-kah-ree-mash-tah. yoh-roh-shee-koo oh-neh-gah-ee-shee-mas',workerJp:'はい、わかりました。よろしくお願いします。',
+    note:'Shimasu → shite (Group 3 irregular). の after buhin is possessive: "the check of these parts."',
+    speakJp:'この部品の確認をしてください。',speakJpWorker:'はい、わかりました。よろしくお願いします。'
+  },
+  {
+    tag:'tag-ni',tagLabel:'に · destination',
+    situation:'A line leader redirects a worker to a different station because the current job is covered.',
+    leaderLabel:'Line Leader',leaderPrompt:'Tell the worker to go to Station 4.',
+    leaderRomaji:'Station yon ni itte kudasai.',leaderPhonetic:'stay-shon yon nee it-teh koo-dah-sigh',leaderJp:'ステーション4に行ってください。',
+    workerLabel:'Worker',workerPrompt:'Acknowledge and head out.',
+    workerRomaji:'Hai, wakarimashita.',workerPhonetic:'high wah-kah-ree-mash-tah',workerJp:'はい、わかりました。',
+    note:'Itte = て-form of ikimasu (Group 1). に marks Station 4 as the destination. Pattern: [destination] に itte kudasai.',
+    speakJp:'ステーション4に行ってください。',speakJpWorker:'はい、わかりました。'
+  },
+  {
+    tag:'tag-te',tagLabel:'Irregular — kite',
+    situation:'A supervisor across the floor needs a worker to come over immediately.',
+    leaderLabel:'Supervisor',leaderPrompt:'Call the worker over.',
+    leaderRomaji:'Chotto kite kudasai.',leaderPhonetic:'chot-toh kee-teh koo-dah-sigh',leaderJp:'ちょっと来てください。',
+    workerLabel:'Worker',workerPrompt:'Respond — you\'re coming right away.',
+    workerRomaji:'Hai, tadaima.',workerPhonetic:'high, tah-dah-ee-mah',workerJp:'はい、ただいま。',
+    note:'Kite = て-form of kimasu (Group 3 irregular). Tadaima here = right away / coming. Different meaning from the "I\'m home" use.',
+    speakJp:'ちょっと来てください。',speakJpWorker:'はい、ただいま。'
+  },
+  {
+    tag:'tag-combo',tagLabel:'に + を combo',
+    situation:'A line leader needs a worker to go to Station 2 and check the procedure there.',
+    leaderLabel:'Line Leader',leaderPrompt:'Give the direction + the task in one sentence.',
+    leaderRomaji:'Station ni ni itte, tejun wo mite kudasai.',leaderPhonetic:'stay-shon nee nee it-teh, teh-joon woh mee-teh koo-dah-sigh',leaderJp:'ステーション2に行って、手順を見てください。',
+    workerLabel:'Worker',workerPrompt:'Acknowledge.',
+    workerRomaji:'Hai, wakarimashita.',workerPhonetic:'high wah-kah-ree-mash-tah',workerJp:'はい、わかりました。',
+    note:'Two-action sentence: itte (go) + mite kudasai (check). に = destination. を = object of miru. Both て-forms in one sentence.',
+    speakJp:'ステーション2に行って、手順を見てください。',speakJpWorker:'はい、わかりました。'
+  },
+  {
+    tag:'tag-s8',tagLabel:'S8 callback — は vs が',
+    situation:'The supervisor asks who checked the new procedure. It was you.',
+    leaderLabel:'Supervisor',leaderPrompt:'Ask who checked the new procedure.',
+    leaderRomaji:'Dare ga atarashii tejun wo mimashita ka?',leaderPhonetic:'dah-reh gah ah-tah-rah-shee teh-joon woh mee-mash-tah kah',leaderJp:'誰が新しい手順を見ましたか？',
+    workerLabel:'Worker',workerPrompt:'Identify yourself as the one who checked it.',
+    workerRomaji:'Watashi ga mimashita.',workerPhonetic:'wah-tah-shee gah mee-mash-tah',workerJp:'私が見ました。',
+    note:'が answers "who?" — watashi が mimashita identifies you as the one. Note: mimashita = past tense of mimasu (the -masu form of miru).',
+    speakJp:'誰が新しい手順を見ましたか？',speakJpWorker:'私が見ました。'
+  },
+];
+
+let cueCurrent=0;
+function initCue(){cueCurrent=0;buildCueDots();loadCueCard();}
+function buildCueDots(){
+  const d=document.getElementById('cue-dots');
+  d.innerHTML=cueCards.map((_,i)=>`<div class="cue-dot" id="cdot-${i}"></div>`).join('');
+}
+function loadCueCard(){
+  const card=cueCards[cueCurrent];
+  document.getElementById('cue-tag').className='cue-pattern-tag '+card.tag;
+  document.getElementById('cue-tag').textContent=card.tagLabel;
+  document.getElementById('cue-situation').textContent=card.situation;
+  document.getElementById('role-label-leader').textContent=card.leaderLabel;
+  document.getElementById('role-label-worker').textContent=card.workerLabel;
+  document.getElementById('role-btn-leader').classList.remove('selected');
+  document.getElementById('role-btn-worker').classList.remove('selected');
+  document.getElementById('role-prompt-box').classList.remove('show');
+  document.getElementById('cue-answer').style.display='none';
+  document.getElementById('cue-reveal-btn').style.display='none';
+  document.getElementById('cue-next-btn').style.display='none';
+  for(let i=0;i<cueCards.length;i++){
+    const dot=document.getElementById('cdot-'+i);
+    if(!dot)continue;
+    dot.className='cue-dot'+(i<cueCurrent?' seen':i===cueCurrent?' current':'');
+  }
+  document.getElementById('cue-counter').textContent='Card '+(cueCurrent+1)+' of '+cueCards.length;
+}
+function pickRole(role){
+  const card=cueCards[cueCurrent];
+  document.getElementById('role-btn-leader').classList.toggle('selected',role==='leader');
+  document.getElementById('role-btn-worker').classList.toggle('selected',role==='worker');
+  const box=document.getElementById('role-prompt-box');
+  box.classList.add('show');
+  document.getElementById('role-prompt-label').textContent=role==='leader'?card.leaderLabel+' — your line:':card.workerLabel+' — your line:';
+  document.getElementById('role-prompt-text').textContent=role==='leader'?card.leaderPrompt:card.workerPrompt;
+  document.getElementById('cue-reveal-btn').style.display='inline-flex';
+}
+function revealCue(){
+  const card=cueCards[cueCurrent];
+  document.getElementById('reveal-leader-label').textContent=card.leaderLabel;
+  document.getElementById('cue-romaji-leader').textContent=card.leaderRomaji;
+  document.getElementById('cue-phonetic-leader').textContent=card.leaderPhonetic;
+  document.getElementById('cue-jp-leader').textContent=card.leaderJp;
+  document.getElementById('reveal-worker-label').textContent=card.workerLabel;
+  document.getElementById('cue-romaji-worker').textContent=card.workerRomaji;
+  document.getElementById('cue-phonetic-worker').textContent=card.workerPhonetic;
+  document.getElementById('cue-jp-worker').textContent=card.workerJp;
+  document.getElementById('hear-leader-label').textContent=card.leaderLabel;
+  document.getElementById('hear-worker-label').textContent=card.workerLabel;
+  const noteEl=document.getElementById('cue-note');
+  noteEl.textContent=card.note||'';noteEl.style.display=card.note?'block':'none';
+  document.getElementById('cue-answer').style.display='block';
+  document.getElementById('cue-reveal-btn').style.display='none';
+  document.getElementById('cue-next-btn').style.display='inline-flex';
+}
+function speakLeader(){const c=cueCards[cueCurrent];if(c.speakJp)speakSequence(Array.isArray(c.speakJp)?c.speakJp:[c.speakJp]);}
+function speakWorker(){const c=cueCards[cueCurrent];if(c.speakJpWorker)speakSequence([c.speakJpWorker]);}
+function speakBoth(){const c=cueCards[cueCurrent];const l=Array.isArray(c.speakJp)?c.speakJp:(c.speakJp?[c.speakJp]:[]);speakSequence([...l,c.speakJpWorker].filter(Boolean),900);}
+function nextCue(){stopAll();cueCurrent++;if(cueCurrent>=cueCards.length){showScreen('screen-p3');startTimer();loadScenario();return;}loadCueCard();}
+
+// ── TIMER ──
+let timerSecs=35*60,timerInterval=null;
+function startTimer(){
+  clearInterval(timerInterval);
+  const el=document.getElementById('p3-timer');
+  function tick(){timerSecs--;const m=Math.floor(timerSecs/60),s=timerSecs%60;el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(timerSecs<=60)el.classList.add('urgent');if(timerSecs<=0)clearInterval(timerInterval);}
+  timerInterval=setInterval(tick,1000);
+}
+
+// ── SCENARIOS ──
+const scenarios=[
+  {
+    icon:'🔵',
+    setup:'Your Japanese line leader points at the machine safety door and tells you to close it.',
+    label:'Line leader says:',
+    romaji:'Tobira wo shimete kudasai.',phonetic:'toh-bee-rah woh shee-meh-teh koo-dah-sigh',jp:'扉を閉めてください。',
+    hint:'Shimeru → drop る → shime → add て → shimete. Group 2.',
+    prompt:'You confirm which te-form was used:',
+    choices:[
+      {romaji:'shimete — Group 2 て-form of shimeru',jp:'閉めて',en:'Correct — shimeru drops る and adds て',correct:true},
+      {romaji:'shimashite — past tense of shimasu',jp:'しました',en:'Wrong form — -mashite is not a te-form ending',correct:false},
+      {romaji:'shite — irregular て-form of shimasu',jp:'して',en:'Wrong verb — shite is from shimasu (to do), not shimeru (to close)',correct:false},
+      {romaji:'shimute — made-up form',jp:'しむて',en:'Not a real conjugation',correct:false},
+    ],
+    fb_correct:'✅ Shimete — shimeru is Group 2. Drop る (shime) + add て = shimete. Not to be confused with shite (from shimasu, to do).',
+    fb_wrong:'Shimeru (to close) → shime → shimete. Group 2: drop る, add て. Shite comes from shimasu (to do) — different verb entirely.'
+  },
+  {
+    icon:'📍',
+    setup:'Your supervisor wants you to go to the A-line to cover the station.',
+    label:'Supervisor says:',
+    romaji:'A-rain ni itte kudasai.',phonetic:'ay-rain nee it-teh koo-dah-sigh',jp:'Aラインに行ってください。',
+    hint:'に marks A-line as the destination. Itte is the te-form of ikimasu.',
+    prompt:'You respond:',
+    choices:[
+      {romaji:'Hai, wakarimashita.',jp:'はい、わかりました。',en:'Yes, understood — correct acknowledgement',correct:true},
+      {romaji:'Hai, tadaima.',jp:'はい、ただいま。',en:'Right away — natural if you\'re heading there immediately',correct:true},
+      {romaji:'A-rain ga ikimasu.',jp:'Aラインが行きます。',en:'Wrong — が makes A-line the subject doing the going',correct:false},
+      {romaji:'Wakarimasen.',jp:'わかりません。',en:'I don\'t understand — don\'t use this unless you genuinely don\'t',correct:false},
+    ],
+    fb_correct:'✅ Both A and B work. Wakarimashita = confirmed understanding. Tadaima = on my way immediately. Both are natural floor responses.',
+    fb_wrong:'Two good responses: wakarimashita (understood) or tadaima (right away / coming). が would incorrectly make A-line the subject doing the movement.'
+  },
+  {
+    icon:'🟣',
+    setup:'A Japanese quality engineer asks you to do a visual check on the parts on the bench.',
+    label:'Engineer says:',
+    romaji:'Kono buhin wo mite kudasai.',phonetic:'koh-noh boo-heen woh mee-teh koo-dah-sigh',jp:'この部品を見てください。',
+    hint:'Miru → drop る → mi → add て → mite. Group 2. を marks the parts as the object.',
+    prompt:'You identify the te-form group correctly:',
+    choices:[
+      {romaji:'mite — Group 2 (RU-verb: miru → mi + て)',jp:'見て',en:'Correct — miru drops る and adds て',correct:true},
+      {romaji:'mite — Group 3 (irregular)',jp:'見て (不規則)',en:'Wrong group — miru is Group 2, not irregular',correct:false},
+      {romaji:'mimashite — wrong ending',jp:'見ました',en:'Mimashita is past tense, not te-form',correct:false},
+      {romaji:'miite — wrong form',jp:'見いて',en:'Not a real conjugation',correct:false},
+    ],
+    fb_correct:'✅ Miru is Group 2 — a RU-verb. Drop る → mi, add て → mite. Simple one-step rule.',
+    fb_wrong:'Miru is a classic Group 2 RU-verb. Drop る → mi → add て → mite. Group 3 is only shimasu and kimasu.'
+  },
+  {
+    icon:'📋',
+    setup:'The shift is changing. A worker on the incoming shift needs to go to Station 1 and check the procedure there.',
+    label:'Outgoing worker tells incoming:',
+    romaji:'Station ichi ni itte, tejun wo mite kudasai.',phonetic:'stay-shon ee-chee nee it-teh, teh-joon woh mee-teh koo-dah-sigh',jp:'ステーション1に行って、手順を見てください。',
+    hint:'Two actions chained: go (itte) then check (mite kudasai). に marks the destination.',
+    prompt:'How many te-forms are in this sentence?',
+    choices:[
+      {romaji:'Two — itte and mite',jp:'二つ: 行って and 見て',en:'Correct — itte and mite are both te-forms',correct:true},
+      {romaji:'One — only mite kudasai',jp:'一つ: 見てください',en:'Missing itte — itte is also a te-form (of ikimasu)',correct:false},
+      {romaji:'Three — ni, itte, mite',jp:'三つ: に, 行って, 見て',en:'に is a particle, not a te-form',correct:false},
+      {romaji:'Zero — both are -masu forms',jp:'ゼロ',en:'Itte and mite are both te-forms, not -masu forms',correct:false},
+    ],
+    fb_correct:'✅ Itte (from ikimasu) and mite (from miru) are both て-forms. Chaining て-forms connects sequential actions: do X and then do Y.',
+    fb_wrong:'Itte is the て-form of ikimasu and mite is the て-form of miru. Chaining them: go first, then check. Two て-forms, one sentence.'
+  },
+  {
+    icon:'🔧',
+    setup:'You hear your supervisor across the floor: "Chotto kite kudasai." You know this phrase from today.',
+    label:'Supervisor calls:',
+    romaji:'Chotto kite kudasai.',phonetic:'chot-toh kee-teh koo-dah-sigh',jp:'ちょっと来てください。',
+    hint:'Kite = て-form of kimasu. What group is kimasu?',
+    prompt:'You respond and identify the verb group:',
+    choices:[
+      {romaji:'Hai, tadaima. (kimasu → kite: Group 3 irregular)',jp:'はい、ただいま。',en:'Correct response + correct group identification',correct:true},
+      {romaji:'Hai, tadaima. (kimasu → kite: Group 2 RU-verb)',jp:'はい、ただいま。(Group 2)',en:'Correct response but wrong group — kimasu is Group 3',correct:false},
+      {romaji:'Hai, wakarimashita. (ikimasu → itte)',jp:'はい、わかりました。(行って)',en:'Kite comes from kimasu (come), not ikimasu (go)',correct:false},
+      {romaji:'Sou desu ne.',jp:'そうですね。',en:'That\'s weather agreement — wrong context entirely',correct:false},
+    ],
+    fb_correct:'✅ Hai, tadaima — on my way. Kimasu is Group 3 (irregular) → kite. Don\'t confuse with itte (from ikimasu, to go).',
+    fb_wrong:'Kimasu is one of the two Group 3 irregulars → kite. The response: hai, tadaima (right away / coming). Tadaima works better than wakarimashita when you\'re physically moving toward someone.'
+  },
+  {
+    icon:'⚙️',
+    setup:'The machine control panel is off. Your line leader needs you to turn it on.',
+    label:'Line leader says:',
+    romaji:'Kikai wo tsukete kudasai.',phonetic:'kee-kigh woh tsoo-keh-teh koo-dah-sigh',jp:'機械をつけてください。',
+    hint:'Tsukeru = to turn on / attach. Group 2.',
+    prompt:'You say:',
+    choices:[
+      {romaji:'Hai, wakarimashita.',jp:'はい、わかりました。',en:'Yes, understood — correct acknowledgement',correct:true},
+      {romaji:'Hai, tsukemasu.',jp:'はい、つけます。',en:'Yes, I\'ll turn it on — slightly more emphatic but also correct',correct:true},
+      {romaji:'Tsukatte kudasai.',jp:'使ってください。',en:'Please use — tsukau (to use) not tsukeru (to turn on). Different verb.',correct:false},
+      {romaji:'Shimete kudasai.',jp:'閉めてください。',en:'Please close — opposite action entirely',correct:false},
+    ],
+    fb_correct:'✅ Both A and B work. Wakarimashita = understood. Tsukemasu = I\'ll turn it on (slightly more proactive). Key watch: tsukeru (turn on) ≠ tsukau (use). Very common confusion.',
+    fb_wrong:'Tsukeru = turn on (Group 2 → tsukete). Tsukau = use (Group 1 → tsukatte). Different verbs with similar sounds. Context makes it clear — "machine + tsukete" means turn on, not use.'
+  },
+  {
+    icon:'📍',
+    setup:'You\'re being directed toward a workstation that\'s clearly visible from where you\'re both standing. Your supervisor points across the room.',
+    label:'Supervisor says:',
+    romaji:'Asoko ni itte kudasai.',phonetic:'ah-soh-koh nee it-teh koo-dah-sigh',jp:'あそこに行ってください。',
+    hint:'Asoko = over there (far from both). Ko/so/a mirrors kore/sore/are from S6.',
+    prompt:'You confirm where you\'re going:',
+    choices:[
+      {romaji:'Asoko desu ne.',jp:'あそこですね。',en:'Over there, right? — confirms the location',correct:true},
+      {romaji:'Hai, wakarimashita.',jp:'はい、わかりました。',en:'Yes, understood — also correct, no location confirmation',correct:true},
+      {romaji:'Koko ni ikimasu.',jp:'ここに行きます。',en:'I\'ll go here — koko is near me, not over there',correct:false},
+      {romaji:'Soko ni ikimasu.',jp:'そこに行きます。',en:'I\'ll go there — soko is near you (supervisor), not across the room',correct:false},
+    ],
+    fb_correct:'✅ Asoko desu ne confirms the far location. Wakarimashita also works without the confirmation. The ko/so/a distance rule from S6 applies directly: a = far from both.',
+    fb_wrong:'Asoko = far from both speaker and listener. Koko = near me (speaker). Soko = near you (listener). The supervisor pointed across the room — that\'s asoko.'
+  },
+  {
+    icon:'🏭',
+    setup:'A new worker is about to use the wrong machine. Their line leader steps in to redirect them, using two instructions.',
+    label:'Line leader says:',
+    romaji:'Sumimasen. Kono kikai ja nai desu. Asoko ni itte, sono kikai wo tsukatte kudasai.',phonetic:'soo-mee-mah-sen. koh-noh kee-kigh jah nigh des. ah-soh-koh nee it-teh, soh-noh kee-kigh woh tsoo-kat-teh koo-dah-sigh',jp:'すみません。この機械じゃないです。あそこに行って、その機械を使ってください。',
+    hint:'Multi-part correction: sumimasen + negation (S6) + destination + action.',
+    prompt:'The worker confirms:',
+    choices:[
+      {romaji:'Hai, wakarimashita. Sono kikai desu ne.',jp:'はい、わかりました。その機械ですね。',en:'Yes, understood. That machine, right? — confirms with sore',correct:true},
+      {romaji:'Hai, wakarimashita.',jp:'はい、わかりました。',en:'Yes, understood — brief but complete',correct:true},
+      {romaji:'Kono kikai desu ka?',jp:'この機械ですか？',en:'This machine? — kono points near the speaker, not across the room',correct:false},
+      {romaji:'Wakarimasen.',jp:'わかりません。',en:'I don\'t understand — don\'t use unless genuinely unclear',correct:false},
+    ],
+    fb_correct:'✅ Option A mirrors the correction and confirms the right machine using sono (near them/the target). Option B is also fine — brief and clear. Kono would point near the speaker, not at the correct machine across the floor.',
+    fb_wrong:'Sono = near the listener / the thing just pointed to. Kono = near the speaker. Since the correct machine is over there (asoko), confirming with sono is accurate. Wakarimashita alone also works.'
+  },
+  {
+    icon:'📋',
+    setup:'End of shift. Your Japanese colleague is heading out to the break room. You want to say you\'ll go too (shortly).',
+    label:'Colleague says:',
+    romaji:'Kyuukei shitsu ni ikimasu.',phonetic:'kyoo-keh-ee shee-tsoo nee ee-kee-mas',jp:'休憩室に行きます。',
+    hint:'Kyuukei shitsu = break room. に marks it as destination. Ikimasu = to go.',
+    prompt:'You say you\'ll go too:',
+    choices:[
+      {romaji:'Watashi mo ikimasu.',jp:'私も行きます。',en:'I\'ll go too — も means "also"',correct:true},
+      {romaji:'Watashi mo itte kudasai.',jp:'私も行ってください。',en:'Wrong — te kudasai is a request to someone else, not a statement about yourself',correct:false},
+      {romaji:'Watashi ni ikimasu.',jp:'私に行きます。',en:'Wrong particle — に marks destination, not the person going',correct:false},
+      {romaji:'Kyuukei shitsu ga ikimasu.',jp:'休憩室が行きます。',en:'Wrong — が makes the break room the subject doing the going',correct:false},
+    ],
+    fb_correct:'✅ Watashi mo ikimasu — I\'ll go too. Mo = also / too. Natural and concise. Te kudasai is for requesting something of someone else, not describing your own action.',
+    fb_wrong:'Watashi mo ikimasu — "I will go too." Mo = also. Te kudasai is a request directed at someone else. に marks destination (the break room), not the person. が would make the room the subject.'
+  },
+  {
+    icon:'🎯',
+    setup:'Your supervisor asks you to go to Station 3, open the control panel cover, and do a check. Three actions.',
+    label:'Supervisor says:',
+    romaji:'Station san ni itte, kabaa wo akete, kakunin shite kudasai.',phonetic:'stay-shon sahn nee it-teh, kah-bah woh ah-keh-teh, kah-koo-neen shee-teh koo-dah-sigh',jp:'ステーション3に行って、カバーを開けて、確認してください。',
+    hint:'Three chained て-forms: itte (go), akete (open), shite kudasai (do). に + を + を.',
+    prompt:'Which verb groups are itte, akete, shite?',
+    choices:[
+      {romaji:'itte: Group 1 preview · akete: Group 2 · shite: Group 3',jp:'行って: G1 / 開けて: G2 / して: G3',en:'Correct group identification for all three',correct:true},
+      {romaji:'itte: Group 3 · akete: Group 2 · shite: Group 2',jp:'行って: G3 / 開けて: G2 / して: G2',en:'Itte (ikimasu) is Group 1, shite (shimasu) is Group 3',correct:false},
+      {romaji:'All three are Group 2',jp:'全部 Group 2',en:'Only akete is Group 2',correct:false},
+      {romaji:'itte: Group 2 · akete: Group 3 · shite: Group 1',jp:'行って: G2 / 開けて: G3 / して: G1',en:'All three groups are wrong',correct:false},
+    ],
+    fb_correct:'✅ Itte = ikimasu (Group 1, ku→ite pattern — preview for S10). Akete = akeru (Group 2, drop る + て). Shite = shimasu (Group 3 irregular). Three groups, one sentence.',
+    fb_wrong:'Itte comes from ikimasu (Group 1). Akete comes from akeru (Group 2 — drop る, add て). Shite comes from shimasu (Group 3 irregular). Three different groups, chained in one instruction.'
+  },
+];
+
+let simIdx=0,simScore=0;
+function loadScenario(){
+  if(simIdx>=scenarios.length){showResults();return;}
+  const s=scenarios[simIdx];
+  document.getElementById('sc-counter').textContent='Scenario '+(simIdx+1)+' of '+scenarios.length;
+  document.getElementById('sc-icon').textContent=s.icon;
+  document.getElementById('sc-setup').textContent=s.setup;
+  document.getElementById('sc-meta').textContent=s.label;
+  document.getElementById('sc-romaji').textContent=s.romaji;
+  document.getElementById('sc-phonetic').textContent=s.phonetic;
+  document.getElementById('sc-jp').textContent=s.jp;
+  document.getElementById('sc-bubble').style.display='block';
+  document.getElementById('sc-speak-btn').onclick=()=>speak(s.jp);
+  document.getElementById('sc-prompt').textContent=s.prompt;
+  document.getElementById('sc-feedback').className='sim-feedback';
+  document.getElementById('sc-feedback').innerHTML='';
+  document.getElementById('sc-next-btn').style.display='none';
+  const ch=document.getElementById('sc-choices');
+  ch.innerHTML='';
+  const letters=['A','B','C','D'];
+  s.choices.forEach((c,i)=>{
+    const div=document.createElement('div');
+    div.className='sim-choice';
+    div.innerHTML=`<div class="sc-opt-letter">${letters[i]}</div><div><div class="sc-opt-roman">${c.romaji}</div><div class="sc-opt-jp">${c.jp}</div><div class="sc-opt-en">${c.en}</div></div>`;
+    div.onclick=()=>checkSim(div,c.correct,s,i);
+    ch.appendChild(div);
+  });
+  const pct=65+(simIdx/scenarios.length)*30;
+  document.getElementById('p3-progbar').style.width=pct+'%';
+}
+
+function checkSim(el,correct,s,idx){
+  if(el.classList.contains('locked'))return;
+  document.querySelectorAll('.sim-choice').forEach(c=>c.classList.add('locked'));
+  const fb=document.getElementById('sc-feedback');
+  if(correct){
+    el.classList.add('correct');
+    simScore++;
+    document.getElementById('sim-score').textContent=simScore;
+    fb.innerHTML=s.fb_correct;
+    fb.classList.add('show','ok');
+  }else{
+    el.classList.add('wrong');
+    document.querySelectorAll('.sim-choice').forEach((c,i)=>{if(s.choices[i].correct)c.classList.add('correct');});
+    fb.innerHTML=s.fb_wrong;
+    fb.classList.add('show','bad');
+  }
+  document.getElementById('sc-next-btn').style.display='inline-flex';
+}
+
+function nextScenario(){simIdx++;loadScenario();}
+
+function showResults(){
+  clearInterval(timerInterval);
+  document.getElementById('res-score').textContent=simScore+'/'+scenarios.length;
+  const msgEl=document.getElementById('results-message');
+  if(simScore>=9){
+    msgEl.textContent='完璧！(Kanpeki!) — '+simScore+'/10. て-form and destination に are locked in. Ready for S10.';
+    msgEl.style.cssText='background:var(--correct-bg);border-color:var(--correct-border);color:var(--correct);';
+  }else if(simScore>=7){
+    msgEl.textContent=simScore+'/10. Strong work. Review any scenarios you missed — especially て-form group identification.';
+    msgEl.style.cssText='background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold);';
+  }else{
+    msgEl.textContent=simScore+'/10. Spend time with the verb table in Phase 2 before moving to S10. Group 2 and Group 3 need to be automatic.';
+    msgEl.style.cssText='background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn);';
+  }
+  showScreen('screen-results');
+}
+</script>
+</body>
+</html>
