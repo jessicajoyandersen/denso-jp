@@ -530,10 +530,33 @@ a{color:#5E9BDC;}
   </div><!-- /fac-body -->
 </div><!-- /fac-shell -->
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain: "denso-japanese.firebaseapp.com",
+    databaseURL: "https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId: "denso-japanese",
+    storageBucket: "denso-japanese.firebasestorage.app",
+    messagingSenderId: "654718718217",
+    appId: "1:654718718217:web:ecec2672bd5069c0b443d8"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const dbRef = ref(db, "session9/phase2/unlockedBlocks");
+  window._fbPush = (val) => set(dbRef, val);
+  onValue(dbRef, snap => {
+    const val = snap.val() || [];
+    window._syncedState = val;
+    syncUI(val);
+  });
+  window._fbReady = true;
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
 <script>
 const BLOCKS=['review','groups','ruverbs','irreg','ni','floor','grammar'];
-const pushed={};
-BLOCKS.forEach(b=>pushed[b]=false);
 let currentView='review';
 
 function viewBlock(id){
@@ -544,33 +567,51 @@ function viewBlock(id){
   currentView=id;
 }
 
+let pushedBlocks=[];
+
+function syncUI(unlockedBlocks){
+  pushedBlocks=unlockedBlocks||[];
+  BLOCKS.forEach(id=>{
+    const isPushed=pushedBlocks.includes(id);
+    const btn=document.getElementById('pushbtn-'+id);
+    const retract=document.getElementById('retract-'+id);
+    const navBtn=document.getElementById('nav-'+id);
+    const navStatus=document.getElementById('navstatus-'+id);
+    if(isPushed){
+      btn.textContent='✓ Pushed to Learners';
+      btn.className='ctrl-btn pushed-state';
+      btn.disabled=true;
+      retract.style.display='inline-flex';
+      navBtn.classList.add('pushed');
+      navStatus.textContent='● Live';
+      navStatus.className='fac-nav-status pushed';
+    } else {
+      btn.innerHTML='🔓 Unlock &amp; Push';
+      btn.className='ctrl-btn unlock';
+      btn.disabled=false;
+      retract.style.display='none';
+      navBtn.classList.remove('pushed');
+      navStatus.textContent='';
+    }
+  });
+}
+
 function pushBlock(id){
-  pushed[id]=true;
-  const btn=document.getElementById('pushbtn-'+id);
-  btn.className='ctrl-btn pushed-state';btn.textContent='✓ Pushed';
-  document.getElementById('retract-'+id).style.display='inline-flex';
-  const ns=document.getElementById('navstatus-'+id);
-  ns.textContent='● LIVE';ns.className='fac-nav-status pushed';
-  document.getElementById('nav-'+id).classList.add('pushed');
-  try{
-    bc.postMessage({type:'unlock',block:id});
-  }catch(e){}
+  if(!window._fbReady){alert('Not connected to Firebase yet. Check your internet connection.');return;}
+  if(!pushedBlocks.includes(id)) pushedBlocks.push(id);
+  window._fbPush([...pushedBlocks]);
 }
 
 function retractBlock(id){
-  pushed[id]=false;
-  const btn=document.getElementById('pushbtn-'+id);
-  btn.className='ctrl-btn unlock';btn.textContent='🔓 Unlock & Push';
-  document.getElementById('retract-'+id).style.display='none';
-  const ns=document.getElementById('navstatus-'+id);
-  ns.textContent='';ns.className='fac-nav-status';
-  document.getElementById('nav-'+id).classList.remove('pushed');
-  try{bc.postMessage({type:'retract',block:id});}catch(e){}
+  if(!confirm('Retract "'+id+'" from all learner screens?'))return;
+  pushedBlocks=pushedBlocks.filter(b=>b!==id);
+  window._fbPush([...pushedBlocks]);
 }
 
 function resetAll(){
-  if(!confirm('Reset all blocks?'))return;
-  BLOCKS.forEach(b=>retractBlock(b));
+  if(!confirm('Reset all blocks? Learner screens will return to the waiting state.'))return;
+  pushedBlocks=[];
+  window._fbPush([]);
 }
 
 // Timer
@@ -590,7 +631,16 @@ function facToggleTimer(){
 }
 facInterval=setInterval(facTick,1000);
 
-// BroadcastChannel
+// Firebase conn-pill feedback
+document.addEventListener('fbReady',()=>{
+  document.getElementById('conn-pill').className='conn-pill online';
+  document.getElementById('conn-label').textContent='live';
+});
+setTimeout(()=>{
+  if(!window._fbReady) document.getElementById('conn-label').textContent='offline';
+},9000);
+
+// BroadcastChannel — debrief scores only (same-device communication)
 let bc;
 let debScores=[];
 let debFlags={};
@@ -598,9 +648,6 @@ let debDone=0;
 
 try{
   bc=new BroadcastChannel('denso-s9-p2');
-  document.getElementById('conn-pill').className='conn-pill online';
-  document.getElementById('conn-label').textContent='live';
-
   bc.onmessage=(e)=>{
     if(e.data.type==='gc_p1_done'||e.data.type==='gc_p2_done'){}
     if(e.data.type==='gc_flag'){
@@ -614,16 +661,13 @@ try{
       document.getElementById('deb-done').textContent=debDone;
       const avg=Math.round(debScores.reduce((a,b)=>a+b,0)/debScores.length*10)/10;
       document.getElementById('deb-avg').textContent=avg;
-      // merge flags
       (e.data.flagged||[]).forEach(id=>{debFlags[id]=(debFlags[id]||0)+1;});
       const totalFlags=Object.values(debFlags).reduce((a,b)=>a+b,0);
       document.getElementById('deb-flags').textContent=totalFlags;
       updateDebriefFlags();
     }
   };
-}catch(e){
-  document.getElementById('conn-label').textContent='no sync';
-}
+}catch(e){}
 
 function updateDebriefFlags(){
   const list=document.getElementById('deb-flag-list');

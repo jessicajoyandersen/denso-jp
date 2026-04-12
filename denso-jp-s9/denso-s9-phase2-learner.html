@@ -903,27 +903,31 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),2200);
 }
 
-// BroadcastChannel sync with facilitator
-let bc;
-try{
-  bc=new BroadcastChannel('denso-s9-p2');
-  bc.onmessage=(e)=>{
-    if(e.data.type==='unlock'){
-      document.getElementById('waiting-state').style.display='none';
-      document.getElementById('accordion').style.display='block';
-      unlockBlock(e.data.block);
-    }
-    if(e.data.type==='retract'){
-      const sec=document.getElementById('section-'+e.data.block);
+// Firebase sync with facilitator
+let currentUnlocked=[];
+
+function applyState(unlockedBlocks){
+  if(!unlockedBlocks||unlockedBlocks.length===0){
+    document.getElementById('waiting-state').querySelector('.waiting-sub').textContent='● connected — waiting for facilitator';
+    return;
+  }
+  const newBlocks=unlockedBlocks.filter(b=>!currentUnlocked.includes(b));
+  currentUnlocked=[...unlockedBlocks];
+  // hide waiting state, show accordion
+  document.getElementById('waiting-state').style.display='none';
+  document.getElementById('accordion').style.display='block';
+  // retract any blocks no longer in list
+  BLOCKS.forEach(b=>{
+    if(!unlockedBlocks.includes(b)&&state[b].unlocked){
+      const sec=document.getElementById('section-'+b);
       sec.classList.add('locked');sec.classList.remove('active-block','open');
-      state[e.data.block].unlocked=false;
-      document.getElementById('badge-'+e.data.block).className='bh-badge badge-locked';
-      document.getElementById('badge-'+e.data.block).textContent='Waiting';
+      state[b].unlocked=false;
+      document.getElementById('badge-'+b).className='bh-badge badge-locked';
+      document.getElementById('badge-'+b).textContent='Waiting';
     }
-  };
-  document.getElementById('conn-dot').style.background='#1A6E3A';
-}catch(err){
-  document.getElementById('conn-dot').style.background='var(--warn)';
+  });
+  // unlock new blocks
+  newBlocks.forEach(id=>unlockBlock(id));
 }
 
 // ── GRAMMAR CHECKPOINT ──
@@ -1222,6 +1226,46 @@ let timerSecs=35*60;
   document.getElementById('p2-timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
   if(timerSecs>0){timerSecs--;setTimeout(tick,1000);}
 })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+    authDomain: "denso-japanese.firebaseapp.com",
+    databaseURL: "https://denso-japanese-default-rtdb.firebaseio.com",
+    projectId: "denso-japanese",
+    storageBucket: "denso-japanese.firebasestorage.app",
+    messagingSenderId: "654718718217",
+    appId: "1:654718718217:web:ecec2672bd5069c0b443d8"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const dbRef = ref(db, "session9/phase2/unlockedBlocks");
+  window._fbReady = true;
+  window._fbOnValue = (cb) => onValue(dbRef, snap => cb(snap.val()));
+  document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+// Wire Firebase → applyState
+document.addEventListener('fbReady', () => {
+  document.getElementById('conn-dot').style.background = '#1A6E3A';
+  window._fbOnValue(val => applyState(val || []));
+});
+// Fallback if fbReady already fired
+if(window._fbReady && window._fbOnValue){
+  document.getElementById('conn-dot').style.background = '#1A6E3A';
+  window._fbOnValue(val => applyState(val || []));
+}
+setTimeout(()=>{
+  if(!window._fbReady) document.getElementById('conn-dot').style.background='var(--warn)';
+}, 9000);
+
+// BroadcastChannel — send debrief scores to facilitator (same-device)
+let bc;
+try{ bc = new BroadcastChannel('denso-s9-p2'); }catch(e){}
 </script>
 </body>
 </html>
