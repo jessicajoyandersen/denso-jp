@@ -408,7 +408,7 @@ a{color:#5E9BDC;}
   const app = initializeApp(firebaseConfig);
   const db  = getDatabase(app);
   const dbRef = ref(db, "session8/phase2/unlockedBlocks");
-  window._fbPush = (val) => set(dbRef, val);
+  window._fbPush = (val) => set(dbRef, val).catch(err => { console.error("Firebase write failed:", err); alert("Push failed — Firebase error: " + err.message + "\n\nCheck your Firebase security rules allow read/write."); });
   onValue(dbRef, snap => {
     const val = snap.val() || [];
     window._syncedState = val;
