@@ -619,13 +619,11 @@ body {
       </div>
       <style>
       .reveal-cell{cursor:pointer;position:relative;user-select:none;}
-      .reveal-cell .rc-mask{display:inline-block;background:var(--border);border-radius:3px;color:transparent;min-width:60px;transition:all 0.18s;padding:1px 6px;}
-      .reveal-cell:hover .rc-mask,.reveal-cell.revealed .rc-mask{background:transparent;color:inherit;}
-      .reveal-cell .rc-mask span{font-family:var(--mono);font-weight:700;}
-      .reveal-cell .rc-mask.masu-col{color:var(--blue);}
-      .reveal-cell .rc-mask.mashita-col{color:var(--red);}
-      .reveal-cell:hover .rc-mask.masu-col,.reveal-cell.revealed .rc-mask.masu-col{background:transparent;color:var(--blue);}
-      .reveal-cell:hover .rc-mask.mashita-col,.reveal-cell.revealed .rc-mask.mashita-col{background:transparent;color:var(--red);}
+      .reveal-cell .rc-mask{display:inline-block;background:var(--border);border-radius:3px;color:transparent !important;min-width:60px;transition:background 0.18s,color 0.18s;padding:1px 6px;}
+      .reveal-cell:hover .rc-mask{background:transparent;color:inherit !important;}
+      .reveal-cell.revealed .rc-mask{background:transparent;color:inherit !important;}
+      .reveal-cell:hover .rc-mask.masu-col,.reveal-cell.revealed .rc-mask.masu-col{color:var(--blue) !important;}
+      .reveal-cell:hover .rc-mask.mashita-col,.reveal-cell.revealed .rc-mask.mashita-col{color:var(--red) !important;}
       </style>
       <table class="phrase-table">
         <thead><tr><th>Phrase you know</th><th>Ending</th><th>Dictionary form</th><th>Meaning</th></tr></thead>
@@ -1108,8 +1106,14 @@ function applyState(state){
 
   // Block D sub-reveals
   const d=state.blockD||{};
-  if(d.reading){showReadingSection();}
-  if(d.ruverbs){showRuverbSection();}
+  const readingSec=document.getElementById('reading-section');
+  const ruverbSec=document.getElementById('ruverb-section');
+  if(readingSec)readingSec.style.display=d.reading?'block':'none';
+  if(ruverbSec)ruverbSec.style.display=d.ruverbs?'block':'none';
+  if(d.reading&&readingSec&&readingSec.style.display==='block'&&!readingSec.dataset.built){
+    readingSec.dataset.built='1';showReadingSection();}
+  if(d.ruverbs&&ruverbSec&&ruverbSec.style.display==='block'&&!ruverbSec.dataset.built){
+    ruverbSec.dataset.built='1';showRuverbSection();}
 }
 
 // ── TIMER ──

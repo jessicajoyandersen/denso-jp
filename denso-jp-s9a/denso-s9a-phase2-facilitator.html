@@ -453,21 +453,27 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
           <div class="reveal-status" id="reveal-status-gojuon">Auto</div>
         </div>
 
-        <div class="reveal-row">
-          <div>
+        <div class="reveal-row" id="reveal-row-reading">
+          <div style="flex:1;">
             <div class="reveal-row-label">② Reading Practice</div>
             <div class="reveal-row-sub">5 known phrases with mora boxes. Push when gojuuon is mostly done.</div>
           </div>
-          <button class="ctrl-btn reveal-btn" id="reveal-btn-reading" onclick="pushReveal('reading')">▶ Release Reading</button>
+          <div style="display:flex;gap:7px;flex-shrink:0;">
+            <button class="ctrl-btn retract" id="reveal-retract-reading" onclick="retractReveal('reading')" style="display:none;">↩ Retract</button>
+            <button class="ctrl-btn reveal-btn" id="reveal-btn-reading" onclick="pushReveal('reading')">▶ Release</button>
+          </div>
           <div class="reveal-status" id="reveal-status-reading">—</div>
         </div>
 
-        <div class="reveal-row">
-          <div>
+        <div class="reveal-row" id="reveal-row-ruverbs">
+          <div style="flex:1;">
             <div class="reveal-row-label">③ RU-Verb Conjugation Widget</div>
             <div class="reveal-row-sub">Part 1: fill endings. Part 2: apply in sentences. Push after reading drill.</div>
           </div>
-          <button class="ctrl-btn reveal-btn" id="reveal-btn-ruverbs" onclick="pushReveal('ruverbs')">▶ Release Widget</button>
+          <div style="display:flex;gap:7px;flex-shrink:0;">
+            <button class="ctrl-btn retract" id="reveal-retract-ruverbs" onclick="retractReveal('ruverbs')" style="display:none;">↩ Retract</button>
+            <button class="ctrl-btn reveal-btn" id="reveal-btn-ruverbs" onclick="pushReveal('ruverbs')">▶ Release</button>
+          </div>
           <div class="reveal-status" id="reveal-status-ruverbs">—</div>
         </div>
 
@@ -682,16 +688,19 @@ function syncUI(state){
 
 function updateRevealUI(key,sent){
   const btn=document.getElementById('reveal-btn-'+key);
+  const retractBtn=document.getElementById('reveal-retract-'+key);
   const status=document.getElementById('reveal-status-'+key);
+  const row=document.getElementById('reveal-row-'+key);
   if(sent){
-    if(btn){btn.textContent='✓ Released';btn.className='ctrl-btn reveal-btn revealed';btn.disabled=true;}
+    if(btn){btn.textContent='↩ Re-release';btn.className='ctrl-btn reveal-btn';btn.disabled=false;}
+    if(retractBtn)retractBtn.style.display='inline-flex';
     if(status){status.textContent='Live';status.className='reveal-status sent';}
+    if(row)row.style.borderColor='#1ABC9C';
   } else {
-    if(btn){
-      btn.textContent=key==='reading'?'▶ Release Reading':'▶ Release Widget';
-      btn.className='ctrl-btn reveal-btn';btn.disabled=false;
-    }
+    if(btn){btn.textContent='▶ Release';btn.className='ctrl-btn reveal-btn';btn.disabled=false;}
+    if(retractBtn)retractBtn.style.display='none';
     if(status){status.textContent='—';status.className='reveal-status';}
+    if(row)row.style.borderColor='';
   }
 }
 
@@ -724,6 +733,13 @@ function pushReveal(key){
   const state=window._currentState||{};
   if(!state.blockD)state.blockD={};
   state.blockD[key]=true;
+  window._fbPush(state);
+}
+function retractReveal(key){
+  if(!window._fbReady){alert('Not connected.');return;}
+  const state=window._currentState||{};
+  if(!state.blockD)state.blockD={};
+  state.blockD[key]=false;
   window._fbPush(state);
 }
 
