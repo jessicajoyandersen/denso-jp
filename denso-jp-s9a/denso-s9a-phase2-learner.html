@@ -27,7 +27,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh;padding:0 0 80px;}
 /* TOPBAR */
-.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:0 24px;display:flex;align-items:center;justify-content:space-between;min-height:52px;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:10px 24px 0;display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
 .tb-left{display:flex;align-items:center;gap:10px;}
 .tb-logo{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
 .tb-org{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-3);margin-bottom:1px;}
@@ -617,13 +617,43 @@ body {
         <div class="gold-label">Remember -masu and -mashita?</div>
         <div class="gold-text">You've been using polite verb endings since S5. <strong>-masu</strong> = present or future (happening now or regularly). <strong>-mashita</strong> = past (already happened). Spot the verb ending in each phrase below.</div>
       </div>
+      <style>
+      .reveal-cell{cursor:pointer;position:relative;user-select:none;}
+      .reveal-cell .rc-mask{display:inline-block;background:var(--border);border-radius:3px;color:transparent;min-width:60px;transition:all 0.18s;padding:1px 6px;}
+      .reveal-cell:hover .rc-mask,.reveal-cell.revealed .rc-mask{background:transparent;color:inherit;}
+      .reveal-cell .rc-mask span{font-family:var(--mono);font-weight:700;}
+      .reveal-cell .rc-mask.masu-col{color:var(--blue);}
+      .reveal-cell .rc-mask.mashita-col{color:var(--red);}
+      .reveal-cell:hover .rc-mask.masu-col,.reveal-cell.revealed .rc-mask.masu-col{background:transparent;color:var(--blue);}
+      .reveal-cell:hover .rc-mask.mashita-col,.reveal-cell.revealed .rc-mask.mashita-col{background:transparent;color:var(--red);}
+      </style>
       <table class="phrase-table">
         <thead><tr><th>Phrase you know</th><th>Ending</th><th>Dictionary form</th><th>Meaning</th></tr></thead>
         <tbody>
-          <tr><td class="td-romaji">Tsukaimasu ka?</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--blue);">-masu</span></td><td class="td-romaji">tsukau</td><td class="td-en">Do you use it? (present)</td></tr>
-          <tr><td class="td-romaji">Shitsurei shimashita.</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--red);">-mashita</span></td><td class="td-romaji">suru</td><td class="td-en">Excuse me for that. (past)</td></tr>
-          <tr><td class="td-romaji">Yoroshiku onegaishimasu.</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--blue);">-masu</span></td><td class="td-romaji">suru</td><td class="td-en">I'm counting on you. (present)</td></tr>
-          <tr><td class="td-romaji">Hai, wakarimashita.</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--red);">-mashita</span></td><td class="td-romaji">wakaru</td><td class="td-en">Yes, I understood. (past)</td></tr>
+          <tr>
+            <td class="td-romaji">Tsukaimasu ka?</td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask masu-col">-masu</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-romaji">tsukau</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-en">Do you use it? (present)</span></td>
+          </tr>
+          <tr>
+            <td class="td-romaji">Shitsurei shimashita.</td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask mashita-col">-mashita</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-romaji">suru</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-en">Excuse me for that. (past)</span></td>
+          </tr>
+          <tr>
+            <td class="td-romaji">Yoroshiku onegaishimasu.</td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask masu-col">-masu</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-romaji">suru</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-en">I'm counting on you. (present)</span></td>
+          </tr>
+          <tr>
+            <td class="td-romaji">Hai, wakarimashita.</td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask mashita-col">-mashita</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-romaji">wakaru</span></td>
+            <td class="reveal-cell" onclick="this.classList.toggle('revealed')"><span class="rc-mask td-en">Yes, I understood. (past)</span></td>
+          </tr>
         </tbody>
       </table>
       <div class="frame-box">
@@ -1096,6 +1126,22 @@ function showSlide(n){
   document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
   const target=document.getElementById('slide-'+n);if(target){target.classList.add('active');}
   for(let i=0;i<4;i++){const dot=document.getElementById('sdot-'+i);if(!dot)continue;dot.className='slide-dot'+(i<n?' done':i===n?' current':'');}
+  // Reset MC items every time slide 3 is shown
+  if(n===3){resetSlideMC();}
+}
+function resetSlideMC(){
+  for(let idx=0;idx<2;idx++){
+    const item=document.getElementById('smc-'+idx);
+    const blank=document.getElementById('sblank-'+idx);
+    const fb=document.getElementById('sfb-'+idx);
+    if(!item||!blank||!fb)continue;
+    item.classList.remove('correct-ans','wrong-ans');
+    blank.textContent='___';blank.classList.remove('revealed');
+    fb.textContent='';fb.className='slide-mc-fb';
+    item.querySelectorAll('.slide-mc-opt').forEach(o=>{
+      o.classList.remove('sel-correct','sel-wrong','show-correct','locked');
+    });
+  }
 }
 function slideCheckMC(idx,chosen,correct,answer){
   const opts=document.querySelectorAll('#smc-'+idx+' .slide-mc-opt');opts.forEach(o=>o.classList.add('locked'));
@@ -1365,6 +1411,7 @@ const rvP1Total = RV_VERBS.length * RV_LABELS.length; // 9
 let rvP1CellDone = {}; // "verbIdx-formKey" → bool
 let rvP2Score = 0;
 let rvP2Answered = 0;
+let rvP2Answers = {}; // idx -> {chosen, correct}
 
 function rvBuildPart1() {
   rvP1Done = 0; rvP1CellDone = {};
@@ -1491,7 +1538,9 @@ function rvUpdateP1Progress() {
 }
 
 function rvBuildPart2() {
-  rvP2Score = 0; rvP2Answered = 0;
+  // Recompute score from saved answers (persists across tab switches, clears on page reload)
+  rvP2Score = Object.values(rvP2Answers).filter(a => a.correct).length;
+  rvP2Answered = Object.keys(rvP2Answers).length;
   const container = document.getElementById('mc-items');
   container.innerHTML = '';
   document.getElementById('rv-results').classList.remove('show');
@@ -1511,18 +1560,53 @@ function rvBuildPart2() {
     ).join('');
 
     div.innerHTML = `
-      <div class="mc-num">Question ${item.num} of ${MC_ITEMS.length} · verb: ${item.stem}-</div>
+      <div class="mc-num"><span>Question ${item.num} of ${MC_ITEMS.length}</span><span class="mc-verb-pill">${item.verb}</span></div>
       <div class="mc-context">${item.context}</div>
       <div class="mc-sentence">${sentenceHtml}</div>
       <div class="mc-opts">${optsHtml}</div>
       <div class="mc-feedback" id="mcfb-${idx}"></div>`;
+
+    // Restore saved answer if returning from Part 1
+    const saved = rvP2Answers[idx];
+    if (saved !== undefined) {
+      setTimeout(() => {
+        item.opts.forEach(o => document.getElementById('mcopt-' + idx + '-' + o)?.classList.add('locked'));
+        const chosenEl = document.getElementById('mcopt-' + idx + '-' + saved.chosen);
+        const answerEl = document.getElementById('mcopt-' + idx + '-' + item.answer);
+        const fb = document.getElementById('mcfb-' + idx);
+        const blank = document.getElementById('mcblank-' + idx);
+        if (saved.correct) {
+          chosenEl?.classList.add('selected-correct');
+          div.classList.add('correct-ans');
+        } else {
+          chosenEl?.classList.add('selected-wrong');
+          answerEl?.classList.add('show-correct');
+          div.classList.add('wrong-ans');
+        }
+        if (blank) { blank.textContent = item.answer; blank.classList.add('revealed'); }
+        if (fb) { fb.innerHTML = saved.correct ? item.fb_correct : item.fb_wrong; fb.className = 'mc-feedback show ' + (saved.correct ? 'ok' : 'bad'); }
+      }, 0);
+    }
+
     container.appendChild(div);
   });
+
+  // Restore results panel if already completed
+  if (rvP2Answered === MC_ITEMS.length) {
+    setTimeout(() => {
+      const el = document.getElementById('rv-results'); el.classList.add('show');
+      document.getElementById('rv-res-score').textContent = rvP2Score + ' / ' + MC_ITEMS.length;
+      const msg = rvP2Score === MC_ITEMS.length ? 'Perfect — all RU-verb forms locked in. Ready for irregulars.' : rvP2Score >= 4 ? 'Strong. Review any missed items.' : 'Revisit the form table and reset.';
+      document.getElementById('rv-res-msg').textContent = msg;
+      document.getElementById('rv-res-score').style.color = rvP2Score >= 5 ? 'var(--green)' : rvP2Score >= 3 ? 'var(--gold)' : 'var(--red)';
+    }, 50);
+  }
 }
 
 function rvCheckMC(idx, chosen) {
   const item = MC_ITEMS[idx];
   if (document.getElementById('mcopt-' + idx + '-' + chosen).classList.contains('locked')) return;
+  rvP2Answers[idx] = { chosen, correct: chosen === item.answer };
 
   // Lock all opts
   item.opts.forEach(o => {
@@ -1586,6 +1670,7 @@ function rvUnlock() {
 }
 
 function rvReset() {
+  rvP2Answers = {}; rvP2Score = 0; rvP2Answered = 0;
   rvBuildPart1();
   rvShowPart(1);
   document.getElementById('rv-tab-2').disabled = true;

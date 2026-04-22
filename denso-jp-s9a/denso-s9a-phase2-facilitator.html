@@ -339,30 +339,76 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
         <div class="fac-block-title">Te-Form Uses — 4 Slides</div>
         <div class="fac-block-sub">Learner screens show a locked placeholder until you push Slide 1. Push each slide when you're ready. Slides don't auto-advance.</div>
 
-        <div class="slide-ctrl-grid">
-          <div class="slide-ctrl-card" id="scc-1">
-            <div class="scc-num">Slide 1 of 4</div>
-            <div class="scc-title">-masu / -mashita Review</div>
-            <div class="scc-desc">Phrase table with present/past examples. Mora clapping drill.</div>
-            <button class="scc-btn" id="scbtn-1" onclick="pushSlide(1)">▶ Push Slide 1</button>
+        <style>
+        .slide-row{display:flex;align-items:center;gap:12px;background:#1A1D25;border:1.5px solid #2A2D38;border-radius:7px;padding:12px 16px;margin-bottom:8px;transition:border-color 0.15s;}
+        .slide-row.active-slide{border-color:#9B7FD4;background:rgba(155,127,212,0.07);}
+        .slide-row-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;}
+        .slide-indicator{width:28px;height:28px;border-radius:50%;border:2px solid #3A4050;background:#13151C;display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;color:#6B7585;flex-shrink:0;transition:all 0.15s;}
+        .slide-row.active-slide .slide-indicator{background:#9B7FD4;border-color:#9B7FD4;color:#fff;}
+        .slide-row-info{flex:1;min-width:0;}
+        .slide-row-title{font-size:13px;font-weight:600;color:#C8D0E0;margin-bottom:1px;}
+        .slide-row.active-slide .slide-row-title{color:#fff;}
+        .slide-row-desc{font-size:11px;color:#6B7585;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .slide-row-btns{display:flex;gap:7px;flex-shrink:0;}
+        .slide-push-btn{font-family:"Inter",sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;padding:7px 14px;transition:all 0.15s;background:#C8102E;color:#fff;}
+        .slide-push-btn:hover{background:#A00D24;}
+        .slide-push-btn.is-current{background:#0E3A2A;color:#1ABC9C;border:1.5px solid #1ABC9C;cursor:default;}
+        .slide-resend-btn{font-family:"Inter",sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:1.5px solid #3A4050;border-radius:4px;cursor:pointer;padding:7px 12px;transition:all 0.15s;background:none;color:#6B7585;}
+        .slide-resend-btn:hover{border-color:#9B7FD4;color:#9B7FD4;}
+        </style>
+
+        <div id="slide-rows">
+          <div class="slide-row" id="srow-1">
+            <div class="slide-row-left">
+              <div class="slide-indicator" id="sind-1">1</div>
+              <div class="slide-row-info">
+                <div class="slide-row-title">-masu / -mashita Review</div>
+                <div class="slide-row-desc">Phrase table · mora clapping drill</div>
+              </div>
+            </div>
+            <div class="slide-row-btns">
+              <button class="slide-resend-btn" id="sresend-1" onclick="pushSlide(1)" style="display:none;">↩ Resend</button>
+              <button class="slide-push-btn" id="spush-1" onclick="pushSlide(1)">▶ Push</button>
+            </div>
           </div>
-          <div class="slide-ctrl-card" id="scc-2">
-            <div class="scc-num">Slide 2 of 4</div>
-            <div class="scc-title">The Unlock — te-kudasai</div>
-            <div class="scc-desc">Reveals that mite/shite/kite kudasai are te-form + kudasai. Use 1 pattern.</div>
-            <button class="scc-btn" id="scbtn-2" onclick="pushSlide(2)">▶ Push Slide 2</button>
+          <div class="slide-row" id="srow-2">
+            <div class="slide-row-left">
+              <div class="slide-indicator" id="sind-2">2</div>
+              <div class="slide-row-info">
+                <div class="slide-row-title">The Unlock — te-kudasai</div>
+                <div class="slide-row-desc">mite/shite/kite kudasai = te-form + kudasai</div>
+              </div>
+            </div>
+            <div class="slide-row-btns">
+              <button class="slide-resend-btn" id="sresend-2" onclick="pushSlide(2)" style="display:none;">↩ Resend</button>
+              <button class="slide-push-btn" id="spush-2" onclick="pushSlide(2)">▶ Push</button>
+            </div>
           </div>
-          <div class="slide-ctrl-card" id="scc-3">
-            <div class="scc-num">Slide 3 of 4</div>
-            <div class="scc-title">Successive Actions + MC</div>
-            <div class="scc-desc">New pattern: [verb-te], [verb-masu/mashita]. 2 MC items for students to answer.</div>
-            <button class="scc-btn" id="scbtn-3" onclick="pushSlide(3)">▶ Push Slide 3</button>
+          <div class="slide-row" id="srow-3">
+            <div class="slide-row-left">
+              <div class="slide-indicator" id="sind-3">3</div>
+              <div class="slide-row-info">
+                <div class="slide-row-title">Successive Actions + MC</div>
+                <div class="slide-row-desc">[verb-te], [verb-masu/mashita] · 2 MC items</div>
+              </div>
+            </div>
+            <div class="slide-row-btns">
+              <button class="slide-resend-btn" id="sresend-3" onclick="pushSlide(3)" style="display:none;">↩ Resend</button>
+              <button class="slide-push-btn" id="spush-3" onclick="pushSlide(3)">▶ Push</button>
+            </div>
           </div>
-          <div class="slide-ctrl-card" id="scc-4">
-            <div class="scc-num">Slide 4 of 4</div>
-            <div class="scc-title">te-imasu Preview</div>
-            <div class="scc-desc">One-line preview of Use 3. Summary of all 3 uses. Closes the block.</div>
-            <button class="scc-btn" id="scbtn-4" onclick="pushSlide(4)">▶ Push Slide 4</button>
+          <div class="slide-row" id="srow-4">
+            <div class="slide-row-left">
+              <div class="slide-indicator" id="sind-4">4</div>
+              <div class="slide-row-info">
+                <div class="slide-row-title">te-imasu Preview + Summary</div>
+                <div class="slide-row-desc">One-line Use 3 preview · all 3 uses recap</div>
+              </div>
+            </div>
+            <div class="slide-row-btns">
+              <button class="slide-resend-btn" id="sresend-4" onclick="pushSlide(4)" style="display:none;">↩ Resend</button>
+              <button class="slide-push-btn" id="spush-4" onclick="pushSlide(4)">▶ Push</button>
+            </div>
           </div>
         </div>
 
@@ -608,15 +654,23 @@ function syncUI(state){
   const si=state.slideIndex||0;
   currentSlide=si;
   for(let i=1;i<=4;i++){
-    const btn=document.getElementById('scbtn-'+i);
-    const card=document.getElementById('scc-'+i);
-    if(!btn||!card)continue;
-    if(i<=si){
-      btn.textContent='✓ Sent';btn.className='scc-btn sent';btn.disabled=true;
-      card.classList.add('active-slide');
+    const row=document.getElementById('srow-'+i);
+    const ind=document.getElementById('sind-'+i);
+    const pushBtn=document.getElementById('spush-'+i);
+    const resendBtn=document.getElementById('sresend-'+i);
+    if(!row)continue;
+    const isCurrent=(i===si);
+    const isPast=(i<si);
+    row.classList.toggle('active-slide',isCurrent);
+    if(isCurrent){
+      if(pushBtn){pushBtn.textContent='✓ Current';pushBtn.className='slide-push-btn is-current';pushBtn.disabled=true;}
+      if(resendBtn)resendBtn.style.display='inline-flex';
+    } else if(isPast){
+      if(pushBtn){pushBtn.textContent='▶ Push';pushBtn.className='slide-push-btn';pushBtn.disabled=false;}
+      if(resendBtn)resendBtn.style.display='inline-flex';
     } else {
-      btn.textContent='▶ Push Slide '+i;btn.className='scc-btn';btn.disabled=false;
-      card.classList.remove('active-slide');
+      if(pushBtn){pushBtn.textContent='▶ Push';pushBtn.className='slide-push-btn';pushBtn.disabled=false;}
+      if(resendBtn)resendBtn.style.display='none';
     }
   }
 
