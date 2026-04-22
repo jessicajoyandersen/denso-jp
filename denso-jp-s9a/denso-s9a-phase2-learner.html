@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  © 2026 JJA · Joyful Language Academy
+  Session 9A — Te-Form Foundation
+  denso-s9a-phase2-learner.html
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Japanese · Session 9A · Phase 2</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:rgba(200,16,46,0.06);
+  --bg:#F5F3EE;--surface:#FFFFFF;--surface-2:#EFECE7;
+  --border:#DDD9D2;--border-strong:#C5BFB5;
+  --text:#1C1917;--text-2:#57534E;--text-3:#A8A29E;
+  --green:#166534;--green-bg:rgba(22,101,52,0.08);--green-border:rgba(22,101,52,0.28);
+  --gold:#92400E;--gold-bg:rgba(146,64,14,0.08);--gold-border:rgba(146,64,14,0.3);
+  --blue:#1558A6;--blue-bg:rgba(21,88,166,0.07);--blue-border:rgba(21,88,166,0.25);
+  --purple:#5B3E9E;--purple-bg:rgba(91,62,158,0.07);--purple-border:rgba(91,62,158,0.25);
+  --teal:#0E7A6A;--teal-bg:rgba(14,122,106,0.07);--teal-border:rgba(14,122,106,0.25);
+  --warn:#B22020;--warn-bg:rgba(178,32,32,0.07);
+  --mono:'IBM Plex Mono',monospace;--jp:'Noto Sans JP',sans-serif;--sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh;padding:0 0 80px;}
+/* TOPBAR */
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:0 24px;display:flex;align-items:center;justify-content:space-between;min-height:52px;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.tb-logo{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tb-org{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-3);margin-bottom:1px;}
+.tb-title{font-size:13px;font-weight:600;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:8px;}
+.session-badge{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:9px;border:1.5px solid var(--red);color:var(--red);}
+.timer-box{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:4px 9px;}
+.conn-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background 0.4s;}
+/* PAGE */
+.page-body{max-width:860px;margin:0 auto;padding:28px 20px 0;}
+/* WAITING */
+.waiting-state{text-align:center;padding:52px 20px;color:var(--text-3);}
+.waiting-icon{font-size:34px;margin-bottom:10px;animation:pulse-gentle 2.5s infinite;}
+@keyframes pulse-gentle{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.waiting-text{font-size:15px;font-weight:600;color:var(--text-2);margin-bottom:5px;}
+.waiting-sub{font-size:13px;}
+/* ACCORDION */
+#accordion{display:none;}
+.block-section{border:1.5px solid var(--border);border-radius:10px;margin-bottom:11px;overflow:hidden;opacity:0.4;pointer-events:none;transition:all 0.25s;background:var(--surface);}
+.block-section.unlocked{opacity:0.8;pointer-events:auto;}
+.block-section.active-block{border-color:var(--red);box-shadow:0 0 0 3px var(--red-bg);opacity:1;pointer-events:auto;}
+.block-header{display:flex;align-items:center;gap:12px;padding:13px 17px;cursor:pointer;user-select:none;}
+.block-header:hover{background:var(--surface-2);}
+.bh-status{width:25px;height:25px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;transition:all 0.2s;}
+.block-section.unlocked .bh-status,.block-section.active-block .bh-status{background:var(--green);border-color:var(--green);color:white;}
+.bh-label{flex:1;}
+.bh-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:1px;}
+.bh-title{font-size:14px;font-weight:700;color:var(--text);}
+.bh-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:8px;border:1px solid;}
+.badge-locked{background:var(--surface-2);border-color:var(--border);color:var(--text-3);}
+.badge-current{background:var(--red);border-color:var(--red);color:white;}
+.badge-done{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.bh-chevron{font-size:11px;color:var(--text-3);transition:transform 0.2s;}
+.block-section.open .bh-chevron{transform:rotate(180deg);}
+.block-body{display:none;padding:6px 18px 26px;border-top:1px solid var(--border);}
+.block-section.open .block-body{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
+/* CONTENT */
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:3px;margin-top:14px;}
+.section-title{font-size:19px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:-0.3px;}
+.section-sub{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px;max-width:590px;}
+.frame-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-left:3px solid var(--blue);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.frame-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+.frame-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.gold-box{background:var(--gold-bg);border:1px solid var(--gold-border);border-left:3px solid var(--gold);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.gold-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.gold-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.warn-box{background:var(--warn-bg);border:1px solid rgba(178,32,32,0.25);border-left:3px solid var(--warn);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.div-heading{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:20px 0 9px;padding-top:14px;border-top:1px solid var(--border);}
+.div-heading:first-of-type{border-top:none;padding-top:0;margin-top:6px;}
+/* PHRASE TABLE */
+.phrase-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px;}
+.phrase-table th{text-align:left;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:5px 9px;border-bottom:2px solid var(--border);}
+.phrase-table td{padding:9px 9px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.phrase-table tr:last-child td{border-bottom:none;}
+.td-romaji{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);}
+.td-jp{font-family:var(--jp);font-size:13px;color:var(--text-2);}
+.td-en{font-size:12px;color:var(--text-2);}
+.speak-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:var(--surface-2);border:1px solid var(--border);border-radius:5px;font-size:10px;font-family:var(--mono);font-weight:600;color:var(--text-2);cursor:pointer;transition:all 0.12s;}
+.speak-btn:hover{background:var(--teal-bg);border-color:var(--teal-border);color:var(--teal);}
+/* FLOOR EXCHANGES */
+.exc-card{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:16px 20px;margin-bottom:12px;}
+.exc-scenario{font-size:13px;color:var(--text-3);font-style:italic;margin-bottom:10px;padding:7px 11px;background:var(--surface-2);border-radius:5px;border-left:3px solid var(--border-strong);}
+.exc-line{display:flex;gap:9px;margin-bottom:7px;align-items:flex-start;}
+.exc-speaker{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);min-width:72px;padding-top:4px;flex-shrink:0;}
+.exc-bubble{background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:9px 13px;flex:1;}
+.exc-romaji{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.exc-jp{font-family:var(--jp);font-size:11px;color:var(--text-3);margin-bottom:2px;}
+.exc-en{font-size:11px;color:var(--text-2);}
+.exc-note{font-size:11px;color:var(--text-3);margin-top:7px;padding:6px 9px;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:4px;}
+/* VERB GROUPS */
+.group-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:18px;}
+.group-card{border-radius:8px;padding:13px 14px;border:1.5px solid;}
+.group-card.g1{background:var(--gold-bg);border-color:var(--gold-border);}
+.group-card.g2{background:var(--blue-bg);border-color:var(--blue-border);}
+.group-card.g3{background:var(--purple-bg);border-color:var(--purple-border);}
+.group-num{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.group-card.g1 .group-num{color:var(--gold);} .group-card.g2 .group-num{color:var(--blue);} .group-card.g3 .group-num{color:var(--purple);}
+.group-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.group-desc{font-size:11px;color:var(--text-2);line-height:1.5;margin-bottom:6px;}
+.group-tag{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;display:inline-block;}
+.group-card.g1 .group-tag{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);}
+.group-card.g2 .group-tag{background:var(--blue);color:white;}
+.group-card.g3 .group-tag{background:var(--purple);color:white;}
+/* SLIDESHOW */
+.slide{display:none;animation:fadeIn 0.3s ease;}
+.slide.active{display:block;}
+.slide-dot{width:8px;height:8px;border-radius:50%;background:var(--border);display:inline-block;transition:background 0.2s;}
+.slide-dot.done{background:var(--red);} .slide-dot.current{background:var(--text);}
+.slide-locked-msg{text-align:center;padding:28px 18px;color:var(--text-3);font-size:13px;background:var(--surface-2);border-radius:8px;border:1.5px dashed var(--border);}
+/* SLIDE MC */
+.slide-mc-item{background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:10px;}
+.slide-mc-item.correct-ans{border-color:var(--green-border);} .slide-mc-item.wrong-ans{border-color:rgba(200,16,46,0.4);}
+.slide-mc-context{font-size:13px;color:var(--text-3);font-style:italic;margin-bottom:7px;padding:6px 9px;background:var(--surface);border-left:3px solid var(--border-strong);border-radius:0 4px 4px 0;}
+.slide-mc-sentence{font-size:15px;font-weight:500;color:var(--text);margin-bottom:9px;line-height:1.7;}
+.slide-mc-blank{display:inline-block;min-width:76px;border-bottom:2px solid var(--border-strong);text-align:center;font-family:var(--mono);font-weight:700;color:var(--text-3);padding:0 4px;vertical-align:middle;}
+.slide-mc-blank.revealed{color:var(--green);border-color:var(--green-border);}
+.slide-mc-opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:7px;}
+.slide-mc-opt{font-family:var(--mono);font-size:12px;font-weight:700;padding:7px 13px;border-radius:5px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:all 0.12s;}
+.slide-mc-opt:hover:not(.locked){border-color:var(--border-strong);background:var(--surface-2);}
+.slide-mc-opt.sel-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.slide-mc-opt.sel-wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.slide-mc-opt.show-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.slide-mc-opt.locked{cursor:default;}
+.slide-mc-fb{font-size:12px;line-height:1.6;padding:6px 9px;border-radius:4px;display:none;border:1px solid;margin-top:3px;}
+.slide-mc-fb.show{display:block;}
+.slide-mc-fb.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.slide-mc-fb.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.3);color:var(--warn);}
+/* READING PRACTICE */
+.reading-card{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:10px;}
+.reading-card-head{padding:10px 16px;background:var(--surface-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.rc-num{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);}
+.rc-jp{font-family:var(--jp);font-size:20px;color:var(--text);flex:1;}
+.reading-card-body{padding:12px 16px;}
+.rc-row{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px;}
+.rc-row:last-child{margin-bottom:0;}
+.rc-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);min-width:58px;flex-shrink:0;padding-top:4px;}
+.rc-romaji{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);flex:1;}
+.rc-mora{display:flex;gap:5px;flex-wrap:wrap;flex:1;}
+.mora-box{display:flex;flex-direction:column;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:3px 7px;min-width:30px;}
+.mora-kana{font-family:var(--jp);font-size:13px;color:var(--text);line-height:1;}
+.mora-romaji{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--red);margin-top:2px;}
+.rc-en{font-size:12px;color:var(--text-2);flex:1;font-style:italic;padding-top:4px;}
+/* GOJUUON */
+:root {
+  --red: #C8102E;
+  --bg: #F5F3EE;
+  --surface: #FFFFFF;
+  --surface-2: #EFECE7;
+  --border: #DDD9D2;
+  --border-strong: #C5BFB5;
+  --text: #1C1917;
+  --text-2: #57534E;
+  --text-3: #A8A29E;
+  --green: #166534;
+  --green-bg: rgba(22,101,52,0.08);
+  --green-border: rgba(22,101,52,0.28);
+  --mono: 'IBM Plex Mono', monospace;
+  --jp: 'Noto Sans JP', sans-serif;
+  --sans: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 36px 20px 80px;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  max-width: 860px; margin: 0 auto 32px;
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 18px; border-bottom: 1px solid var(--border);
+}
+.topbar-logo {
+  width: 36px; height: 36px; background: var(--red);
+  border-radius: 6px; display: flex; align-items: center;
+  justify-content: center; font-size: 17px; flex-shrink: 0;
+}
+.topbar-org { font-size: 9px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-3); margin-bottom: 2px; }
+.topbar-title { font-size: 14px; font-weight: 600; color: var(--text); }
+
+/* ── ACTIVITY WRAP ── */
+.activity-wrap {
+  max-width: 860px; margin: 0 auto;
+  position: relative; border-radius: 14px;
+}
+
+/* ── BLUR OVERLAY (locked state) ── */
+.blur-overlay {
+  position: absolute; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 14px;
+  backdrop-filter: blur(10px) saturate(0.7) brightness(1.02);
+  -webkit-backdrop-filter: blur(10px) saturate(0.7) brightness(1.02);
+  background: rgba(245,243,238,0.45);
+  transition: opacity 0.35s ease;
+}
+.blur-overlay.gone { opacity: 0; pointer-events: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+/* ── HINT OVERLAY ── */
+#hint-overlay {
+  position: absolute; inset: 0; z-index: 30;
+  display: none; align-items: center; justify-content: center;
+  border-radius: 14px;
+  backdrop-filter: blur(8px) saturate(0.8);
+  -webkit-backdrop-filter: blur(8px) saturate(0.8);
+  background: rgba(245,243,238,0.55);
+}
+#hint-overlay.show { display: flex; }
+
+/* ── COMPLETE OVERLAY ── */
+#complete-overlay {
+  position: absolute; inset: 0; z-index: 25;
+  display: none; align-items: center; justify-content: center;
+  border-radius: 14px;
+  backdrop-filter: blur(10px) saturate(0.7);
+  -webkit-backdrop-filter: blur(10px) saturate(0.7);
+  background: rgba(245,243,238,0.5);
+  animation: fadeOv 0.4s ease;
+}
+#complete-overlay.show { display: flex; }
+@keyframes fadeOv { from{opacity:0;} to{opacity:1;} }
+
+/* ── SHARED OVERLAY CARD ── */
+.overlay-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 32px 36px; text-align: center;
+  max-width: 420px; width: 90%;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+}
+.oc-icon { font-size: 36px; margin-bottom: 12px; }
+.oc-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: -0.3px; }
+.oc-body { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 22px; }
+.overlay-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--text); color: #fff; border: none;
+  border-radius: 8px; font-family: var(--sans); font-size: 14px;
+  font-weight: 600; padding: 13px 28px; cursor: pointer;
+  transition: transform 0.12s, background 0.12s; letter-spacing: 0.2px;
+}
+.overlay-btn:hover { background: #2c2825; transform: translateY(-1px); }
+
+/* ── HINT CARD ── */
+.hint-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px 32px;
+  max-width: 400px; width: 90%;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.12); text-align: center;
+}
+.hint-kana { font-family: var(--jp); font-size: 44px; color: var(--text); margin-bottom: 6px; line-height: 1; }
+.hint-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+.hint-text { font-size: 14px; color: var(--text-2); line-height: 1.7; margin-bottom: 22px; text-align: left; }
+.hint-close {
+  background: none; border: 1.5px solid var(--border); border-radius: 7px;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--text-2); padding: 9px 22px; cursor: pointer; transition: all 0.12s;
+}
+.hint-close:hover { border-color: var(--border-strong); color: var(--text); }
+
+/* ── ACTIVITY BOX ── */
+.activity-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+}
+.activity-header {
+  padding: 20px 26px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.act-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-3); margin-bottom: 3px; }
+.act-title { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+.act-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+.reset-btn {
+  background: none; border: 1.5px solid var(--border); border-radius: 6px;
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-3); padding: 7px 14px; cursor: pointer;
+  white-space: nowrap; transition: all 0.15s; flex-shrink: 0; margin-top: 2px;
+}
+.reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ── TABLE SCROLL ── */
+.chart-scroll { overflow-x: auto; padding: 20px 20px 24px; }
+.chart-scroll::-webkit-scrollbar { height: 4px; }
+.chart-scroll::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+/* ── TABLE ── */
+.gojuon { border-collapse: separate; border-spacing: 5px; margin: 0 auto; }
+.gojuon th.vowel-head {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--red); text-align: center;
+  padding: 4px 6px 10px; min-width: 76px;
+}
+.gojuon th.corner { min-width: 36px; }
+.gojuon th.row-head {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--text-3); text-align: right; padding-right: 8px;
+  vertical-align: middle; letter-spacing: 0.5px; white-space: nowrap;
+}
+.gojuon td { padding: 0; vertical-align: top; }
+
+/* ── CHAR BOX ── */
+.cbox {
+  border: 1.5px solid var(--border); border-radius: 9px;
+  width: 76px; background: var(--surface); overflow: hidden;
+  transition: border-color 0.2s, background 0.25s;
+}
+.cbox.done { background: var(--green-bg); border-color: var(--green-border); }
+.cbox.shake { animation: cellshake 0.33s ease; }
+@keyframes cellshake { 0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);} }
+
+.cbox-empty { width: 76px; height: 10px; display: block; }
+
+.kana {
+  font-family: var(--jp); font-size: 24px; font-weight: 400;
+  color: var(--text); text-align: center;
+  display: block; padding: 10px 4px 5px; line-height: 1; user-select: none;
+}
+.romaji-input {
+  display: block; width: 100%; background: transparent;
+  border: none; border-top: 1.5px solid var(--border);
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: var(--text); text-align: center;
+  padding: 5px 4px 4px; outline: none; letter-spacing: 0.3px;
+  transition: color 0.15s, border-color 0.15s;
+  -webkit-appearance: none;
+}
+.romaji-input:focus { color: var(--red); border-color: var(--red); }
+.romaji-input:disabled {
+  color: var(--green); border-color: transparent;
+  cursor: default; -webkit-text-fill-color: var(--green); opacity: 1;
+}
+
+.cell-btns { display: flex; border-top: 1px solid var(--border); }
+.cell-btn {
+  flex: 1; background: var(--surface-2); border: none;
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-3); padding: 5px 2px; cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.cell-btn + .cell-btn { border-left: 1px solid var(--border); }
+.cell-btn:hover:not(:disabled) { background: #e4dfd7; color: var(--text); }
+.cell-btn:disabled { opacity: 0.3; cursor: default; }
+.cell-btn.hint-t:hover:not(:disabled) { color: var(--red); background: var(--surface-2); }
+
+/* ── N ROW ── */
+.n-wrap {
+  display: flex; align-items: stretch;
+  border: 1.5px solid var(--border); border-radius: 9px;
+  overflow: hidden; background: var(--surface);
+  transition: border-color 0.2s, background 0.25s;
+}
+.n-wrap.done { background: var(--green-bg); border-color: var(--green-border); }
+.n-wrap.shake { animation: cellshake 0.33s ease; }
+.n-kana {
+  font-family: var(--jp); font-size: 24px; font-weight: 400;
+  color: var(--text); padding: 10px 16px 8px;
+  border-right: 1.5px solid var(--border); user-select: none;
+  display: flex; align-items: center;
+}
+.n-input-area { flex: 1; display: flex; flex-direction: column; }
+.n-input {
+  flex: 1; background: transparent; border: none;
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--text); text-align: center; padding: 0 8px; outline: none;
+  transition: color 0.15s; -webkit-appearance: none;
+}
+.n-input:focus { color: var(--red); }
+.n-input:disabled { color: var(--green); -webkit-text-fill-color: var(--green); opacity: 1; cursor: default; }
+.n-btns { display: flex; border-top: 1px solid var(--border); }
+.n-btn {
+  flex: 1; background: var(--surface-2); border: none;
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-3); padding: 5px 4px; cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.n-btn + .n-btn { border-left: 1px solid var(--border); }
+.n-btn:hover:not(:disabled) { background: #e4dfd7; color: var(--text); }
+.n-btn:disabled { opacity: 0.3; cursor: default; }
+
+/* ── PROGRESS ── */
+.chart-footer {
+  padding: 14px 26px 20px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 14px;
+}
+.prog-track { flex: 1; height: 5px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.4s ease; width: 0%; }
+.prog-label { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text-3); white-space: nowrap; }
+
+/* CONJUGATION WIDGETS */
+.rv-wrap{position:relative;border-radius:12px;margin-bottom:18px;}
+#rv-lock-overlay,#irr-lock-overlay{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;border-radius:12px;backdrop-filter:blur(10px) saturate(0.7) brightness(1.02);-webkit-backdrop-filter:blur(10px) saturate(0.7) brightness(1.02);background:rgba(245,243,238,0.45);transition:opacity 0.35s ease;}
+#rv-lock-overlay.gone,#irr-lock-overlay.gone{opacity:0;pointer-events:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
+.rv-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+.rv-header{padding:16px 20px 13px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.act-eyebrow{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text-3);margin-bottom:2px;}
+.act-title{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
+.act-sub{font-size:11px;color:var(--text-3);margin-top:1px;}
+.rv-tabs{display:flex;gap:0;padding:0 20px;border-bottom:1px solid var(--border);background:var(--surface);}
+.rv-tab{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);padding:9px 14px 8px;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;transition:color 0.15s,border-color 0.15s;}
+.rv-tab:hover{color:var(--text-2);} .rv-tab.active{color:var(--red);border-bottom-color:var(--red);} .rv-tab:disabled{opacity:0.35;cursor:default;}
+.rv-part{display:none;padding:18px 20px 22px;}
+.rv-part.active{display:block;animation:fadeIn 0.2s ease;}
+.rv-intro{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:16px;padding:9px 13px;background:var(--surface-2);border-radius:5px;border-left:3px solid var(--border-strong);}
+.rv-intro strong{color:var(--text);}
+.conj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:18px;}
+.verb-card{border:1.5px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);transition:border-color 0.2s;}
+.verb-card.all-done{border-color:var(--green-border);}
+.vc-head{padding:9px 11px 7px;border-bottom:1px solid var(--border);background:var(--surface-2);}
+.vc-plain{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:1px;}
+.vc-plain span{color:var(--red);}
+.vc-en{font-size:11px;color:var(--text-3);}
+.vc-stem-note{font-family:var(--mono);font-size:9px;color:var(--text-3);margin-top:2px;}
+.vc-stem-note strong{color:var(--text-2);}
+.vc-rows{padding:5px 0 1px;}
+.vc-row{display:flex;align-items:center;padding:5px 11px;border-bottom:1px solid var(--border);}
+.vc-row:last-child{border-bottom:none;} .vc-row-done .vc-stem-fixed{color:var(--text);}
+.vc-form-label{font-size:10px;color:var(--text-3);min-width:70px;flex-shrink:0;}
+.vc-stem-fixed{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text-2);flex-shrink:0;}
+.vc-ending-input{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--red);background:transparent;border:none;border-bottom:1.5px solid var(--border);outline:none;width:68px;padding:1px 3px;transition:border-color 0.15s,color 0.15s;-webkit-appearance:none;}
+.vc-ending-input:focus{border-color:var(--red);}
+.vc-ending-input:disabled{color:var(--green);-webkit-text-fill-color:var(--green);border-color:transparent;opacity:1;cursor:default;}
+.vc-check-row{padding:6px 11px 8px;display:flex;gap:6px;flex-wrap:wrap;}
+.vc-check-btn{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:var(--surface-2);border:1.5px solid var(--border);border-radius:4px;color:var(--text-2);padding:4px 9px;cursor:pointer;transition:all 0.12s;}
+.vc-check-btn:hover:not(:disabled){border-color:var(--red);color:var(--red);} .vc-check-btn:disabled{opacity:0.3;cursor:default;}
+.vc-feedback{font-size:11px;padding:4px 7px;border-radius:4px;display:none;border:1px solid;}
+.vc-feedback.show{display:inline-flex;align-items:center;gap:4px;}
+.vc-feedback.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.vc-feedback.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.3);color:var(--warn);}
+.rv-p1-footer{padding:10px 20px 0;border-top:1px solid var(--border);display:flex;align-items:center;gap:11px;margin-top:3px;}
+.rv-next-btn{font-family:var(--sans);font-size:13px;font-weight:600;background:var(--text);color:#fff;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;transition:background 0.12s,opacity 0.2s;opacity:0.35;pointer-events:none;}
+.rv-next-btn.ready{opacity:1;pointer-events:auto;} .rv-next-btn.ready:hover{background:#2c2825;}
+.mc-item{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:10px;transition:border-color 0.2s;}
+.mc-item.correct-ans{border-color:var(--green-border);} .mc-item.wrong-ans{border-color:rgba(200,16,46,0.35);}
+.mc-num{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.mc-verb-pill{font-family:var(--mono);font-size:12px;font-weight:700;color:#fff !important;background:var(--red);border:1.5px solid var(--red-dark);border-radius:5px;padding:2px 9px;letter-spacing:0;text-transform:none;}
+.mc-context{font-size:13px;color:var(--text-3);font-style:italic;line-height:1.6;margin-bottom:6px;padding:6px 9px;background:var(--surface-2);border-left:3px solid var(--border-strong);border-radius:0 4px 4px 0;}
+.mc-sentence{font-size:14px;font-weight:500;color:var(--text);margin-bottom:9px;line-height:1.7;}
+.mc-blank{display:inline-block;min-width:74px;border-bottom:2px solid var(--border-strong);text-align:center;font-family:var(--mono);font-weight:700;color:var(--text-3);padding:0 4px;vertical-align:middle;}
+.mc-blank.revealed{color:var(--green);border-color:var(--green-border);}
+.mc-opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px;}
+.mc-opt{font-family:var(--mono);font-size:12px;font-weight:700;padding:7px 13px;border-radius:5px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;}
+.mc-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.mc-opt.selected-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.mc-opt.selected-wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.mc-opt.show-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.mc-opt.locked{cursor:default;}
+.mc-feedback{font-size:12px;line-height:1.6;padding:6px 9px;border-radius:4px;display:none;border:1px solid;}
+.mc-feedback.show{display:block;}
+.mc-feedback.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.mc-feedback.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.25);color:var(--warn);}
+.rv-results{display:none;margin-top:16px;padding:16px 18px;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;text-align:center;}
+.rv-results.show{display:block;animation:fadeIn 0.3s ease;}
+.rv-res-score{font-size:32px;font-weight:800;color:var(--green);line-height:1;margin-bottom:4px;}
+.rv-res-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);}
+.rv-res-msg{font-size:13px;color:var(--text-2);margin-top:9px;line-height:1.6;}
+/* TOAST */
+#unlock-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#1C1917;color:white;font-size:13px;font-weight:600;padding:8px 16px;border-radius:7px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+#unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* SESSION END */
+.session-end-banner{background:var(--surface);border:2px solid var(--green-border);border-radius:10px;padding:18px 22px;margin-top:22px;text-align:center;}
+.seb-title{font-size:17px;font-weight:700;color:var(--green);margin-bottom:5px;}
+.seb-sub{font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:14px;}
+.seb-link{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:white;padding:10px 20px;border-radius:7px;text-decoration:none;font-weight:600;font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">⛩</div>
+    <div>
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC</div>
+      <div class="tb-title">Japanese Workplace Communication</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="session-badge">Session 9A</div>
+    <div class="timer-box" id="p2-timer">75:00</div>
+    <div class="conn-dot" id="conn-dot"></div>
+  </div>
+</div>
+
+<div class="page-body">
+  <div id="waiting-state" class="waiting-state">
+    <div class="waiting-icon">📋</div>
+    <div class="waiting-text">Your facilitator is about to begin.</div>
+    <div class="waiting-sub">Blocks will appear here as they are unlocked.</div>
+  </div>
+
+  <div id="accordion">
+
+<!-- ═══ BLOCK A — REVIEW ═══ -->
+<div class="block-section locked" id="section-review" data-block="review">
+  <div class="block-header" onclick="toggleBlock('review')">
+    <div class="bh-status" id="status-review">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block A · 5 min</div><div class="bh-title">⚡ Review — S1–S8</div></div>
+    <div class="bh-badge badge-locked" id="badge-review">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-review">
+    <div class="eyebrow">Block A — Review</div>
+    <div class="section-title">Everything So Far — Fast</div>
+    <div class="section-sub">Your facilitator will call out a situation. Say the phrase. No looking it up.</div>
+    <div class="div-heading">Quick Reference — S1–S8</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-bottom:18px;">
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--blue);">Greetings / Departures</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">Ohayou gozaimasu</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">Otsukaresama desu/deshita</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;">Osaki ni shitsurei shimasu</div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--green);">Handoffs / Recovery</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">Yoroshiku onegaishimasu</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">Hai, wakarimashita</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;">Mou ichido itte moraemasu ka</div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--gold);">S5–S7 Grammar</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">Kore/Sore/Are · Kono/Sono/Ano</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">[Name] no desu</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;">[Thing] ga suki desu</div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--red);">S8 Particles</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">[Object] wo [verb]</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;margin-bottom:3px;">Topic wa · Focus ga</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;">[Object] wo [verb-te] kudasai</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOCK B — VERB GROUPS ═══ -->
+<div class="block-section locked" id="section-groups" data-block="groups">
+  <div class="block-header" onclick="toggleBlock('groups')">
+    <div class="bh-status" id="status-groups">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block B · 6 min</div><div class="bh-title">📚 Verb Groups — The Big Picture</div></div>
+    <div class="bh-badge badge-locked" id="badge-groups">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-groups">
+    <div class="eyebrow">Block B</div>
+    <div class="section-title">Why Verbs Change</div>
+    <div class="section-sub">Japanese verbs belong to one of three groups. The group determines how the ending changes. Today covers Groups 2 and 3 — Group 1 gets its own block.</div>
+    <div class="group-grid">
+      <div class="group-card g1">
+        <div class="group-num">Group 1</div><div class="group-name">U-Verbs</div>
+        <div class="group-desc">The largest group. 4 sub-patterns. kaku, nomu, hanasu…</div>
+        <div class="group-tag">Block F today</div>
+      </div>
+      <div class="group-card g2">
+        <div class="group-num">Group 2</div><div class="group-name">RU-Verbs</div>
+        <div class="group-desc">Dictionary form ends in -eru or -iru. One rule only.</div>
+        <div class="group-tag">Block D — up next</div>
+      </div>
+      <div class="group-card g3">
+        <div class="group-num">Group 3</div><div class="group-name">Irregulars</div>
+        <div class="group-desc">Only two verbs. Memorise them.</div>
+        <div class="group-tag">Block E</div>
+      </div>
+    </div>
+    <div class="frame-box">
+      <div class="frame-label">Why this matters</div>
+      <div class="frame-text">You've been saying <strong>mite kudasai, oshite kudasai, tsukatte kudasai</strong> since S6. Those were fixed chunks. Today you learn the rule behind them — and how to build new ones yourself with any verb in the same group.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOCK C — TE-FORM USES (SLIDESHOW) ═══ -->
+<div class="block-section locked" id="section-teform" data-block="teform">
+  <div class="block-header" onclick="toggleBlock('teform')">
+    <div class="bh-status" id="status-teform">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block C · 10 min</div><div class="bh-title">🔄 Te-Form Uses</div></div>
+    <div class="bh-badge badge-locked" id="badge-teform">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-teform">
+    <div class="eyebrow">Block C</div>
+    <div class="section-title">What the て-Form Does</div>
+    <div class="section-sub">Your facilitator will release each part. Read along and answer when prompted.</div>
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px;">
+      <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-right:3px;">Progress</span>
+      <div class="slide-dot" id="sdot-0"></div>
+      <div class="slide-dot" id="sdot-1"></div>
+      <div class="slide-dot" id="sdot-2"></div>
+      <div class="slide-dot" id="sdot-3"></div>
+    </div>
+    <!-- Slide 0 placeholder -->
+    <div class="slide active" id="slide-0">
+      <div class="slide-locked-msg"><div style="font-size:22px;margin-bottom:7px;">⏳</div>Your facilitator will start this block shortly.</div>
+    </div>
+    <!-- Slide 1 — masu/mashita review -->
+    <div class="slide" id="slide-1">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Slide 1 of 4 — Review</div>
+      <div class="gold-box">
+        <div class="gold-label">Remember -masu and -mashita?</div>
+        <div class="gold-text">You've been using polite verb endings since S5. <strong>-masu</strong> = present or future (happening now or regularly). <strong>-mashita</strong> = past (already happened). Spot the verb ending in each phrase below.</div>
+      </div>
+      <table class="phrase-table">
+        <thead><tr><th>Phrase you know</th><th>Ending</th><th>Dictionary form</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="td-romaji">Tsukaimasu ka?</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--blue);">-masu</span></td><td class="td-romaji">tsukau</td><td class="td-en">Do you use it? (present)</td></tr>
+          <tr><td class="td-romaji">Shitsurei shimashita.</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--red);">-mashita</span></td><td class="td-romaji">suru</td><td class="td-en">Excuse me for that. (past)</td></tr>
+          <tr><td class="td-romaji">Yoroshiku onegaishimasu.</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--blue);">-masu</span></td><td class="td-romaji">suru</td><td class="td-en">I'm counting on you. (present)</td></tr>
+          <tr><td class="td-romaji">Hai, wakarimashita.</td><td><span style="font-family:var(--mono);font-weight:700;color:var(--red);">-mashita</span></td><td class="td-romaji">wakaru</td><td class="td-en">Yes, I understood. (past)</td></tr>
+        </tbody>
+      </table>
+      <div class="frame-box">
+        <div class="frame-label">Mora rhythm drill — clap with me</div>
+        <div class="frame-text">Japanese gives every syllable the same weight. No rushing. No stressing. Clap once per syllable as you say each phrase.<br><strong>wa·ka·ri·ma·shi·ta</strong> = 6 equal claps. Try it now.</div>
+      </div>
+    </div>
+    <!-- Slide 2 — te-kudasai unlock -->
+    <div class="slide" id="slide-2">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Slide 2 of 4 — The Unlock</div>
+      <div class="gold-box">
+        <div class="gold-label">⚡ You already know the te-form</div>
+        <div class="gold-text">Since Session 6, you've been saying <strong>mite kudasai</strong>, <strong>oshite kudasai</strong>, <strong>tsukatte kudasai</strong>. All of those are te-form + kudasai. Today you learn the rule that produces them — so you can build new ones yourself.</div>
+      </div>
+      <div style="background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:9px;">Use 1 — Giving a polite request or instruction</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text);margin-bottom:9px;">[verb-<span style="color:var(--red);">te</span>] kudasai</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;gap:9px;align-items:center;"><span style="font-family:var(--mono);font-size:13px;font-weight:600;">mi<span style="color:var(--red);">te</span> kudasai</span><span style="font-size:12px;color:var(--text-2);">→ please look / check (miru → mite)</span></div>
+          <div style="display:flex;gap:9px;align-items:center;"><span style="font-family:var(--mono);font-size:13px;font-weight:600;">shi<span style="color:var(--red);">te</span> kudasai</span><span style="font-size:12px;color:var(--text-2);">→ please do (suru → shite)</span></div>
+          <div style="display:flex;gap:9px;align-items:center;"><span style="font-family:var(--mono);font-size:13px;font-weight:600;">ki<span style="color:var(--red);">te</span> kudasai</span><span style="font-size:12px;color:var(--text-2);">→ please come (kuru → kite)</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 3 — successive actions + MC -->
+    <div class="slide" id="slide-3">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Slide 3 of 4 — New Pattern</div>
+      <div class="frame-box">
+        <div class="frame-label">Use 2 — Chaining two actions in order</div>
+        <div class="frame-text">The te-form connects two actions: <strong>do X, then do Y</strong>. The te-form goes in the middle. The second verb takes the full -masu or -mashita ending.</div>
+      </div>
+      <div style="background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:9px;">Pattern</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text);margin-bottom:9px;">[verb-<span style="color:var(--red);">te</span>], [verb-masu/mashita]</div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:9px 13px;">
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;margin-bottom:2px;">Shigoto wo owa<span style="color:var(--red);">tte</span>, kaerimasu.</div>
+            <div style="font-size:12px;color:var(--text-2);">I finish work, then go home.</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:3px;">owaru → owatte (U-verb, -u→-tte) + kaerimasu</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:9px 13px;">
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;margin-bottom:2px;">Piza wo tabe<span style="color:var(--red);">te</span>, biiru wo nomimashita.</div>
+            <div style="font-size:12px;color:var(--text-2);">I ate pizza, then drank beer.</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:3px;">taberu → tabete (RU-verb, drop -ru) + nomimashita (past)</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:9px;">Quick check — choose the correct te-form:</div>
+      <div class="slide-mc-item" id="smc-0">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:5px;">Item 1 · <span style="color:var(--red);">kuru</span></div>
+        <div class="slide-mc-context">A line leader describes her morning: she came to work, then ate breakfast.</div>
+        <div class="slide-mc-sentence">Kaisha ni <span class="slide-mc-blank" id="sblank-0">___</span>, asagohan wo tabemashita.</div>
+        <div class="slide-mc-opts">
+          <button class="slide-mc-opt" onclick="slideCheckMC(0,'kimasu',false,'kite')">kimasu</button>
+          <button class="slide-mc-opt" onclick="slideCheckMC(0,'kite',true,'kite')">kite</button>
+          <button class="slide-mc-opt" onclick="slideCheckMC(0,'kimashita',false,'kite')">kimashita</button>
+        </div>
+        <div class="slide-mc-fb" id="sfb-0"></div>
+      </div>
+      <div class="slide-mc-item" id="smc-1">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:5px;">Item 2 · <span style="color:var(--red);">taberu</span></div>
+        <div class="slide-mc-context">You're describing your lunch break — you eat, then come back to the floor.</div>
+        <div class="slide-mc-sentence">Hirugohan wo <span class="slide-mc-blank" id="sblank-1">___</span>, modorimasu.</div>
+        <div class="slide-mc-opts">
+          <button class="slide-mc-opt" onclick="slideCheckMC(1,'tabemasu',false,'tabete')">tabemasu</button>
+          <button class="slide-mc-opt" onclick="slideCheckMC(1,'tabemashita',false,'tabete')">tabemashita</button>
+          <button class="slide-mc-opt" onclick="slideCheckMC(1,'tabete',true,'tabete')">tabete</button>
+        </div>
+        <div class="slide-mc-fb" id="sfb-1"></div>
+      </div>
+    </div>
+    <!-- Slide 4 — te-imasu preview -->
+    <div class="slide" id="slide-4">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;">Slide 4 of 4 — Coming Up</div>
+      <div style="background:var(--surface-2);border:1.5px dashed var(--border-strong);border-radius:8px;padding:16px 20px;margin-bottom:14px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:7px;">Use 3 — Session 9B / S10</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text);margin-bottom:7px;">[verb-te] imasu</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:9px;">Describes an action <strong>currently happening</strong> or a state that is <strong>ongoing</strong>.</div>
+        <div style="font-family:var(--mono);font-size:13px;color:var(--text-2);margin-bottom:3px;">Tanoshimi ni shi<span style="color:var(--red);">te</span> imasu. → I'm looking forward to it.</div>
+        <div style="font-size:11px;color:var(--text-3);">You'll learn this properly in the next session — but you'll recognize it on the floor.</div>
+      </div>
+      <div class="frame-box">
+        <div class="frame-label">Summary — 3 uses of te-form</div>
+        <div class="frame-text">
+          <strong>1.</strong> [verb-te] kudasai — Please do X. <em>(request)</em><br>
+          <strong>2.</strong> [verb-te], [verb] — Do X, then do Y. <em>(chaining actions)</em><br>
+          <strong>3.</strong> [verb-te] imasu — Is doing X right now. <em>(ongoing — coming soon)</em>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOCK D — GOJUUON + READING + RU-VERBS ═══ -->
+<div class="block-section locked" id="section-ruverbs" data-block="ruverbs">
+  <div class="block-header" onclick="toggleBlock('ruverbs')">
+    <div class="bh-status" id="status-ruverbs">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block D · 20 min</div><div class="bh-title">🔵 Group 2 — RU-Verbs</div></div>
+    <div class="bh-badge badge-locked" id="badge-ruverbs">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-ruverbs">
+    <div class="eyebrow">Block D — Part 1 of 3</div>
+    <div class="section-title">Hiragana Warmup</div>
+    <div class="section-sub">Understanding why verb endings change requires knowing the Japanese sound system. Fill in the romaji for each hiragana character. Use Check and Hint as needed.</div>
+    <!-- GOJUUON -->
+    <div style="position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:18px;" id="gojuon-wrap">
+      <div class="blur-overlay" id="gojuon-lock">
+        <div class="overlay-card">
+          <div class="oc-icon">⛩</div>
+          <div class="oc-title">Gojūon Chart</div>
+          <div class="oc-body">Fill in the romaji reading for each hiragana character. Hints available for tricky ones.</div>
+          <button class="overlay-btn" onclick="unlockGojuon()">Start →</button>
+        </div>
+      </div>
+      <div id="hint-overlay" class="hint-overlay">
+        <div class="hint-card">
+          <div class="hint-kana-lg" id="hint-kana"></div>
+          <div class="hint-lbl">Hint</div>
+          <div class="hint-txt" id="hint-text"></div>
+          <button class="hint-close-btn" onclick="closeHint()">Got it</button>
+        </div>
+      </div>
+      <div id="complete-overlay" class="complete-overlay">
+        <div class="overlay-card">
+          <div class="oc-icon">🎉</div>
+          <div class="oc-title">Yoku dekimashita!</div>
+          <div class="oc-body"><span style="font-family:'Noto Sans JP',sans-serif;">よくできました</span><br>All 46 characters complete!</div>
+          <button class="overlay-btn" onclick="closeComplete()">Close</button>
+        </div>
+      </div>
+      <div style="padding:18px 18px 14px;overflow-x:auto;">
+        <table class="gojuon">
+          <thead><tr>
+            <th class="corner"></th>
+            <th class="vowel-head">a</th><th class="vowel-head">i</th>
+            <th class="vowel-head">u</th><th class="vowel-head">e</th><th class="vowel-head">o</th>
+          </tr></thead>
+          <tbody id="gojuon-body"></tbody>
+        </table>
+      </div>
+      <div class="chart-footer">
+        <div class="prog-track"><div class="prog-fill" id="gojuon-prog-fill"></div></div>
+        <div class="prog-label"><span id="gojuon-prog-count">0</span> / 46</div>
+      </div>
+    </div>
+    <!-- READING PRACTICE -->
+    <div id="reading-section" style="display:none;">
+      <div class="div-heading">Reading Practice — Equal Rhythm</div>
+      <div class="section-sub" style="margin-bottom:14px;">Now that you know the sounds, read these phrases out loud. Tap once per mora box — every box gets the same beat.</div>
+      <div id="reading-cards"></div>
+      <div class="warn-box" style="margin-top:2px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--warn);margin-bottom:4px;">⚠️ Note on Pronunciation</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.7;">Japanese gives every syllable equal weight. If you've been using an English-style pronunciation like <em>"oh-KYE-ree-nuh-SYE"</em> instead of <em>o·ka·e·ri·na·sa·i</em>, that habit will create a ceiling over time. The romaji and mora boxes are your guide — count them, trust them.</div>
+      </div>
+    </div>
+    <!-- RU-VERB WIDGET -->
+    <div id="ruverb-section" style="display:none;">
+      <div class="div-heading">Group 2 — Drop る, Add て</div>
+      <div class="section-sub" style="margin-bottom:14px;">The rule: drop the final <strong>ru</strong>, add the ending. Three forms: <strong>-masu</strong> (present polite), <strong>-mashita</strong> (past polite), <strong>-te</strong> (te-form).</div>
+      <div class="rv-wrap" id="rv-wrap">
+        <div id="rv-lock-overlay">
+          <div class="overlay-card">
+            <div class="oc-icon">🔵</div>
+            <div class="oc-title">RU-Verb Conjugation</div>
+            <div class="oc-body">Practice conjugating ru-verbs. Complete Part 1 first, then apply in sentences.</div>
+            <button class="overlay-btn" onclick="rvUnlock()">Start →</button>
+          </div>
+        </div>
+        <div class="rv-box">
+          <div class="rv-header">
+            <div>
+              <div class="act-eyebrow">Activity · Group 2 RU-Verbs</div>
+              <div class="act-title">Conjugation Practice</div>
+              <div class="act-sub">Part 1: fill in endings · Part 2: choose the right form in context</div>
+            </div>
+            <button class="reset-btn" onclick="rvReset()">↺ Reset</button>
+          </div>
+          <div class="rv-tabs">
+            <button class="rv-tab active" id="rv-tab-1" onclick="rvShowPart(1)">Part 1 — Produce</button>
+            <button class="rv-tab" id="rv-tab-2" onclick="rvShowPart(2)" disabled>Part 2 — Apply</button>
+          </div>
+          <div class="rv-part active" id="rv-part-1">
+            <div class="rv-intro"><strong>RU-verbs:</strong> drop the <strong>ru</strong>, add the ending. Fill in only the ending — the stem is shown.</div>
+            <div class="conj-grid" id="conj-grid"></div>
+            <div class="rv-p1-footer">
+              <div class="prog-track" style="max-width:190px;"><div class="prog-fill" id="rv-prog-fill"></div></div>
+              <div class="prog-label"><span id="rv-prog-count">0</span> / 9</div>
+              <button class="rv-next-btn" id="rv-next-btn" onclick="rvShowPart(2)">Continue to Part 2 →</button>
+            </div>
+          </div>
+          <div class="rv-part" id="rv-part-2">
+            <div class="rv-intro" style="margin-bottom:16px;"><strong>Apply it:</strong> choose the correct form — present, past, or te-form?</div>
+            <div id="mc-items"></div>
+            <div class="rv-results" id="rv-results">
+              <div class="rv-res-score" id="rv-res-score">0 / 6</div>
+              <div class="rv-res-label">Part 2 Score</div>
+              <div class="rv-res-msg" id="rv-res-msg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOCK E — IRREGULARS ═══ -->
+<div class="block-section locked" id="section-irreg" data-block="irreg">
+  <div class="block-header" onclick="toggleBlock('irreg')">
+    <div class="bh-status" id="status-irreg">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block E · 10 min</div><div class="bh-title">🟣 Group 3 — Irregular Verbs</div></div>
+    <div class="bh-badge badge-locked" id="badge-irreg">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-irreg">
+    <div class="eyebrow">Block E</div>
+    <div class="section-title">Just Two — Memorise Them</div>
+    <div class="section-sub">Suru (to do) and kuru (to come). No rule. Lock in all forms for each verb.</div>
+    <div class="rv-wrap" id="irr-wrap">
+      <div id="irr-lock-overlay">
+        <div class="overlay-card">
+          <div class="oc-icon">🟣</div>
+          <div class="oc-title">Irregular Verb Conjugation</div>
+          <div class="oc-body">Practice suru and kuru. Complete Part 1 first, then apply in sentences.</div>
+          <button class="overlay-btn" onclick="irrUnlock()">Start →</button>
+        </div>
+      </div>
+      <div class="rv-box">
+        <div class="rv-header">
+          <div>
+            <div class="act-eyebrow">Activity · Group 3 Irregulars</div>
+            <div class="act-title">Conjugation Practice</div>
+            <div class="act-sub">Part 1: fill in endings · Part 2: choose the right form</div>
+          </div>
+          <button class="reset-btn" onclick="irrReset()">↺ Reset</button>
+        </div>
+        <div class="rv-tabs">
+          <button class="rv-tab active" id="irr-tab-1" onclick="irrShowPart(1)">Part 1 — Produce</button>
+          <button class="rv-tab" id="irr-tab-2" onclick="irrShowPart(2)" disabled>Part 2 — Apply</button>
+        </div>
+        <div class="rv-part active" id="irr-part-1">
+          <div class="rv-intro"><strong>Irregular verbs:</strong> suru and kuru don't follow any pattern. Fill in the ending — the stem is shown.</div>
+          <div class="conj-grid" id="irr-conj-grid"></div>
+          <div class="rv-p1-footer">
+            <div class="prog-track" style="max-width:190px;"><div class="prog-fill" id="irr-prog-fill"></div></div>
+            <div class="prog-label"><span id="irr-prog-count">0</span> / 6</div>
+            <button class="rv-next-btn" id="irr-next-btn" onclick="irrShowPart(2)">Continue to Part 2 →</button>
+          </div>
+        </div>
+        <div class="rv-part" id="irr-part-2">
+          <div class="rv-intro" style="margin-bottom:16px;"><strong>Apply it:</strong> choose the correct form of suru or kuru.</div>
+          <div id="irr-mc-items"></div>
+          <div class="rv-results" id="irr-results">
+            <div class="rv-res-score" id="irr-res-score">0 / 6</div>
+            <div class="rv-res-label">Part 2 Score</div>
+            <div class="rv-res-msg" id="irr-res-msg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOCK F — に DESTINATION + FLOOR EXCHANGES ═══ -->
+<div class="block-section locked" id="section-ni" data-block="ni">
+  <div class="block-header" onclick="toggleBlock('ni')">
+    <div class="bh-status" id="status-ni">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block F · 12 min</div><div class="bh-title">📍 に Destination + Floor Exchanges</div></div>
+    <div class="bh-badge badge-locked" id="badge-ni">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-ni">
+    <div class="eyebrow">Block F</div>
+    <div class="section-title">に — Where You're Going</div>
+    <div class="section-sub">に marks the destination with movement verbs. One particle, any movement verb.</div>
+    <div class="frame-box">
+      <div class="frame-label">The Pattern</div>
+      <div class="frame-text"><strong>[Destination] に [movement verb-te] kudasai</strong><br><br>
+        Station 3 ni <strong>itte kudasai</strong>. → Please go to Station 3.<br>
+        Koko ni <strong>kite kudasai</strong>. → Please come here.<br><br>
+        Itte = te-form of ikimasu (Group 1 exception: iku → itte, not iite). Kite = te-form of kuru (Group 3 irregular).</div>
+    </div>
+    <div class="div-heading">Location Words — Ko/So/A mirroring S6</div>
+    <table class="phrase-table" style="margin-bottom:18px;">
+      <thead><tr><th>Romaji</th><th>Japanese</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="td-romaji">koko</td><td class="td-jp">ここ</td><td class="td-en">here — near me (mirrors kore)</td></tr>
+        <tr><td class="td-romaji">soko</td><td class="td-jp">そこ</td><td class="td-en">there — near you (mirrors sore)</td></tr>
+        <tr><td class="td-romaji">asoko</td><td class="td-jp">あそこ</td><td class="td-en">over there — away from both (mirrors are)</td></tr>
+        <tr><td class="td-romaji">Station [number]</td><td class="td-jp">ステーション[番号]</td><td class="td-en">Station 1, 2, 3…</td></tr>
+      </tbody>
+    </table>
+    <div class="div-heading">Capstone Sentence — S8 + S9A Combined</div>
+    <div style="background:var(--surface);border:2px solid var(--red);border-radius:9px;padding:16px 20px;margin-bottom:18px;">
+      <div style="font-family:var(--mono);font-size:15px;font-weight:700;margin-bottom:4px;">Station 2 ni itte, kono tejun wo mite kudasai.</div>
+      <div style="font-family:var(--jp);font-size:12px;color:var(--text-3);margin-bottom:6px;">ステーション2に行って、この手順を見てください。</div>
+      <div style="font-size:13px;color:var(--text-2);margin-bottom:9px;">Please go to Station 2 and check this procedure.</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+        <span style="font-size:11px;background:var(--teal-bg);border:1px solid var(--teal-border);color:var(--teal);padding:2px 7px;border-radius:4px;">itte — ikimasu te-form (exception)</span>
+        <span style="font-size:11px;background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue);padding:2px 7px;border-radius:4px;">wo mite — S8 を + Group 2 te-form</span>
+        <span style="font-size:11px;background:var(--purple-bg);border:1px solid var(--purple-border);color:var(--purple);padding:2px 7px;border-radius:4px;">ni — destination particle</span>
+      </div>
+      <button class="speak-btn" onclick="speak('ステーション2に行って、この手順を見てください。')">🔊 Hear it</button>
+    </div>
+    <div class="div-heading">Floor Exchanges</div>
+    <div class="exc-card">
+      <div class="exc-scenario">Line leader redirects a worker to a different station.</div>
+      <div class="exc-line"><div class="exc-speaker">Line Leader</div><div class="exc-bubble"><div class="exc-romaji">Station ni ni itte kudasai.</div><div class="exc-jp">ステーション2に行ってください。</div><div class="exc-en">Please go to Station 2.</div><button class="speak-btn" onclick="speak('ステーション2に行ってください。')" style="margin-top:5px;">🔊</button></div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble"><div class="exc-romaji">Hai, wakarimashita.</div><div class="exc-en">Yes, understood.</div></div></div>
+      <div class="exc-note">💡 [destination] に itte kudasai. に marks where they're going.</div>
+    </div>
+    <div class="exc-card">
+      <div class="exc-scenario">Supervisor calls a worker over.</div>
+      <div class="exc-line"><div class="exc-speaker">Supervisor</div><div class="exc-bubble"><div class="exc-romaji">Chotto kite kudasai.</div><div class="exc-jp">ちょっと来てください。</div><div class="exc-en">Please come here a moment.</div><button class="speak-btn" onclick="speak('ちょっと来てください。')" style="margin-top:5px;">🔊</button></div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble"><div class="exc-romaji">Hai, tadaima.</div><div class="exc-jp">はい、ただいま。</div><div class="exc-en">Yes, right away.</div></div></div>
+      <div class="exc-note">💡 Tadaima = right away / coming. Kite = te-form of kuru (Group 3 irregular).</div>
+    </div>
+    <div class="exc-card">
+      <div class="exc-scenario">Line leader sends a worker to check a procedure at another station.</div>
+      <div class="exc-line"><div class="exc-speaker">Line Leader</div><div class="exc-bubble"><div class="exc-romaji">Station san ni itte, kono tejun wo mite kudasai.</div><div class="exc-jp">ステーション3に行って、この手順を見てください。</div><div class="exc-en">Please go to Station 3 and check this procedure.</div><button class="speak-btn" onclick="speak('ステーション3に行って、この手順を見てください。')" style="margin-top:5px;">🔊</button></div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble"><div class="exc-romaji">Hai, wakarimashita. Yoroshiku onegaishimasu.</div><div class="exc-en">Yes, understood. I'll take care of it.</div></div></div>
+      <div class="exc-note">💡 Two te-forms chained: itte (go) + mite kudasai (check). に marks destination, を marks object.</div>
+    </div>
+    <div class="session-end-banner">
+      <div class="seb-title">Session 9A Complete 🎉</div>
+      <div class="seb-sub">Te-form uses, RU-verbs, irregulars, and destination に — all covered. Session 9B continues with U-verbs and the grammar checkpoint.</div>
+      <a href="../denso-jp-s9b/denso-s9b-phase2-learner.html" class="seb-link">Continue to Session 9B →</a>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /accordion -->
+</div><!-- /page-body -->
+<div id="unlock-toast">Block unlocked ✓</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const firebaseConfig={
+  apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+  authDomain:"denso-japanese.firebaseapp.com",
+  databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
+  projectId:"denso-japanese",
+  storageBucket:"denso-japanese.firebasestorage.app",
+  messagingSenderId:"654718718217",
+  appId:"1:654718718217:web:ecec2672bd5069c0b443d8"
+};
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const dbRef=ref(db,"session9a/phase2");
+window._fbReady=true;
+window._fbOnValue=(cb)=>onValue(dbRef,snap=>cb(snap.val()));
+document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+// ── SPEECH ──
+function speak(text){const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);}
+
+// ── ACCORDION ──
+const BLOCKS=['review','groups','teform','ruverbs','irreg','ni'];
+const state={};BLOCKS.forEach(b=>state[b]={unlocked:false,open:false});
+function toggleBlock(id){
+  const sec=document.getElementById('section-'+id);
+  if(!sec.classList.contains('active-block')&&!sec.classList.contains('unlocked'))return;
+  const isOpen=sec.classList.contains('open');sec.classList.toggle('open',!isOpen);state[id].open=!isOpen;
+}
+function unlockBlock(id){
+  const sec=document.getElementById('section-'+id);
+  const badge=document.getElementById('badge-'+id);const status=document.getElementById('status-'+id);
+  BLOCKS.forEach(b=>{const s=document.getElementById('section-'+b);s.classList.remove('active-block');if(state[b].unlocked){document.getElementById('badge-'+b).className='bh-badge badge-done';document.getElementById('badge-'+b).textContent='Done';}});
+  sec.classList.remove('locked');sec.classList.add('active-block','open');
+  badge.className='bh-badge badge-current';badge.textContent='Now';status.textContent='→';
+  state[id].unlocked=true;state[id].open=true;showToast('Block unlocked ✓');
+  setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),150);
+  if(id==='ruverbs'){buildGojuon();}
+}
+function showToast(msg){const t=document.getElementById('unlock-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+// ── FIREBASE LISTENER ──
+document.addEventListener('fbReady',()=>{
+  const dot=document.getElementById('conn-dot');
+  if(dot)dot.style.background='#166534';
+  const sub=document.querySelector('.waiting-sub');
+  if(sub)sub.textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||{}));
+});
+if(window._fbReady&&window._fbOnValue){
+  const dot=document.getElementById('conn-dot');
+  if(dot)dot.style.background='#166534';
+  window._fbOnValue(val=>applyState(val||{}));
+}
+setTimeout(()=>{
+  if(!window._fbReady){
+    const ws=document.getElementById('waiting-state');
+    if(ws)ws.innerHTML='<div class="waiting-icon">⚠️</div><div class="waiting-text" style="color:var(--warn)">Could not connect.</div><div class="waiting-sub">Check your internet connection and reload.</div>';
+  }
+},8000);
+
+
+// ── FIREBASE STATE ──
+const BLOCK_ORDER=['review','groups','teform','ruverbs','irreg','ni'];
+let currentUnlocked=[];
+
+function applyState(state){
+  if(!state){return;}
+  const unlocked=state.unlockedBlocks||[];
+  const newBlocks=unlocked.filter(b=>!currentUnlocked.includes(b));
+  const wasEmpty=currentUnlocked.length===0;
+  currentUnlocked=[...unlocked];
+
+  if(unlocked.length>0){
+    document.getElementById('waiting-state').style.display='none';
+    document.getElementById('accordion').style.display='block';
+  }
+
+  BLOCK_ORDER.forEach(id=>{
+    const sec=document.getElementById('section-'+id);
+    const badge=document.getElementById('badge-'+id);
+    const status=document.getElementById('status-'+id);
+    const isUnlocked=unlocked.includes(id);
+    const isCurrent=id===unlocked[unlocked.length-1];
+    const isPast=isUnlocked&&!isCurrent;
+    if(isUnlocked){
+      sec.classList.remove('locked');
+      sec.classList.toggle('active-block',isCurrent);
+      sec.classList.toggle('unlocked',isPast);
+      status.textContent='✓';
+      badge.textContent=isCurrent?'Now':'Done';
+      badge.className='bh-badge '+(isCurrent?'badge-current':'badge-done');
+      if(isCurrent&&newBlocks.includes(id)){
+        sec.classList.add('open');
+        if(id==='ruverbs'){buildGojuon();}
+        setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),200);
+      } else if(isPast&&newBlocks.length>0){
+        sec.classList.remove('open');
+      }
+    } else {
+      sec.className='block-section locked';
+      if(status)status.textContent='🔒';
+      if(badge){badge.textContent='Waiting';badge.className='bh-badge badge-locked';}
+    }
+  });
+  if(newBlocks.length>0&&!wasEmpty){
+    const names={review:'Block A',groups:'Block B',teform:'Block C',ruverbs:'Block D',irreg:'Block E',ni:'Block F'};
+    showToast('🔓 '+newBlocks.map(b=>names[b]||b).join(', ')+' unlocked');
+  }
+
+  // Slideshow
+  const si=state.slideIndex;
+  if(typeof si==='number'){showSlide(si);}
+
+  // Block D sub-reveals
+  const d=state.blockD||{};
+  if(d.reading){showReadingSection();}
+  if(d.ruverbs){showRuverbSection();}
+}
+
+// ── TIMER ──
+let timerSecs=75*60;
+(function tick(){
+  const m=Math.floor(timerSecs/60),s=timerSecs%60;
+  const el=document.getElementById('p2-timer');
+  if(el)el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(timerSecs>0){timerSecs--;setTimeout(tick,1000);}
+})();
+
+// ── SLIDESHOW ──
+function showSlide(n){
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  const target=document.getElementById('slide-'+n);if(target){target.classList.add('active');}
+  for(let i=0;i<4;i++){const dot=document.getElementById('sdot-'+i);if(!dot)continue;dot.className='slide-dot'+(i<n?' done':i===n?' current':'');}
+}
+function slideCheckMC(idx,chosen,correct,answer){
+  const opts=document.querySelectorAll('#smc-'+idx+' .slide-mc-opt');opts.forEach(o=>o.classList.add('locked'));
+  const blank=document.getElementById('sblank-'+idx);const fb=document.getElementById('sfb-'+idx);const item=document.getElementById('smc-'+idx);
+  blank.textContent=answer;blank.classList.add('revealed');
+  if(correct){
+    opts.forEach(o=>{if(o.textContent.trim()===answer)o.classList.add('sel-correct');});
+    item.classList.add('correct-ans');fb.textContent='✅ Correct — te-form goes in the middle. The second verb takes the full -masu or -mashita ending.';fb.className='slide-mc-fb show ok';
+  }else{
+    opts.forEach(o=>{if(o.textContent.trim()===chosen)o.classList.add('sel-wrong');if(o.textContent.trim()===answer)o.classList.add('show-correct');});
+    item.classList.add('wrong-ans');fb.textContent='The te-form connects two actions in the middle. -masu and -mashita go on the final verb only.';fb.className='slide-mc-fb show bad';
+  }
+}
+
+// ── READING PRACTICE ──
+const READING_PHRASES=[
+  {jp:'おはようございます',romaji:'o · ha · yo · u   go · za · i · ma · su',en:'Good morning (formal)',mora:['お','は','よ','う','ご','ざ','い','ま','す'],rm:['o','ha','yo','u','go','za','i','ma','su']},
+  {jp:'わかりました',romaji:'wa · ka · ri · ma · shi · ta',en:'I understood / Got it',mora:['わ','か','り','ま','し','た'],rm:['wa','ka','ri','ma','shi','ta']},
+  {jp:'よろしくおねがいします',romaji:'yo · ro · shi · ku   o · ne · ga · i · shi · ma · su',en:"I'm counting on you / Please take care of it",mora:['よ','ろ','し','く','お','ね','が','い','し','ま','す'],rm:['yo','ro','shi','ku','o','ne','ga','i','shi','ma','su']},
+  {jp:'みてください',romaji:'mi · te   ku · da · sa · i',en:'Please look / check',mora:['み','て','く','だ','さ','い'],rm:['mi','te','ku','da','sa','i']},
+  {jp:'おつかれさまでした',romaji:'o · tsu · ka · re · sa · ma   de · shi · ta',en:'Good work (end of shift)',mora:['お','つ','か','れ','さ','ま','で','し','た'],rm:['o','tsu','ka','re','sa','ma','de','shi','ta']},
+];
+function showReadingSection(){
+  const sec=document.getElementById('reading-section');sec.style.display='block';
+  const container=document.getElementById('reading-cards');container.innerHTML='';
+  READING_PHRASES.forEach((phrase,i)=>{
+    const card=document.createElement('div');card.className='reading-card';
+    const moraHtml=phrase.mora.map((m,mi)=>`<div class="mora-box"><div class="mora-kana">${m}</div><div class="mora-romaji">${phrase.rm[mi]}</div></div>`).join('');
+    card.innerHTML=`<div class="reading-card-head"><div class="rc-num">Phrase ${i+1}</div><div class="rc-jp">${phrase.jp}</div><button class="speak-btn" onclick="speak('${phrase.jp}')">🔊</button></div><div class="reading-card-body"><div class="rc-row"><div class="rc-label">Mora</div><div class="rc-mora">${moraHtml}</div></div><div class="rc-row"><div class="rc-label">Romaji</div><div class="rc-romaji">${phrase.romaji}</div></div><div class="rc-row"><div class="rc-label">Meaning</div><div class="rc-en">${phrase.en}</div></div></div>`;
+    container.appendChild(card);
+  });
+  setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),150);
+}
+function showRuverbSection(){
+  const sec=document.getElementById('ruverb-section');sec.style.display='block';
+  setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),150);
+}
+
+// ── GOJUUON ──
+const GENERIC = 'You can make any basic Japanese sound by combining a consonant (<strong>k, s, t, n, h, m, y, r, w</strong>) with a vowel (<strong>a, i, u, e, o</strong>) — or just a vowel on its own, or simply <strong>n</strong>.';
+
+const ROWS = [
+  { label:'Ø', cells:[
+    {k:'あ',a:'a'},  {k:'い',a:'i'},  {k:'う',a:'u'},  {k:'え',a:'e'},  {k:'お',a:'o'},
+  ]},
+  { label:'k', cells:[
+    {k:'か',a:'ka'}, {k:'き',a:'ki'}, {k:'く',a:'ku'}, {k:'け',a:'ke'}, {k:'こ',a:'ko'},
+  ]},
+  { label:'s', cells:[
+    {k:'さ',a:'sa'},
+    {k:'し',a:'shi', hint:'This one is in the "s" row, but it doesn\'t follow the regular s + vowel pattern. It\'s pronounced <strong>"shee"</strong> — like the first sound in <em>sheep</em> or <em>sheet</em>. So we write it <strong>shi</strong>, not "si".'},
+    {k:'す',a:'su'}, {k:'せ',a:'se'}, {k:'そ',a:'so'},
+  ]},
+  { label:'t', cells:[
+    {k:'た',a:'ta'},
+    {k:'ち',a:'chi', hint:'This one is in the "t" row, but it breaks the regular pattern. It\'s pronounced <strong>"chee"</strong> — like the first sound in <em>cheek</em> or <em>cheap</em>. So we write it <strong>chi</strong>, not "ti".'},
+    {k:'つ',a:'tsu', hint:'From the "t" row, you might expect "tu" — but this one is pronounced <strong>"tsoo"</strong>, with a soft edge. Try this: say the word <em>cats</em>, then add the Japanese "oo" sound to the end. "Cats-oo" → "catsoo" → now drop the "ca-". What\'s left? <strong>tsu</strong>.'},
+    {k:'て',a:'te'}, {k:'と',a:'to'},
+  ]},
+  { label:'n', cells:[
+    {k:'な',a:'na'}, {k:'に',a:'ni'}, {k:'ぬ',a:'nu'}, {k:'ね',a:'ne'}, {k:'の',a:'no'},
+  ]},
+  { label:'h', cells:[
+    {k:'は',a:'ha'}, {k:'ひ',a:'hi'},
+    {k:'ふ',a:'fu', hint:'This one is in the "h" row and is sometimes written "hu" — but in modern Japanese it\'s pronounced with a very soft <strong>f</strong> sound. Much softer than the English "f" — somewhere between "hoo" and "foo". Imagine gently blowing out a candle. That quiet breath is the sound. We write it <strong>fu</strong>.'},
+    {k:'へ',a:'he'}, {k:'ほ',a:'ho'},
+  ]},
+  { label:'m', cells:[
+    {k:'ま',a:'ma'}, {k:'み',a:'mi'}, {k:'む',a:'mu'}, {k:'め',a:'me'}, {k:'も',a:'mo'},
+  ]},
+  { label:'y', cells:[
+    {k:'や',a:'ya'}, null, {k:'ゆ',a:'yu'}, null, {k:'よ',a:'yo'},
+  ]},
+  { label:'r', cells:[
+    {k:'ら',a:'ra'}, {k:'り',a:'ri'}, {k:'る',a:'ru'}, {k:'れ',a:'re'}, {k:'ろ',a:'ro'},
+  ]},
+  { label:'w', cells:[
+    {k:'わ',a:'wa'}, null, null, null,
+    {k:'を',a:'o', hint:'This character is <strong>を (wo)</strong>. As a grammatical particle — which is its main job in modern Japanese — it\'s pronounced and romanized as <strong>o</strong>. We\'ll spell it <strong>o</strong> throughout this course, but keep in mind it\'s distinct from お and is also written "wo" in some systems.'},
+  ]},
+];
+const N_CELL = {k:'ん',a:'n',hint:'The only Japanese character that stands alone as a pure consonant — no vowel. The nasal <strong>n</strong> sound, like the "n" at the end of <em>pen</em>. Spell it <strong>n</strong>.'};
+let totalCells=0,completedCells=0,cellDone={};
+
+function buildGojuon(){
+  const tbody=document.getElementById('gojuon-body');tbody.innerHTML='';
+  totalCells=0;completedCells=0;cellDone={};
+  ROWS.forEach((row,ri)=>{
+    const tr=document.createElement('tr');
+    const th=document.createElement('th');th.className='row-head';th.textContent=row.label;tr.appendChild(th);
+    row.cells.forEach((cell,ci)=>{
+      const td=document.createElement('td');
+      if(!cell){const empty=document.createElement('span');empty.className='cbox-empty';td.appendChild(empty);}
+      else{const key=ri+'-'+ci;totalCells++;cellDone[key]=false;td.appendChild(makeGojuonCell(cell,key));}
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  const nTr=document.createElement('tr');
+  const nTh=document.createElement('th');nTh.className='row-head';nTh.textContent='n';nTr.appendChild(nTh);
+  const nTd=document.createElement('td');nTd.colSpan=5;nTd.style.padding='0';
+  totalCells++;cellDone['n']=false;
+  const nWrap=document.createElement('div');nWrap.className='n-wrap';nWrap.id='box-n';
+  const nKana=document.createElement('span');nKana.className='n-kana';nKana.textContent=N_CELL.k;
+  const nIA=document.createElement('div');nIA.className='n-input-area';
+  const nInp=document.createElement('input');nInp.type='text';nInp.id='inp-n';nInp.className='n-input';
+  nInp.autocomplete='off';nInp.autocorrect='off';nInp.autocapitalize='off';nInp.spellcheck=false;nInp.placeholder='···';
+  nInp.addEventListener('keydown',e=>{if(e.key==='Enter')checkGojuonCell('n',N_CELL);});
+  const nBtns=document.createElement('div');nBtns.className='n-btns';
+  const nChk=document.createElement('button');nChk.className='n-btn';nChk.textContent='Check';nChk.onclick=()=>checkGojuonCell('n',N_CELL);
+  const nHnt=document.createElement('button');nHnt.className='n-btn';nHnt.textContent='Hint';nHnt.onclick=()=>showHint(N_CELL.k,N_CELL.hint);
+  nBtns.appendChild(nChk);nBtns.appendChild(nHnt);
+  nIA.appendChild(nInp);nIA.appendChild(nBtns);
+  nWrap.appendChild(nKana);nWrap.appendChild(nIA);
+  nTd.appendChild(nWrap);nTr.appendChild(nTd);tbody.appendChild(nTr);
+  updateGojuonProgress();
+}
+function makeGojuonCell(cell,key){
+  const box=document.createElement('div');box.className='cbox';box.id='box-'+key;
+  const kana=document.createElement('span');kana.className='kana-char';kana.textContent=cell.k;
+  const inp=document.createElement('input');inp.type='text';inp.id='inp-'+key;inp.className='romaji-input';
+  inp.autocomplete='off';inp.autocorrect='off';inp.autocapitalize='off';inp.spellcheck=false;inp.placeholder='···';
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkGojuonCell(key,cell);});
+  const btns=document.createElement('div');btns.className='cell-btns';btns.id='btns-'+key;
+  const chk=document.createElement('button');chk.className='cell-btn';chk.textContent='Check';chk.onclick=()=>checkGojuonCell(key,cell);
+  const hnt=document.createElement('button');hnt.className='cell-btn hint-t';hnt.textContent='Hint';hnt.onclick=()=>showHint(cell.k,cell.hint);
+  btns.appendChild(chk);btns.appendChild(hnt);
+  box.appendChild(kana);box.appendChild(inp);box.appendChild(btns);
+  return box;
+}
+function checkGojuonCell(key,cell){
+  if(cellDone[key])return;
+  const inp=document.getElementById('inp-'+key);
+  const box=document.getElementById('box-'+key);
+  const val=(inp.value||'').trim().toLowerCase();
+  if(!val)return;
+  if(val===cell.a){
+    cellDone[key]=true;completedCells++;
+    inp.value=cell.a;inp.disabled=true;
+    box.classList.add('done');box.classList.remove('shake');
+    const btnsEl=document.getElementById('btns-'+key);
+    if(btnsEl)btnsEl.querySelectorAll('button').forEach(b=>{b.disabled=true;});
+    if(key==='n')box.querySelectorAll('.n-btn').forEach(b=>{b.disabled=true;});
+    updateGojuonProgress();
+    if(completedCells===totalCells)setTimeout(showComplete,500);
+  }else{
+    box.classList.remove('shake');void box.offsetWidth;box.classList.add('shake');
+    inp.select();setTimeout(()=>box.classList.remove('shake'),380);
+  }
+}
+function updateGojuonProgress(){
+  const pct=totalCells>0?(completedCells/totalCells*100):0;
+  const fill=document.getElementById('gojuon-prog-fill');
+  const count=document.getElementById('gojuon-prog-count');
+  if(fill)fill.style.width=pct+'%';
+  if(count)count.textContent=completedCells;
+}
+function showHint(kana,hintText){
+  document.getElementById('hint-kana').textContent=kana;
+  document.getElementById('hint-text').innerHTML=hintText||GENERIC;
+  document.getElementById('hint-overlay').classList.add('show');
+}
+function closeHint(){document.getElementById('hint-overlay').classList.remove('show');}
+function showComplete(){document.getElementById('complete-overlay').classList.add('show');}
+function closeComplete(){document.getElementById('complete-overlay').classList.remove('show');}
+function unlockGojuon(){
+  document.getElementById('gojuon-lock').classList.add('gone');
+  setTimeout(()=>{const first=document.querySelector('.romaji-input:not(:disabled)');if(first)first.focus();},400);
+}
+function resetGojuon(){closeComplete();closeHint();buildGojuon();}
+
+
+
+
+// ── RU-VERB ──
+// ── RU-VERB DATA ──
+const RV_VERBS = [
+  { plain:'taberu',  stem:'tabe', en:'to eat',     forms:{ masu:'masu', mashita:'mashita', te:'te' } },
+  { plain:'miseru',  stem:'mise', en:'to show (something to someone)',    forms:{ masu:'masu', mashita:'mashita', te:'te' } },
+  { plain:'tsukeru', stem:'tsuke',en:'to turn on (e.g., a light)', forms:{ masu:'masu', mashita:'mashita', te:'te' } },
+];
+
+const RV_LABELS = [
+  { key:'masu',     label:'Present polite', hint:'present polite' },
+  { key:'mashita',  label:'Past polite',    hint:'past polite' },
+  { key:'te',       label:'Te-form',        hint:'te-form' },
+];
+
+const MC_ITEMS = [
+  {
+    num:1,
+    context: 'Lunch break. Your supervisor asks if you ate.',
+    sentence: 'Hirugohan wo ___ ka?',
+    blank_pos: 'Hirugohan wo ',
+    blank_after: ' ka?',
+    verb: 'taberu', stem: 'tabe',
+    opts: ['tabemasu','tabemashita','tabete'],
+    answer: 'tabemashita',
+    fb_correct: '✅ Tabemashita — past polite. The supervisor is asking whether you already ate, so past tense is correct.',
+    fb_wrong: 'Tabemashita is correct here — past polite form of taberu. The question is about something that already happened (or should have).'
+  },
+  {
+    num:2,
+    context: 'A line leader asks you to show her the procedure sheet.',
+    sentence: 'Tejun wo ___ kudasai.',
+    blank_pos: 'Tejun wo ',
+    blank_after: ' kudasai.',
+    verb: 'miseru', stem: 'mise',
+    opts: ['misemasu','misemashita','misete'],
+    answer: 'misete',
+    fb_correct: '✅ Misete — te-form of miseru. [verb-te] kudasai is the request pattern. Misete kudasai = please show me.',
+    fb_wrong: 'Misete is correct — te-form + kudasai makes a polite request. Misemasu is a statement; misemashita is past tense.'
+  },
+  {
+    num:3,
+    context: 'Your colleague reports that she turned on the machine at the start of shift.',
+    sentence: 'Kikai wo ___ .',
+    blank_pos: 'Kikai wo ',
+    blank_after: ' .',
+    verb: 'tsukeru', stem: 'tsuke',
+    opts: ['tsukemasu','tsukemashita','tsukete'],
+    answer: 'tsukemashita',
+    fb_correct: '✅ Tsukemashita — past polite. She turned it on earlier, so past tense is correct.',
+    fb_wrong: 'Tsukemashita is correct — past polite form. She already did it at the start of shift. Tsukemasu is present/future; tsukete is te-form.'
+  },
+  {
+    num:4,
+    context: 'You tell your coworker you eat lunch at the cafeteria every day.',
+    sentence: 'Mainichi, shokudou de hirugohan wo ___ .',
+    blank_pos: 'Mainichi, shokudou de hirugohan wo ',
+    blank_after: ' .',
+    verb: 'taberu', stem: 'tabe',
+    opts: ['tabemasu','tabemashita','tabete'],
+    answer: 'tabemasu',
+    fb_correct: '✅ Tabemasu — present polite, used for habitual actions. Mainichi (every day) signals a routine, so present polite is the right form.',
+    fb_wrong: 'Tabemasu is correct — present polite for habitual action. Mainichi (every day) signals a routine. Tabemashita is past; tabete is te-form.'
+  },
+  {
+    num:5,
+    context: 'The supervisor needs you to turn on the conveyor and then check the settings.',
+    sentence: '___ , settei wo kakunin shite kudasai.',
+    blank_pos: '',
+    blank_after: ', settei wo kakunin shite kudasai.',
+    verb: 'tsukeru', stem: 'tsuke',
+    opts: ['tsukemasu','tsukemashita','tsukete'],
+    answer: 'tsukete',
+    fb_correct: '✅ Tsukete — te-form chains two actions: "turn it on and then check the settings." Te-form + second action = sequential instruction.',
+    fb_wrong: 'Tsukete is correct — te-form links two sequential actions together. Turn on (tsukete), then check. Tsukemasu or tsukemashita can\'t chain actions this way.'
+  },
+  {
+    num:6,
+    context: 'A new worker asks you to show her how the machine starts.',
+    sentence: 'Kikai no kakidashi wo ___ kudasai.',
+    blank_pos: 'Kikai no kakidashi wo ',
+    blank_after: ' kudasai.',
+    verb: 'miseru', stem: 'mise',
+    opts: ['misemasu','misemashita','misete'],
+    answer: 'misete',
+    fb_correct: '✅ Misete kudasai — te-form + kudasai = polite request. Please show me how it starts.',
+    fb_wrong: 'Misete is correct — te-form + kudasai makes a polite request. Misemasu is a present statement; misemashita is past.'
+  },
+];
+
+// State
+let rvP1Done = 0;
+const rvP1Total = RV_VERBS.length * RV_LABELS.length; // 9
+let rvP1CellDone = {}; // "verbIdx-formKey" → bool
+let rvP2Score = 0;
+let rvP2Answered = 0;
+
+function rvBuildPart1() {
+  rvP1Done = 0; rvP1CellDone = {};
+  const grid = document.getElementById('conj-grid');
+  grid.innerHTML = '';
+
+  RV_VERBS.forEach((verb, vi) => {
+    const card = document.createElement('div');
+    card.className = 'verb-card';
+    card.id = 'vc-' + vi;
+
+    // Head
+    const head = document.createElement('div');
+    head.className = 'vc-head';
+    head.innerHTML = `
+      <div class="vc-plain">${verb.stem}<span>ru</span></div>
+      <div class="vc-en">${verb.en}</div>
+      <div class="vc-stem-note">stem: <strong>${verb.stem}</strong> + ending</div>`;
+    card.appendChild(head);
+
+    // Rows
+    const rows = document.createElement('div');
+    rows.className = 'vc-rows';
+    RV_LABELS.forEach(form => {
+      const key = vi + '-' + form.key;
+      rvP1CellDone[key] = false;
+      const row = document.createElement('div');
+      row.className = 'vc-row';
+      row.id = 'vcrow-' + key;
+      row.innerHTML = `
+        <span class="vc-form-label">${form.label}</span>
+        <span class="vc-stem-fixed">${verb.stem}-</span>
+        <input class="vc-ending-input" id="vci-${key}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···">`;
+      row.querySelector('.vc-ending-input').addEventListener('keydown', e => {
+        if (e.key === 'Enter') rvCheckRow(key, verb, form);
+      });
+      rows.appendChild(row);
+    });
+    card.appendChild(rows);
+
+    // Check row
+    const cr = document.createElement('div');
+    cr.className = 'vc-check-row';
+    const chkBtn = document.createElement('button');
+    chkBtn.className = 'vc-check-btn';
+    chkBtn.id = 'vcc-' + vi;
+    chkBtn.textContent = 'Check all';
+    chkBtn.onclick = () => rvCheckCard(vi, verb);
+    const fbEl = document.createElement('span');
+    fbEl.className = 'vc-feedback';
+    fbEl.id = 'vcf-' + vi;
+    cr.appendChild(chkBtn); cr.appendChild(fbEl);
+    card.appendChild(cr);
+
+    grid.appendChild(card);
+  });
+
+  rvUpdateP1Progress();
+}
+
+function rvCheckRow(key, verb, form) {
+  // Called on Enter — check just this one row
+  const inp = document.getElementById('vci-' + key);
+  const val = (inp.value || '').trim().toLowerCase();
+  if (!val || rvP1CellDone[key]) return;
+  if (val === form.key) {
+    rvMarkRowDone(key, form.key);
+  } else {
+    inp.style.color = 'var(--red)';
+    setTimeout(() => { inp.style.color = ''; }, 500);
+  }
+}
+
+function rvCheckCard(vi, verb) {
+  let anyWrong = false;
+  RV_LABELS.forEach(form => {
+    const key = vi + '-' + form.key;
+    if (rvP1CellDone[key]) return;
+    const inp = document.getElementById('vci-' + key);
+    const val = (inp.value || '').trim().toLowerCase();
+    if (val === form.key) {
+      rvMarkRowDone(key, form.key);
+    } else {
+      anyWrong = true;
+      inp.style.borderColor = 'rgba(200,16,46,0.5)';
+      setTimeout(() => { if(inp) inp.style.borderColor = ''; }, 600);
+    }
+  });
+
+  const fb = document.getElementById('vcf-' + vi);
+  const allDoneForCard = RV_LABELS.every(f => rvP1CellDone[vi + '-' + f.key]);
+
+  if (allDoneForCard) {
+    fb.className = 'vc-feedback show ok';
+    fb.textContent = '✓ All correct';
+    document.getElementById('vcc-' + vi).disabled = true;
+    document.getElementById('vc-' + vi).classList.add('all-done');
+  } else if (anyWrong) {
+    fb.className = 'vc-feedback show bad';
+    fb.textContent = 'Check the highlighted fields';
+    setTimeout(() => { fb.className = 'vc-feedback'; }, 1800);
+  }
+}
+
+function rvMarkRowDone(key, ending) {
+  if (rvP1CellDone[key]) return;
+  rvP1CellDone[key] = true;
+  rvP1Done++;
+  const inp = document.getElementById('vci-' + key);
+  inp.value = ending;
+  inp.disabled = true;
+  document.getElementById('vcrow-' + key).classList.add('vc-row-done');
+  rvUpdateP1Progress();
+}
+
+function rvUpdateP1Progress() {
+  const pct = rvP1Done / rvP1Total * 100;
+  document.getElementById('rv-prog-fill').style.width = pct + '%';
+  document.getElementById('rv-prog-count').textContent = rvP1Done;
+  const btn = document.getElementById('rv-next-btn');
+  if (rvP1Done >= rvP1Total) {
+    btn.classList.add('ready');
+  }
+}
+
+function rvBuildPart2() {
+  rvP2Score = 0; rvP2Answered = 0;
+  const container = document.getElementById('mc-items');
+  container.innerHTML = '';
+  document.getElementById('rv-results').classList.remove('show');
+
+  MC_ITEMS.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'mc-item';
+    div.id = 'mci-' + idx;
+
+    const blankHtml = `<span class="mc-blank" id="mcblank-${idx}">___</span>`;
+    const sentenceHtml = item.blank_pos
+      ? item.blank_pos + blankHtml + item.blank_after
+      : blankHtml + item.blank_after;
+
+    const optsHtml = item.opts.map(o =>
+      `<button class="mc-opt" id="mcopt-${idx}-${o}" onclick="rvCheckMC(${idx},'${o}')">${o}</button>`
+    ).join('');
+
+    div.innerHTML = `
+      <div class="mc-num">Question ${item.num} of ${MC_ITEMS.length} · verb: ${item.stem}-</div>
+      <div class="mc-context">${item.context}</div>
+      <div class="mc-sentence">${sentenceHtml}</div>
+      <div class="mc-opts">${optsHtml}</div>
+      <div class="mc-feedback" id="mcfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function rvCheckMC(idx, chosen) {
+  const item = MC_ITEMS[idx];
+  if (document.getElementById('mcopt-' + idx + '-' + chosen).classList.contains('locked')) return;
+
+  // Lock all opts
+  item.opts.forEach(o => {
+    document.getElementById('mcopt-' + idx + '-' + o).classList.add('locked');
+  });
+
+  const correct = chosen === item.answer;
+  const chosenEl = document.getElementById('mcopt-' + idx + '-' + chosen);
+  const correctEl = document.getElementById('mcopt-' + idx + '-' + item.answer);
+  const fb = document.getElementById('mcfb-' + idx);
+  const blank = document.getElementById('mcblank-' + idx);
+  const itemEl = document.getElementById('mci-' + idx);
+
+  if (correct) {
+    chosenEl.classList.add('selected-correct');
+    itemEl.classList.add('correct-ans');
+    rvP2Score++;
+  } else {
+    chosenEl.classList.add('selected-wrong');
+    correctEl.classList.add('show-correct');
+    itemEl.classList.add('wrong-ans');
+  }
+  blank.textContent = item.answer;
+  blank.classList.add('revealed');
+  fb.innerHTML = correct ? item.fb_correct : item.fb_wrong;
+  fb.className = 'mc-feedback show ' + (correct ? 'ok' : 'bad');
+
+  rvP2Answered++;
+  if (rvP2Answered === MC_ITEMS.length) {
+    setTimeout(rvShowResults, 500);
+  }
+}
+
+function rvShowResults() {
+  const el = document.getElementById('rv-results');
+  el.classList.add('show');
+  document.getElementById('rv-res-score').textContent = rvP2Score + ' / ' + MC_ITEMS.length;
+  const msg = rvP2Score === MC_ITEMS.length
+    ? 'Perfect — all three forms down cold. Ready for irregular verbs.'
+    : rvP2Score >= 4
+    ? 'Strong work. Review any items you missed — the te-form chaining question trips most people.'
+    : 'Keep at it — revisit the form table and try the reset button.';
+  document.getElementById('rv-res-msg').textContent = msg;
+  document.getElementById('rv-res-score').style.color = rvP2Score >= 5 ? 'var(--green)' : rvP2Score >= 3 ? 'var(--gold, #92400E)' : 'var(--red)';
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function rvShowPart(n) {
+  document.querySelectorAll('.rv-part').forEach(p => p.classList.remove('active'));
+  document.getElementById('rv-part-' + n).classList.add('active');
+  document.querySelectorAll('.rv-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('rv-tab-' + n).classList.add('active');
+  if (n === 2) {
+    document.getElementById('rv-tab-2').disabled = false;
+    rvBuildPart2();
+  }
+}
+
+function rvUnlock() {
+  document.getElementById('rv-lock-overlay').classList.add('gone');
+}
+
+function rvReset() {
+  rvBuildPart1();
+  rvShowPart(1);
+  document.getElementById('rv-tab-2').disabled = true;
+}
+
+rvBuildPart1();
+
+
+// ── IRREGULAR VERB ──
+// ── IRREGULAR VERB DATA ──
+const IRR_VERBS = [
+  {
+    plain:'suru', en:'to do',
+    note:'Irregular — no drop rule. Memorise each form.',
+    rows:[
+      { label:'Present polite', stem:'shi', answer:'masu',    full:'shimasu'    },
+      { label:'Past polite',    stem:'shi', answer:'mashita', full:'shimashita' },
+      { label:'Te-form',        stem:'shi', answer:'te',      full:'shite'      },
+    ]
+  },
+  {
+    plain:'kuru', en:'to come',
+    note:'Irregular — no drop rule. Memorise each form.',
+    rows:[
+      { label:'Present polite', stem:'ki', answer:'masu',    full:'kimasu'    },
+      { label:'Past polite',    stem:'ki', answer:'mashita', full:'kimashita' },
+      { label:'Te-form',        stem:'ki', answer:'te',      full:'kite'      },
+    ]
+  },
+];
+
+// Irregular verb state
+let irrP1Done = 0;
+const irrP1Total = IRR_VERBS.reduce((n, v) => n + v.rows.length, 0); // 6
+let irrP1CellDone = {};
+let irrP2Score = 0;
+let irrP2Answered = 0;
+
+function irrBuildPart1() {
+  irrP1Done = 0; irrP1CellDone = {};
+  irrP2Score = 0; irrP2Answered = 0;
+  const grid = document.getElementById('irr-conj-grid');
+  grid.innerHTML = '';
+
+  IRR_VERBS.forEach((verb, vi) => {
+    const card = document.createElement('div');
+    card.className = 'verb-card';
+    card.id = 'irr-vc-' + vi;
+
+    const head = document.createElement('div');
+    head.className = 'vc-head';
+    head.innerHTML = `
+      <div class="vc-plain">${verb.plain}</div>
+      <div class="vc-en">${verb.en}</div>
+      <div class="vc-stem-note">⚠️ ${verb.note}</div>`;
+    card.appendChild(head);
+
+    const rows = document.createElement('div');
+    rows.className = 'vc-rows';
+    verb.rows.forEach((row, ri) => {
+      const cellId = vi + '-' + ri;
+      irrP1CellDone[cellId] = false;
+      const rowEl = document.createElement('div');
+      rowEl.className = 'vc-row';
+      rowEl.id = 'irr-vcrow-' + cellId;
+      rowEl.innerHTML = `
+        <span class="vc-form-label">${row.label}</span>
+        <span class="vc-stem-fixed">${row.stem}-</span>
+        <input class="vc-ending-input" id="irr-inp-${cellId}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···">`;
+      rowEl.querySelector('.vc-ending-input').addEventListener('keydown', e => {
+        if (e.key === 'Enter') irrCheckRow(vi, ri, verb, row);
+      });
+      rows.appendChild(rowEl);
+    });
+    card.appendChild(rows);
+
+    const cr = document.createElement('div');
+    cr.className = 'vc-check-row';
+    const chkBtn = document.createElement('button');
+    chkBtn.className = 'vc-check-btn';
+    chkBtn.id = 'irr-chk-' + vi;
+    chkBtn.textContent = 'Check all';
+    chkBtn.onclick = () => irrCheckCard(vi, verb);
+    const fbEl = document.createElement('span');
+    fbEl.className = 'vc-feedback';
+    fbEl.id = 'irr-vcfb-' + vi;
+    cr.appendChild(chkBtn); cr.appendChild(fbEl);
+    card.appendChild(cr);
+    grid.appendChild(card);
+  });
+
+  document.getElementById('irr-prog-count').textContent = '0';
+  document.getElementById('irr-prog-fill').style.width = '0%';
+  document.getElementById('irr-next-btn').classList.remove('ready');
+  document.getElementById('irr-results').classList.remove('show');
+}
+
+function irrCheckRow(vi, ri, verb, row) {
+  const cellId = vi + '-' + ri;
+  const inp = document.getElementById('irr-inp-' + cellId);
+  const val = (inp.value || '').trim().toLowerCase();
+  if (!val || irrP1CellDone[cellId]) return;
+  if (val === row.answer || val === row.full) {
+    irrMarkRowDone(vi, ri, row.answer);
+  } else {
+    inp.style.color = 'var(--red)';
+    setTimeout(() => { inp.style.color = ''; }, 500);
+  }
+}
+
+function irrCheckCard(vi, verb) {
+  let anyWrong = false;
+  verb.rows.forEach((row, ri) => {
+    const cellId = vi + '-' + ri;
+    if (irrP1CellDone[cellId]) return;
+    const inp = document.getElementById('irr-inp-' + cellId);
+    const val = (inp.value || '').trim().toLowerCase();
+    if (val === row.answer || val === row.full) {
+      irrMarkRowDone(vi, ri, row.answer);
+    } else {
+      anyWrong = true;
+      inp.style.borderColor = 'rgba(200,16,46,0.5)';
+      setTimeout(() => { if (inp) inp.style.borderColor = ''; }, 600);
+    }
+  });
+  const fb = document.getElementById('irr-vcfb-' + vi);
+  const allDone = verb.rows.every((_, i) => irrP1CellDone[vi + '-' + i]);
+  if (allDone) {
+    fb.className = 'vc-feedback show ok';
+    fb.textContent = '✓ All correct';
+    document.getElementById('irr-chk-' + vi).disabled = true;
+    document.getElementById('irr-vc-' + vi).classList.add('all-done');
+  } else if (anyWrong) {
+    fb.className = 'vc-feedback show bad';
+    fb.textContent = 'Check the highlighted fields';
+    setTimeout(() => { fb.className = 'vc-feedback'; }, 1800);
+  }
+}
+
+function irrMarkRowDone(vi, ri, answer) {
+  const cellId = vi + '-' + ri;
+  if (irrP1CellDone[cellId]) return;
+  irrP1CellDone[cellId] = true;
+  irrP1Done++;
+  const inp = document.getElementById('irr-inp-' + cellId);
+  inp.value = answer;
+  inp.disabled = true;
+  document.getElementById('irr-vcrow-' + cellId).classList.add('vc-row-done');
+  const pct = irrP1Done / irrP1Total * 100;
+  document.getElementById('irr-prog-fill').style.width = pct + '%';
+  document.getElementById('irr-prog-count').textContent = irrP1Done;
+  if (irrP1Done >= irrP1Total) document.getElementById('irr-next-btn').classList.add('ready');
+}
+
+const IRR_MC = [
+  {
+    num:1,
+    context:'Your colleague reports that she did the quality check this morning.',
+    sentence:'Kakunin wo ___ .',
+    blank_pos:'Kakunin wo ', blank_after:' .',
+    verb:'suru',
+    opts:['shimasu','shimashita','shite'],
+    answer:'shimashita',
+    fb_correct:'✅ Shimashita — past polite of suru. She did it earlier this morning, so past tense is correct.',
+    fb_wrong:'Shimashita is correct — past polite of suru. The check happened earlier. Shimasu is present/future; shite is te-form.'
+  },
+  {
+    num:2,
+    context:'A supervisor calls from across the floor and needs you to come over.',
+    sentence:'Chotto ___ kudasai.',
+    blank_pos:'Chotto ', blank_after:' kudasai.',
+    verb:'kuru',
+    opts:['kimasu','kimashita','kite'],
+    answer:'kite',
+    fb_correct:'✅ Kite — te-form of kuru + kudasai = polite request. Kite kudasai = please come here.',
+    fb_wrong:'Kite is correct — te-form of kuru. Te-form + kudasai makes the request. Kimasu is a statement; kimashita is past tense.'
+  },
+  {
+    num:3,
+    context:'You tell your coworker you do a parts count every morning before the shift starts.',
+    sentence:'Mainichi, buhin no kakunin wo ___ .',
+    blank_pos:'Mainichi, buhin no kakunin wo ', blank_after:' .',
+    verb:'suru',
+    opts:['shimasu','shimashita','shite'],
+    answer:'shimasu',
+    fb_correct:'✅ Shimasu — present polite for habitual action. Mainichi (every day) signals a routine, so present polite is correct.',
+    fb_wrong:'Shimasu is correct — present polite for habitual actions. Mainichi (every day) is the key word. Shimashita is past; shite is te-form.'
+  },
+  {
+    num:4,
+    context:'The new engineer came to the factory this morning and had breakfast.',
+    sentence:'Kaisha ni kite, asagohan wo ___ .',
+    blank_pos:'Kaisha ni kite, asagohan wo ', blank_after:' .',
+    verb:'taberu',
+    opts:['tabemashita','tabemasu','tabete'],
+    answer:'tabemashita',
+    fb_correct:'✅ Tabemashita — past polite. She arrived (kite = chained te-form), then ate breakfast. Both actions happened this morning.',
+    fb_wrong:'Tabemashita is correct — past polite. This mirrors the reference sentence: kite (te-form of kuru, chaining the actions) + tabemashita (ate, past).'
+  },
+  {
+    num:5,
+    context:'You ask your colleague to come to your station and do a check together.',
+    sentence:'Koko ni ___ , issho ni kakunin shite kudasai.',
+    blank_pos:'Koko ni ', blank_after:' , issho ni kakunin shite kudasai.',
+    verb:'kuru',
+    opts:['kimasu','kimashita','kite'],
+    answer:'kite',
+    fb_correct:'✅ Kite — te-form chains two actions: come here (kite) and then do the check (kakunin shite kudasai). Te-form links sequential actions.',
+    fb_wrong:'Kite is correct — te-form of kuru links sequential actions. Come here first, then do the check together. Kimasu or kimashita can\'t chain actions.'
+  },
+  {
+    num:6,
+    context:'A line leader asks what kind of check you did on the parts yesterday.',
+    sentence:'Kinou, buhin no donna kakunin wo ___ ka?',
+    blank_pos:'Kinou, buhin no donna kakunin wo ', blank_after:' ka?',
+    verb:'suru',
+    opts:['shimasu','shimashita','shite'],
+    answer:'shimashita',
+    fb_correct:'✅ Shimashita — past polite. Kinou (yesterday) signals a completed past action.',
+    fb_wrong:'Shimashita is correct — kinou (yesterday) = past. Shimasu is present/habitual; shite is te-form.'
+  },
+];
+
+function irrBuildPart2() {
+  irrP2Score = 0; irrP2Answered = 0;
+  const container = document.getElementById('irr-mc-items');
+  container.innerHTML = '';
+  document.getElementById('irr-results').classList.remove('show');
+
+  IRR_MC.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'mc-item';
+    div.id = 'irrmci-' + idx;
+    const blankHtml = `<span class="mc-blank" id="irrblank-${idx}">___</span>`;
+    const sentenceHtml = item.blank_pos
+      ? item.blank_pos + blankHtml + item.blank_after
+      : blankHtml + item.blank_after;
+    const optsHtml = item.opts.map(o =>
+      `<button class="mc-opt" id="irropt-${idx}-${o}" onclick="irrCheckMC(${idx},'${o}')">${o}</button>`
+    ).join('');
+    div.innerHTML = `
+      <div class="mc-num"><span>Question ${item.num} of ${IRR_MC.length}</span><span class="mc-verb-pill">${item.verb}</span></div>
+      <div class="mc-context">${item.context}</div>
+      <div class="mc-sentence">${sentenceHtml}</div>
+      <div class="mc-opts">${optsHtml}</div>
+      <div class="mc-feedback" id="irrfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function irrCheckMC(idx, chosen) {
+  const item = IRR_MC[idx];
+  if (document.getElementById('irropt-' + idx + '-' + chosen).classList.contains('locked')) return;
+  item.opts.forEach(o => document.getElementById('irropt-' + idx + '-' + o).classList.add('locked'));
+  const correct = chosen === item.answer;
+  const chosenEl = document.getElementById('irropt-' + idx + '-' + chosen);
+  const correctEl = document.getElementById('irropt-' + idx + '-' + item.answer);
+  const fb = document.getElementById('irrfb-' + idx);
+  const blank = document.getElementById('irrblank-' + idx);
+  const itemEl = document.getElementById('irrmci-' + idx);
+  if (correct) {
+    chosenEl.classList.add('selected-correct');
+    itemEl.classList.add('correct-ans');
+    blank.textContent = chosen; blank.classList.add('revealed');
+    fb.textContent = item.fb_correct;
+    fb.className = 'mc-feedback show ok';
+    irrP2Score++;
+  } else {
+    chosenEl.classList.add('selected-wrong');
+    correctEl.classList.add('show-correct');
+    itemEl.classList.add('wrong-ans');
+    blank.textContent = item.answer; blank.classList.add('revealed');
+    fb.textContent = item.fb_wrong;
+    fb.className = 'mc-feedback show bad';
+  }
+  irrP2Answered++;
+  if (irrP2Answered === IRR_MC.length) {
+    setTimeout(() => {
+      const el = document.getElementById('irr-results');
+      el.classList.add('show');
+      document.getElementById('irr-res-score').textContent = irrP2Score + ' / ' + IRR_MC.length;
+      const msg = irrP2Score === IRR_MC.length
+        ? 'Perfect — suru and kuru are locked in. Both groups down.'
+        : irrP2Score >= 4
+        ? 'Good work. Review any missed items — focus on chaining te-forms.'
+        : 'Keep at it — the irregular forms need repetition. Reset and go again.';
+      document.getElementById('irr-res-msg').textContent = msg;
+      document.getElementById('irr-res-score').style.color = irrP2Score >= 5 ? 'var(--green)' : irrP2Score >= 3 ? 'var(--gold, #92400E)' : 'var(--red)';
+      el.scrollIntoView({ behavior:'smooth', block:'center' });
+    }, 400);
+  }
+}
+
+function irrShowPart(n) {
+  document.querySelectorAll('#irr-wrap .rv-part').forEach(p => p.classList.remove('active'));
+  document.getElementById('irr-part-' + n).classList.add('active');
+  document.querySelectorAll('#irr-wrap .rv-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('irr-tab-' + n).classList.add('active');
+  if (n === 2) {
+    document.getElementById('irr-tab-2').disabled = false;
+    irrBuildPart2();
+  }
+}
+
+function irrUnlock() {
+  document.getElementById('irr-lock-overlay').classList.add('gone');
+}
+
+function irrReset() {
+  irrBuildPart1();
+  irrShowPart(1);
+  document.getElementById('irr-tab-2').disabled = true;
+}
+
+irrBuildPart1();
+
+</script>
+</body>
+</html>
