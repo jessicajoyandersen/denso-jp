@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  © 2026 JJA · Joyful Language Academy. All rights reserved.
+  Session 10 — Phase 2 Facilitator
+  denso-s9a-phase2-facilitator.html
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO S9 — Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;}
+body{background:#0F1117;color:#C8D0E0;font-size:14px;}
+
+/* PIN */
+#pin-gate{position:fixed;inset:0;background:#0F1117;z-index:9999;display:flex;align-items:center;justify-content:center;}
+.pin-card{background:#1A1D25;border:1px solid #2A2D38;border-radius:12px;padding:40px 44px;text-align:center;max-width:360px;width:100%;}
+.pin-logo{width:48px;height:48px;border-radius:8px;background:#C8102E;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 20px;}
+.pin-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;}
+.pin-sub{font-size:13px;color:#6B7585;margin-bottom:28px;line-height:1.6;}
+.pin-dots{display:flex;gap:12px;justify-content:center;margin-bottom:24px;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #3A4050;background:transparent;transition:all 0.15s;}
+.pin-dot.filled{background:#C8102E;border-color:#C8102E;}
+.pin-dot.error{background:#E87070;border-color:#E87070;animation:pdshake 0.35s ease;}
+@keyframes pdshake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto;}
+.pin-btn{background:#13151C;border:1px solid #2A2D38;border-radius:8px;color:#C8D0E0;font-size:20px;font-weight:600;padding:16px;cursor:pointer;transition:all 0.12s;font-family:"Inter",sans-serif;}
+.pin-btn:hover{background:#2A2D38;color:#fff;}
+.pin-btn:active{transform:scale(0.95);}
+.pin-btn.clear{font-size:13px;font-weight:600;letter-spacing:1px;color:#6B7585;}
+.pin-error{font-size:12px;color:#E87070;margin-top:14px;height:16px;font-family:"IBM Plex Mono",monospace;}
+
+/* SHELL */
+#fac-shell{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.fac-topbar{background:#1A1D25;border-bottom:3px solid #C8102E;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:52px;gap:14px;}
+.fac-tb-left{display:flex;flex-direction:column;gap:1px;}
+.fac-tb-org{font-size:9px;font-weight:700;letter-spacing:3px;color:#6B7585;text-transform:uppercase;}
+.fac-tb-title{font-size:14px;font-weight:700;color:#fff;}
+.fac-tb-right{display:flex;align-items:center;gap:9px;}
+.fac-timer-wrap{display:flex;align-items:center;gap:7px;background:#13151C;border:1px solid #2A2D38;border-radius:5px;padding:4px 10px;}
+.fac-timer-display{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;color:#C8D0E0;min-width:48px;text-align:center;}
+.fac-timer-display.urgent{color:#E87070;}
+.fac-timer-btn{font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:4px;border:1px solid #3A4050;background:#1A1D25;color:#107FD4;cursor:pointer;}
+.fac-timer-btn:hover{background:#2A2D38;}
+.fac-badge{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:18px;border:1.5px solid #7B5FD0;color:#107FD4;background:rgba(142,68,173,0.12);}
+.conn-pill{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:3px 9px;border-radius:9px;border:1px solid;display:flex;align-items:center;gap:5px;}
+.conn-pill.offline{border-color:#3A2D38;color:#6B5060;}
+.conn-pill.online{border-color:#1A4E3A;color:#1ABC9C;background:rgba(26,188,156,0.1);}
+.conn-dot-sm{width:6px;height:6px;border-radius:50%;background:currentColor;}
+
+/* LAYOUT */
+.fac-body{flex:1;overflow:hidden;display:flex;}
+.fac-sidebar{width:218px;flex-shrink:0;background:#13151C;border-right:1px solid #2A2D38;overflow-y:auto;display:flex;flex-direction:column;}
+.fac-sidebar::-webkit-scrollbar{width:4px;}
+.fac-sidebar::-webkit-scrollbar-thumb{background:#2A2D38;border-radius:2px;}
+.fac-nav-label{font-size:9px;font-weight:700;letter-spacing:3px;color:#3A4050;text-transform:uppercase;padding:13px 16px 7px;}
+.fac-nav-btn{width:100%;text-align:left;background:none;border:none;padding:9px 16px;cursor:pointer;display:flex;flex-direction:column;gap:2px;transition:background 0.12s;border-left:3px solid transparent;}
+.fac-nav-btn:hover{background:rgba(255,255,255,0.04);}
+.fac-nav-btn.viewing{background:rgba(200,16,46,0.08);border-left-color:#C8102E;}
+.fac-nav-btn.pushed{border-left-color:#1ABC9C;}
+.fac-nav-num{font-family:"IBM Plex Mono",monospace;font-size:9px;color:#4A5260;letter-spacing:1px;}
+.fac-nav-title{font-size:12px;font-weight:600;color:#C8D0E0;}
+.fac-nav-btn.viewing .fac-nav-title{color:#fff;}
+.fac-nav-time{font-family:"IBM Plex Mono",monospace;font-size:9px;color:#8A6A00;background:rgba(232,184,75,0.1);border-radius:3px;padding:1px 5px;display:inline-block;margin-top:1px;}
+.fac-nav-status{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.fac-nav-status.pushed{color:#1ABC9C;}
+.sidebar-bottom{padding:14px 16px;border-top:1px solid #2A2D38;margin-top:auto;}
+.reset-all-btn{width:100%;background:none;border:1px solid #3A2D38;border-radius:4px;color:#6B5060;font-size:11px;font-weight:600;padding:7px;cursor:pointer;transition:all 0.12s;letter-spacing:0.5px;}
+.reset-all-btn:hover{border-color:#C8102E;color:#E87070;}
+
+/* MAIN */
+.fac-main{flex:1;overflow-y:auto;padding:26px 34px 60px;background:#111318;}
+.fac-main::-webkit-scrollbar{width:5px;}
+.fac-main::-webkit-scrollbar-thumb{background:#2A2D38;border-radius:3px;}
+.block-panel{display:none;}
+.block-panel.active{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* PANEL COMPONENTS */
+.ctrl-bar{background:#1A1D25;border:1px solid #2A2D38;border-radius:8px;padding:15px 20px;margin-bottom:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.ctrl-bar-left{flex:1;}
+.ctrl-block-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:2px;}
+.ctrl-block-sub{font-size:12px;color:#6B7585;}
+.ctrl-btn{font-family:"Inter",sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;padding:10px 18px;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px;}
+.ctrl-btn.unlock{background:#C8102E;color:#fff;}
+.ctrl-btn.unlock:hover{background:#A00D24;}
+.ctrl-btn.pushed-state{background:#0E3A2A;color:#1ABC9C;border:1.5px solid #1ABC9C;cursor:default;}
+.ctrl-btn.retract{background:none;border:1.5px solid #3A2D38;color:#6B7585;font-size:11px;padding:7px 12px;margin-left:6px;}
+.ctrl-btn.retract:hover{border-color:#C8102E;color:#E87070;}
+.ctrl-btn.slide-btn{background:#1A1D25;border:1.5px solid #2A2D38;color:#C8D0E0;font-size:11px;padding:8px 14px;}
+.ctrl-btn.slide-btn:hover{background:#2A2D38;border-color:#107FD4;color:#fff;}
+.ctrl-btn.slide-btn.active-slide{background:rgba(155,127,212,0.15);border-color:#107FD4;color:#107FD4;}
+.ctrl-btn.reveal-btn{background:#1A1D25;border:1.5px solid #2A2D38;color:#C8D0E0;font-size:11px;padding:8px 14px;}
+.ctrl-btn.reveal-btn:hover{background:#2A2D38;border-color:#1ABC9C;color:#1ABC9C;}
+.ctrl-btn.reveal-btn.revealed{background:rgba(26,188,156,0.1);border-color:#1ABC9C;color:#1ABC9C;cursor:default;}
+.fac-eyebrow{font-size:9px;font-weight:700;letter-spacing:3px;color:#6B7585;text-transform:uppercase;margin-bottom:5px;}
+.fac-block-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:3px;}
+.fac-block-sub{font-size:13px;color:#8A93A8;line-height:1.65;margin-bottom:20px;max-width:600px;}
+.fac-card{border-radius:8px;padding:16px 20px;margin-bottom:16px;border:1px solid;}
+.fac-card.blue{background:rgba(21,88,166,0.08);border-color:rgba(146,186,232,0.2);border-left:3px solid #2980B9;}
+.fac-card.gold{background:rgba(232,184,75,0.07);border-color:rgba(232,184,75,0.2);border-left:3px solid #E8B84B;}
+.fac-card.red{background:rgba(200,16,46,0.07);border-color:rgba(200,16,46,0.2);border-left:3px solid #C8102E;}
+.fac-card.green{background:rgba(26,188,156,0.06);border-color:rgba(26,188,156,0.2);border-left:3px solid #1ABC9C;}
+.fac-card-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:9px;}
+.fac-card.blue .fac-card-label{color:#5E10DC;}
+.fac-card.gold .fac-card-label{color:#E8B84B;}
+.fac-card.red .fac-card-label{color:#E87070;}
+.fac-card.green .fac-card-label{color:#1ABC9C;}
+.fac-talking-points{display:flex;flex-direction:column;gap:9px;}
+.fac-tp{display:flex;align-items:flex-start;gap:9px;}
+.fac-tp-bullet{width:17px;height:17px;border-radius:50%;background:#C8102E;color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.fac-tp-text{font-size:13px;color:#C8D0E0;line-height:1.65;}
+.fac-tp-text em{color:#fff;font-style:normal;font-weight:600;}
+.fac-tp-text code{font-family:"IBM Plex Mono",monospace;font-size:12px;color:#107FD4;background:rgba(155,127,212,0.1);padding:1px 5px;border-radius:3px;}
+.watch-list{display:flex;flex-direction:column;gap:7px;}
+.watch-item{display:flex;align-items:flex-start;gap:9px;background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.15);border-radius:6px;padding:9px 13px;}
+.watch-icon{font-size:13px;flex-shrink:0;margin-top:1px;}
+.watch-text{font-size:13px;color:#C8D0E0;line-height:1.6;}
+.watch-text strong{color:#E87070;font-weight:600;}
+.timing-bar{display:flex;align-items:center;gap:11px;background:#1A1D25;border:1px solid #2A2D38;border-radius:6px;padding:10px 15px;margin-bottom:14px;}
+.timing-icon{font-size:15px;}
+.timing-label{font-size:12px;color:#6B7585;flex:1;}
+.timing-val{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;color:#E8B84B;}
+
+/* SLIDE CONTROLS */
+.slide-ctrl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.slide-ctrl-card{background:#1A1D25;border:1.5px solid #2A2D38;border-radius:7px;padding:13px 15px;}
+.slide-ctrl-card.active-slide{border-color:#107FD4;background:rgba(155,127,212,0.08);}
+.scc-num{font-family:"IBM Plex Mono",monospace;font-size:9px;color:#4A5260;letter-spacing:1px;margin-bottom:4px;}
+.scc-title{font-size:12px;font-weight:600;color:#C8D0E0;margin-bottom:8px;}
+.scc-desc{font-size:11px;color:#6B7585;line-height:1.5;margin-bottom:10px;}
+.scc-btn{font-family:"Inter",sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;padding:7px 12px;transition:all 0.15s;background:#C8102E;color:#fff;display:inline-flex;align-items:center;gap:5px;}
+.scc-btn:hover{background:#A00D24;}
+.scc-btn.sent{background:#0E3A2A;color:#1ABC9C;border:1px solid #1ABC9C;cursor:default;}
+
+/* BLOCK D REVEALS */
+.reveal-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#1A1D25;border:1px solid #2A2D38;border-radius:6px;margin-bottom:8px;}
+.reveal-row-label{flex:1;font-size:13px;color:#C8D0E0;}
+.reveal-row-sub{font-size:11px;color:#6B7585;margin-top:1px;}
+.reveal-status{font-size:11px;font-weight:700;color:#4A5260;font-family:"IBM Plex Mono",monospace;min-width:60px;text-align:right;}
+.reveal-status.sent{color:#1ABC9C;}
+
+/* QUICK REF TABLE */
+.qref-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px;}
+.qref-table th{background:#13151C;color:#6B7585;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:7px 10px;text-align:left;border-bottom:1px solid #2A2D38;}
+.qref-table td{padding:8px 10px;border-bottom:1px solid #1A2030;color:#C8D0E0;vertical-align:middle;}
+.qref-table tr:last-child td{border-bottom:none;}
+.qref-table td:first-child{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:#fff;}
+.verb-tag{font-family:"IBM Plex Mono",monospace;font-size:10px;padding:2px 7px;border-radius:3px;display:inline-block;}
+.vt-ru{background:rgba(21,88,166,0.2);color:#5E10DC;}
+.vt-irr{background:rgba(91,62,158,0.2);color:#107FD4;}
+.vt-u{background:rgba(146,64,14,0.2);color:#E8B84B;}
+</style>
+</head>
+<body>
+
+<!-- PIN GATE -->
+<div id="pin-gate">
+  <div class="pin-card">
+    <div class="pin-logo">⛩</div>
+    <div class="pin-title">Facilitator Panel</div>
+    <div class="pin-sub">Session 10 — Te-Form Foundation<br>Enter your PIN to continue.</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-btn" onclick="pinPress('1')">1</button>
+      <button class="pin-btn" onclick="pinPress('2')">2</button>
+      <button class="pin-btn" onclick="pinPress('3')">3</button>
+      <button class="pin-btn" onclick="pinPress('4')">4</button>
+      <button class="pin-btn" onclick="pinPress('5')">5</button>
+      <button class="pin-btn" onclick="pinPress('6')">6</button>
+      <button class="pin-btn" onclick="pinPress('7')">7</button>
+      <button class="pin-btn" onclick="pinPress('8')">8</button>
+      <button class="pin-btn" onclick="pinPress('9')">9</button>
+      <button class="pin-btn clear" onclick="pinClear()">CLR</button>
+      <button class="pin-btn" onclick="pinPress('0')">0</button>
+      <button class="pin-btn clear" onclick="pinBack()">⌫</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+  </div>
+</div>
+
+<!-- FACILITATOR SHELL -->
+<div id="fac-shell">
+  <div class="fac-topbar">
+    <div class="fac-tb-left">
+      <div class="fac-tb-org">DENSO Manufacturing · Statesville, NC</div>
+      <div class="fac-tb-title">Japanese Workplace Communication — Session 9</div>
+    </div>
+    <div class="fac-tb-right">
+      <div class="fac-timer-wrap">
+        <div class="fac-timer-display" id="fac-timer">80:00</div>
+        <button class="fac-timer-btn" id="fac-timer-btn" onclick="facToggleTimer()">⏸ Pause</button>
+      </div>
+      <div class="fac-badge">S10 Facilitator</div>
+      <div class="conn-pill offline" id="conn-pill">
+        <div class="conn-dot-sm"></div>
+        <span id="conn-label">connecting…</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fac-body">
+    <!-- SIDEBAR -->
+    <div class="fac-sidebar">
+      <div class="fac-nav-label">Blocks</div>
+
+      <button class="fac-nav-btn viewing" id="nav-recap" onclick="viewBlock('recap')">
+        <div class="fac-nav-num">A · 5 min</div>
+        <div class="fac-nav-title">⚡ S9 Recap</div>
+        <div class="fac-nav-time">00:00</div>
+        <div class="fac-nav-status" id="navstatus-recap"></div>
+      </button>
+
+      <button class="fac-nav-btn" id="nav-ni" onclick="viewBlock('ni')">
+        <div class="fac-nav-num">B · 12 min</div>
+        <div class="fac-nav-title">📍 に Destination</div>
+        <div class="fac-nav-time">05:00</div>
+        <div class="fac-nav-status" id="navstatus-ni"></div>
+      </button>
+
+      <button class="fac-nav-btn" id="nav-uverbs" onclick="viewBlock('uverbs')">
+        <div class="fac-nav-num">C · 20 min</div>
+        <div class="fac-nav-title">🟡 U-Verbs</div>
+        <div class="fac-nav-time">17:00</div>
+        <div class="fac-nav-status" id="navstatus-uverbs"></div>
+      </button>
+
+      <button class="fac-nav-btn" id="nav-teimasu" onclick="viewBlock('teimasu')">
+        <div class="fac-nav-num">D · 13 min</div>
+        <div class="fac-nav-title">🔄 て-imasu</div>
+        <div class="fac-nav-time">37:00</div>
+        <div class="fac-nav-status" id="navstatus-teimasu"></div>
+      </button>
+
+      <button class="fac-nav-btn" id="nav-checkpoint" onclick="viewBlock('checkpoint')">
+        <div class="fac-nav-num">E · 20 min</div>
+        <div class="fac-nav-title">📝 Checkpoint</div>
+        <div class="fac-nav-time">50:00</div>
+        <div class="fac-nav-status" id="navstatus-checkpoint"></div>
+      </button>
+
+      <div class="sidebar-bottom">
+        <button class="reset-all-btn" onclick="resetAll()">↺ Reset All</button>
+      </div>
+    </div>
+
+    <!-- MAIN PANEL AREA -->
+    <div class="fac-main">
+
+      <!-- ═══ PANEL A — RECAP ═══ -->
+      <div class="block-panel active" id="panel-recap">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">5 min</div></div>
+        <div class="ctrl-bar">
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block A — Session 9 Recap</div><div class="ctrl-block-sub">Unlocks the recap reference on learner screens.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-recap" onclick="pushBlock('recap')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-recap" onclick="retractBlock('recap')" style="display:none;">Retract</button>
+        </div>
+        <div class="fac-eyebrow">Block A</div>
+        <div class="fac-block-title">Session 9 Recap — Fast</div>
+        <div class="fac-block-sub">Quick verbal review before new content. Students see the reference grid.</div>
+        <div class="fac-card blue">
+          <div class="fac-card-label">Talking points</div>
+          <div class="fac-talking-points">
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">Call out a verb — students give all three forms: masu / mashita / te. <em>"taberu — go."</em> → tabemasu / tabemashita / tabete.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Quick te-form uses check: <em>"What does te-form + kudasai mean? Te-form + verb?"</em></div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Flag anyone struggling — they may need more support during Block C U-verbs.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL B — に ═══ -->
+      <div class="block-panel" id="panel-ni">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">12 min</div></div>
+        <div class="ctrl-bar">
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block B — に Destination</div><div class="ctrl-block-sub">Unlocks the destination particle content and floor exchanges.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-ni" onclick="pushBlock('ni')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-ni" onclick="retractBlock('ni')" style="display:none;">Retract</button>
+        </div>
+        <div class="fac-eyebrow">Block B</div>
+        <div class="fac-block-title">に — Where You're Going</div>
+        <div class="fac-block-sub">One particle, any movement verb. Ties together te-form and location words from S6.</div>
+        <div class="fac-card blue">
+          <div class="fac-card-label">Talking points</div>
+          <div class="fac-talking-points">
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text"><em>"に after a place means you're going there. Station 3 ni itte kudasai — go to Station 3."</em></div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Walk through the capstone sentence: <em>"Station 2 ni itte, kono tejun wo mite kudasai."</em> Point out each particle — ni, wo, te-form chain.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Run the three floor exchanges as pair drills. Swap roles. Use 🔊 if pronunciation is uncertain.</div></div>
+          </div>
+        </div>
+        <div class="fac-card gold">
+          <div class="fac-card-label">Watch for</div>
+          <div class="watch-list">
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>itte vs iku:</strong> ikimasu → itte is a Group 1 exception. Not iite. Flag it if it comes up — U-verb rules in Block C will help explain.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL C — U-VERBS ═══ -->
+      <div class="block-panel" id="panel-uverbs">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">20 min</div></div>
+        <div class="ctrl-bar">
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block C — U-Verbs</div><div class="ctrl-block-sub">Unlocks the 4-pattern conjugation widget.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-uverbs" onclick="pushBlock('uverbs')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-uverbs" onclick="retractBlock('uverbs')" style="display:none;">Retract</button>
+        </div>
+        <div class="fac-eyebrow">Block C</div>
+        <div class="fac-block-title">Group 1 — 4 Te-Form Patterns</div>
+        <div class="fac-block-sub">The largest group. Pattern determined by the verb's final sound.</div>
+        <div class="fac-card blue">
+          <div class="fac-card-label">The 4 patterns</div>
+          <table class="qref-table">
+            <thead><tr><th>Pattern</th><th>Rule</th><th>Verbs in widget</th></tr></thead>
+            <tbody>
+              <tr><td style="color:#92400E;font-weight:700;">P1</td><td>-u/-tsu/-ru* → -tte</td><td>kau (buy), katsu (win), shiru (know)</td></tr>
+              <tr><td style="color:#1558A6;font-weight:700;">P2</td><td>-nu/-bu/-mu → -nde</td><td>nomu (drink), tobu (fly)</td></tr>
+              <tr><td style="color:#0E7A6A;">P3</td><td>-ku → ite, -gu → ide</td><td>→ ite/ide</td><td>kaku (write), oyogu (swim)</td></tr>
+              <tr><td style="color:#5B3E9E;font-weight:700;">P4</td><td>-su → -shite</td><td>hanasu (speak), kasu (lend)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="fac-card blue" style="margin-top:10px;">
+          <div class="fac-card-label">Widget features</div>
+          <div class="fac-talking-points">
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">Each pattern is a separate tab. Green dot appears when all verbs in that pattern are complete.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Enter key checks each row. Correct answer locks and shows full conjugation as mora boxes (hiragana + romaji) to the right.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Part 2 has 8 MC items. Students must complete Part 1 before Part 2 unlocks.</div></div>
+          </div>
+        </div>
+        <div class="fac-card gold" style="margin-top:10px;">
+          <div class="fac-card-label">Watch for</div>
+          <div class="watch-list">
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>shiru / kiru / kaeru:</strong> end in -ru but are U-verbs (Pattern 1 ru*), not RU-verbs. Students from S9 may default to dropping -ru — catch it early.</div></div>
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>iku → itte:</strong> fixed exception to Pattern 3, not iite. Already came up in Block B.</div></div>
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>oyogu → oyoide:</strong> Pattern 3 voiced variant uses -ide not -ite. Students sometimes write oyoite.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL D — て-IMASU ═══ -->
+      <div class="block-panel" id="panel-teimasu">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">13 min</div></div>
+        <div class="ctrl-bar">
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block D — て-imasu</div><div class="ctrl-block-sub">Unlocks the て-imasu teach and 4-item MC drill.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-teimasu" onclick="pushBlock('teimasu')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-teimasu" onclick="retractBlock('teimasu')" style="display:none;">Retract</button>
+        </div>
+        <div class="fac-eyebrow">Block D</div>
+        <div class="fac-block-title">て-imasu — Ongoing Actions</div>
+        <div class="fac-block-sub">They saw this in S9 Slide 4. Now it lands properly.</div>
+        <div class="fac-card blue">
+          <div class="fac-card-label">Talking points</div>
+          <div class="fac-talking-points">
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text"><em>"Remember the preview slide from last session? Te-form + imasu = what's happening right now. Today you learn it properly."</em></div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">The key contrast to drill: <em>"Tsukatte kudasai vs tsukatte imasu — same te-form, completely different meaning. Second word changes everything."</em></div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Point out that て-imasu uses all three groups — the examples on their screens show RU-verb, irregular, and U-verb forms.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">4</div><div class="fac-tp-text">MC item 4 is the key trap: "Tejun wo ___ kudasai" — they must choose mite kudasai (request) not mite imasu (ongoing). Make sure to debrief this one explicitly.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL E — GRAMMAR CHECKPOINT ═══ -->
+      <div class="block-panel" id="panel-checkpoint">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">20 min</div></div>
+        <div class="ctrl-bar">
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block E — Grammar Checkpoint</div><div class="ctrl-block-sub">Unlocks the 22-item checkpoint. Students submit when done.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-checkpoint" onclick="pushBlock('checkpoint')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-checkpoint" onclick="retractBlock('checkpoint')" style="display:none;">Retract</button>
+        </div>
+        <div class="fac-eyebrow">Block E</div>
+        <div class="fac-block-title">Grammar Checkpoint — S5–S10</div>
+        <div class="fac-block-sub">Anonymous, 22 items, flag + submit. Students work independently — walk the room.</div>
+        <div class="fac-card blue">
+          <div class="fac-card-label">Checkpoint structure</div>
+          <div style="font-size:13px;color:#C8D0E0;line-height:1.8;">
+            <strong style="color:#fff;">Section 1</strong> — Particles (を、に、は、が、の) — fill-in · Q1–6<br>
+            <strong style="color:#fff;">Section 2</strong> — Demonstratives (kore/kono/sono/ano…) — fill-in · Q7–10<br>
+            <strong style="color:#fff;">Section 3</strong> — Verb Forms (masu/mashita/te-form/te-imasu) — MC · Q11–18<br>
+            <strong style="color:#fff;">Section 4</strong> — Destination に — fill-in · Q19–20<br>
+            <strong style="color:#fff;">Section 5</strong> — Mixed (otsukaresama / chaining) — MC · Q21–22
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:#6B7585;line-height:1.7;">
+            Students answer all 22, flag uncertain items with 🚩, then submit. Score + flagged list revealed on submit. Anonymous — no names collected.
+          </div>
+        </div>
+        <div class="fac-card green" id="gc-response-panel" style="margin-top:12px;">
+          <div class="fac-card-label" style="display:flex;justify-content:space-between;align-items:center;">
+            <span>Live Responses</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#1ABC9C;" id="gc-submitted-count">Waiting for submissions…</span>
+          </div>
+          <div id="gc-score-bars" style="margin-bottom:12px;display:none;">
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+              <div style="font-size:11px;color:#C8D0E0;min-width:80px;">Avg score</div>
+              <div style="font-size:22px;font-weight:800;color:#1ABC9C;" id="gc-avg-score">—</div>
+              <div style="font-size:11px;color:#6B7585;" id="gc-avg-pct"></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;" id="gc-score-dist"></div>
+          </div>
+          <div id="gc-flag-agg" style="display:none;">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6B7585;margin-bottom:7px;">Most flagged items</div>
+            <div id="gc-flag-list" style="display:flex;flex-direction:column;gap:5px;"></div>
+          </div>
+          <div style="font-size:11px;color:#4A5260;margin-top:8px;">Results update live as students submit. Refresh to force update.</div>
+        </div>
+
+        <div class="fac-card gold">
+          <div class="fac-card-label">Debrief strategy</div>
+          <div class="fac-talking-points">
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">After students submit, ask: <em>"What did you flag? Who flagged Q13? Q15?"</em> Flagged items = the class's weak spots.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Likely trouble spots: は vs が (Q4/5), て-imasu vs て-kudasai (Q13 vs Q16), chained actions pattern (Q14/22), destination に vs other に uses (Q3/Q19/Q20).</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Close with: <em>"Otsukaresama deshita. Everything you've learned is on the floor — start using it."</em></div></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /fac-main -->
+  </div><!-- /fac-body -->
+</div><!-- /fac-shell -->
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+window._fbApp={};
+const firebaseConfig={
+  apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+  authDomain:"denso-japanese.firebaseapp.com",
+  databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
+  projectId:"denso-japanese",
+  storageBucket:"denso-japanese.firebasestorage.app",
+  messagingSenderId:"654718718217",
+  appId:"1:654718718217:web:ecec2672bd5069c0b443d8"
+};
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const dbRef=ref(db,"session10/phase2");
+
+window._fbPush=(data)=>set(dbRef,data);
+window._fbUpdate=(data)=>update(dbRef,data);
+window._fbListenResults=(cb)=>{
+  const resultsRef=ref(db,"session10/phase2/checkpointResults");
+  onValue(resultsRef,snap=>{
+    const data=snap.val();
+    if(!data)return;
+    cb(Object.values(data));
+  });
+};
+
+onValue(dbRef,snap=>{
+  const val=snap.val()||{};
+  window._currentState=val;
+  syncUI(val);
+});
+window._fbReady=true;
+// Start checkpoint results listener
+const resultsRef=ref(db,"session10/phase2/checkpointResults");
+onValue(resultsRef,snap=>{
+  window._lastCheckpointData=snap.val()?Object.values(snap.val()):null;
+  if(window.updateResponsePanel){
+    if(window._lastCheckpointData)window.updateResponsePanel(window._lastCheckpointData);
+    else{const el=document.getElementById('gc-submitted-count');if(el)el.textContent='Waiting for submissions…';}
+  }
+})
+document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+const BLOCK_ORDER=['recap','ni','uverbs','teimasu','checkpoint'];
+let pushedBlocks=[];
+let currentSlide=0;
+let blockDState={gojuon:true,reading:false,ruverbs:false};
+
+// ── VIEW ──
+function viewBlock(id){
+  document.querySelectorAll('.block-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.fac-nav-btn').forEach(b=>b.classList.remove('viewing'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('viewing');
+}
+
+// ── SYNC UI FROM FIREBASE STATE ──
+function syncUI(state){
+  const unlocked=state.unlockedBlocks||[];
+  pushedBlocks=[...unlocked];
+
+  BLOCK_ORDER.forEach(id=>{
+    const isPushed=pushedBlocks.includes(id);
+    const btn=document.getElementById('pushbtn-'+id);
+    const retract=document.getElementById('retract-'+id);
+    const navBtn=document.getElementById('nav-'+id);
+    const navStatus=document.getElementById('navstatus-'+id);
+    if(!btn)return;
+    if(isPushed){
+      btn.textContent='✓ Live on Learner Screens';
+      btn.className='ctrl-btn pushed-state';
+      btn.disabled=true;
+      if(retract)retract.style.display='inline-flex';
+      if(navBtn)navBtn.classList.add('pushed');
+      if(navStatus){navStatus.textContent='● Live';navStatus.className='fac-nav-status pushed';}
+    } else {
+      btn.innerHTML='🔓 Unlock &amp; Push';
+      btn.className='ctrl-btn unlock';
+      btn.disabled=false;
+      if(retract)retract.style.display='none';
+      if(navBtn)navBtn.classList.remove('pushed');
+      if(navStatus){navStatus.textContent='';navStatus.className='fac-nav-status';}
+    }
+  });
+
+  // No slide or reveal controls in S10
+}
+
+function updateRevealUI(key,sent){
+  const btn=document.getElementById('reveal-btn-'+key);
+  const retractBtn=document.getElementById('reveal-retract-'+key);
+  const status=document.getElementById('reveal-status-'+key);
+  const row=document.getElementById('reveal-row-'+key);
+  if(sent){
+    if(btn){btn.textContent='↩ Re-release';btn.className='ctrl-btn reveal-btn';btn.disabled=false;}
+    if(retractBtn)retractBtn.style.display='inline-flex';
+    if(status){status.textContent='Live';status.className='reveal-status sent';}
+    if(row)row.style.borderColor='#1ABC9C';
+  } else {
+    if(btn){btn.textContent='▶ Release';btn.className='ctrl-btn reveal-btn';btn.disabled=false;}
+    if(retractBtn)retractBtn.style.display='none';
+    if(status){status.textContent='—';status.className='reveal-status';}
+    if(row)row.style.borderColor='';
+  }
+}
+
+// ── PUSH ACTIONS ──
+function pushBlock(id){
+  if(!window._fbReady){alert('Not connected. Check internet.');return;}
+  if(!pushedBlocks.includes(id))pushedBlocks.push(id);
+  const state=window._currentState||{};
+  state.unlockedBlocks=[...pushedBlocks];
+  window._fbPush(state);
+}
+
+function retractBlock(id){
+  if(!confirm('Retract "'+id+'" from all learner screens?'))return;
+  pushedBlocks=pushedBlocks.filter(b=>b!==id);
+  const state=window._currentState||{};
+  state.unlockedBlocks=[...pushedBlocks];
+  window._fbPush(state);
+}
+
+function pushSlide(n){
+  if(!window._fbReady){alert('Not connected.');return;}
+  const state=window._currentState||{};
+  state.slideIndex=n;
+  window._fbPush(state);
+}
+
+function pushReveal(key){
+  if(!window._fbReady){alert('Not connected.');return;}
+  const state=window._currentState||{};
+  if(!state.blockD)state.blockD={};
+  state.blockD[key]=true;
+  window._fbPush(state);
+}
+function retractReveal(key){
+  if(!window._fbReady){alert('Not connected.');return;}
+  const state=window._currentState||{};
+  if(!state.blockD)state.blockD={};
+  state.blockD[key]=false;
+  window._fbPush(state);
+}
+
+function resetAll(){
+  if(!confirm('Reset session 10? All learner screens return to waiting state.'))return;
+  window._fbPush({unlockedBlocks:[],slideIndex:0,blockD:{reading:false,ruverbs:false}});
+}
+
+// ── CONNECTION ──
+document.addEventListener('fbReady',()=>{
+  const pill=document.getElementById('conn-pill');
+  const lbl=document.getElementById('conn-label');
+  if(pill)pill.className='conn-pill online';
+  if(lbl)lbl.textContent='live';
+  listenCheckpointResults();
+  // Catch any data that arrived before regular script loaded
+  if(window._lastCheckpointData&&window.updateResponsePanel){
+    window.updateResponsePanel(window._lastCheckpointData);
+  }
+});
+
+function listenCheckpointResults(){/* listener now in Firebase module */}
+
+window.updateResponsePanel = function updateResponsePanel(entries){
+  const countEl=document.getElementById('gc-submitted-count');
+  const scoreBars=document.getElementById('gc-score-bars');
+  const flagAgg=document.getElementById('gc-flag-agg');
+  const avgScoreEl=document.getElementById('gc-avg-score');
+  const avgPctEl=document.getElementById('gc-avg-pct');
+  const scoreDistEl=document.getElementById('gc-score-dist');
+  const flagListEl=document.getElementById('gc-flag-list');
+  if(!countEl)return;
+
+  const n=entries.length;
+  countEl.textContent=n+' submitted';
+  if(n===0)return;
+
+  // Score stats
+  const scores=entries.map(e=>e.score||0);
+  const total=entries[0].total||22;
+  const avg=(scores.reduce((a,b)=>a+b,0)/n).toFixed(1);
+  const pct=Math.round(avg/total*100);
+  scoreBars.style.display='block';
+  avgScoreEl.textContent=avg+' / '+total;
+  avgPctEl.textContent='('+pct+'%)';
+
+  // Score distribution buckets
+  const buckets={'90-100%':0,'70-89%':0,'50-69%':0,'<50%':0};
+  scores.forEach(s=>{
+    const p=s/total*100;
+    if(p>=90)buckets['90-100%']++;
+    else if(p>=70)buckets['70-89%']++;
+    else if(p>=50)buckets['50-69%']++;
+    else buckets['<50%']++;
+  });
+  scoreDistEl.innerHTML=Object.entries(buckets).map(([label,count])=>
+    `<span style="font-size:11px;padding:3px 9px;border-radius:4px;background:#1A1D25;border:1px solid #2A2D38;color:#C8D0E0;">${label}: <strong style="color:#1ABC9C;">${count}</strong></span>`
+  ).join('');
+
+  // Flag aggregation
+  const flagCounts={};
+  entries.forEach(e=>{
+    (e.flagged||[]).forEach(qid=>{
+      flagCounts[qid]=(flagCounts[qid]||0)+1;
+    });
+  });
+  const sorted=Object.entries(flagCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  if(sorted.length>0){
+    flagAgg.style.display='block';
+    flagListEl.innerHTML=sorted.map(([qid,count])=>{
+      const bar=Math.round(count/n*100);
+      return `<div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#E8B84B;min-width:24px;">Q${qid}</span>
+        <div style="flex:1;height:6px;background:#2A2D38;border-radius:3px;overflow:hidden;">
+          <div style="width:${bar}%;height:100%;background:#E8B84B;border-radius:3px;"></div>
+        </div>
+        <span style="font-size:11px;color:#C8D0E0;">${count}/${n}</span>
+      </div>`;
+    }).join('');
+  }
+}
+setTimeout(()=>{if(!window._fbReady){const lbl=document.getElementById('conn-label');if(lbl)lbl.textContent='offline';}},9000);
+
+// ── PIN ──
+const CORRECT_PIN='3985';
+let pinEntry='';
+function pinPress(d){if(pinEntry.length>=4)return;pinEntry+=d;updateDots();if(pinEntry.length===4)setTimeout(checkPin,120);}
+function pinBack(){pinEntry=pinEntry.slice(0,-1);updateDots();document.getElementById('pin-error').textContent='';}
+function pinClear(){pinEntry='';updateDots();document.getElementById('pin-error').textContent='';}
+function updateDots(){for(let i=0;i<4;i++){const d=document.getElementById('pd'+i);d.classList.toggle('filled',i<pinEntry.length);d.classList.remove('error');}}
+function checkPin(){
+  if(pinEntry===CORRECT_PIN){
+    document.getElementById('pin-gate').style.display='none';
+    document.getElementById('fac-shell').style.display='flex';
+    if(!facTimerInterval)facTimerInterval=setInterval(facTimerTick,1000);
+  } else {
+    for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.add('error');
+    document.getElementById('pin-error').textContent='Incorrect PIN — try again';
+    setTimeout(()=>{pinEntry='';updateDots();},900);
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('pin-gate').style.display==='none')return;
+  if(e.key>='0'&&e.key<='9')pinPress(e.key);
+  else if(e.key==='Backspace')pinBack();
+  else if(e.key==='Escape')pinClear();
+});
+
+// ── TIMER ──
+let facTimerSecs=80*60,facTimerPaused=false,facTimerInterval=null;
+function facTimerTick(){
+  if(facTimerPaused)return;
+  facTimerSecs--;
+  const m=Math.floor(facTimerSecs/60),s=facTimerSecs%60;
+  const el=document.getElementById('fac-timer');
+  if(el){el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(facTimerSecs<=300)el.classList.add('urgent');}
+  if(facTimerSecs<=0)clearInterval(facTimerInterval);
+}
+function facToggleTimer(){
+  facTimerPaused=!facTimerPaused;
+  const btn=document.getElementById('fac-timer-btn');
+  if(btn)btn.textContent=facTimerPaused?'▶ Resume':'⏸ Pause';
+}
+
+viewBlock('recap');
+</script>
+</body>
+</html>
