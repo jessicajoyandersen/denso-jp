@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--
+  © 2026 JJA · Joyful Language Academy. All rights reserved.
+  Session 11 — U-Verbs P3+P4, て-imasu, に+います/あります
+  denso-s11-phase2-learner.html
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Japanese · Session 11 · Phase 2</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:rgba(200,16,46,0.06);
+  --bg:#F5F3EE;--surface:#FFFFFF;--surface-2:#EFECE7;
+  --border:#DDD9D2;--border-strong:#C5BFB5;
+  --text:#1C1917;--text-2:#57534E;--text-3:#A8A29E;
+  --green:#166534;--green-bg:rgba(22,101,52,0.08);--green-border:rgba(22,101,52,0.28);
+  --gold:#92400E;--gold-bg:rgba(146,64,14,0.08);--gold-border:rgba(146,64,14,0.3);
+  --blue:#1558A6;--blue-bg:rgba(21,88,166,0.07);--blue-border:rgba(21,88,166,0.25);
+  --purple:#5B3E9E;--purple-bg:rgba(91,62,158,0.07);--purple-border:rgba(91,62,158,0.25);
+  --teal:#0E7A6A;--teal-bg:rgba(14,122,106,0.07);--teal-border:rgba(14,122,106,0.25);
+  --warn:#B22020;--warn-bg:rgba(178,32,32,0.07);
+  --mono:'IBM Plex Mono',monospace;--jp:'Noto Sans JP',sans-serif;--sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh;padding:0 0 80px;}
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:10px 24px 0;display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.tb-logo{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tb-org{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-3);margin-bottom:1px;}
+.tb-title{font-size:13px;font-weight:600;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:8px;}
+.session-badge{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:9px;border:1.5px solid var(--red);color:var(--red);}
+.timer-box{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:4px 9px;}
+.conn-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background 0.4s;}
+.page-body{max-width:860px;margin:0 auto;padding:28px 20px 0;}
+.waiting-state{text-align:center;padding:52px 20px;color:var(--text-3);}
+.waiting-icon{font-size:34px;margin-bottom:10px;animation:pulse-gentle 2.5s infinite;}
+@keyframes pulse-gentle{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.waiting-text{font-size:15px;font-weight:600;color:var(--text-2);margin-bottom:5px;}
+.waiting-sub{font-size:13px;}
+#accordion{display:none;}
+.block-section{border:1.5px solid var(--border);border-radius:10px;margin-bottom:11px;overflow:hidden;opacity:0.4;pointer-events:none;transition:all 0.25s;background:var(--surface);}
+.block-section.unlocked{opacity:0.8;pointer-events:auto;}
+.block-section.active-block{border-color:var(--red);box-shadow:0 0 0 3px var(--red-bg);opacity:1;pointer-events:auto;}
+.block-header{display:flex;align-items:center;gap:12px;padding:13px 17px;cursor:pointer;user-select:none;}
+.block-header:hover{background:var(--surface-2);}
+.bh-status{width:25px;height:25px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;transition:all 0.2s;}
+.block-section.unlocked .bh-status,.block-section.active-block .bh-status{background:var(--green);border-color:var(--green);color:white;}
+.bh-label{flex:1;}
+.bh-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:1px;}
+.bh-title{font-size:14px;font-weight:700;color:var(--text);}
+.bh-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:8px;border:1px solid;}
+.badge-locked{background:var(--surface-2);border-color:var(--border);color:var(--text-3);}
+.badge-current{background:var(--red);border-color:var(--red);color:white;}
+.badge-done{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.bh-chevron{font-size:11px;color:var(--text-3);transition:transform 0.2s;}
+.block-section.open .bh-chevron{transform:rotate(180deg);}
+.block-body{display:none;padding:6px 18px 26px;border-top:1px solid var(--border);}
+.block-section.open .block-body{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:3px;margin-top:14px;}
+.section-title{font-size:19px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:-0.3px;}
+.section-sub{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px;max-width:590px;}
+.frame-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-left:3px solid var(--blue);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.frame-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+.frame-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.gold-box{background:var(--gold-bg);border:1px solid var(--gold-border);border-left:3px solid var(--gold);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.gold-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.gold-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.warn-box{background:var(--warn-bg);border:1px solid rgba(178,32,32,0.25);border-left:3px solid var(--warn);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.div-heading{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:20px 0 9px;padding-top:14px;border-top:1px solid var(--border);}
+.div-heading:first-of-type{border-top:none;padding-top:0;margin-top:6px;}
+.phrase-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px;}
+.phrase-table th{text-align:left;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:5px 9px;border-bottom:2px solid var(--border);}
+.phrase-table td{padding:9px 9px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.phrase-table tr:last-child td{border-bottom:none;}
+.td-romaji{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);}
+.td-jp{font-family:var(--jp);font-size:13px;color:var(--text-2);}
+.td-en{font-size:12px;color:var(--text-2);}
+.speak-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:var(--surface-2);border:1px solid var(--border);border-radius:5px;font-size:10px;font-family:var(--mono);font-weight:600;color:var(--text-2);cursor:pointer;transition:all 0.12s;}
+.speak-btn:hover{background:var(--teal-bg);border-color:var(--teal-border);color:var(--teal);}
+.exc-card{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:16px 20px;margin-bottom:12px;}
+.exc-scenario{font-size:13px;color:var(--text-2);font-style:italic;margin-bottom:10px;padding:7px 11px;background:var(--surface-2);border-radius:5px;border-left:3px solid var(--border-strong);}
+.exc-line{display:flex;gap:9px;margin-bottom:7px;align-items:flex-start;}
+.exc-speaker{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);min-width:72px;padding-top:4px;flex-shrink:0;}
+.exc-bubble{background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:9px 13px;flex:1;}
+.exc-romaji{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.exc-jp{font-family:var(--jp);font-size:11px;color:var(--text-3);margin-bottom:2px;}
+.exc-en{font-size:11px;color:var(--text-2);}
+.exc-note{font-size:11px;color:var(--text-3);margin-top:7px;padding:6px 9px;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:4px;}
+.rv-wrap{position:relative;border-radius:12px;margin-bottom:18px;}
+#uv-lock-overlay{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;border-radius:12px;backdrop-filter:blur(10px) saturate(0.7) brightness(1.02);-webkit-backdrop-filter:blur(10px) saturate(0.7) brightness(1.02);background:rgba(245,243,238,0.45);transition:opacity 0.35s ease;}
+#uv-lock-overlay.gone{opacity:0;pointer-events:none;backdrop-filter:none;-webkit-backdrop-filter:none;}
+.rv-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+.rv-header{padding:16px 20px 13px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.act-eyebrow{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text-3);margin-bottom:2px;}
+.act-title{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
+.act-sub{font-size:11px;color:var(--text-3);margin-top:1px;}
+.reset-btn{background:none;border:1.5px solid var(--border);border-radius:5px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);padding:6px 12px;cursor:pointer;white-space:nowrap;transition:all 0.12s;flex-shrink:0;}
+.reset-btn:hover{border-color:var(--red);color:var(--red);}
+.rv-tabs{display:flex;gap:0;padding:0 20px;border-bottom:1px solid var(--border);background:var(--surface);}
+.rv-tab{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);padding:9px 14px 8px;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;transition:color 0.15s,border-color 0.15s;}
+.rv-tab:hover{color:var(--text-2);}.rv-tab.active{color:var(--red);border-bottom-color:var(--red);}.rv-tab:disabled{opacity:0.35;cursor:default;}
+.rv-part{display:none;padding:18px 20px 22px;}
+.rv-part.active{display:block;animation:fadeIn 0.2s ease;}
+.rv-intro{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:16px;padding:9px 13px;background:var(--surface-2);border-radius:5px;border-left:3px solid var(--border-strong);}
+.rv-intro strong{color:var(--text);}
+.conj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:18px;}
+.verb-card{border:1.5px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);transition:border-color 0.2s;}
+.verb-card.all-done{border-color:var(--green-border);}
+.vc-head{padding:9px 11px 7px;border-bottom:1px solid var(--border);background:var(--surface-2);}
+.vc-plain{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:1px;}
+.vc-en{font-size:11px;color:var(--text-3);}
+.vc-stem-note{font-family:var(--mono);font-size:9px;color:var(--text-3);margin-top:2px;}
+.vc-stem-note strong{color:var(--text-2);}
+.vc-rows{padding:5px 0 1px;}
+.vc-row{display:flex;align-items:center;flex-wrap:wrap;padding:5px 11px;border-bottom:1px solid var(--border);}
+.vc-row:last-child{border-bottom:none;}.vc-row-done .vc-stem-fixed{color:var(--text);}
+.vc-form-label{font-size:10px;color:var(--text-3);min-width:70px;flex-shrink:0;}
+.vc-stem-fixed{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text-2);flex-shrink:0;}
+.vc-ending-input{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--red);background:transparent;border:none;border-bottom:1.5px solid var(--border);outline:none;width:68px;padding:1px 3px;transition:border-color 0.15s,color 0.15s;-webkit-appearance:none;}
+.vc-ending-input:focus{border-color:var(--red);}
+.vc-ending-input:disabled{color:var(--green);-webkit-text-fill-color:var(--green);border-color:transparent;opacity:1;cursor:default;}
+.vc-check-row{padding:6px 11px 8px;display:flex;gap:6px;flex-wrap:wrap;}
+.vc-feedback{font-size:11px;padding:4px 7px;border-radius:4px;display:none;border:1px solid;}
+.vc-feedback.show{display:inline-flex;align-items:center;gap:4px;}
+.vc-feedback.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.vc-feedback.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.3);color:var(--warn);}
+.rv-p1-footer{padding:10px 20px 0;border-top:1px solid var(--border);display:flex;align-items:center;gap:11px;margin-top:3px;}
+.rv-next-btn{font-family:var(--sans);font-size:13px;font-weight:600;background:var(--text);color:#fff;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;transition:background 0.12s,opacity 0.2s;opacity:0.35;pointer-events:none;}
+.rv-next-btn.ready{opacity:1;pointer-events:auto;}.rv-next-btn.ready:hover{background:#2c2825;}
+.mc-item{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:10px;transition:border-color 0.2s;}
+.mc-item.correct-ans{border-color:var(--green-border);}.mc-item.wrong-ans{border-color:rgba(200,16,46,0.35);}
+.mc-num{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.mc-verb-pill{font-family:var(--mono);font-size:12px;font-weight:700;color:#fff !important;background:var(--red);border:1.5px solid var(--red-dark);border-radius:5px;padding:2px 9px;letter-spacing:0;text-transform:none;}
+.mc-context{font-size:13px;color:var(--text-2);font-style:italic;line-height:1.6;margin-bottom:6px;padding:6px 9px;background:var(--surface-2);border-left:3px solid var(--border-strong);border-radius:0 4px 4px 0;}
+.mc-sentence{font-size:14px;font-weight:500;color:var(--text);margin-bottom:9px;line-height:1.7;}
+.mc-blank{display:inline-block;min-width:74px;border-bottom:2px solid var(--border-strong);text-align:center;font-family:var(--mono);font-weight:700;color:var(--text-3);padding:0 4px;vertical-align:middle;}
+.mc-blank.revealed{color:var(--green);border-color:var(--green-border);}
+.mc-opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px;}
+.mc-opt{font-family:var(--mono);font-size:12px;font-weight:700;padding:7px 13px;border-radius:5px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;}
+.mc-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.mc-opt.selected-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.mc-opt.selected-wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.mc-opt.show-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.mc-opt.locked{cursor:default;}
+.mc-feedback{font-size:12px;line-height:1.6;padding:6px 9px;border-radius:4px;display:none;border:1px solid;}
+.mc-feedback.show{display:block;}
+.mc-feedback.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.mc-feedback.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.25);color:var(--warn);}
+.rv-results{display:none;margin-top:16px;padding:16px 18px;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;text-align:center;}
+.rv-results.show{display:block;animation:fadeIn 0.3s ease;}
+.rv-res-score{font-size:32px;font-weight:800;color:var(--green);line-height:1;margin-bottom:4px;}
+.rv-res-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);}
+.rv-res-msg{font-size:13px;color:var(--text-2);margin-top:9px;line-height:1.6;}
+.prog-track{flex:1;height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden;max-width:190px;}
+.prog-fill{height:100%;background:var(--green);border-radius:3px;transition:width 0.4s ease;width:0%;}
+.prog-label{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-3);white-space:nowrap;}
+.overlay-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 32px;text-align:center;max-width:400px;width:90%;box-shadow:0 12px 48px rgba(0,0,0,0.1);}
+.oc-icon{font-size:32px;margin-bottom:10px;}
+.oc-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.oc-body{font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:18px;}
+.overlay-btn{display:inline-flex;align-items:center;gap:8px;background:var(--text);color:#fff;border:none;border-radius:7px;font-family:var(--sans);font-size:13px;font-weight:600;padding:11px 24px;cursor:pointer;transition:background 0.12s;}
+.overlay-btn:hover{background:#2c2825;}
+.uv-pat-tabs{display:flex;gap:6px;padding:12px 0 10px;flex-wrap:wrap;}
+.uv-pat-tab{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-3);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px;}
+.uv-pat-tab:hover{border-color:var(--border-strong);color:var(--text);}
+.uv-pat-tab.p3.active{border-color:var(--teal);color:var(--teal);background:var(--teal-bg);}
+.uv-pat-tab.p4.active{border-color:var(--purple);color:var(--purple);background:var(--purple-bg);}
+.uv-pat-tab .pat-done-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:none;}
+.uv-pat-tab.pat-complete .pat-done-dot{display:inline-block;}
+.vc-mora-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px;}
+.vc-mora-box{display:flex;flex-direction:column;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:3px 7px;min-width:30px;}
+.vc-mora-kana{font-family:var(--jp);font-size:16px;color:var(--text);line-height:1.2;}
+.vc-mora-rom{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--red);margin-top:1px;}
+.vc-mora-reveal{display:inline-flex;flex-direction:row;gap:3px;flex-wrap:wrap;margin-left:10px;vertical-align:middle;opacity:0.82;}
+.vc-mora-reveal .vc-mora-box{min-width:26px;padding:2px 5px;background:var(--green-bg);border-color:var(--green-border);flex-direction:column;}
+.vc-mora-reveal .vc-mora-kana{font-size:12px;color:var(--green);}
+.vc-mora-reveal .vc-mora-rom{font-size:8px;color:var(--green);}
+.teimasu-ex{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:9px;}
+.teimasu-romaji{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.teimasu-romaji span{color:var(--red);}
+.teimasu-jp{font-family:var(--jp);font-size:12px;color:var(--text-3);margin-bottom:2px;}
+.teimasu-en{font-size:12px;color:var(--text-2);}
+.particle-ni{font-weight:700;color:var(--teal);border-bottom:1.5px solid var(--teal);padding-bottom:1px;}
+.particle-te{font-weight:700;color:var(--purple);border-bottom:1.5px solid var(--purple);padding-bottom:1px;}
+.particle-ga{font-weight:700;color:var(--gold);border-bottom:1.5px solid var(--gold);padding-bottom:1px;}
+/* IRUARU */
+.iruaru-rule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.iruaru-card{border-radius:8px;padding:14px 16px;border:1.5px solid;}
+.iruaru-card.iru{background:var(--blue-bg);border-color:var(--blue-border);}
+.iruaru-card.aru{background:var(--gold-bg);border-color:var(--gold-border);}
+.iruaru-title{font-family:var(--jp);font-size:22px;font-weight:700;margin-bottom:3px;}
+.iruaru-card.iru .iruaru-title{color:var(--blue);}
+.iruaru-card.aru .iruaru-title{color:var(--gold);}
+.iruaru-romaji{font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:5px;}
+.iruaru-card.iru .iruaru-romaji{color:var(--blue);}
+.iruaru-card.aru .iruaru-romaji{color:var(--gold);}
+.iruaru-rule-text{font-size:12px;color:var(--text-2);margin-bottom:7px;}
+.iruaru-examples{font-size:11px;color:var(--text-3);line-height:1.7;}
+.iuaru-mc-opt{font-family:var(--mono);font-size:13px;font-weight:700;padding:9px 18px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;margin:0 5px 5px 0;}
+.iuaru-mc-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.iuaru-mc-opt.correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.iuaru-mc-opt.wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.iuaru-mc-opt.show-c{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.iuaru-mc-opt.locked{cursor:default;}
+.iuaru-item{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:10px;}
+.iuaru-item.correct-ans{border-color:var(--green-border);}
+.iuaru-item.wrong-ans{border-color:rgba(200,16,46,0.35);}
+.iuaru-fb{font-size:12px;line-height:1.6;padding:6px 9px;border-radius:4px;display:none;border:1px solid;margin-top:6px;}
+.iuaru-fb.show{display:block;}
+.iuaru-fb.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.iuaru-fb.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.25);color:var(--warn);}
+/* SESSION END */
+.session-end-banner{background:var(--surface);border:2px solid var(--green-border);border-radius:10px;padding:18px 22px;margin-top:22px;text-align:center;}
+.seb-title{font-size:17px;font-weight:700;color:var(--green);margin-bottom:5px;}
+.seb-sub{font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:14px;}
+.seb-link{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:white;padding:10px 20px;border-radius:7px;text-decoration:none;font-weight:600;font-size:13px;}
+#unlock-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#1C1917;color:white;font-size:13px;font-weight:600;padding:8px 16px;border-radius:7px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+#unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">⛩</div>
+    <div>
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC</div>
+      <div class="tb-title">Japanese Workplace Communication</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="session-badge">Session 11</div>
+    <div class="timer-box" id="p2-timer">80:00</div>
+    <div class="conn-dot" id="conn-dot"></div>
+  </div>
+</div>
+
+<div class="page-body">
+  <div id="waiting-state" class="waiting-state">
+    <div class="waiting-icon">📋</div>
+    <div class="waiting-text">Your facilitator is about to begin.</div>
+    <div class="waiting-sub">Blocks will appear here as they are unlocked.</div>
+  </div>
+
+  <div id="accordion">
+
+<!-- ═══ BLOCK A — RECAP ═══ -->
+<div class="block-section locked" id="section-recap" data-block="recap">
+  <div class="block-header" onclick="toggleBlock('recap')">
+    <div class="bh-status" id="status-recap">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block A · 5 min</div><div class="bh-title">⚡ Session 10 Recap</div></div>
+    <div class="bh-badge badge-locked" id="badge-recap">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-recap">
+    <div class="eyebrow">Block A</div>
+    <div class="section-title">What We Covered in Session 10</div>
+    <div class="section-sub">Quick reference before we continue. U-verbs Pattern 1 + 2 done. Today: Pattern 3 + 4, て-imasu, に います/あります.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-bottom:18px;">
+      <div style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--gold);">P1 · -u/-tsu/-ru* → -tte</div>
+        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">kau → ka<strong>tte</strong></div>
+        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">katsu → ka<strong>tte</strong></div>
+        <div style="font-family:var(--mono);font-size:11px;">shiru → shi<strong>tte</strong></div>
+      </div>
+      <div style="background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--blue);">P2 · -nu/-bu/-mu → -nde</div>
+        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">nomu → no<strong>nde</strong></div>
+        <div style="font-family:var(--mono);font-size:11px;">tobu → to<strong>nde</strong></div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--red);">に Destination (S10)</div>
+        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">[place] <span class="particle-ni">に</span> itte kudasai</div>
+        <div style="font-family:var(--mono);font-size:11px;">[place] <span class="particle-ni">に</span> kite kudasai</div>
+      </div>
+    </div>
+    <div class="frame-box">
+      <div class="frame-label">Today — Session 11</div>
+      <div class="frame-text">U-verbs Pattern 3 (-ku/-gu) + Pattern 4 (-su) · て-imasu (ongoing actions) · に + います/あります (location)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOCK B — U-VERBS P3+P4 ═══ -->
+<div class="block-section locked" id="section-uverbs" data-block="uverbs">
+  <div class="block-header" onclick="toggleBlock('uverbs')">
+    <div class="bh-status" id="status-uverbs">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block B · 20 min</div><div class="bh-title">🟡 U-Verbs — Pattern 3 + 4</div></div>
+    <div class="bh-badge badge-locked" id="badge-uverbs">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-uverbs">
+    <div class="eyebrow">Block B</div>
+    <div class="section-title">The Last Two Patterns</div>
+    <div class="section-sub">Pattern 3 and Pattern 4 complete the U-verb te-form picture. Work through both tabs.</div>
+    <div class="rv-wrap" id="uv-wrap">
+      <div id="uv-lock-overlay">
+        <div class="overlay-card">
+          <div class="oc-icon">🟡</div>
+          <div class="oc-title">U-Verbs — Pattern 3 + 4</div>
+          <div class="oc-body">-ku/-gu → -ite/-ide · -su → -shite. Two patterns, four verbs.</div>
+          <button class="overlay-btn" onclick="uvUnlock()">Start →</button>
+        </div>
+      </div>
+      <div class="rv-box">
+        <div class="rv-header">
+          <div>
+            <div class="act-eyebrow">Activity · U-Verbs P3 + P4</div>
+            <div class="act-title">Conjugation Practice</div>
+            <div class="act-sub">Part 1: fill in endings · Part 2: apply in context</div>
+          </div>
+          <button class="reset-btn" onclick="uvReset()">↺ Reset</button>
+        </div>
+        <div class="rv-tabs">
+          <button class="rv-tab active" id="uv-tab-1" onclick="uvShowPart(1)">Part 1 — Produce</button>
+          <button class="rv-tab" id="uv-tab-2" onclick="uvShowPart(2)" disabled>Part 2 — Apply</button>
+        </div>
+        <div class="rv-part active" id="uv-part-1">
+          <div class="rv-intro"><strong>Pattern 3:</strong> -ku → -ite · -gu → -ide (イ音便). <strong>Pattern 4:</strong> -su → -shite (no change needed).</div>
+          <div class="uv-pat-tabs" id="uv-pat-tabs"></div>
+          <div id="uv-conj-area"></div>
+          <div class="rv-p1-footer">
+            <div class="prog-track"><div class="prog-fill" id="uv-prog-fill"></div></div>
+            <div class="prog-label"><span id="uv-prog-count">0</span> / <span id="uv-prog-total">0</span></div>
+            <button class="rv-next-btn" id="uv-next-btn" onclick="uvShowPart(2)">Continue to Part 2 →</button>
+          </div>
+        </div>
+        <div class="rv-part" id="uv-part-2">
+          <div class="rv-intro"><strong>Apply it:</strong> choose the correct form for each context.</div>
+          <div id="uv-mc-items"></div>
+          <div class="rv-results" id="uv-results">
+            <div class="rv-res-score" id="uv-res-score">0 / 6</div>
+            <div class="rv-res-label">Part 2 Score</div>
+            <div class="rv-res-msg" id="uv-res-msg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BLOCK C — て-IMASU ═══ -->
+<div class="block-section locked" id="section-teimasu" data-block="teimasu">
+  <div class="block-header" onclick="toggleBlock('teimasu')">
+    <div class="bh-status" id="status-teimasu">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block C · 13 min</div><div class="bh-title">🔄 て-imasu — Ongoing Actions</div></div>
+    <div class="bh-badge badge-locked" id="badge-teimasu">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-teimasu">
+    <div class="eyebrow">Block C</div>
+    <div class="section-title">て-imasu — What's Happening Right Now</div>
+    <div class="section-sub">You saw this in Session 9. Now you learn it properly.</div>
+    <div class="frame-box">
+      <div class="frame-label">The Pattern</div>
+      <div class="frame-text"><strong>[verb-て] + います (imasu)</strong><br><br>
+        Describes an action that is <strong>currently happening</strong> or a state that is <strong>ongoing</strong>.<br><br>
+        Kikai wo <strong>tsukatte imasu</strong>. → I'm using the machine (right now).<br>
+        Kakunin wo <strong>shite imasu</strong>. → I'm doing the check.<br>
+        Mite <strong>imasu</strong>. → I'm looking at it.</div>
+    </div>
+    <div class="div-heading">Floor Examples — te-form highlighted</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:18px;">
+
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+          <div style="padding:8px 14px;border-right:1px solid var(--border);background:var(--gold-bg);">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Request</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">suwa<span class="particle-te">tte</span> kudasai</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">Please sit down.</div>
+          </div>
+          <div style="padding:8px 14px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Ongoing</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">suwa<span class="particle-te">tte</span> imasu</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">I'm sitting. / They're sitting.</div>
+          </div>
+        </div>
+        <div style="padding:6px 14px;font-size:11px;color:var(--text-3);">suwaru (U-verb, P1) → suwatte</div>
+      </div>
+
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+          <div style="padding:8px 14px;border-right:1px solid var(--border);background:var(--gold-bg);">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Request</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">mi<span class="particle-te">te</span> kudasai</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">Please look / check.</div>
+          </div>
+          <div style="padding:8px 14px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Ongoing</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">mi<span class="particle-te">te</span> imasu</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">I'm looking at it.</div>
+          </div>
+        </div>
+        <div style="padding:6px 14px;font-size:11px;color:var(--text-3);">miru (RU-verb) → mite</div>
+      </div>
+
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+          <div style="padding:8px 14px;border-right:1px solid var(--border);background:var(--gold-bg);">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Request</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">shi<span class="particle-te">te</span> kudasai</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">Please do it.</div>
+          </div>
+          <div style="padding:8px 14px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Ongoing</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">shi<span class="particle-te">te</span> imasu</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">I'm doing it. / It's being done.</div>
+          </div>
+        </div>
+        <div style="padding:6px 14px;font-size:11px;color:var(--text-3);">suru (irregular) → shite</div>
+      </div>
+
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+          <div style="padding:8px 14px;border-right:1px solid var(--border);background:var(--gold-bg);">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Request</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">kakunin shi<span class="particle-te">te</span> kudasai</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">Please check / verify.</div>
+          </div>
+          <div style="padding:8px 14px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Ongoing</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;">kakunin shi<span class="particle-te">te</span> imasu</div>
+            <div style="font-size:11px;color:var(--text-2);margin-top:2px;">I'm checking / verifying.</div>
+          </div>
+        </div>
+        <div style="padding:6px 14px;font-size:11px;color:var(--text-3);">kakunin suru → shite (suru compound verb)</div>
+      </div>
+
+    </div>
+    <div id="teimasu-examples" style="display:none;"></div>
+    <div class="gold-box" style="margin-top:4px;">
+      <div class="gold-label">て-imasu vs て-kudasai</div>
+      <div class="gold-text">
+        <strong>Tsukatte kudasai</strong> → Please use it. (request — te + kudasai)<br>
+        <strong>Tsukatte imasu</strong> → I'm using it. (ongoing — te + imasu)<br><br>
+        Same te-form, different second word, completely different meaning. The te-form is the connector.
+      </div>
+    </div>
+    <div class="div-heading">Quick Check</div>
+    <div id="teimasu-mc"></div>
+  </div>
+</div>
+
+
+
+<!-- ═══ BLOCK D — に + います/あります ═══ -->
+<div class="block-section locked" id="section-iruaru" data-block="iruaru">
+  <div class="block-header" onclick="toggleBlock('iruaru')">
+    <div class="bh-status" id="status-iruaru">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block D · 20 min</div><div class="bh-title">📌 に + います / あります</div></div>
+    <div class="bh-badge badge-locked" id="badge-iruaru">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-iruaru">
+    <div class="eyebrow">Block D</div>
+    <div class="section-title">Saying Where Things Are</div>
+    <div class="section-sub">You already know に for destination. Now: に for location. Same particle — this time with います or あります instead of a movement verb.</div>
+
+    <div class="iruaru-rule">
+      <div class="iruaru-card iru">
+        <div class="iruaru-title">います</div>
+        <div class="iruaru-romaji">imasu</div>
+        <div class="iruaru-rule-text"><strong>People and animals</strong> — living, moving things</div>
+        <div class="iruaru-examples">Tanaka-san が います<br>Supervisor が います<br>Neko が います</div>
+      </div>
+      <div class="iruaru-card aru">
+        <div class="iruaru-title">あります</div>
+        <div class="iruaru-romaji">arimasu</div>
+        <div class="iruaru-rule-text"><strong>Objects and things</strong> — non-living items</div>
+        <div class="iruaru-examples">Tejun が あります<br>Kikai が あります<br>Repōto が あります</div>
+      </div>
+    </div>
+
+    <div class="frame-box">
+      <div class="frame-label">The full pattern</div>
+      <div class="frame-text">
+        <strong>[person/thing] が [place] に います/あります</strong><br><br>
+        が marks <em>what</em> is there. に marks <em>where</em>. います/あります says it exists there.<br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Tanaka-san <span class="particle-ga">ga</span> Station 3 <span class="particle-ni">ni</span> imasu.</span><br>
+        <span style="font-size:12px;color:var(--text-2);">Tanaka-san is at Station 3.</span><br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Tejun <span class="particle-ga">ga</span> tsukue no ue <span class="particle-ni">ni</span> arimasu.</span><br>
+        <span style="font-size:12px;color:var(--text-2);">The procedure sheet is on the desk.</span>
+      </div>
+    </div>
+
+    <div class="gold-box">
+      <div class="gold-label">が here vs は in other sentences</div>
+      <div class="gold-text">When you use が with います/あります, you are pointing out <strong>specific, new information</strong> — "it is <em>this person</em> who is there." This is the same が from S8: が for focus, は for topic. Both are correct in different contexts — が is the natural choice when location is new information.</div>
+    </div>
+
+    <div class="div-heading">Quick Check — います or あります?</div>
+    <div id="iruaru-mc"></div>
+
+    <div class="div-heading">Floor Exchanges</div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">You are looking for your line leader.</div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Yamamoto-san <span class="particle-ga">ga</span> doko <span class="particle-ni">ni</span> imasu ka?</div>
+        <div class="exc-jp">山本さんがどこにいますか？</div>
+        <div class="exc-en">Where is Yamamoto-san?</div>
+        <button class="speak-btn" onclick="speak('山本さんがどこにいますか？')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-line"><div class="exc-speaker">Coworker</div><div class="exc-bubble">
+        <div class="exc-romaji">Station 2 <span class="particle-ni">ni</span> imasu.</div>
+        <div class="exc-jp">ステーション2にいます。</div>
+        <div class="exc-en">She is at Station 2.</div>
+        <button class="speak-btn" onclick="speak('ステーション2にいます。')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 doko に imasu ka — where is [person]? Answer drops が and just gives place + imasu.</div>
+    </div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">A new worker asks where the procedure sheet is.</div>
+      <div class="exc-line"><div class="exc-speaker">New Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Tejun <span class="particle-ga">ga</span> doko <span class="particle-ni">ni</span> arimasu ka?</div>
+        <div class="exc-jp">手順がどこにありますか？</div>
+        <div class="exc-en">Where is the procedure sheet?</div>
+        <button class="speak-btn" onclick="speak('手順がどこにありますか？')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Station 1 <span class="particle-ni">ni</span> arimasu.</div>
+        <div class="exc-jp">ステーション1にあります。</div>
+        <div class="exc-en">It is at Station 1.</div>
+        <button class="speak-btn" onclick="speak('ステーション1にあります。')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 Same pattern, あります because tejun is a thing, not a person.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ BLOCK E — FLOOR EXCHANGES ═══ -->
+<div class="block-section locked" id="section-floor" data-block="floor">
+  <div class="block-header" onclick="toggleBlock('floor')">
+    <div class="bh-status" id="status-floor">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block E · 12 min</div><div class="bh-title">🏭 Floor Exchanges — Everything Combined</div></div>
+    <div class="bh-badge badge-locked" id="badge-floor">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-floor">
+    <div class="eyebrow">Block E</div>
+    <div class="section-title">Putting It All Together</div>
+    <div class="section-sub">These exchanges combine て-imasu, location に, and verb chains from S9–S11.</div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">A supervisor asks where Tanaka-san is and what he is doing.</div>
+      <div class="exc-line"><div class="exc-speaker">Supervisor</div><div class="exc-bubble">
+        <div class="exc-romaji">Tanaka-san <span class="particle-ga">ga</span> doko <span class="particle-ni">ni</span> imasu ka?</div>
+        <div class="exc-en">Where is Tanaka-san?</div>
+      </div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Tanaka-san wa kyuukei-shitsu <span class="particle-ni">ni</span> imasu. Hirugohan wo tabe<span class="particle-te">te</span> imasu.</div>
+        <div class="exc-jp">田中さんは休憩室にいます。昼ごはんを食べています。</div>
+        <div class="exc-en">Tanaka-san is in the break room. He is eating lunch.</div>
+        <button class="speak-btn" onclick="speak('田中さんは休憩室にいます。昼ごはんを食べています。')" style="margin-top:6px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 Capstone: location に + います, then て-imasu for what he is doing right now. は switches topic from "where" to "what doing."</div>
+    </div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">You need to find the quality report before the meeting.</div>
+      <div class="exc-line"><div class="exc-speaker">Worker A</div><div class="exc-bubble">
+        <div class="exc-romaji">Hinshitsu repōto <span class="particle-ga">ga</span> doko <span class="particle-ni">ni</span> arimasu ka?</div>
+        <div class="exc-en">Where is the quality report?</div>
+      </div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker B</div><div class="exc-bubble">
+        <div class="exc-romaji">Jimusho <span class="particle-ni">ni</span> arimasu. Supervisor <span class="particle-ga">ga</span> kakunin shi<span class="particle-te">te</span> imasu.</div>
+        <div class="exc-jp">事務所にあります。スーパーバイザーが確認しています。</div>
+        <div class="exc-en">It is in the office. The supervisor is checking it.</div>
+        <button class="speak-btn" onclick="speak('事務所にあります。スーパーバイザーが確認しています。')" style="margin-top:6px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 あります (thing) + て-imasu chained. Notice が marks both the object (repōto) and the actor (supervisor).</div>
+    </div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">You are explaining to a visitor where to go and who to speak to.</div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Jimusho <span class="particle-ni">ni</span> i<span class="particle-te">tte</span>, Yamamoto-san <span class="particle-ga">ga</span> imasu kara, hanashi<span class="particle-te">te</span> kudasai.</div>
+        <div class="exc-jp">事務所に行って、山本さんがいますから、話してください。</div>
+        <div class="exc-en">Please go to the office — Yamamoto-san is there, so please speak with her.</div>
+        <button class="speak-btn" onclick="speak('事務所に行って、山本さんがいますから、話してください。')" style="margin-top:6px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 Destination に + itte (chain) + います for location + te-kudasai request. Note: kara = "because/so" — preview only, not tested today.</div>
+    </div>
+
+    <div class="session-end-banner">
+      <div class="seb-title">Session 11 Complete 🎉</div>
+      <div class="seb-sub">All four U-verb patterns done. て-imasu. に for destination and location. Otsukaresama deshita.</div>
+      <a href="../denso-jp-s11-hw/denso-s11-homework.html" class="seb-link">Optional: Homework Checkpoint →</a>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /accordion -->
+</div><!-- /page-body -->
+<div id="unlock-toast">Block unlocked ✓</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const firebaseConfig={
+  apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",
+  authDomain:"denso-japanese.firebaseapp.com",
+  databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",
+  projectId:"denso-japanese",
+  storageBucket:"denso-japanese.firebasestorage.app",
+  messagingSenderId:"654718718217",
+  appId:"1:654718718217:web:ecec2672bd5069c0b443d8"
+};
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const dbRef=ref(db,"session11/phase2");
+window._fbReady=true;
+window._fbOnValue=(cb)=>onValue(dbRef,snap=>cb(snap.val()));
+document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+function speak(text){const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);}
+
+const BLOCKS=['recap','uverbs','teimasu','iruaru','floor'];
+const state={};BLOCKS.forEach(b=>state[b]={unlocked:false});
+
+function toggleBlock(id){
+  const sec=document.getElementById('section-'+id);
+  if(!sec.classList.contains('active-block')&&!sec.classList.contains('unlocked'))return;
+  sec.classList.toggle('open',!sec.classList.contains('open'));
+  if(id==='teimasu'){buildTeimasuExamples();buildTeimasuMC();}
+  if(id==='iruaru'){buildIruAruMC();}
+}
+
+function applyState(st){
+  if(!st)return;
+  const unlocked=st.unlockedBlocks||[];
+  if(unlocked.length>0){
+    document.getElementById('waiting-state').style.display='none';
+    document.getElementById('accordion').style.display='block';
+  }
+  BLOCKS.forEach(id=>{
+    const sec=document.getElementById('section-'+id);
+    const badge=document.getElementById('badge-'+id);
+    const status=document.getElementById('status-'+id);
+    const isUnlocked=unlocked.includes(id);
+    const isCurrent=id===unlocked[unlocked.length-1];
+    const wasUnlocked=state[id].unlocked;
+    state[id].unlocked=isUnlocked;
+    if(isUnlocked){
+      sec.classList.remove('locked');
+      sec.classList.toggle('active-block',isCurrent);
+      sec.classList.toggle('unlocked',isUnlocked&&!isCurrent);
+      if(status)status.textContent='✓';
+      if(badge){badge.textContent=isCurrent?'Now':'Done';badge.className='bh-badge '+(isCurrent?'badge-current':'badge-done');}
+      if(isCurrent&&!wasUnlocked){
+        sec.classList.add('open');
+        setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),200);
+        showToast('🔓 Block unlocked ✓');
+        if(id==='teimasu'){buildTeimasuExamples();buildTeimasuMC();}
+        if(id==='iruaru'){buildIruAruMC();}
+      }
+      if(isUnlocked&&!isCurrent)sec.classList.remove('open');
+    } else {
+      sec.className='block-section locked';
+      if(status)status.textContent='🔒';
+      if(badge){badge.textContent='Waiting';badge.className='bh-badge badge-locked';}
+    }
+  });
+}
+
+function showToast(msg){const t=document.getElementById('unlock-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+document.addEventListener('fbReady',()=>{
+  const dot=document.getElementById('conn-dot');if(dot)dot.style.background='#166634';
+  const sub=document.querySelector('.waiting-sub');if(sub)sub.textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||{}));
+});
+setTimeout(()=>{if(!window._fbReady){const ws=document.getElementById('waiting-state');if(ws)ws.innerHTML='<div class="waiting-icon">⚠️</div><div class="waiting-text" style="color:var(--warn)">Could not connect.</div><div class="waiting-sub">Check internet and reload.</div>';}},8000);
+
+let timerSecs=80*60;
+(function tick(){const m=Math.floor(timerSecs/60),s=timerSecs%60;const el=document.getElementById('p2-timer');if(el)el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(timerSecs>0){timerSecs--;setTimeout(tick,1000);}})();
+
+// ── います/あります MC ──
+const IRUARU_MC=[
+  {id:1,sentence:'Supervisor ___ jimusho ni imasu.',opts:['ga','wa','wo'],answer:'ga',context:'You are telling a coworker where the supervisor is.',fb_correct:'✅ が — marks the specific person who is there. New information.',fb_wrong:'が is correct — use が when pointing out who is at a location.'},
+  {id:2,sentence:'Kikai ___ Station 2 ni ___ .',opts:['ga · arimasu','wa · imasu','ga · imasu'],answer:'ga · arimasu',context:'The machine is at Station 2.',fb_correct:'✅ が + あります — thing (kikai), so あります. が for new/specific info.',fb_wrong:'が + あります: kikai is a thing → あります, not います.'},
+  {id:3,sentence:'Tanaka-san ___ doko ni imasu ka?',opts:['ga','wo','ni'],answer:'ga',context:'You are asking where Tanaka-san is.',fb_correct:'✅ が — asking about a specific person\'s location.',fb_wrong:'が is correct — Tanaka-san が doko に imasu ka?'},
+  {id:4,sentence:'Tejun ___ Station 1 ni ___ .',opts:['ga · arimasu','ga · imasu','wa · arimasu'],answer:'ga · arimasu',context:'The procedure sheet is at Station 1.',fb_correct:'✅ が + あります — tejun is a thing, not a person.',fb_wrong:'が + あります: tejun is a non-living object → あります.'},
+];
+let iruaruDone={};
+
+function buildIruAruMC(){
+  const container=document.getElementById('iruaru-mc');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  IRUARU_MC.forEach((item,idx)=>{
+    const div=document.createElement('div');div.className='iuaru-item';div.id='iam-'+idx;
+    const shuffled=[...item.opts].sort(()=>Math.random()-0.5);
+    const optsHtml=shuffled.map(o=>`<button class="iuaru-mc-opt" id="iamopt-${idx}-${o.replace(/[ ·]/g,'_')}" onclick="iruaruCheck(${idx},'${o}')">${o}</button>`).join('');
+    div.innerHTML=`<div style="font-size:12px;color:var(--text-3);font-style:italic;margin-bottom:6px;padding:6px 9px;background:var(--surface-2);border-left:3px solid var(--border-strong);border-radius:0 4px 4px 0;">${item.context}</div><div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:9px;line-height:1.7;">${item.sentence}</div><div>${optsHtml}</div><div class="iuaru-fb" id="iamfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function iruaruCheck(idx,chosen){
+  const item=IRUARU_MC[idx];
+  if(iruaruDone[idx])return;
+  iruaruDone[idx]=true;
+  const correct=chosen===item.answer;
+  item.opts.forEach(o=>{const el=document.getElementById('iamopt-'+idx+'-'+o.replace(/[ ·]/g,'_'));if(el)el.classList.add('locked');});
+  const chosenEl=document.getElementById('iamopt-'+idx+'-'+chosen.replace(/[ ·]/g,'_'));
+  const ansEl=document.getElementById('iamopt-'+idx+'-'+item.answer.replace(/[ ·]/g,'_'));
+  const fb=document.getElementById('iamfb-'+idx);
+  const div=document.getElementById('iam-'+idx);
+  if(correct){if(chosenEl)chosenEl.classList.add('correct');if(div)div.classList.add('correct-ans');}
+  else{if(chosenEl)chosenEl.classList.add('wrong');if(ansEl)ansEl.classList.add('show-c');if(div)div.classList.add('wrong-ans');}
+  if(fb){fb.innerHTML=correct?item.fb_correct:item.fb_wrong;fb.className='iuaru-fb show '+(correct?'ok':'bad');}
+}
+
+// ── て-IMASU EXAMPLES ──
+const TEIMASU_EX=[
+  {romaji:'Kikai wo tsuka<span style="color:var(--red)">tte imasu</span>.',jp:'機械を使っています。',en:'I\'m using the machine right now.',note:'tsukau (U-verb, -u→tte) + imasu'},
+  {romaji:'Kakunin wo shi<span style="color:var(--red)">te imasu</span>.',jp:'確認をしています。',en:'I\'m doing the check.',note:'suru (irregular) → shite + imasu'},
+  {romaji:'Tejun wo mi<span style="color:var(--red)">te imasu</span>.',jp:'手順を見ています。',en:'I\'m looking at the procedure.',note:'miru (RU-verb, drop ru) → mite + imasu'},
+  {romaji:'Ki<span style="color:var(--red)">te imasu</span>.',jp:'来ています。',en:'I\'m on my way / I\'ve come.',note:'kuru (irregular) → kite + imasu'},
+  {romaji:'Station ni de hatarai<span style="color:var(--red)">te imasu</span>.',jp:'ステーション2で働いています。',en:'I work at Station 2. (ongoing state)',note:'hataraku (U-verb, -ku→ite) + imasu'},
+];
+
+function buildTeimasuExamples(){
+  const container=document.getElementById('teimasu-examples');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  TEIMASU_EX.forEach(ex=>{
+    const div=document.createElement('div');div.className='teimasu-ex';
+    div.innerHTML=`<div class="teimasu-romaji">${ex.romaji}</div><div class="teimasu-jp">${ex.jp}</div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;"><div class="teimasu-en">${ex.en}</div><button class="speak-btn" onclick="speak(this.dataset.t)" data-t="${ex.jp}">🔊</button></div><div style="font-family:var(--mono);font-size:10px;color:var(--text-3);margin-top:5px;">${ex.note}</div>`;
+    container.appendChild(div);
+  });
+}
+
+// ── て-IMASU MC ──
+const TEIMASU_MC=[
+  {num:1,context:'Your line leader asks what you\'re doing right now.',sentence:'Kikai no settei wo ___ .',blank_pos:'Kikai no settei wo ',blank_after:' .',verb:'suru',opts:['shite imasu','shimashita','shite kudasai'],answer:'shite imasu',fb_correct:'✅ Shite imasu — suru te-form + imasu = ongoing action right now.',fb_wrong:'Shite imasu is correct. Te-form + imasu describes what you\'re doing right now.'},
+  {num:2,context:'A supervisor asks if someone is at Station 3.',sentence:'Station san ni ___ .',blank_pos:'Station san ni ',blank_after:' .',verb:'kuru',opts:['kite imasu','kimashita','kite kudasai'],answer:'kite imasu',fb_correct:'✅ Kite imasu — kuru te-form + imasu = ongoing state (they\'re there right now).',fb_wrong:'Kite imasu is correct. Te-form + imasu = current ongoing state.'},
+  {num:3,context:'You\'re reporting to your supervisor that the machine is currently running.',sentence:'Kikai ga ugo<span style="font-family:var(--mono);font-weight:700;color:var(--text-3);">___</span> .',blank_pos:'Kikai ga ',blank_after:' .',verb:'ugoku',opts:['ugoite imasu','ugokimashita','ugoite kudasai'],answer:'ugoite imasu',fb_correct:'✅ Ugoite imasu — ugoku (U-verb, -ku→ite) + imasu = machine is running right now.',fb_wrong:'Ugoite imasu is correct. Ugoku → ugoite + imasu = currently running.'},
+  {num:4,context:'You want to tell a coworker to check the procedure (not that you\'re checking it).',sentence:'Tejun wo ___ .',blank_pos:'Tejun wo ',blank_after:' .',verb:'miru',opts:['mite imasu','mite kudasai','mimashita'],answer:'mite kudasai',fb_correct:'✅ Mite kudasai — te-form + kudasai = polite request. Te-form + imasu would mean you\'re currently looking.',fb_wrong:'Mite kudasai is correct — this is a request. Mite imasu would mean you\'re currently looking at it.'},
+];
+
+let teimasuAnswers={};
+
+function buildTeimasuMC(){
+  const container=document.getElementById('teimasu-mc');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  TEIMASU_MC.forEach((item,idx)=>{
+    const div=document.createElement('div');div.className='mc-item';div.id='tmci-'+idx;
+    const blankHtml=`<span class="mc-blank" id="tmblank-${idx}">___</span>`;
+    const sentence=item.blank_pos+blankHtml+item.blank_after;
+    const shuffledTOpts=[...item.opts].map((o,i)=>({o,i})).sort(()=>Math.random()-0.5);
+    const safeOpts=shuffledTOpts.map(({o,i})=>`<button class="mc-opt" id="tmopt-${idx}-${i}" onclick="teimasuCheckByIndex(${idx},${i})">${o}</button>`).join('');
+    div.innerHTML=`<div class="mc-num"><span>Question ${item.num} of ${TEIMASU_MC.length}</span><span class="mc-verb-pill">${item.verb}</span></div><div class="mc-context">${item.context}</div><div class="mc-sentence">${sentence}</div><div class="mc-opts">${safeOpts}</div><div class="mc-feedback" id="tmfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function teimasuCheckByIndex(idx,optIdx){teimasuCheck(idx,TEIMASU_MC[idx].opts[optIdx]);}
+function teimasuCheck(idx,chosen){
+  const item=TEIMASU_MC[idx];
+  const chosenIdx=item.opts.indexOf(chosen);
+  const chosenEl=document.getElementById('tmopt-'+idx+'-'+chosenIdx);
+  if(!chosenEl||chosenEl.classList.contains('locked'))return;
+  teimasuAnswers[idx]={chosen,correct:chosen===item.answer};
+  item.opts.forEach((_o,_i)=>document.getElementById('tmopt-'+idx+'-'+_i)?.classList.add('locked'));
+  const correct=chosen===item.answer;
+  const answerEl=document.getElementById('tmopt-'+idx+'-'+item.opts.indexOf(item.answer));
+  const blank=document.getElementById('tmblank-'+idx);
+  const fb=document.getElementById('tmfb-'+idx);
+  const itemEl=document.getElementById('tmci-'+idx);
+  chosenEl.classList.add(correct?'selected-correct':'selected-wrong');
+  if(!correct&&answerEl)answerEl.classList.add('show-correct');
+  if(blank){blank.textContent=item.answer;blank.classList.add('revealed');}
+  if(fb){fb.innerHTML=correct?item.fb_correct:item.fb_wrong;fb.className='mc-feedback show '+(correct?'ok':'bad');}
+  if(itemEl)itemEl.classList.add(correct?'correct-ans':'wrong-ans');
+}
+
+// Build teimasu content when block opens
+
+
+
+
+function uvCheckRow(pi, vi, ri, row) {
+  const cellId = pi + '-' + vi + '-' + ri;
+  const inp = document.getElementById('uv-inp-' + cellId);
+  if (!inp) return;
+  const val = (inp.value || '').trim().toLowerCase();
+  if (!val || uvP1CellDone[cellId]) return;
+  if (val === row.answer || val === row.full) {
+    uvMarkRowDone(pi, vi, ri, row.answer);
+  } else {
+    inp.style.color = 'var(--red)';
+    setTimeout(() => { if (inp) inp.style.color = ''; }, 500);
+  }
+}
+
+function uvCheckCard(pi, vi) {
+  const verb = UV_PATTERNS[pi].verbs[vi];
+  let anyWrong = false;
+  verb.rows.forEach((row, ri) => {
+    const cellId = pi + '-' + vi + '-' + ri;
+    if (uvP1CellDone[cellId]) return;
+    const inp = document.getElementById('uv-inp-' + cellId);
+    const val = (inp ? inp.value : '').trim().toLowerCase();
+    if (val === row.answer || val === row.full) {
+      uvMarkRowDone(pi, vi, ri, row.answer);
+    } else {
+      anyWrong = true;
+      if (inp) { inp.style.borderColor = 'rgba(200,16,46,0.5)'; setTimeout(() => { if (inp) inp.style.borderColor = ''; }, 600); }
+    }
+  });
+  const gid = pi + '-' + vi;
+  const fb = document.getElementById('uv-vcfb-' + gid);
+  const allDone = verb.rows.every((_, ri) => uvP1CellDone[gid + '-' + ri]);
+  if (allDone) {
+    if (fb) { fb.className = 'vc-feedback show ok'; fb.textContent = '✓ All correct'; }
+
+    const card = document.getElementById('uv-vc-' + gid);
+    if (card) card.classList.add('all-done');
+    // Update tab dot
+    const patDone = UV_PATTERNS[pi].verbs.every((v, vi2) =>
+      v.rows.every((_, ri2) => uvP1CellDone[pi + '-' + vi2 + '-' + ri2])
+    );
+    const tab = document.getElementById('uv-ptab-' + pi);
+    if (tab) tab.classList.toggle('pat-complete', patDone);
+  } else if (anyWrong) {
+    if (fb) { fb.className = 'vc-feedback show bad'; fb.textContent = 'Check highlighted fields'; setTimeout(() => { if (fb) fb.className = 'vc-feedback'; }, 1800); }
+  }
+}
+
+function uvMarkRowDone(pi, vi, ri, answer) {
+  const gid = pi + '-' + vi;
+  const cellId = gid + '-' + ri;
+  if (uvP1CellDone[cellId]) return;
+  uvP1CellDone[cellId] = true;
+  uvP1Done++;
+  const inp = document.getElementById('uv-inp-' + cellId);
+  if (inp) { inp.value = answer; inp.disabled = true; }
+  const rowEl = document.getElementById('uv-vcrow-' + cellId);
+  if (rowEl) rowEl.classList.add('vc-row-done');
+  document.getElementById('uv-prog-fill').style.width = (uvP1Done / uvP1Total * 100) + '%';
+  document.getElementById('uv-prog-count').textContent = uvP1Done;
+  if (uvP1Done >= uvP1Total) document.getElementById('uv-next-btn').classList.add('ready');
+  // Show mora boxes as green reference
+  const moraEl = document.getElementById('uv-mora-' + cellId);
+  const row = UV_PATTERNS[pi].verbs[vi].rows[ri];
+  if (moraEl && row.fullKana && row.fullKanaR) {
+    moraEl.innerHTML = row.fullKana.map((m, i) =>
+      `<div class="vc-mora-box"><div class="vc-mora-kana">${m}</div><div class="vc-mora-rom">${row.fullKanaR[i] || ''}</div></div>`
+    ).join('');
+    moraEl.style.display = 'inline-flex';
+  }
+  // Update tab completion dot
+  const allDone = UV_PATTERNS[pi].verbs.every((v, vi2) =>
+    v.rows.every((_, ri2) => uvP1CellDone[pi + '-' + vi2 + '-' + ri2])
+  );
+  const tab = document.getElementById('uv-ptab-' + pi);
+  if (tab) tab.classList.toggle('pat-complete', allDone);
+}
+
+
+// ── U-VERB DATA ──
+// Pattern colours: p1=gold, p2=blue, p3=teal, p4=purple
+const UV_PATTERNS = [
+  {
+    id:'p3', label:'Pattern 3', rule:'-ku → -ite · -gu → -ide',
+    color:'var(--teal)', lightColor:'var(--teal-bg)', borderColor:'var(--teal-border)',
+    verbs:[
+      { plain:'kaku', kana:'かく', mora:['か','く'], moraR:['ka','ku'], stem:'ka', en:'to write', rows:[
+        { label:'Present polite', answer:'kimasu',   full:'kakimasu',   fullKana:['か','き','ま','す'],       fullKanaR:['ka','ki','ma','su']       },
+        { label:'Past polite',    answer:'kimashita',full:'kakimashita',fullKana:['か','き','ま','し','た'],   fullKanaR:['ka','ki','ma','shi','ta']  },
+        { label:'Te-form',        answer:'ite',      full:'kaite',      fullKana:['か','い','て'],            fullKanaR:['ka','i','te']             },
+      ]},
+      { plain:'oyogu', kana:'およぐ', mora:['お','よ','ぐ'], moraR:['o','yo','gu'], stem:'oyo', en:'to swim', rows:[
+        { label:'Present polite', answer:'gimasu',   full:'oyogimasu',   fullKana:['お','よ','ぎ','ま','す'],       fullKanaR:['o','yo','gi','ma','su']       },
+        { label:'Past polite',    answer:'gimashita',full:'oyogimashita',fullKana:['お','よ','ぎ','ま','し','た'],   fullKanaR:['o','yo','gi','ma','shi','ta']  },
+        { label:'Te-form',        answer:'ide',      full:'oyoide',      fullKana:['お','よ','い','で'],           fullKanaR:['o','yo','i','de']             },
+      ]},
+    ]
+  },
+  {
+    id:'p4', label:'Pattern 4', rule:'-su → -shite',
+    color:'var(--purple)', lightColor:'var(--purple-bg)', borderColor:'var(--purple-border)',
+    verbs:[
+      { plain:'hanasu', kana:'はなす', mora:['は','な','す'], moraR:['ha','na','su'], stem:'hana', en:'to speak', rows:[
+        { label:'Present polite', answer:'shimasu',   full:'hanashimasu',   fullKana:['は','な','し','ま','す'],       fullKanaR:['ha','na','shi','ma','su']       },
+        { label:'Past polite',    answer:'shimashita',full:'hanashimashita',fullKana:['は','な','し','ま','し','た'],   fullKanaR:['ha','na','shi','ma','shi','ta']  },
+        { label:'Te-form',        answer:'shite',     full:'hanashite',     fullKana:['は','な','し','て'],           fullKanaR:['ha','na','shi','te']            },
+      ]},
+      { plain:'kasu', kana:'かす', mora:['か','す'], moraR:['ka','su'], stem:'ka', en:'to lend', rows:[
+        { label:'Present polite', answer:'shimasu',   full:'kashimasu',   fullKana:['か','し','ま','す'],       fullKanaR:['ka','shi','ma','su']       },
+        { label:'Past polite',    answer:'shimashita',full:'kashimashita',fullKana:['か','し','ま','し','た'],   fullKanaR:['ka','shi','ma','shi','ta']  },
+        { label:'Te-form',        answer:'shite',     full:'kashite',     fullKana:['か','し','て'],           fullKanaR:['ka','shi','te']            },
+      ]},
+    ]
+  },
+];
+
+const UV_MC = [
+  {num:1,context:'Your line leader tells you to write the procedure.',sentence:'Tejun wo ___ kudasai.',blank_pos:'Tejun wo ',blank_after:' kudasai.',verb:'kaku',opts:['kakimasu','kakimashita','kaite'],answer:'kaite',fb_correct:'✅ Kaite — te-form + kudasai = request. kaku → kaite (Pattern 3, -ku→ite).',fb_wrong:'Kaite kudasai is the request. kaku → kaite (Pattern 3).'},
+  {num:2,context:'You report that you wrote the instructions yesterday.',sentence:'Kinou, shiji wo ___ .',blank_pos:'Kinou, shiji wo ',blank_after:' .',verb:'kaku',opts:['kakimasu','kakimashita','kaite'],answer:'kakimashita',fb_correct:'✅ Kakimashita — past polite. Kinou = yesterday.',fb_wrong:'Kakimashita is correct — kinou signals past.'},
+  {num:3,context:'Your supervisor asks you to speak with the new worker.',sentence:'Atarashii shain to ___ kudasai.',blank_pos:'Atarashii shain to ',blank_after:' kudasai.',verb:'hanasu',opts:['hanashimasu','hanashimashita','hanashite'],answer:'hanashite',fb_correct:'✅ Hanashite — te-form + kudasai = request. hanasu → hanashite (Pattern 4).',fb_wrong:'Hanashite kudasai is the request. hanasu → hanashite (Pattern 4).'},
+  {num:4,context:'You describe what you do every day — you speak Japanese at work.',sentence:'Mainichi, shigoto de nihongo wo ___ .',blank_pos:'Mainichi, shigoto de nihongo wo ',blank_after:' .',verb:'hanasu',opts:['hanashimasu','hanashimashita','hanashite'],answer:'hanashimasu',fb_correct:'✅ Hanashimasu — present polite for habitual action. Mainichi = every day.',fb_wrong:'Hanashimasu is correct — mainichi signals habitual present.'},
+  {num:5,context:'A coworker is swimming after work — you describe what she is doing.',sentence:'Kanojo wa ima ___ .',blank_pos:'Kanojo wa ima ',blank_after:' .',verb:'oyogu',opts:['oyogimasu','oyogimashita','oyoide imasu'],answer:'oyoide imasu',fb_correct:'✅ Oyoide imasu — te-form + imasu = ongoing right now. oyogu → oyoide (Pattern 3, -gu→ide).',fb_wrong:'Oyoide imasu is correct — ongoing action. oyogu → oyoide + imasu.'},
+  {num:6,context:'You finish the report, then hand it to your supervisor.',sentence:'Repōto wo ___ , supervisor ni watashite kudasai.',blank_pos:'Repōto wo ',blank_after:', supervisor ni watashite kudasai.',verb:'kaku',opts:['kakimasu','kakimashita','kaite'],answer:'kaite',fb_correct:'✅ Kaite — te-form chains two actions: write (kaite), then hand over.',fb_wrong:'Kaite is correct — te-form links sequential actions.'},
+];
+
+// UV state
+let uvP1Done = 0;
+let uvP1Total = 0;
+let uvP1CellDone = {};
+let uvP2Score = 0;
+let uvP2Answered = 0;
+
+function uvBuildPart1() {
+  uvP1Done = 0; uvP1CellDone = {};
+  uvP2Score = 0; uvP2Answered = 0;
+  uvP1Total = UV_PATTERNS.reduce((n, p) => n + p.verbs.reduce((m, v) => m + v.rows.length, 0), 0);
+  document.getElementById('uv-prog-total').textContent = uvP1Total;
+  document.getElementById('uv-prog-count').textContent = '0';
+  document.getElementById('uv-prog-fill').style.width = '0%';
+  document.getElementById('uv-next-btn').classList.remove('ready');
+
+  // Build pattern tabs
+  const tabBar = document.getElementById('uv-pat-tabs');
+  tabBar.innerHTML = '';
+  UV_PATTERNS.forEach((pat, pi) => {
+    const tab = document.createElement('button');
+    tab.className = 'uv-pat-tab ' + pat.id;
+    tab.id = 'uv-ptab-' + pi;
+    tab.innerHTML = `<span class="pat-done-dot"></span>${pat.label} <span style="font-weight:400;opacity:0.7;">${pat.rule}</span>`;
+    tab.style.setProperty('--pat-color', pat.color);
+    tab.onclick = () => uvShowPattern(pi);
+    tabBar.appendChild(tab);
+  });
+
+  uvShowPattern(0);
+}
+
+let uvCurrentPattern = 0;
+
+function uvShowPattern(pi) {
+  uvCurrentPattern = pi;
+  const pat = UV_PATTERNS[pi];
+  const grid = document.getElementById('uv-conj-area');
+  grid.innerHTML = '';
+
+  // Update tabs
+  UV_PATTERNS.forEach((_, i) => {
+    const tab = document.getElementById('uv-ptab-' + i);
+    if (!tab) return;
+    tab.classList.toggle('active', i === pi);
+    // Mark complete if all cells done
+    const allDone = UV_PATTERNS[i].verbs.every((v, vi) =>
+      v.rows.every((_, ri) => uvP1CellDone[i + '-' + vi + '-' + ri])
+    );
+    tab.classList.toggle('pat-complete', allDone);
+  });
+
+  // Pattern header
+  const hdr = document.createElement('div');
+  hdr.style.cssText = `background:${pat.lightColor};border:1px solid ${pat.borderColor};border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:12px;margin-bottom:10px;`;
+  hdr.innerHTML = `<span style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1.5px;color:${pat.color};">${pat.label}</span><span style="font-size:12px;color:var(--text-2);">${pat.rule}</span>`;
+  grid.appendChild(hdr);
+
+  // Verb cards for this pattern
+  const cardGrid = document.createElement('div');
+  cardGrid.className = 'conj-grid';
+  grid.appendChild(cardGrid);
+
+  pat.verbs.forEach((verb, vi) => {
+    const gid = pi + '-' + vi;
+    const card = document.createElement('div');
+    card.className = 'verb-card';
+    card.id = 'uv-vc-' + gid;
+    if (verb.rows.every((_, ri) => uvP1CellDone[gid + '-' + ri])) card.classList.add('all-done');
+
+    const head = document.createElement('div');
+    head.className = 'vc-head';
+    const moraBoxes = (verb.mora||[]).map((m,i) =>
+      `<div class="vc-mora-box"><div class="vc-mora-kana">${m}</div><div class="vc-mora-rom">${(verb.moraR||[])[i]||''}</div></div>`
+    ).join('');
+    head.innerHTML = `
+      <div class="vc-mora-row">${moraBoxes}</div>
+      <div class="vc-en" style="font-size:12px;color:var(--text-2);margin-bottom:3px;">${verb.en}</div>
+      <div class="vc-stem-note" style="color:${pat.color};">${pat.label} · ${pat.rule}</div>`;
+    card.appendChild(head);
+
+    const rows = document.createElement('div');
+    rows.className = 'vc-rows';
+    verb.rows.forEach((row, ri) => {
+      const cellId = gid + '-' + ri;
+      const rowEl = document.createElement('div');
+      rowEl.className = 'vc-row' + (uvP1CellDone[cellId] ? ' vc-row-done' : '');
+      rowEl.id = 'uv-vcrow-' + cellId;
+      rowEl.innerHTML = `
+        <span class="vc-form-label">${row.label}</span>
+        <span class="vc-stem-fixed">${verb.stem}-</span>
+        <input class="vc-ending-input" id="uv-inp-${cellId}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···" ${uvP1CellDone[cellId] ? 'disabled value="'+row.answer+'"' : ''}>
+        <span class="vc-mora-reveal" id="uv-mora-${cellId}" style="${uvP1CellDone[cellId] && row.fullKana ? 'display:inline-flex;' : 'display:none;'}">
+          ${uvP1CellDone[cellId] && row.fullKana ? row.fullKana.map((m,i) => `<div class="vc-mora-box"><div class="vc-mora-kana">${m}</div><div class="vc-mora-rom">${row.fullKanaR[i]||''}</div></div>`).join('') : ''}
+        </span>`;
+      if (!uvP1CellDone[cellId]) {
+        rowEl.querySelector('.vc-ending-input').addEventListener('keydown', e => {
+          if (e.key === 'Enter') uvCheckRow(pi, vi, ri, row);
+        });
+      }
+      rows.appendChild(rowEl);
+    });
+    card.appendChild(rows);
+
+    const cr = document.createElement('div');
+    cr.className = 'vc-check-row';
+    const allDoneCard = verb.rows.every((_, ri) => uvP1CellDone[gid + '-' + ri]);
+    cr.innerHTML = `<span class="vc-feedback ${allDoneCard ? 'show ok' : ''}" id="uv-vcfb-${gid}">${allDoneCard ? '✓ All correct' : ''}</span>`;
+    card.appendChild(cr);
+    cardGrid.appendChild(card);
+  });
+}
+
+
+function uvCheckRow(pi, vi, ri, row) {
+  const cellId = pi + '-' + vi + '-' + ri;
+  const inp = document.getElementById('uv-inp-' + cellId);
+  if (!inp) return;
+  const val = (inp.value || '').trim().toLowerCase();
+  if (!val || uvP1CellDone[cellId]) return;
+  if (val === row.answer || val === row.full) {
+    uvMarkRowDone(pi, vi, ri, row.answer);
+  } else {
+    inp.style.color = 'var(--red)';
+    setTimeout(() => { if (inp) inp.style.color = ''; }, 500);
+  }
+}
+
+function uvCheckCard(pi, vi) {
+  const verb = UV_PATTERNS[pi].verbs[vi];
+  let anyWrong = false;
+  verb.rows.forEach((row, ri) => {
+    const cellId = pi + '-' + vi + '-' + ri;
+    if (uvP1CellDone[cellId]) return;
+    const inp = document.getElementById('uv-inp-' + cellId);
+    const val = (inp ? inp.value : '').trim().toLowerCase();
+    if (val === row.answer || val === row.full) {
+      uvMarkRowDone(pi, vi, ri, row.answer);
+    } else {
+      anyWrong = true;
+      if (inp) { inp.style.borderColor = 'rgba(200,16,46,0.5)'; setTimeout(() => { if (inp) inp.style.borderColor = ''; }, 600); }
+    }
+  });
+  const gid = pi + '-' + vi;
+  const fb = document.getElementById('uv-vcfb-' + gid);
+  const allDone = verb.rows.every((_, ri) => uvP1CellDone[gid + '-' + ri]);
+  if (allDone) {
+    if (fb) { fb.className = 'vc-feedback show ok'; fb.textContent = '✓ All correct'; }
+
+    const card = document.getElementById('uv-vc-' + gid);
+    if (card) card.classList.add('all-done');
+    // Update tab dot
+    const patDone = UV_PATTERNS[pi].verbs.every((v, vi2) =>
+      v.rows.every((_, ri2) => uvP1CellDone[pi + '-' + vi2 + '-' + ri2])
+    );
+    const tab = document.getElementById('uv-ptab-' + pi);
+    if (tab) tab.classList.toggle('pat-complete', patDone);
+  } else if (anyWrong) {
+    if (fb) { fb.className = 'vc-feedback show bad'; fb.textContent = 'Check highlighted fields'; setTimeout(() => { if (fb) fb.className = 'vc-feedback'; }, 1800); }
+  }
+}
+
+function uvMarkRowDone(pi, vi, ri, answer) {
+  const gid = pi + '-' + vi;
+  const cellId = gid + '-' + ri;
+  if (uvP1CellDone[cellId]) return;
+  uvP1CellDone[cellId] = true;
+  uvP1Done++;
+  const inp = document.getElementById('uv-inp-' + cellId);
+  if (inp) { inp.value = answer; inp.disabled = true; }
+  const rowEl = document.getElementById('uv-vcrow-' + cellId);
+  if (rowEl) rowEl.classList.add('vc-row-done');
+  document.getElementById('uv-prog-fill').style.width = (uvP1Done / uvP1Total * 100) + '%';
+  document.getElementById('uv-prog-count').textContent = uvP1Done;
+  if (uvP1Done >= uvP1Total) document.getElementById('uv-next-btn').classList.add('ready');
+  // Show mora boxes as green reference
+  const moraEl = document.getElementById('uv-mora-' + cellId);
+  const row = UV_PATTERNS[pi].verbs[vi].rows[ri];
+  if (moraEl && row.fullKana && row.fullKanaR) {
+    moraEl.innerHTML = row.fullKana.map((m, i) =>
+      `<div class="vc-mora-box"><div class="vc-mora-kana">${m}</div><div class="vc-mora-rom">${row.fullKanaR[i] || ''}</div></div>`
+    ).join('');
+    moraEl.style.display = 'inline-flex';
+  }
+  // Update tab completion dot
+  const allDone = UV_PATTERNS[pi].verbs.every((v, vi2) =>
+    v.rows.every((_, ri2) => uvP1CellDone[pi + '-' + vi2 + '-' + ri2])
+  );
+  const tab = document.getElementById('uv-ptab-' + pi);
+  if (tab) tab.classList.toggle('pat-complete', allDone);
+}
+
+
+function uvBuildPart2() {
+  uvP2Score = 0; uvP2Answered = 0;
+  const container = document.getElementById('uv-mc-items');
+  container.innerHTML = '';
+  document.getElementById('uv-results').classList.remove('show');
+
+  UV_MC.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'mc-item';
+    div.id = 'uvmci-' + idx;
+    const blankHtml = `<span class="mc-blank" id="uvblank-${idx}">___</span>`;
+    const sentenceHtml = item.blank_pos
+      ? item.blank_pos + blankHtml + item.blank_after
+      : blankHtml + item.blank_after;
+    const shuffledUOpts=[...item.opts].sort(()=>Math.random()-0.5);
+    const optsHtml = shuffledUOpts.map(o =>
+      `<button class="mc-opt" id="uvopt-${idx}-${o}" onclick="uvCheckMC(${idx},'${o}')">${o}</button>`
+    ).join('');
+    div.innerHTML = `
+      <div class="mc-num"><span>Question ${item.num} of ${UV_MC.length}</span><span class="mc-verb-pill">${item.verb}</span></div>
+      <div class="mc-context">${item.context}</div>
+      <div class="mc-sentence">${sentenceHtml}</div>
+      <div class="mc-opts">${optsHtml}</div>
+      <div class="mc-feedback" id="uvfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function uvCheckMC(idx, chosen) {
+  const item = UV_MC[idx];
+  if (document.getElementById('uvopt-' + idx + '-' + chosen).classList.contains('locked')) return;
+  item.opts.forEach(o => document.getElementById('uvopt-' + idx + '-' + o).classList.add('locked'));
+  const correct = chosen === item.answer;
+  document.getElementById('uvopt-' + idx + '-' + chosen).classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  if (!correct) document.getElementById('uvopt-' + idx + '-' + item.answer).classList.add('show-correct');
+  const blank = document.getElementById('uvblank-' + idx);
+  blank.textContent = item.answer; blank.classList.add('revealed');
+  const fb = document.getElementById('uvfb-' + idx);
+  fb.textContent = correct ? item.fb_correct : item.fb_wrong;
+  fb.className = 'mc-feedback show ' + (correct ? 'ok' : 'bad');
+  document.getElementById('uvmci-' + idx).classList.add(correct ? 'correct-ans' : 'wrong-ans');
+  if (!uvP2Score.hasOwnProperty || !Object.prototype.hasOwnProperty.call(uvP1CellDone, 'answered-' + idx)) {
+    uvP1CellDone['answered-' + idx] = true;
+    if (correct) uvP2Score++;
+    uvP2Answered++;
+    if (uvP2Answered === UV_MC.length) {
+      setTimeout(() => {
+        const el = document.getElementById('uv-results');
+        el.classList.add('show');
+        document.getElementById('uv-res-score').textContent = uvP2Score + ' / ' + UV_MC.length;
+        const msg = uvP2Score === UV_MC.length
+          ? 'Perfect — all 4 U-verb patterns locked in.'
+          : uvP2Score >= 6
+          ? 'Strong work. Review any missed items, especially the te-form patterns.'
+          : 'Keep at it — the 4 patterns need repetition. Reset and go again.';
+        document.getElementById('uv-res-msg').textContent = msg;
+        document.getElementById('uv-res-score').style.color = uvP2Score >= 7 ? 'var(--green)' : uvP2Score >= 5 ? 'var(--gold, #92400E)' : 'var(--red)';
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 400);
+    }
+  }
+}
+
+function uvShowPart(n) {
+  document.querySelectorAll('#uv-wrap .rv-part').forEach(p => p.classList.remove('active'));
+  document.getElementById('uv-part-' + n).classList.add('active');
+  document.querySelectorAll('#uv-wrap .rv-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('uv-tab-' + n).classList.add('active');
+  if (n === 2) { document.getElementById('uv-tab-2').disabled = false; uvBuildPart2(); }
+}
+
+function uvUnlock() { document.getElementById('uv-lock-overlay').classList.add('gone'); }
+
+function uvReset() { uvBuildPart1(); uvShowPart(1); document.getElementById('uv-tab-2').disabled = true; }
+
+uvBuildPart1();
+
+
+</script>
+</body>
+</html>
