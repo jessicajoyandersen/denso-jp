@@ -637,22 +637,26 @@ window.updateResponsePanel = function updateResponsePanel(entries){
 setTimeout(()=>{if(!window._fbReady){const lbl=document.getElementById('conn-label');if(lbl)lbl.textContent='offline';}},9000);
 
 // ── PIN ──
-const CORRECT_PIN='3985';
+const CORRECT_PIN_HASH='6d0ae6d0fcd01bc8ab3fd34e8090e9c27031b52f68f6169a7e963915d31f3d17';
 let pinEntry='';
 function pinPress(d){if(pinEntry.length>=4)return;pinEntry+=d;updateDots();if(pinEntry.length===4)setTimeout(checkPin,120);}
 function pinBack(){pinEntry=pinEntry.slice(0,-1);updateDots();document.getElementById('pin-error').textContent='';}
 function pinClear(){pinEntry='';updateDots();document.getElementById('pin-error').textContent='';}
 function updateDots(){for(let i=0;i<4;i++){const d=document.getElementById('pd'+i);d.classList.toggle('filled',i<pinEntry.length);d.classList.remove('error');}}
 function checkPin(){
-  if(pinEntry===CORRECT_PIN){
-    document.getElementById('pin-gate').style.display='none';
-    document.getElementById('fac-shell').style.display='flex';
-    if(!facTimerInterval)facTimerInterval=setInterval(facTimerTick,1000);
-  } else {
-    for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.add('error');
-    document.getElementById('pin-error').textContent='Incorrect PIN — try again';
-    setTimeout(()=>{pinEntry='';updateDots();},900);
-  }
+  const buf=new TextEncoder().encode(pinEntry);
+  crypto.subtle.digest('SHA-256',buf).then(ab=>{
+    const hex=Array.from(new Uint8Array(ab)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(hex===CORRECT_PIN_HASH){
+      document.getElementById('pin-gate').style.display='none';
+      document.getElementById('fac-shell').style.display='flex';
+      if(!facTimerInterval)facTimerInterval=setInterval(facTimerTick,1000);
+    } else {
+      for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.add('error');
+      document.getElementById('pin-error').textContent='Incorrect PIN — try again';
+      setTimeout(()=>{pinEntry='';updateDots();},900);
+    }
+  });
 }
 document.addEventListener('keydown',e=>{
   if(document.getElementById('pin-gate').style.display==='none')return;

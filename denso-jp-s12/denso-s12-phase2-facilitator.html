@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!--
   © 2026 JJA · Joyful Language Academy. All rights reserved.
-  Session 10 — Phase 2 Facilitator
+  Session 12 — Phase 2 Facilitator
   denso-s9a-phase2-facilitator.html
 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -162,7 +162,7 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
   <div class="pin-card">
     <div class="pin-logo">⛩</div>
     <div class="pin-title">Facilitator Panel</div>
-    <div class="pin-sub">Session 10 — Te-Form Foundation<br>Enter your PIN to continue.</div>
+    <div class="pin-sub">Session 12 — Te-Form Foundation<br>Enter your PIN to continue.</div>
     <div class="pin-dots">
       <div class="pin-dot" id="pd0"></div>
       <div class="pin-dot" id="pd1"></div>
@@ -199,7 +199,7 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
         <div class="fac-timer-display" id="fac-timer">80:00</div>
         <button class="fac-timer-btn" id="fac-timer-btn" onclick="facToggleTimer()">⏸ Pause</button>
       </div>
-      <div class="fac-badge">S10 Facilitator</div>
+      <div class="fac-badge">S12 Facilitator</div>
       <div class="conn-pill offline" id="conn-pill">
         <div class="conn-dot-sm"></div>
         <span id="conn-label">connecting…</span>
@@ -214,37 +214,37 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
 
       <button class="fac-nav-btn viewing" id="nav-recap" onclick="viewBlock('recap')">
         <div class="fac-nav-num">A · 5 min</div>
-        <div class="fac-nav-title">⚡ S9 Recap</div>
+        <div class="fac-nav-title">⚡ S11 Recap</div>
         <div class="fac-nav-time">00:00</div>
         <div class="fac-nav-status" id="navstatus-recap"></div>
       </button>
 
-      <button class="fac-nav-btn" id="nav-ni" onclick="viewBlock('ni')">
-        <div class="fac-nav-num">B · 12 min</div>
-        <div class="fac-nav-title">📍 に Destination</div>
+      <button class="fac-nav-btn" id="nav-iruaru" onclick="viewBlock('iruaru')">
+        <div class="fac-nav-num">B · 20 min</div>
+        <div class="fac-nav-title">📌 に Location</div>
         <div class="fac-nav-time">05:00</div>
-        <div class="fac-nav-status" id="navstatus-ni"></div>
+        <div class="fac-nav-status" id="navstatus-iruaru"></div>
       </button>
 
-      <button class="fac-nav-btn" id="nav-uverbs" onclick="viewBlock('uverbs')">
-        <div class="fac-nav-num">C · 20 min</div>
-        <div class="fac-nav-title">🟡 U-Verbs</div>
-        <div class="fac-nav-time">17:00</div>
-        <div class="fac-nav-status" id="navstatus-uverbs"></div>
+      <button class="fac-nav-btn" id="nav-adj" onclick="viewBlock('adj')">
+        <div class="fac-nav-num">C · 15 min</div>
+        <div class="fac-nav-title">🟠 I-Adjectives</div>
+        <div class="fac-nav-time">25:00</div>
+        <div class="fac-nav-status" id="navstatus-adj"></div>
       </button>
 
-      <button class="fac-nav-btn" id="nav-teimasu" onclick="viewBlock('teimasu')">
-        <div class="fac-nav-num">D · 13 min</div>
-        <div class="fac-nav-title">🔄 て-imasu</div>
-        <div class="fac-nav-time">37:00</div>
-        <div class="fac-nav-status" id="navstatus-teimasu"></div>
+      <button class="fac-nav-btn" id="nav-kara" onclick="viewBlock('kara')">
+        <div class="fac-nav-num">D · 15 min</div>
+        <div class="fac-nav-title">↩ kara</div>
+        <div class="fac-nav-time">40:00</div>
+        <div class="fac-nav-status" id="navstatus-kara"></div>
       </button>
 
-      <button class="fac-nav-btn" id="nav-checkpoint" onclick="viewBlock('checkpoint')">
-        <div class="fac-nav-num">E · 20 min</div>
-        <div class="fac-nav-title">📝 Checkpoint</div>
-        <div class="fac-nav-time">50:00</div>
-        <div class="fac-nav-status" id="navstatus-checkpoint"></div>
+      <button class="fac-nav-btn" id="nav-floor" onclick="viewBlock('floor')">
+        <div class="fac-nav-num">E · 12 min</div>
+        <div class="fac-nav-title">🏭 Floor Exchanges</div>
+        <div class="fac-nav-time">55:00</div>
+        <div class="fac-nav-status" id="navstatus-floor"></div>
       </button>
 
       <div class="sidebar-bottom">
@@ -259,163 +259,167 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
       <div class="block-panel active" id="panel-recap">
         <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">5 min</div></div>
         <div class="ctrl-bar">
-          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block A — Session 9 Recap</div><div class="ctrl-block-sub">Unlocks the recap reference on learner screens.</div></div>
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block A — Session 11 Recap</div><div class="ctrl-block-sub">Unlocks the S11 reference on learner screens.</div></div>
           <button class="ctrl-btn unlock" id="pushbtn-recap" onclick="pushBlock('recap')">🔓 Unlock &amp; Push</button>
           <button class="ctrl-btn retract" id="retract-recap" onclick="retractBlock('recap')" style="display:none;">Retract</button>
         </div>
         <div class="fac-eyebrow">Block A</div>
-        <div class="fac-block-title">Session 9 Recap — Fast</div>
-        <div class="fac-block-sub">Quick verbal review before new content. Students see the reference grid.</div>
+        <div class="fac-block-title">Session 11 Recap — Fast</div>
+        <div class="fac-block-sub">Quick verbal review. U-verbs P3+P4 and て-imasu should be solid before new content.</div>
         <div class="fac-card blue">
           <div class="fac-card-label">Talking points</div>
           <div class="fac-talking-points">
-            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">Call out a verb — students give all three forms: masu / mashita / te. <em>"taberu — go."</em> → tabemasu / tabemashita / tabete.</div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Quick te-form uses check: <em>"What does te-form + kudasai mean? Te-form + verb?"</em></div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Flag anyone struggling — they may need more support during Block C U-verbs.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">Quick drill — call a verb: <em>"Kaku — te-form?"</em> → kaite. <em>"Hanasu?"</em> → hanashite. <em>"Oyogu?"</em> → oyoide.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">て-imasu check: <em>"Kaku → te-form → add imasu. What does it mean?"</em> → I am writing / currently writing.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">て-imasu expansion in the recap: <em>"You learned て-imasu as ongoing action. Some verbs use it for resultant state — kite imasu means I am here, not I am coming. Suwatte imasu = I am sitting. Shitte imasu = I know."</em></div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">4</div><div class="fac-tp-text"><em>"Today: に location, i-adjectives, and kara."</em></div></div>
           </div>
         </div>
       </div>
 
-      <!-- ═══ PANEL B — に ═══ -->
-      <div class="block-panel" id="panel-ni">
-        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">12 min</div></div>
+      <!-- ═══ PANEL B — に LOCATION ═══ -->
+      <div class="block-panel" id="panel-iruaru">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">20 min</div></div>
         <div class="ctrl-bar">
-          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block B — に Destination</div><div class="ctrl-block-sub">Unlocks the destination particle content and floor exchanges.</div></div>
-          <button class="ctrl-btn unlock" id="pushbtn-ni" onclick="pushBlock('ni')">🔓 Unlock &amp; Push</button>
-          <button class="ctrl-btn retract" id="retract-ni" onclick="retractBlock('ni')" style="display:none;">Retract</button>
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block B — に + います/あります</div><div class="ctrl-block-sub">Unlocks the location block — rule cards, が note, MC drill, floor exchanges.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-iruaru" onclick="pushBlock('iruaru')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-iruaru" onclick="retractBlock('iruaru')" style="display:none;">Retract</button>
         </div>
         <div class="fac-eyebrow">Block B</div>
-        <div class="fac-block-title">に — Where You're Going</div>
-        <div class="fac-block-sub">One particle, any movement verb. Ties together te-form and location words from S6.</div>
+        <div class="fac-block-title">Location に — Carried from S11</div>
+        <div class="fac-block-sub">Same particle, location use. Contrast with destination に from S10.</div>
         <div class="fac-card blue">
-          <div class="fac-card-label">Talking points</div>
+          <div class="fac-card-label">Core teaching sequence</div>
           <div class="fac-talking-points">
-            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text"><em>"に after a place means you're going there. Station 3 ni itte kudasai — go to Station 3."</em></div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Walk through the capstone sentence: <em>"Station 2 ni itte, kono tejun wo mite kudasai."</em> Point out each particle — ni, wo, te-form chain.</div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Run the three floor exchanges as pair drills. Swap roles. Use 🔊 if pronunciation is uncertain.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text"><em>"Same に as destination — but now the verb is います or あります, not a movement verb."</em> Write both side by side.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Rule of thumb — say it twice: <em>"Person or animal → います. Object or thing → あります."</em> Ask: Tanaka-san? Tejun? Kikai?</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text"><strong>が:</strong> marks the specific thing you're pointing out. Same が as S8. New/specific info → が.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">4</div><div class="fac-tp-text">Pattern on board: <strong>[person/thing] が [place] に います/あります</strong>. Walk through both floor exchanges together.</div></div>
           </div>
+        </div>
+        <div class="fac-card blue" style="margin-top:10px;">
+          <div class="fac-card-label">Quick check answer key</div>
+          <table class="qref-table">
+            <thead><tr><th>Q</th><th>Subject</th><th>Answer</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Supervisor が jimusho に ___</td><td style="color:#166534;">imasu</td><td>person</td></tr>
+              <tr><td>2</td><td>Kikai が Station 2 に ___</td><td style="color:#166534;">arimasu</td><td>object</td></tr>
+              <tr><td>3</td><td>Tanaka-san が doko に ___ ka?</td><td style="color:#166534;">imasu</td><td>person</td></tr>
+              <tr><td>4</td><td>Tejun が Station 1 に ___</td><td style="color:#166534;">arimasu</td><td>object</td></tr>
+            </tbody>
+          </table>
         </div>
         <div class="fac-card gold">
           <div class="fac-card-label">Watch for</div>
           <div class="watch-list">
-            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>itte vs iku:</strong> ikimasu → itte is a Group 1 exception. Not iite. Flag it if it comes up — U-verb rules in Block C will help explain.</div></div>
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Destination vs location に:</strong> "Station 3 ni itte kudasai" (destination, movement verb) vs "Tanaka-san ga Station 3 ni imasu" (location, います). Same に, different verb. Write both.</div></div>
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Kikai ga imasu:</strong> machine is not alive → あります. Catch this early.</div></div>
           </div>
         </div>
       </div>
 
-      <!-- ═══ PANEL C — U-VERBS ═══ -->
-      <div class="block-panel" id="panel-uverbs">
-        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">20 min</div></div>
+      <!-- ═══ PANEL C — I-ADJECTIVES ═══ -->
+      <div class="block-panel" id="panel-adj">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">15 min</div></div>
         <div class="ctrl-bar">
-          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block C — U-Verbs</div><div class="ctrl-block-sub">Unlocks the 4-pattern conjugation widget.</div></div>
-          <button class="ctrl-btn unlock" id="pushbtn-uverbs" onclick="pushBlock('uverbs')">🔓 Unlock &amp; Push</button>
-          <button class="ctrl-btn retract" id="retract-uverbs" onclick="retractBlock('uverbs')" style="display:none;">Retract</button>
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block C — I-Adjectives</div><div class="ctrl-block-sub">Unlocks vocab grid, 4 MC recognition items, 4 fill-in production items.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-adj" onclick="pushBlock('adj')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-adj" onclick="retractBlock('adj')" style="display:none;">Retract</button>
         </div>
         <div class="fac-eyebrow">Block C</div>
-        <div class="fac-block-title">Group 1 — 4 Te-Form Patterns</div>
-        <div class="fac-block-sub">The largest group. Pattern determined by the verb's final sound.</div>
+        <div class="fac-block-title">I-Adjectives — 7 New Words</div>
+        <div class="fac-block-sub">One rule: i-adjective + desu. All seven words follow it.</div>
         <div class="fac-card blue">
-          <div class="fac-card-label">The 4 patterns</div>
+          <div class="fac-card-label">Vocabulary — all 7</div>
           <table class="qref-table">
-            <thead><tr><th>Pattern</th><th>Rule</th><th>Verbs in widget</th></tr></thead>
+            <thead><tr><th>Romaji</th><th>Hiragana</th><th>Meaning</th></tr></thead>
             <tbody>
-              <tr><td style="color:#92400E;font-weight:700;">P1</td><td>-u/-tsu/-ru* → -tte</td><td>kau (buy), katsu (win), shiru (know)</td></tr>
-              <tr><td style="color:#1558A6;font-weight:700;">P2</td><td>-nu/-bu/-mu → -nde</td><td>nomu (drink), tobu (fly)</td></tr>
-              <tr><td style="color:#0E7A6A;">P3</td><td>-ku → ite, -gu → ide</td><td>→ ite/ide</td><td>kaku (write), oyogu (swim)</td></tr>
-              <tr><td style="color:#5B3E9E;font-weight:700;">P4</td><td>-su → -shite</td><td>hanasu (speak), kasu (lend)</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">nemui</td><td>ねむい</td><td>sleepy</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">hayai</td><td>はやい</td><td>fast / early</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">osoi</td><td>おそい</td><td>slow / late</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">muzukashii</td><td>むずかしい</td><td>difficult</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">yasashii</td><td>やさしい</td><td>easy / kind</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">atarashii</td><td>あたらしい</td><td>new</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">furui</td><td>ふるい</td><td>old (things)</td></tr>
             </tbody>
           </table>
         </div>
         <div class="fac-card blue" style="margin-top:10px;">
-          <div class="fac-card-label">Widget features</div>
+          <div class="fac-card-label">Teaching notes</div>
           <div class="fac-talking-points">
-            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">Each pattern is a separate tab. Green dot appears when all verbs in that pattern are complete.</div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Enter key checks each row. Correct answer locks and shows full conjugation as mora boxes (hiragana + romaji) to the right.</div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Part 2 has 8 MC items. Students must complete Part 1 before Part 2 unlocks.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">Point out the pattern on the vocab grid: every card shows <em>adjective + desu</em> in the footer. One rule, all seven words.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">MC is recognition — pick the right adjective for the context. Fill-in is production — type the full form with desu.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text"><strong>hayai vs osoi:</strong> call out a scenario — <em>"The conveyor is running fast — hayai or osoi?"</em> Quick back-and-forth to lock in the pair.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">4</div><div class="fac-tp-text"><strong>furui vs atarashii:</strong> both come up in kara sentences next block — reinforce now.</div></div>
           </div>
         </div>
-        <div class="fac-card gold" style="margin-top:10px;">
+        <div class="fac-card gold">
           <div class="fac-card-label">Watch for</div>
           <div class="watch-list">
-            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>shiru / kiru / kaeru:</strong> end in -ru but are U-verbs (Pattern 1 ru*), not RU-verbs. Students from S9 may default to dropping -ru — catch it early.</div></div>
-            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>iku → itte:</strong> fixed exception to Pattern 3, not iite. Already came up in Block B.</div></div>
-            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>oyogu → oyoide:</strong> Pattern 3 voiced variant uses -ide not -ite. Students sometimes write oyoite.</div></div>
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>yasashii vs muzukashii:</strong> students sometimes swap these. Drill the pair: <em>"Easy?"</em> → yasashii. <em>"Difficult?"</em> → muzukashii.</div></div>
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>furui for people:</strong> furui is for objects/things. For old people, Japanese uses toshiyori or similar — not furui. Not tested today but worth noting if it comes up.</div></div>
           </div>
         </div>
       </div>
 
-      <!-- ═══ PANEL D — て-IMASU ═══ -->
-      <div class="block-panel" id="panel-teimasu">
-        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">13 min</div></div>
+      <!-- ═══ PANEL D — KARA ═══ -->
+      <div class="block-panel" id="panel-kara">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">15 min</div></div>
         <div class="ctrl-bar">
-          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block D — て-imasu</div><div class="ctrl-block-sub">Unlocks the て-imasu teach and 4-item MC drill.</div></div>
-          <button class="ctrl-btn unlock" id="pushbtn-teimasu" onclick="pushBlock('teimasu')">🔓 Unlock &amp; Push</button>
-          <button class="ctrl-btn retract" id="retract-teimasu" onclick="retractBlock('teimasu')" style="display:none;">Retract</button>
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block D — kara</div><div class="ctrl-block-sub">Unlocks the kara pattern, 5 floor examples, and 3-item MC.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-kara" onclick="pushBlock('kara')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-kara" onclick="retractBlock('kara')" style="display:none;">Retract</button>
         </div>
         <div class="fac-eyebrow">Block D</div>
-        <div class="fac-block-title">て-imasu — Ongoing Actions</div>
-        <div class="fac-block-sub">They saw this in S9 Slide 4. Now it lands properly.</div>
+        <div class="fac-block-title">kara — Reason → Result</div>
+        <div class="fac-block-sub">One structure. Reason first, then kara, then what happens.</div>
         <div class="fac-card blue">
-          <div class="fac-card-label">Talking points</div>
+          <div class="fac-card-label">Core pattern</div>
+          <div style="background:#1A1D25;border:1px solid #2A2D38;border-radius:7px;padding:13px 16px;margin-bottom:12px;">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;color:#E8E0D4;margin-bottom:6px;">[reason] <span style="color:#E8B84B;">kara</span>, [result].</div>
+            <div style="font-size:12px;color:#6B7585;">Nemui desu <span style="color:#E8B84B;">kara</span>, nemasu. → I am sleepy, so I will sleep.</div>
+          </div>
           <div class="fac-talking-points">
-            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text"><em>"Remember the preview slide from last session? Te-form + imasu = what's happening right now. Today you learn it properly."</em></div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">The key contrast to drill: <em>"Tsukatte kudasai vs tsukatte imasu — same te-form, completely different meaning. Second word changes everything."</em></div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Point out that て-imasu uses all three groups — the examples on their screens show RU-verb, irregular, and U-verb forms.</div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">4</div><div class="fac-tp-text">MC item 4 is the key trap: "Tejun wo ___ kudasai" — they must choose mite kudasai (request) not mite imasu (ongoing). Make sure to debrief this one explicitly.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text"><em>"The reason always comes first in Japanese. You set up the why before you say what happens."</em> This is the opposite of how English often works.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Read all 5 floor examples together. Point out: the reason is always an adjective + desu or a verb + desu before kara.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">The most useful floor sentence: <em>"Muzukashii desu kara, mō ichi-do hanashite kudasai."</em> Teach this as a survival phrase — students should be able to say this immediately.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">4</div><div class="fac-tp-text">MC Q2 is the key check — does the reason come before kara? If students are putting kara first, address it directly.</div></div>
+          </div>
+        </div>
+        <div class="fac-card gold">
+          <div class="fac-card-label">Watch for</div>
+          <div class="watch-list">
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Reversed order:</strong> "Nemasu kara, nemui desu" — wrong in Japanese. Result does NOT come before kara. Draw an arrow on the whiteboard: reason → kara → result.</div></div>
+            <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>kara vs kara (from):</strong> kara also means "from" in time/place expressions (9-ji kara = from 9 o'clock). Different use, same word. Don't mix them today — just note it if someone asks.</div></div>
           </div>
         </div>
       </div>
 
-      <!-- ═══ PANEL E — GRAMMAR CHECKPOINT ═══ -->
-      <div class="block-panel" id="panel-checkpoint">
-        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">20 min</div></div>
+      <!-- ═══ PANEL E — FLOOR EXCHANGES ═══ -->
+      <div class="block-panel" id="panel-floor">
+        <div class="timing-bar"><div class="timing-icon">⏱</div><div class="timing-label">Target time</div><div class="timing-val">12 min</div></div>
         <div class="ctrl-bar">
-          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block E — Grammar Checkpoint</div><div class="ctrl-block-sub">Unlocks the 22-item checkpoint. Students submit when done.</div></div>
-          <button class="ctrl-btn unlock" id="pushbtn-checkpoint" onclick="pushBlock('checkpoint')">🔓 Unlock &amp; Push</button>
-          <button class="ctrl-btn retract" id="retract-checkpoint" onclick="retractBlock('checkpoint')" style="display:none;">Retract</button>
+          <div class="ctrl-bar-left"><div class="ctrl-block-title">Block E — Floor Exchanges</div><div class="ctrl-block-sub">Unlocks 3 combined exchanges and session-end banner.</div></div>
+          <button class="ctrl-btn unlock" id="pushbtn-floor" onclick="pushBlock('floor')">🔓 Unlock &amp; Push</button>
+          <button class="ctrl-btn retract" id="retract-floor" onclick="retractBlock('floor')" style="display:none;">Retract</button>
         </div>
         <div class="fac-eyebrow">Block E</div>
-        <div class="fac-block-title">Grammar Checkpoint — S5–S10</div>
-        <div class="fac-block-sub">Anonymous, 22 items, flag + submit. Students work independently — walk the room.</div>
+        <div class="fac-block-title">Everything Combined</div>
+        <div class="fac-block-sub">Three exchanges using location に, adjectives, and kara together.</div>
         <div class="fac-card blue">
-          <div class="fac-card-label">Checkpoint structure</div>
-          <div style="font-size:13px;color:#C8D0E0;line-height:1.8;">
-            <strong style="color:#fff;">Section 1</strong> — Particles (を、に、は、が、の) — fill-in · Q1–6<br>
-            <strong style="color:#fff;">Section 2</strong> — Demonstratives (kore/kono/sono/ano…) — fill-in · Q7–10<br>
-            <strong style="color:#fff;">Section 3</strong> — Verb Forms (masu/mashita/te-form/te-imasu) — MC · Q11–18<br>
-            <strong style="color:#fff;">Section 4</strong> — Destination に — fill-in · Q19–20<br>
-            <strong style="color:#fff;">Section 5</strong> — Mixed (otsukaresama / chaining) — MC · Q21–22
-          </div>
-          <div style="margin-top:10px;font-size:12px;color:#6B7585;line-height:1.7;">
-            Students answer all 22, flag uncertain items with 🚩, then submit. Score + flagged list revealed on submit. Anonymous — no names collected.
+          <div class="fac-card-label">Exchanges at a glance</div>
+          <div style="font-size:13px;color:#C8D0E0;line-height:1.9;">
+            <strong style="color:#fff;">Exchange 1</strong> — Procedure is difficult → ask for help (kara + te-kudasai)<br>
+            <strong style="color:#fff;">Exchange 2</strong> — Machine is old → ask supervisor to check (kara + location に)<br>
+            <strong style="color:#fff;">Exchange 3</strong> — End of shift: tired + sleepy kara → ask to go home
           </div>
         </div>
-        <div class="fac-card green" id="gc-response-panel" style="margin-top:12px;">
-          <div class="fac-card-label" style="display:flex;justify-content:space-between;align-items:center;">
-            <span>Live Responses</span>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#1ABC9C;" id="gc-submitted-count">Waiting for submissions…</span>
-          </div>
-          <div id="gc-score-bars" style="margin-bottom:12px;display:none;">
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
-              <div style="font-size:11px;color:#C8D0E0;min-width:80px;">Avg score</div>
-              <div style="font-size:22px;font-weight:800;color:#1ABC9C;" id="gc-avg-score">—</div>
-              <div style="font-size:11px;color:#6B7585;" id="gc-avg-pct"></div>
-            </div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;" id="gc-score-dist"></div>
-          </div>
-          <div id="gc-flag-agg" style="display:none;">
-            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6B7585;margin-bottom:7px;">Most flagged items</div>
-            <div id="gc-flag-list" style="display:flex;flex-direction:column;gap:5px;"></div>
-          </div>
-          <div style="font-size:11px;color:#4A5260;margin-top:8px;">Results update live as students submit. Refresh to force update.</div>
-        </div>
-
-        <div class="fac-card gold">
-          <div class="fac-card-label">Debrief strategy</div>
+        <div class="fac-card blue" style="margin-top:10px;">
+          <div class="fac-card-label">Talking points</div>
           <div class="fac-talking-points">
-            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">After students submit, ask: <em>"What did you flag? Who flagged Q13? Q15?"</em> Flagged items = the class's weak spots.</div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Likely trouble spots: は vs が (Q4/5), て-imasu vs て-kudasai (Q13 vs Q16), chained actions pattern (Q14/22), destination に vs other に uses (Q3/Q19/Q20).</div></div>
-            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Close with: <em>"Otsukaresama deshita. Everything you've learned is on the floor — start using it."</em></div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">1</div><div class="fac-tp-text">Run each exchange as a pair drill. Assign roles, switch. Focus on fluency not perfection.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">2</div><div class="fac-tp-text">Exchange 3 uses <em>kaette mo ii desu ka</em> — preview only, not tested. Point it out as something coming in a future session.</div></div>
+            <div class="fac-tp"><div class="fac-tp-bullet">3</div><div class="fac-tp-text">Close: <em>"Otsukaresama deshita. You can now describe things, give reasons, and say where things are — that covers most of what you need on the floor."</em></div></div>
           </div>
         </div>
       </div>
@@ -438,12 +442,12 @@ const firebaseConfig={
 };
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
-const dbRef=ref(db,"session10/phase2");
+const dbRef=ref(db,"session12/phase2");
 
 window._fbPush=(data)=>set(dbRef,data);
 window._fbUpdate=(data)=>update(dbRef,data);
-window._fbListenResults=(cb)=>{
-  const resultsRef=ref(db,"session10/phase2/checkpointResults");
+window._fbListenResults_UNUSED=(cb)=>{
+  const resultsRef=ref(db,"session12/phase2/checkpointResults");
   onValue(resultsRef,snap=>{
     const data=snap.val();
     if(!data)return;
@@ -458,7 +462,7 @@ onValue(dbRef,snap=>{
 });
 window._fbReady=true;
 // Start checkpoint results listener
-const resultsRef=ref(db,"session10/phase2/checkpointResults");
+const resultsRef=ref(db,"session12/phase2/checkpointResults");
 onValue(resultsRef,snap=>{
   window._lastCheckpointData=snap.val()?Object.values(snap.val()):null;
   if(window.updateResponsePanel){
@@ -470,7 +474,7 @@ document.dispatchEvent(new Event("fbReady"));
 </script>
 
 <script>
-const BLOCK_ORDER=['recap','ni','uverbs','teimasu','checkpoint'];
+const BLOCK_ORDER=['recap','iruaru','adj','kara','floor'];
 let pushedBlocks=[];
 let currentSlide=0;
 let blockDState={gojuon:true,reading:false,ruverbs:false};
@@ -573,7 +577,7 @@ function retractReveal(key){
 }
 
 function resetAll(){
-  if(!confirm('Reset session 10? All learner screens return to waiting state.'))return;
+  if(!confirm('Reset session 12? All learner screens return to waiting state.'))return;
   window._fbPush({unlockedBlocks:[],slideIndex:0,blockD:{reading:false,ruverbs:false}});
 }
 
@@ -583,11 +587,7 @@ document.addEventListener('fbReady',()=>{
   const lbl=document.getElementById('conn-label');
   if(pill)pill.className='conn-pill online';
   if(lbl)lbl.textContent='live';
-  listenCheckpointResults();
-  // Catch any data that arrived before regular script loaded
-  if(window._lastCheckpointData&&window.updateResponsePanel){
-    window.updateResponsePanel(window._lastCheckpointData);
-  }
+  // No checkpoint listener in S11
 });
 
 function listenCheckpointResults(){/* listener now in Firebase module */}
