@@ -153,6 +153,28 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
 .seb-sub{font-size:13px;color:var(--text-2);line-height:1.65;}
 #unlock-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#1C1917;color:white;font-size:13px;font-weight:600;padding:8px 16px;border-radius:7px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
 #unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* KARA CONJUGATION DRILL */
+.kara-drill-item{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:14px 18px;margin-bottom:12px;transition:border-color 0.2s;}
+.kara-drill-item.all-correct{border-color:var(--green-border);}
+.kara-drill-item.has-error{border-color:rgba(200,16,46,0.4);}
+.kara-drill-num{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;}
+.kara-drill-prompt{font-size:14px;font-weight:500;color:var(--text);line-height:1.8;margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:4px;}
+.kara-drill-input{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--red);background:transparent;border:none;border-bottom:2px solid var(--border-strong);outline:none;padding:1px 5px;margin:0 3px;-webkit-appearance:none;min-width:90px;width:auto;}
+.kara-drill-input:focus{border-color:var(--red);}
+.kara-drill-input.correct{color:var(--green);border-color:var(--green-border);}
+.kara-drill-input.wrong{color:var(--warn);border-color:rgba(200,16,46,0.4);}
+.kara-drill-input:disabled{opacity:1;cursor:default;}
+.kara-wordbank{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.kara-pill{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-2);}
+.kara-pill span{color:var(--text-3);font-weight:400;}
+.kara-drill-fb{font-size:12px;padding:5px 9px;border-radius:4px;display:none;border:1px solid;margin-top:6px;}
+.kara-drill-fb.show{display:block;}
+.kara-drill-fb.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.kara-drill-fb.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.25);color:var(--warn);}
+.kara-check-btn{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--surface-2);border:1.5px solid var(--border);border-radius:4px;color:var(--text-2);padding:5px 10px;cursor:pointer;transition:all 0.12s;margin-top:6px;}
+.kara-check-btn:hover:not(:disabled){border-color:var(--red);color:var(--red);}
+.kara-check-btn:disabled{opacity:0.3;cursor:default;}
 </style>
 </head>
 <body>
@@ -457,6 +479,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
       <div class="exc-note">💡 "kaette mo ii desu ka" = "may I go home?" — preview only, not tested. kara gives the reason before asking.</div>
     </div>
 
+
+    <div class="div-heading">Conjugation + kara Drill</div>
+    <div class="section-sub" style="margin-bottom:14px;">Fill in both blanks to complete the kara sentence. The word bank shows which verbs or adjectives to use — you choose the right form. Press Enter on the second blank to check.</div>
+    <div id="kara-drill-container"></div>
     <div class="session-end-banner">
       <div class="seb-title">Session 12 Complete 🎉</div>
       <div class="seb-sub">に location, i-adjectives, kara — excellent work. Otsukaresama deshita.</div>
@@ -491,7 +517,7 @@ function toggleBlock(id){
   sec.classList.toggle('open',!sec.classList.contains('open'));
   if(id==='iruaru')buildIruAruMC();
   if(id==='adj'){buildAdjVocab();buildAdjMC();buildAdjFill();}
-  if(id==='kara'){buildKaraExamples();buildKaraMC();}
+  if(id==='kara'){buildKaraExamples();buildKaraMC();buildKaraDrill();}
 }
 
 function applyState(st){
@@ -521,7 +547,7 @@ function applyState(st){
         showToast('🔓 Block unlocked ✓');
         if(id==='iruaru')buildIruAruMC();
         if(id==='adj'){buildAdjVocab();buildAdjMC();buildAdjFill();}
-        if(id==='kara'){buildKaraExamples();buildKaraMC();}
+        if(id==='kara'){buildKaraExamples();buildKaraMC();buildKaraDrill();}
       }
       if(isUnlocked&&!isCurrent)sec.classList.remove('open');
     } else {
@@ -806,6 +832,119 @@ function teimasuCheck(idx,chosen){
 
 
 
+
+
+// ── KARA CONJUGATION DRILL ──
+const KARA_DRILL = [
+  {id:1, structure:'past kara, ongoing',
+   prompt:['','kara, ','.'], singleBlank:false,
+   words:[{romaji:'oyogu',en:'to swim',group:'U-verb P3'},{romaji:'tsukareru',en:'to get tired',group:'RU-verb'}],
+   answers:['oyogimashita','tsukarete imasu'],
+   hint:'oyogu → oyogi+mashita · tsukareru → tsukare+te imasu',
+   en:'I swam, so I am tired.'},
+  {id:2, structure:'adjective kara, te-kudasai',
+   prompt:['Kono tejun wa ','kara, ',' kudasai.'], singleBlank:false,
+   words:[{romaji:'muzukashii',en:'difficult',group:'i-adj'},{romaji:'setsumei suru',en:'to explain',group:'suru compound'}],
+   answers:['muzukashii desu','setsumei shite'],
+   hint:'muzukashii desu · setsumei suru → setsumei shite (te-form)',
+   en:'This procedure is difficult, so please explain it.'},
+  {id:3, structure:'past kara, past',
+   prompt:['Kikai ga ','kara, supervisor ni ','.'], singleBlank:false,
+   words:[{romaji:'kowareru',en:'to break down',group:'RU-verb'},{romaji:'hanasu',en:'to speak',group:'U-verb P4'}],
+   answers:['kowaremashita','hanashimashita'],
+   hint:'kowareru → koware+mashita · hanasu → hanashi+mashita',
+   en:'The machine broke down, so I spoke to the supervisor.'},
+  {id:4, structure:'ongoing kara, te-kudasai',
+   prompt:['Kakunin wo ','kara, chotto ',' kudasai.'], singleBlank:false,
+   words:[{romaji:'suru',en:'to do',group:'irregular'},{romaji:'matsu',en:'to wait',group:'U-verb P1'}],
+   answers:['shite imasu','matte'],
+   hint:'suru → shite imasu (ongoing) · matsu → matte (te-form, -tsu→tte)',
+   en:'I am doing the check, so please wait a moment.'},
+  {id:5, structure:'adjective kara, ongoing',
+   prompt:['Kono kikai wa ','kara, ','.'], singleBlank:false,
+   words:[{romaji:'furui',en:'old',group:'i-adj'},{romaji:'chekku suru',en:'to check',group:'suru compound'}],
+   answers:['furui desu','chekku shite imasu'],
+   hint:'furui desu · chekku suru → chekku shite imasu (ongoing)',
+   en:'This machine is old, so I am checking it.'},
+  {id:6, structure:'past kara, te-kudasai',
+   prompt:['Tejun wo ','kara, ',' kudasai.'], singleBlank:false,
+   words:[{romaji:'kaku',en:'to write',group:'U-verb P3'},{romaji:'miru',en:'to look at',group:'RU-verb'}],
+   answers:['kakimashita','mite'],
+   hint:'kaku → kaki+mashita · miru → mite (te-form)',
+   en:'I wrote the procedure, so please look at it.'},
+  {id:7, structure:'adjective kara, te-kudasai (single blank)',
+   prompt:['Hayai desu kara, ',' kudasai.'], singleBlank:true,
+   words:[{romaji:'mo ichi-do hanasu',en:'to say again',group:'U-verb P4'}],
+   answers:['mo ichi-do hanashite'],
+   hint:'hanasu → hanashite (te-form, -su→shite)',
+   en:'It is fast, so please say it again.'},
+  {id:8, structure:'past kara, adjective result',
+   prompt:['','kara, genki desu.'], singleBlank:true,
+   words:[{romaji:'nemuru',en:'to sleep',group:'U-verb P1 ru*'}],
+   answers:['nemurimashita'],
+   hint:'nemuru (ru* U-verb) → nemuri+mashita (past)',
+   en:'I slept, so I am energetic.',
+   note:'genki desu is given — na-adjective preview, no conjugation needed.'},
+];
+
+let karaDrillDone = {};
+
+function buildKaraDrill() {
+  const container = document.getElementById('kara-drill-container');
+  if (!container || container.dataset.built) return;
+  container.dataset.built = '1';
+  KARA_DRILL.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'kara-drill-item';
+    div.id = 'kdrill-' + idx;
+    const bankHtml = item.words.map(w =>
+      `<span class="kara-pill">${w.romaji} <span>(${w.en} · ${w.group})</span></span>`
+    ).join('');
+    let promptHtml = '';
+    if (item.singleBlank) {
+      promptHtml = `<span style="font-size:14px;font-weight:500;">${item.prompt[0]}</span><input class="kara-drill-input" id="kdinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···" style="min-width:150px;"><span style="font-size:14px;font-weight:500;">${item.prompt[1]||''}</span>`;
+    } else {
+      promptHtml = `<input class="kara-drill-input" id="kdinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span style="font-size:14px;font-weight:500;margin:0 4px;">${item.prompt[1]}</span><input class="kara-drill-input" id="kdinp-${idx}-1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span style="font-size:14px;font-weight:500;">${item.prompt[2]}</span>`;
+    }
+    const noteHtml = item.note ? `<div style="font-size:11px;color:var(--blue);margin-top:6px;padding:4px 8px;background:var(--blue-bg);border-radius:4px;">📘 ${item.note}</div>` : '';
+    div.innerHTML = `<div class="kara-drill-num">${item.id} of ${KARA_DRILL.length} · ${item.structure}</div><div class="kara-wordbank">${bankHtml}</div><div class="kara-drill-prompt">${promptHtml}</div><button class="kara-check-btn" id="kdbtn-${idx}" onclick="checkKaraDrill(${idx})">Check</button><div class="kara-drill-fb" id="kdfb-${idx}"></div>${noteHtml}`;
+    container.appendChild(div);
+    const lastIdx = item.singleBlank ? 0 : 1;
+    const lastInp = div.querySelector('#kdinp-' + idx + '-' + lastIdx);
+    if (lastInp) lastInp.addEventListener('keydown', e => { if (e.key === 'Enter') checkKaraDrill(idx); });
+  });
+}
+
+function checkKaraDrill(idx) {
+  if (karaDrillDone[idx]) return;
+  const item = KARA_DRILL[idx];
+  const count = item.singleBlank ? 1 : 2;
+  const inputs = [];
+  for (let i = 0; i < count; i++) inputs.push(document.getElementById('kdinp-' + idx + '-' + i));
+  let allCorrect = true;
+  inputs.forEach((inp, i) => {
+    if (!inp) return;
+    const val = (inp.value || '').trim().toLowerCase().replace(/\s+/g,' ');
+    const expected = item.answers[i].toLowerCase();
+    const ok = val === expected;
+    if (!ok) allCorrect = false;
+    inp.classList.toggle('correct', ok);
+    inp.classList.toggle('wrong', !ok);
+  });
+  const fb = document.getElementById('kdfb-' + idx);
+  const drillDiv = document.getElementById('kdrill-' + idx);
+  const btn = document.getElementById('kdbtn-' + idx);
+  if (allCorrect) {
+    karaDrillDone[idx] = true;
+    inputs.forEach((inp, i) => { if (inp) { inp.disabled = true; inp.value = item.answers[i]; }});
+    if (btn) btn.disabled = true;
+    if (drillDiv) drillDiv.classList.add('all-correct');
+    if (fb) { fb.innerHTML = '✅ ' + item.en + ' <span style="font-size:11px;color:var(--text-3);margin-left:6px;">' + item.hint + '</span>'; fb.className = 'kara-drill-fb show ok'; }
+  } else {
+    if (fb) { fb.innerHTML = 'Not quite — ' + item.hint; fb.className = 'kara-drill-fb show bad'; }
+    setTimeout(() => { inputs.forEach(inp => { if (inp) { inp.classList.remove('wrong'); inp.style.borderColor = ''; }}); }, 700);
+  }
+}
 
 </script>
 </body>
