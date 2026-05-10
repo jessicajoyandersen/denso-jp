@@ -702,7 +702,7 @@ function buildKaraMC(){
   KARA_MC.forEach((item,idx)=>{
     const div=document.createElement('div');div.className='mc-item';div.id='karamc-'+idx;
     const shuffled=[...item.opts].sort(()=>Math.random()-0.5);
-    const optsHtml=shuffled.map((o,_i)=>`<button class="mc-opt" id="karaopt-${idx}-${_i}" onclick="karaMCCheckByIdx(${idx},${_i})">${o}</button>`).join('');
+    const optsHtml=shuffled.map(o=>`<button class="mc-opt" id="karaopt-${idx}-${o.replace(/[ .,]/g,'_')}" onclick="karaMCCheck(${idx},this.dataset.v)" data-v="${o}">${o}</button>`).join('');
     const blankHtml=item.sentence.includes('___')?'<span class="mc-blank" id="karablank-'+idx+'">___</span>':'<span id="karablank-'+idx+'"></span>';
     div.innerHTML=`<div class="mc-num">Question ${item.num} of ${KARA_MC.length}</div><div class="mc-context">${item.context}</div><div class="mc-sentence">${item.sentence.replace('___',blankHtml)}</div><div class="mc-opts">${optsHtml}</div><div class="mc-feedback" id="karafb-${idx}"></div>`;
     container.appendChild(div);
@@ -714,9 +714,9 @@ function karaMCCheck(idx,chosen){
   const item=KARA_MC[idx];
   if(karaMCDone[idx])return;karaMCDone[idx]=true;
   const correct=chosen===item.answer;
-  item.opts.forEach((o,_i)=>{const el=document.getElementById('karaopt-'+idx+'-'+_i);if(el)el.classList.add('locked');});
-  const chosenEl=document.getElementById('karaopt-'+idx+'-'+item.opts.indexOf(chosen));
-  const ansEl=document.getElementById('karaopt-'+idx+'-'+item.opts.indexOf(item.answer));
+  item.opts.forEach(o=>{const el=document.getElementById('karaopt-'+idx+'-'+o.replace(/[ .,]/g,'_'));if(el)el.classList.add('locked');});
+  const chosenEl=document.getElementById('karaopt-'+idx+'-'+chosen.replace(/[ .,]/g,'_'));
+  const ansEl=document.getElementById('karaopt-'+idx+'-'+item.answer.replace(/[ .,]/g,'_'));
   const blank=document.getElementById('karablank-'+idx);
   const fb=document.getElementById('karafb-'+idx);
   const div=document.getElementById('karamc-'+idx);
