@@ -507,6 +507,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
 
 
     <div class="div-heading">kara — Conjugation Practice</div>
+    <div style="margin-bottom:14px;">
+      <button id="kara-start-btn" onclick="startKaraDrill()" style="font-family:var(--sans);font-size:14px;font-weight:700;background:var(--text);color:#fff;border:none;border-radius:7px;padding:11px 28px;cursor:pointer;transition:background 0.12s;">Start Practice →</button>
+    </div>
+    <div id="kara-drill-hidden" style="display:none;">
     <div class="section-sub" style="margin-bottom:12px;">Conjugate the verbs or adjectives in each blank to complete the kara sentence. Use the word bank above. Press Enter on the second blank to check each sentence.</div>
     <div class="kara-drill-wrap" id="kara-drill-wrap">
       <div class="kara-drill-bank">
@@ -520,6 +524,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
         <div class="kara-drill-score"><span id="kara-prog-done">0</span> / <span id="kara-prog-total">8</span> correct</div>
       </div>
     </div>
+    </div><!-- /kara-drill-hidden -->
     <div class="session-end-banner">
       <div class="seb-title">Session 12 Complete 🎉</div>
       <div class="seb-sub">に location, i-adjectives, kara — excellent work. Otsukaresama deshita.</div>
@@ -1081,6 +1086,12 @@ function checkKaraSent(idx) {
       inputs.forEach(inp => { if (inp && inp.classList.contains('wrong')) { inp.classList.remove('wrong'); inp.style.borderColor = ''; }});
     }, 800);
   }
+}
+
+function startKaraDrill() {
+  document.getElementById('kara-start-btn').style.display = 'none';
+  document.getElementById('kara-drill-hidden').style.display = 'block';
+  buildKaraDrill();
 }
 </script>
 </body>
