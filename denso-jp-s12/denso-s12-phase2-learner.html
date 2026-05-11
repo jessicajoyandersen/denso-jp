@@ -911,6 +911,7 @@ const KARA_SENTENCES = [
     parts:['Kinou takusan ',' kyō totemo ','.'],
     answers:['oyogimashita','tsukarete imasu'],
     hints:['oyogu → oyogi+mashita (past)','tsukareru → tsukare+te imasu (ongoing)'],
+    types:['V · past polite', 'V · て-imasu'],
     en:'Yesterday I swam a lot, so today I am very tired.',
   },
   {
@@ -918,6 +919,7 @@ const KARA_SENTENCES = [
     parts:['Kono tejun wa ',' mō ichi-do ',' kudasai.'],
     answers:['muzukashii desu','mite'],
     hints:['muzukashii + desu','miru → mite (te-form)'],
+    types:['adj · i-adj + desu', 'V · te-kudasai'],
     en:'This procedure is difficult, so please look at it once more.',
   },
   {
@@ -925,6 +927,7 @@ const KARA_SENTENCES = [
     parts:['Kikai ga ',' supervisor ni ','.'],
     answers:['kowaremashita','hanashimashita'],
     hints:['kowareru → koware+mashita (past)','hanasu → hanashi+mashita (past)'],
+    types:['V · past polite', 'V · past polite'],
     en:'The machine broke down, so I spoke to the supervisor.',
   },
   {
@@ -932,6 +935,7 @@ const KARA_SENTENCES = [
     parts:['Repōto wo ',' supervisor ni ',' kudasai.'],
     answers:['kakimashita','watashite'],
     hints:['kaku → kaki+mashita (past)','watasu → watashite (te-form, -su→shite)'],
+    types:['V · past polite', 'V · te-kudasai'],
     en:'I wrote the report, so please hand it to the supervisor.',
   },
   {
@@ -939,20 +943,23 @@ const KARA_SENTENCES = [
     parts:['Ima kakunin wo ',' chotto ',' kudasai.'],
     answers:['shite imasu','matte'],
     hints:['suru → shite imasu (ongoing)','matsu → matte (te-form, -tsu→tte)'],
+    types:['V · て-imasu', 'V · te-kudasai'],
     en:'I am doing the check right now, so please wait a moment.',
   },
   {
     id:6,
-    parts:['Kono kikai wa ',' atarashii tejun wo ',' kudasai.'],
-    answers:['furui desu','kaite'],
-    hints:['furui + desu (i-adj)','kaku → kaite (te-form, -ku→ite)'],
-    en:'This machine is old, so please write a new procedure.',
+    parts:['Kono kikai wa ',' atarashii kikai wo tsukatte ',' kudasai.'],
+    answers:['furui desu','tsukatte'],
+    hints:['furui + desu (i-adj)','tsukau → tsukatte (te-form, -u→tte)'],
+    types:['adj · i-adj + desu', 'V · te-kudasai'],
+    en:'This machine is old, so please use the new machine.',
   },
   {
     id:7,
     parts:['Kyō no shigoto wa ',' hayaku ',' kudasai.'],
     answers:['hayai desu','kaette'],
     hints:['hayai + desu (i-adj)','kaeru → kaette (te-form, -ru*→tte)'],
+    types:['adj · i-adj + desu', 'V · te-kudasai'],
     en:'Today is fast-paced, so please go home quickly.',
   },
   {
@@ -960,6 +967,7 @@ const KARA_SENTENCES = [
     parts:['Yoku ',' kyō wa genki desu.'],
     answers:['nemurimashita'],
     hints:['nemuru → nemuri+mashita (past, -ru*→ri)'],
+    types:['V · past polite'],
     en:'I slept well, so I am energetic today.',
     single:true,
   },
@@ -1017,10 +1025,13 @@ function buildKaraDrill() {
 
     if (sent.single) {
       // One blank
-      lineEl.innerHTML = `<span>${sent.parts[0]}</span><input class="kara-sent-input" id="ksinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span>${sent.parts[1] || ''}</span>`;
+      const ts0 = sent.types && sent.types[0] ? `<div style="font-family:var(--mono);font-size:9px;color:var(--teal);margin-top:2px;letter-spacing:1px;">${sent.types[0]}</div>` : '';
+      lineEl.innerHTML = `<span style="font-weight:500;">${sent.parts[0]}</span><span style="display:inline-flex;flex-direction:column;align-items:flex-start;"><input class="kara-sent-input" id="ksinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···">${ts0}</span><span style="font-weight:500;"> <span class="particle-kara">kara</span>,${sent.parts[1] || ''}</span>`;
     } else {
       // Two blanks, kara highlighted between them
-      lineEl.innerHTML = `<input class="kara-sent-input" id="ksinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span style="font-weight:500;"> <span class="particle-kara">kara</span>,${sent.parts[1]}</span><input class="kara-sent-input" id="ksinp-${idx}-1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span>${sent.parts[2]}</span>`;
+      const t0 = sent.types && sent.types[0] ? `<div style="font-family:var(--mono);font-size:9px;color:var(--teal);margin-top:2px;letter-spacing:1px;">${sent.types[0]}</div>` : '';
+      const t1 = sent.types && sent.types[1] ? `<div style="font-family:var(--mono);font-size:9px;color:var(--teal);margin-top:2px;letter-spacing:1px;">${sent.types[1]}</div>` : '';
+      lineEl.innerHTML = `<span style="font-weight:500;">${sent.parts[0]}</span><span style="display:inline-flex;flex-direction:column;align-items:flex-start;"><input class="kara-sent-input" id="ksinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···">${t0}</span><span style="font-weight:500;"> <span class="particle-kara">kara</span>,${sent.parts[1]}</span><span style="display:inline-flex;flex-direction:column;align-items:flex-start;"><input class="kara-sent-input" id="ksinp-${idx}-1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···">${t1}</span><span>${sent.parts[2]}</span>`;
     }
 
     const fbEl = document.createElement('div');
