@@ -908,56 +908,56 @@ const KARA_VOCAB = [
 const KARA_SENTENCES = [
   {
     id:1,
-    parts:['Kinou takusan ','  kara, kyō totemo ','.'],
+    parts:['Kinou takusan ',' kyō totemo ','.'],
     answers:['oyogimashita','tsukarete imasu'],
     hints:['oyogu → oyogi+mashita (past)','tsukareru → tsukare+te imasu (ongoing)'],
     en:'Yesterday I swam a lot, so today I am very tired.',
   },
   {
     id:2,
-    parts:['Kono tejun wa ',' kara, mō ichi-do ',' kudasai.'],
+    parts:['Kono tejun wa ',' mō ichi-do ',' kudasai.'],
     answers:['muzukashii desu','mite'],
     hints:['muzukashii + desu','miru → mite (te-form)'],
     en:'This procedure is difficult, so please look at it once more.',
   },
   {
     id:3,
-    parts:['Kikai ga ',' kara, supervisor ni ','.'],
+    parts:['Kikai ga ',' supervisor ni ','.'],
     answers:['kowaremashita','hanashimashita'],
     hints:['kowareru → koware+mashita (past)','hanasu → hanashi+mashita (past)'],
     en:'The machine broke down, so I spoke to the supervisor.',
   },
   {
     id:4,
-    parts:['Repōto wo ',' kara, supervisor ni ',' kudasai.'],
+    parts:['Repōto wo ',' supervisor ni ',' kudasai.'],
     answers:['kakimashita','watashite'],
     hints:['kaku → kaki+mashita (past)','watasu → watashite (te-form, -su→shite)'],
     en:'I wrote the report, so please hand it to the supervisor.',
   },
   {
     id:5,
-    parts:['Ima kakunin wo ',' kara, chotto ',' kudasai.'],
+    parts:['Ima kakunin wo ',' chotto ',' kudasai.'],
     answers:['shite imasu','matte'],
     hints:['suru → shite imasu (ongoing)','matsu → matte (te-form, -tsu→tte)'],
     en:'I am doing the check right now, so please wait a moment.',
   },
   {
     id:6,
-    parts:['Kono kikai wa ',' kara, atarashii tejun wo ',' kudasai.'],
+    parts:['Kono kikai wa ',' atarashii tejun wo ',' kudasai.'],
     answers:['furui desu','kaite'],
     hints:['furui + desu (i-adj)','kaku → kaite (te-form, -ku→ite)'],
     en:'This machine is old, so please write a new procedure.',
   },
   {
     id:7,
-    parts:['Kyō no shigoto wa ',' kara, hayaku ',' kudasai.'],
+    parts:['Kyō no shigoto wa ',' hayaku ',' kudasai.'],
     answers:['hayai desu','kaette'],
     hints:['hayai + desu (i-adj)','kaeru → kaette (te-form, -ru*→tte)'],
     en:'Today is fast-paced, so please go home quickly.',
   },
   {
     id:8,
-    parts:['Yoku ',' kara, kyō wa genki desu.'],
+    parts:['Yoku ',' kyō wa genki desu.'],
     answers:['nemurimashita'],
     hints:['nemuru → nemuri+mashita (past, -ru*→ri)'],
     en:'I slept well, so I am energetic today.',
@@ -1020,7 +1020,7 @@ function buildKaraDrill() {
       lineEl.innerHTML = `<span>${sent.parts[0]}</span><input class="kara-sent-input" id="ksinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span>${sent.parts[1] || ''}</span>`;
     } else {
       // Two blanks, kara highlighted between them
-      lineEl.innerHTML = `<input class="kara-sent-input" id="ksinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span style="font-weight:700;"> <span class="particle-kara">kara</span>${sent.parts[1]}</span><input class="kara-sent-input" id="ksinp-${idx}-1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span>${sent.parts[2]}</span>`;
+      lineEl.innerHTML = `<input class="kara-sent-input" id="ksinp-${idx}-0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span style="font-weight:500;"> <span class="particle-kara">kara</span>,${sent.parts[1]}</span><input class="kara-sent-input" id="ksinp-${idx}-1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="···"><span>${sent.parts[2]}</span>`;
     }
 
     const fbEl = document.createElement('div');
