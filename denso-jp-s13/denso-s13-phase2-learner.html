@@ -700,18 +700,25 @@ function showAnnotation(el){
   ann.id='particle-annotation';
   ann.innerHTML=`<button class="pa-close" onclick="closeAnnotation()">×</button><div class="pa-particle ${p}">${el.dataset.particle==='wa'?'は':el.dataset.particle==='ga'?'が':'で'}</div><div class="pa-rule">${el.dataset.rule}</div><div class="pa-reason">${el.dataset.reason}</div>`;
   // Position above the particle
-  ann.style.bottom='calc(100% + 6px)';
-  ann.style.left='50%';
-  ann.style.transform='translateX(-50%)';
+  // Append to the reading-sentence row instead, positioned below particle
+  const sentRow = el.closest('.reading-sentence') || el.closest('.reading-card') || el.parentElement;
+  sentRow.style.position='relative';
+  ann.style.position='absolute';
+  ann.style.top='100%';
+  ann.style.left='0';
+  ann.style.right='0';
+  ann.style.width='auto';
+  ann.style.maxWidth='100%';
+  ann.style.marginTop='4px';
+  ann.style.zIndex='200';
   ann.style.whiteSpace='normal';
-  el.style.position='relative';
-  el.appendChild(ann);
+  sentRow.appendChild(ann);
 }
 
 function closeAnnotation(){
   if(activeParticle){
     activeParticle.classList.remove('active');
-    const ann=activeParticle.querySelector('.particle-annotation');
+    const ann=document.querySelector('.particle-annotation');
     if(ann)ann.remove();
     activeParticle=null;
   }
