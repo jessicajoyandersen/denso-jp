@@ -155,8 +155,9 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
 .tap-particle.ga.active{background:var(--gold-bg);}
 .tap-particle.de.active{background:var(--purple-bg);}
 /* Annotation popup */
-.particle-annotation{display:none;position:fixed;z-index:200;max-width:280px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-size:12px;line-height:1.6;}
+.particle-annotation{display:none;position:absolute;z-index:200;max-width:260px;width:max-content;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-size:12px;line-height:1.6;pointer-events:auto;}
 .particle-annotation.show{display:block;}
+.tap-particle{position:relative;}
 .pa-particle{font-family:var(--mono);font-size:14px;font-weight:700;margin-bottom:4px;}
 .pa-particle.wa{color:var(--blue);}
 .pa-particle.ga{color:var(--gold);}
@@ -439,12 +440,12 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
         <div class="exc-en">Where is the supervisor?</div>
       </div></div>
       <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
-        <div class="exc-romaji">Jimusho <span class="particle-ni">ni</span> imasu. Shinsetsu <span class="particle-wa">wa</span> hito desu kara, kikite kudasai.</div>
+        <div class="exc-romaji">Jimusho <span class="particle-ni">ni</span> imasu. Shinsetsu na hito desu kara, kiite kudasai.</div>
         <div class="exc-jp">事務所にいます。親切な人ですから、聞いてください。</div>
         <div class="exc-en">She is in the office. She is a kind person, so please ask her.</div>
         <button class="speak-btn" onclick="speak('事務所にいます。親切な人ですから、聞いてください。')" style="margin-top:5px;">🔊</button>
       </div></div>
-      <div class="exc-note">💡 は asks about known topic (the supervisor). に location. shinsetsu na hito — な before the noun.</div>
+      <div class="exc-note">💡 は asks about the known topic (supervisor). に location. shinsetsu na hito — な before the noun. kiite = te-form of kiku (to ask/listen).</div>
     </div>
 
     <div class="exc-card">
@@ -479,12 +480,7 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
   </div><!-- /accordion -->
 </div><!-- /page-body -->
 <div id="unlock-toast">Block unlocked ✓</div>
-<div class="particle-annotation" id="particle-annotation">
-  <button class="pa-close" onclick="closeAnnotation()">×</button>
-  <div class="pa-particle" id="pa-particle"></div>
-  <div class="pa-rule" id="pa-rule"></div>
-  <div class="pa-reason" id="pa-reason"></div>
-</div>
+
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -690,35 +686,35 @@ function buildReading(){
 let activeParticle=null;
 function showAnnotation(el){
   if(activeParticle===el){closeAnnotation();return;}
-  if(activeParticle)activeParticle.classList.remove('active');
+  if(activeParticle){
+    activeParticle.classList.remove('active');
+    const prev=activeParticle.querySelector('.particle-annotation');
+    if(prev)prev.remove();
+  }
   activeParticle=el;
   el.classList.add('active');
-  const ann=document.getElementById('particle-annotation');
-  const pEl=document.getElementById('pa-particle');
-  const rEl=document.getElementById('pa-rule');
-  const reaEl=document.getElementById('pa-reason');
   const p=el.dataset.particle;
-  pEl.className='pa-particle '+p;
-  pEl.textContent=el.textContent;
-  rEl.textContent=el.dataset.rule;
-  reaEl.textContent=el.dataset.reason;
-  // Position near element
-  const rect=el.getBoundingClientRect();
-  const vw=window.innerWidth;
-  ann.style.display='block';
-  const annW=Math.min(280,vw-20);
-  let left=rect.left;
-  if(left+annW>vw-10)left=vw-annW-10;
-  if(left<10)left=10;
-  let top=rect.bottom+8+window.scrollY;
-  ann.style.left=left+'px';
-  ann.style.top=top+'px';
-  ann.classList.add('show');
+  // Build annotation inside the particle span
+  const ann=document.createElement('div');
+  ann.className='particle-annotation show';
+  ann.id='particle-annotation';
+  ann.innerHTML=`<button class="pa-close" onclick="closeAnnotation()">×</button><div class="pa-particle ${p}">${el.dataset.particle==='wa'?'は':el.dataset.particle==='ga'?'が':'で'}</div><div class="pa-rule">${el.dataset.rule}</div><div class="pa-reason">${el.dataset.reason}</div>`;
+  // Position above the particle
+  ann.style.bottom='calc(100% + 6px)';
+  ann.style.left='50%';
+  ann.style.transform='translateX(-50%)';
+  ann.style.whiteSpace='normal';
+  el.style.position='relative';
+  el.appendChild(ann);
 }
 
 function closeAnnotation(){
-  if(activeParticle){activeParticle.classList.remove('active');activeParticle=null;}
-  document.getElementById('particle-annotation').classList.remove('show');
+  if(activeParticle){
+    activeParticle.classList.remove('active');
+    const ann=activeParticle.querySelector('.particle-annotation');
+    if(ann)ann.remove();
+    activeParticle=null;
+  }
 }
 document.addEventListener('click',e=>{
   const ann=document.getElementById('particle-annotation');
