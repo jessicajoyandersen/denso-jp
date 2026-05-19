@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Japanese · Session 13 · Phase 2</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--red-dark:#A00D24;--red-bg:rgba(200,16,46,0.06);
+  --bg:#F5F3EE;--surface:#FFFFFF;--surface-2:#EFECE7;
+  --border:#DDD9D2;--border-strong:#C5BFB5;
+  --text:#1C1917;--text-2:#57534E;--text-3:#A8A29E;
+  --green:#166534;--green-bg:rgba(22,101,52,0.08);--green-border:rgba(22,101,52,0.28);
+  --gold:#92400E;--gold-bg:rgba(146,64,14,0.08);--gold-border:rgba(146,64,14,0.3);
+  --blue:#1558A6;--blue-bg:rgba(21,88,166,0.07);--blue-border:rgba(21,88,166,0.25);
+  --purple:#5B3E9E;--purple-bg:rgba(91,62,158,0.07);--purple-border:rgba(91,62,158,0.25);
+  --teal:#0E7A6A;--teal-bg:rgba(14,122,106,0.07);--teal-border:rgba(14,122,106,0.25);
+  --warn:#B22020;--warn-bg:rgba(178,32,32,0.07);
+  --mono:'IBM Plex Mono',monospace;--jp:'Noto Sans JP',sans-serif;--sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh;padding:0 0 80px;}
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:10px 24px 0;display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.tb-logo{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tb-org{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-3);}
+.tb-title{font-size:13px;font-weight:600;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:8px;}
+.session-badge{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:9px;border:1.5px solid var(--red);color:var(--red);}
+.timer-box{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:4px 9px;}
+.conn-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background 0.4s;}
+.page-body{max-width:860px;margin:0 auto;padding:28px 20px 0;}
+.waiting-state{text-align:center;padding:52px 20px;color:var(--text-3);}
+.waiting-icon{font-size:34px;margin-bottom:10px;animation:pulse-gentle 2.5s infinite;}
+@keyframes pulse-gentle{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.waiting-text{font-size:15px;font-weight:600;color:var(--text-2);margin-bottom:5px;}
+.waiting-sub{font-size:13px;}
+#accordion{display:none;}
+.block-section{border:1.5px solid var(--border);border-radius:10px;margin-bottom:11px;overflow:hidden;opacity:0.4;pointer-events:none;transition:all 0.25s;background:var(--surface);}
+.block-section.unlocked{opacity:0.8;pointer-events:auto;}
+.block-section.active-block{border-color:var(--red);box-shadow:0 0 0 3px var(--red-bg);opacity:1;pointer-events:auto;}
+.block-header{display:flex;align-items:center;gap:12px;padding:13px 17px;cursor:pointer;user-select:none;}
+.block-header:hover{background:var(--surface-2);}
+.bh-status{width:25px;height:25px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.block-section.unlocked .bh-status,.block-section.active-block .bh-status{background:var(--green);border-color:var(--green);color:white;}
+.bh-label{flex:1;}.bh-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);}
+.bh-title{font-size:14px;font-weight:700;color:var(--text);}
+.bh-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:8px;border:1px solid;}
+.badge-locked{background:var(--surface-2);border-color:var(--border);color:var(--text-3);}
+.badge-current{background:var(--red);border-color:var(--red);color:white;}
+.badge-done{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.bh-chevron{font-size:11px;color:var(--text-3);transition:transform 0.2s;}
+.block-section.open .bh-chevron{transform:rotate(180deg);}
+.block-body{display:none;padding:6px 18px 26px;border-top:1px solid var(--border);}
+.block-section.open .block-body{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:3px;margin-top:14px;}
+.section-title{font-size:19px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:-0.3px;}
+.section-sub{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px;max-width:590px;}
+.frame-box{background:var(--blue-bg);border:1px solid var(--blue-border);border-left:3px solid var(--blue);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.frame-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+.frame-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.gold-box{background:var(--gold-bg);border:1px solid var(--gold-border);border-left:3px solid var(--gold);border-radius:6px;padding:11px 14px;margin-bottom:14px;}
+.gold-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.gold-text{font-size:13px;color:var(--text-2);line-height:1.7;}
+.div-heading{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:20px 0 9px;padding-top:14px;border-top:1px solid var(--border);}
+.div-heading:first-of-type{border-top:none;padding-top:0;margin-top:6px;}
+.particle-ni{font-weight:700;color:var(--teal);border-bottom:1.5px solid var(--teal);padding-bottom:1px;}
+.particle-ga{font-weight:700;color:var(--gold);border-bottom:1.5px solid var(--gold);padding-bottom:1px;}
+.particle-wa{font-weight:700;color:var(--blue);border-bottom:1.5px solid var(--blue);padding-bottom:1px;}
+.particle-de{font-weight:700;color:var(--purple);border-bottom:1.5px solid var(--purple);padding-bottom:1px;}
+.exc-card{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:16px 20px;margin-bottom:12px;}
+.exc-scenario{font-size:13px;color:var(--text-2);font-style:italic;margin-bottom:10px;padding:7px 11px;background:var(--surface-2);border-radius:5px;border-left:3px solid var(--border-strong);}
+.exc-line{display:flex;gap:9px;margin-bottom:7px;align-items:flex-start;}
+.exc-speaker{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);min-width:72px;padding-top:4px;flex-shrink:0;}
+.exc-bubble{background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:9px 13px;flex:1;}
+.exc-romaji{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.exc-jp{font-family:var(--jp);font-size:11px;color:var(--text-3);margin-bottom:2px;}
+.exc-en{font-size:11px;color:var(--text-2);}
+.exc-note{font-size:11px;color:var(--text-3);margin-top:7px;padding:6px 9px;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:4px;}
+.speak-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:var(--surface-2);border:1px solid var(--border);border-radius:5px;font-size:10px;font-family:var(--mono);font-weight:600;color:var(--text-2);cursor:pointer;}
+.speak-btn:hover{background:var(--teal-bg);border-color:var(--teal-border);color:var(--teal);}
+/* IRUARU */
+.iruaru-rule{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.iruaru-card{border-radius:8px;padding:14px 16px;border:1.5px solid;}
+.iruaru-card.iru{background:var(--blue-bg);border-color:var(--blue-border);}
+.iruaru-card.aru{background:var(--gold-bg);border-color:var(--gold-border);}
+.iruaru-title{font-family:var(--jp);font-size:22px;font-weight:700;margin-bottom:3px;}
+.iruaru-card.iru .iruaru-title{color:var(--blue);}
+.iruaru-card.aru .iruaru-title{color:var(--gold);}
+.iruaru-romaji{font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:5px;}
+.iruaru-card.iru .iruaru-romaji{color:var(--blue);}
+.iruaru-card.aru .iruaru-romaji{color:var(--gold);}
+.iruaru-rule-text{font-size:12px;color:var(--text-2);margin-bottom:7px;}
+.iruaru-examples{font-size:11px;color:var(--text-3);line-height:1.7;}
+.iuaru-mc-opt{font-family:var(--mono);font-size:13px;font-weight:700;padding:9px 18px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;margin:0 5px 5px 0;}
+.iuaru-mc-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.iuaru-mc-opt.correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.iuaru-mc-opt.wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.iuaru-mc-opt.show-c{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.iuaru-mc-opt.locked{cursor:default;}
+.iuaru-item{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:10px;}
+.iuaru-item.correct-ans{border-color:var(--green-border);}
+.iuaru-item.wrong-ans{border-color:rgba(200,16,46,0.35);}
+.iuaru-fb{font-size:12px;line-height:1.6;padding:6px 9px;border-radius:4px;display:none;border:1px solid;margin-top:6px;}
+.iuaru-fb.show{display:block;}
+.iuaru-fb.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.iuaru-fb.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.25);color:var(--warn);}
+/* NA-ADJECTIVES */
+.na-adj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:18px;}
+.na-adj-card{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;}
+.na-adj-jp{font-family:var(--jp);font-size:18px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.na-adj-romaji{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--purple);margin-bottom:2px;}
+.na-adj-en{font-size:11px;color:var(--text-3);}
+.na-adj-note{font-size:10px;font-family:var(--mono);color:var(--text-3);margin-top:4px;padding-top:4px;border-top:1px solid var(--border);}
+.mc-item{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:10px;}
+.mc-item.correct-ans{border-color:var(--green-border);}
+.mc-item.wrong-ans{border-color:rgba(200,16,46,0.35);}
+.mc-num{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+.mc-context{font-size:13px;color:var(--text-2);font-style:italic;line-height:1.6;margin-bottom:6px;padding:6px 9px;background:var(--surface-2);border-left:3px solid var(--border-strong);border-radius:0 4px 4px 0;}
+.mc-sentence{font-size:14px;font-weight:500;color:var(--text);margin-bottom:9px;line-height:1.7;}
+.mc-blank{display:inline-block;min-width:74px;border-bottom:2px solid var(--border-strong);text-align:center;font-family:var(--mono);font-weight:700;color:var(--text-3);padding:0 4px;vertical-align:middle;}
+.mc-blank.revealed{color:var(--green);border-color:var(--green-border);}
+.mc-opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px;}
+.mc-opt{font-family:var(--mono);font-size:12px;font-weight:700;padding:7px 13px;border-radius:5px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;}
+.mc-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.mc-opt.selected-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.mc-opt.selected-wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.mc-opt.show-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.mc-opt.locked{cursor:default;}
+.mc-feedback{font-size:12px;line-height:1.6;padding:6px 9px;border-radius:4px;display:none;border:1px solid;}
+.mc-feedback.show{display:block;}
+.mc-feedback.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.mc-feedback.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.25);color:var(--warn);}
+/* READING ACTIVITY */
+.reading-card{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.reading-title{padding:13px 18px 10px;background:var(--surface-2);border-bottom:1px solid var(--border);font-size:15px;font-weight:700;color:var(--text);}
+.reading-title span{font-family:var(--jp);font-size:13px;font-weight:400;color:var(--text-3);margin-left:8px;}
+.reading-sentence{padding:14px 18px;border-bottom:1px solid var(--border);position:relative;}
+.reading-sentence:last-child{border-bottom:none;}
+.reading-jp{font-family:var(--jp);font-size:15px;line-height:2.2;color:var(--text);margin-bottom:3px;}
+.reading-romaji{font-family:var(--mono);font-size:12px;color:var(--text-3);margin-bottom:3px;line-height:1.7;}
+.reading-en{font-size:12px;color:var(--text-2);font-style:italic;}
+/* Furigana */
+ruby{ruby-align:center;}
+rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
+/* Tappable particles */
+.tap-particle{display:inline;cursor:pointer;border-bottom:2px solid;padding:0 1px;border-radius:2px;transition:background 0.15s;position:relative;}
+.tap-particle.wa{color:var(--blue);border-color:var(--blue);}
+.tap-particle.ga{color:var(--gold);border-color:var(--gold);}
+.tap-particle.de{color:var(--purple);border-color:var(--purple);}
+.tap-particle.active{border-radius:3px;}
+.tap-particle.wa.active{background:var(--blue-bg);}
+.tap-particle.ga.active{background:var(--gold-bg);}
+.tap-particle.de.active{background:var(--purple-bg);}
+/* Annotation popup */
+.particle-annotation{display:none;position:fixed;z-index:200;max-width:280px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-size:12px;line-height:1.6;}
+.particle-annotation.show{display:block;}
+.pa-particle{font-family:var(--mono);font-size:14px;font-weight:700;margin-bottom:4px;}
+.pa-particle.wa{color:var(--blue);}
+.pa-particle.ga{color:var(--gold);}
+.pa-particle.de{color:var(--purple);}
+.pa-rule{font-weight:600;color:var(--text);margin-bottom:3px;}
+.pa-reason{color:var(--text-2);}
+.pa-close{float:right;background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-3);margin:-2px -4px 0 8px;padding:2px 6px;}
+/* COMPREHENSION */
+.comp-item{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:13px 16px;margin-bottom:10px;}
+.comp-item.correct-ans{border-color:var(--green-border);}
+.comp-item.wrong-ans{border-color:rgba(200,16,46,0.35);}
+.comp-q{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.comp-opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+.comp-opt{font-size:12px;font-weight:600;padding:7px 13px;border-radius:5px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;}
+.comp-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.comp-opt.correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.comp-opt.wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.comp-opt.show-c{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.comp-opt.locked{cursor:default;}
+.comp-fb{font-size:12px;padding:5px 9px;border-radius:4px;display:none;border:1px solid;margin-top:5px;}
+.comp-fb.show{display:block;}
+.comp-fb.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.comp-fb.bad{background:var(--red-bg);border-color:rgba(200,16,46,0.25);color:var(--warn);}
+/* SESSION END */
+.session-end-banner{background:var(--surface);border:2px solid var(--green-border);border-radius:10px;padding:18px 22px;margin-top:22px;text-align:center;}
+.seb-title{font-size:17px;font-weight:700;color:var(--green);margin-bottom:5px;}
+.seb-sub{font-size:13px;color:var(--text-2);line-height:1.65;}
+#unlock-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#1C1917;color:white;font-size:13px;font-weight:600;padding:8px 16px;border-radius:7px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;}
+#unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">⛩</div>
+    <div>
+      <div class="tb-org">DENSO Manufacturing · Statesville, NC</div>
+      <div class="tb-title">Japanese Workplace Communication</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="session-badge">Session 13</div>
+    <div class="timer-box" id="p2-timer">80:00</div>
+    <div class="conn-dot" id="conn-dot"></div>
+  </div>
+</div>
+
+<div class="page-body">
+  <div id="waiting-state" class="waiting-state">
+    <div class="waiting-icon">📋</div>
+    <div class="waiting-text">Your facilitator is about to begin.</div>
+    <div class="waiting-sub">Blocks will appear here as they are unlocked.</div>
+  </div>
+  <div id="accordion">
+
+<!-- BLOCK A: RECAP -->
+<div class="block-section locked" id="section-recap" data-block="recap">
+  <div class="block-header" onclick="toggleBlock('recap')">
+    <div class="bh-status" id="status-recap">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block A · 5 min</div><div class="bh-title">⚡ Session 12 Recap</div></div>
+    <div class="bh-badge badge-locked" id="badge-recap">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-recap">
+    <div class="eyebrow">Block A</div>
+    <div class="section-title">What We Covered in Session 12</div>
+    <div class="section-sub">Quick reference. Today: は vs が (location sentences), na-adjectives, and a short reading activity.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-bottom:18px;">
+      <div style="background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--blue);">に Location</div>
+        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">[thing] <span class="particle-ga">ga</span> [place] <span class="particle-ni">ni</span> arimasu</div>
+        <div style="font-family:var(--mono);font-size:11px;">[person] <span class="particle-ga">ga</span> [place] <span class="particle-ni">ni</span> imasu</div>
+      </div>
+      <div style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--gold);">I-Adjectives</div>
+        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">nemui · hayai · osoi</div>
+        <div style="font-family:var(--mono);font-size:11px;">muzukashii · furui · atarashii</div>
+      </div>
+      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--red);">kara</div>
+        <div style="font-family:var(--mono);font-size:11px;">[reason] kara, [result]</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:3px;">because A, so B</div>
+      </div>
+    </div>
+    <div class="frame-box">
+      <div class="frame-label">Today — Session 13</div>
+      <div class="frame-text"><span class="particle-wa">は</span> vs <span class="particle-ga">が</span> in location sentences · na-adjectives (5 words) · Short reading: Tanaka-san no ichi-nichi</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ BLOCK B — は vs が + Location ═══ -->
+<div class="block-section locked" id="section-iruaru" data-block="iruaru">
+  <div class="block-header" onclick="toggleBlock('iruaru')">
+    <div class="bh-status" id="status-iruaru">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block B · 18 min</div><div class="bh-title">📌 に + います / あります</div></div>
+    <div class="bh-badge badge-locked" id="badge-iruaru">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-iruaru">
+    <div class="eyebrow">Block B</div>
+    <div class="section-title">は vs が — Location Sentences</div>
+    <div class="section-sub">You already know に for destination. Now: に for location. Same particle — this time with います or あります instead of a movement verb.</div>
+
+
+    <div class="frame-box" style="margin-bottom:14px;">
+      <div class="frame-label">The core difference</div>
+      <div class="frame-text">
+        <strong><span class="particle-ga">が</span> — new information.</strong> Use が when you are introducing something for the first time, or pointing out specifically what is where.<br><br>
+        <strong><span class="particle-wa">は</span> — known topic.</strong> Use は when the subject is already established and you are adding more information about it.<br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Tanaka-san <span class="particle-ga">ga</span> Station 3 <span class="particle-ni">ni</span> imasu.</span> → Tanaka-san is at Station 3. <span style="font-size:11px;color:var(--text-3);">(first mention — が introduces)</span><br>
+        <span style="font-family:var(--mono);font-size:12px;">Tanaka-san <span class="particle-wa">wa</span> ima isogashii desu.</span> → Tanaka-san is busy right now. <span style="font-size:11px;color:var(--text-3);">(already mentioned — は continues)</span>
+      </div>
+    </div>
+    <div class="iruaru-rule">
+      <div class="iruaru-card iru">
+        <div class="iruaru-title">います</div>
+        <div class="iruaru-romaji">imasu</div>
+        <div class="iruaru-rule-text"><strong>People and animals</strong> — living, moving things</div>
+        <div class="iruaru-examples">Tanaka-san が います<br>Supervisor が います<br>Neko が います</div>
+      </div>
+      <div class="iruaru-card aru">
+        <div class="iruaru-title">あります</div>
+        <div class="iruaru-romaji">arimasu</div>
+        <div class="iruaru-rule-text"><strong>Objects and things</strong> — non-living items</div>
+        <div class="iruaru-examples">Tejun が あります<br>Kikai が あります<br>Repōto が あります</div>
+      </div>
+    </div>
+
+    <div class="frame-box">
+      <div class="frame-label">The full pattern</div>
+      <div class="frame-text">
+        <strong>[person/thing] が [place] に います/あります</strong><br><br>
+        が marks <em>what</em> is there. に marks <em>where</em>. います/あります says it exists there.<br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Tanaka-san <span class="particle-ga">ga</span> Station 3 <span class="particle-ni">ni</span> imasu.</span><br>
+        <span style="font-size:12px;color:var(--text-2);">Tanaka-san is at Station 3.</span><br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Tejun <span class="particle-ga">ga</span> tsukue no ue <span class="particle-ni">ni</span> arimasu.</span><br>
+        <span style="font-size:12px;color:var(--text-2);">The procedure sheet is on the desk.</span>
+      </div>
+    </div>
+
+    <div class="gold-box">
+      <div class="gold-label">が here vs は in other sentences</div>
+      <div class="gold-text">When you use が with います/あります, you are pointing out <strong>specific, new information</strong> — "it is <em>this person</em> who is there." This is the same が from S8: が for focus, は for topic. Both are correct in different contexts — が is the natural choice when location is new information.</div>
+    </div>
+
+    <div class="div-heading">Quick Check — います or あります?</div>
+    <div id="iruaru-mc"></div>
+
+    <div class="div-heading">Floor Exchanges</div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">You are looking for your line leader.</div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Yamamoto-san <span class="particle-ga">ga</span> doko <span class="particle-ni">ni</span> imasu ka?</div>
+        <div class="exc-jp">山本さんがどこにいますか？</div>
+        <div class="exc-en">Where is Yamamoto-san?</div>
+        <button class="speak-btn" onclick="speak('山本さんがどこにいますか？')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-line"><div class="exc-speaker">Coworker</div><div class="exc-bubble">
+        <div class="exc-romaji">Station 2 <span class="particle-ni">ni</span> imasu.</div>
+        <div class="exc-jp">ステーション2にいます。</div>
+        <div class="exc-en">She is at Station 2.</div>
+        <button class="speak-btn" onclick="speak('ステーション2にいます。')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 doko に imasu ka — where is [person]? Answer drops が and just gives place + imasu.</div>
+    </div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">A new worker asks where the procedure sheet is.</div>
+      <div class="exc-line"><div class="exc-speaker">New Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Tejun <span class="particle-ga">ga</span> doko <span class="particle-ni">ni</span> arimasu ka?</div>
+        <div class="exc-jp">手順がどこにありますか？</div>
+        <div class="exc-en">Where is the procedure sheet?</div>
+        <button class="speak-btn" onclick="speak('手順がどこにありますか？')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Station 1 <span class="particle-ni">ni</span> arimasu.</div>
+        <div class="exc-jp">ステーション1にあります。</div>
+        <div class="exc-en">It is at Station 1.</div>
+        <button class="speak-btn" onclick="speak('ステーション1にあります。')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 Same pattern, あります because tejun is a thing, not a person.</div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- BLOCK C: NA-ADJECTIVES -->
+<div class="block-section locked" id="section-naadj" data-block="naadj">
+  <div class="block-header" onclick="toggleBlock('naadj')">
+    <div class="bh-status" id="status-naadj">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block C · 15 min</div><div class="bh-title">🟣 Na-Adjectives</div></div>
+    <div class="bh-badge badge-locked" id="badge-naadj">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-naadj">
+    <div class="eyebrow">Block C</div>
+    <div class="section-title">Na-Adjectives — A Second Type</div>
+    <div class="section-sub">Na-adjectives work like nouns when describing. With desu they are the same as i-adjectives — but before a noun they need な (na) between the adjective and the noun.</div>
+
+    <div class="frame-box">
+      <div class="frame-label">The pattern</div>
+      <div class="frame-text">
+        <strong>[na-adj] + desu</strong> — statement: Shinsetsu desu. → Kind.<br>
+        <strong>[na-adj] + na + [noun]</strong> — before a noun: shinsetsu <strong>na</strong> hito → a kind person<br><br>
+        Compare i-adjective: hayai hito (fast person) — no extra word needed.<br>
+        Na-adjective: shinsetsu <strong>na</strong> hito — な is required.
+      </div>
+    </div>
+
+    <div class="div-heading">Vocabulary — 5 Words</div>
+    <div class="na-adj-grid" id="naadj-vocab-grid"></div>
+
+    <div class="div-heading">Quick Check</div>
+    <div id="naadj-mc"></div>
+  </div>
+</div>
+
+<!-- BLOCK D: READING -->
+<div class="block-section locked" id="section-reading" data-block="reading">
+  <div class="block-header" onclick="toggleBlock('reading')">
+    <div class="bh-status" id="status-reading">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block D · 15 min</div><div class="bh-title">📖 Reading — 田中さんの一日</div></div>
+    <div class="bh-badge badge-locked" id="badge-reading">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-reading">
+    <div class="eyebrow">Block D</div>
+    <div class="section-title">田中さんの一日</div>
+    <div class="section-sub">Read each sentence. Tap any coloured particle to see why は, が, or で was chosen. Then answer the comprehension questions.</div>
+
+    <div style="font-size:11px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:8px 13px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:10px;">
+      <span><span class="tap-particle wa" style="cursor:default;">は</span> = topic</span>
+      <span><span class="tap-particle ga" style="cursor:default;">が</span> = new info / subject</span>
+      <span><span class="tap-particle de" style="cursor:default;">で</span> = location of action</span>
+    </div>
+
+    <div class="reading-card" id="reading-card"></div>
+
+    <div class="gold-box" style="margin-top:4px;">
+      <div class="gold-label">New vocab in this passage</div>
+      <div class="gold-text">
+        <strong>で</strong> — marks where an action takes place (different from に which marks location of existence)<br>
+        <strong>shinsetsu</strong> (親切) — kind, considerate (na-adj)<br>
+        <strong>anshin shimashita</strong> (安心しました) — felt relieved (suru compound — preview only)<br>
+        <strong>hataraite imasu</strong> (働いています) — is working (hataraku, U-verb P3 → hataraite + imasu)
+      </div>
+    </div>
+
+    <div class="div-heading">Comprehension Check</div>
+    <div id="comp-items"></div>
+  </div>
+</div>
+
+<!-- BLOCK E: FLOOR EXCHANGES -->
+<div class="block-section locked" id="section-floor" data-block="floor">
+  <div class="block-header" onclick="toggleBlock('floor')">
+    <div class="bh-status" id="status-floor">🔒</div>
+    <div class="bh-label"><div class="bh-num">Block E · 12 min</div><div class="bh-title">🏭 Floor Exchanges</div></div>
+    <div class="bh-badge badge-locked" id="badge-floor">Waiting</div>
+    <div class="bh-chevron">▾</div>
+  </div>
+  <div class="block-body" id="body-floor">
+    <div class="eyebrow">Block E</div>
+    <div class="section-title">Putting It All Together</div>
+    <div class="section-sub">These exchanges combine は vs が, na-adjectives, location に, and kara.</div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">A new worker asks about the supervisor.</div>
+      <div class="exc-line"><div class="exc-speaker">New Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Supervisor <span class="particle-wa">wa</span> doko <span class="particle-ni">ni</span> imasu ka?</div>
+        <div class="exc-jp">スーパーバイザーはどこにいますか？</div>
+        <div class="exc-en">Where is the supervisor?</div>
+      </div></div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Jimusho <span class="particle-ni">ni</span> imasu. Shinsetsu <span class="particle-wa">wa</span> hito desu kara, kikite kudasai.</div>
+        <div class="exc-jp">事務所にいます。親切な人ですから、聞いてください。</div>
+        <div class="exc-en">She is in the office. She is a kind person, so please ask her.</div>
+        <button class="speak-btn" onclick="speak('事務所にいます。親切な人ですから、聞いてください。')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 は asks about known topic (the supervisor). に location. shinsetsu na hito — な before the noun.</div>
+    </div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">You report that a machine needs attention.</div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Station 2 <span class="particle-ni">ni</span> furui kikai <span class="particle-ga">ga</span> arimasu. Kikai <span class="particle-wa">wa</span> daijoubu ja nai desu kara, chekku shite kudasai.</div>
+        <div class="exc-jp">ステーション2に古い機械があります。機械は大丈夫じゃないですから、チェックしてください。</div>
+        <div class="exc-en">There is an old machine at Station 2. The machine is not okay, so please check it.</div>
+        <button class="speak-btn" onclick="speak('ステーション2に古い機械があります。機械は大丈夫じゃないですから、チェックしてください。')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 が introduces the machine (new info). は then continues it as topic. daijoubu — na-adjective.</div>
+    </div>
+
+    <div class="exc-card">
+      <div class="exc-scenario">Explaining your work situation to a visitor.</div>
+      <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
+        <div class="exc-romaji">Watashi <span class="particle-wa">wa</span> DENSO <span class="particle-de">de</span> hataraite imasu. Shigoto <span class="particle-wa">wa</span> taisetsu desu kara, mainichi majime <span class="particle-ni">ni</span> shimasu.</div>
+        <div class="exc-jp">私はDENSOで働いています。仕事は大切ですから、毎日真面目にします。</div>
+        <div class="exc-en">I work at DENSO. Work is important, so I do it seriously every day.</div>
+        <button class="speak-btn" onclick="speak('私はDENSOで働いています。仕事は大切ですから、毎日真面目にします。')" style="margin-top:5px;">🔊</button>
+      </div></div>
+      <div class="exc-note">💡 で marks where the action (working) happens. は topic throughout. taisetsu and majime — na-adjectives.</div>
+    </div>
+
+    <div class="session-end-banner">
+      <div class="seb-title">Session 13 Complete 🎉</div>
+      <div class="seb-sub">は vs が, na-adjectives, and your first full reading passage. Otsukaresama deshita.</div>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /accordion -->
+</div><!-- /page-body -->
+<div id="unlock-toast">Block unlocked ✓</div>
+<div class="particle-annotation" id="particle-annotation">
+  <button class="pa-close" onclick="closeAnnotation()">×</button>
+  <div class="pa-particle" id="pa-particle"></div>
+  <div class="pa-rule" id="pa-rule"></div>
+  <div class="pa-reason" id="pa-reason"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const app=initializeApp({apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",authDomain:"denso-japanese.firebaseapp.com",databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",projectId:"denso-japanese",storageBucket:"denso-japanese.firebasestorage.app",messagingSenderId:"654718718217",appId:"1:654718718217:web:ecec2672bd5069c0b443d8"});
+const db=getDatabase(app);
+const dbRef=ref(db,"session13/phase2");
+window._fbReady=true;
+window._fbOnValue=(cb)=>onValue(dbRef,snap=>cb(snap.val()));
+document.dispatchEvent(new Event("fbReady"));
+</script>
+
+<script>
+function speak(text){const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=0.82;window.speechSynthesis.speak(u);}
+
+const BLOCKS=['recap','iruaru','naadj','reading','floor'];
+const state={};BLOCKS.forEach(b=>state[b]={unlocked:false});
+
+function toggleBlock(id){
+  const sec=document.getElementById('section-'+id);
+  if(!sec.classList.contains('active-block')&&!sec.classList.contains('unlocked'))return;
+  sec.classList.toggle('open',!sec.classList.contains('open'));
+  if(id==='iruaru')buildIruAruMC();
+  if(id==='naadj'){buildNaAdjVocab();buildNaAdjMC();}
+  if(id==='reading'){buildReading();buildComprehension();}
+}
+
+function applyState(st){
+  if(!st)return;
+  const unlocked=st.unlockedBlocks||[];
+  if(unlocked.length>0){
+    document.getElementById('waiting-state').style.display='none';
+    document.getElementById('accordion').style.display='block';
+  }
+  BLOCKS.forEach(id=>{
+    const sec=document.getElementById('section-'+id);
+    const badge=document.getElementById('badge-'+id);
+    const status=document.getElementById('status-'+id);
+    const isUnlocked=unlocked.includes(id);
+    const isCurrent=id===unlocked[unlocked.length-1];
+    const wasUnlocked=state[id].unlocked;
+    state[id].unlocked=isUnlocked;
+    if(isUnlocked){
+      sec.classList.remove('locked');
+      sec.classList.toggle('active-block',isCurrent);
+      sec.classList.toggle('unlocked',isUnlocked&&!isCurrent);
+      if(status)status.textContent='✓';
+      if(badge){badge.textContent=isCurrent?'Now':'Done';badge.className='bh-badge '+(isCurrent?'badge-current':'badge-done');}
+      if(isCurrent&&!wasUnlocked){
+        sec.classList.add('open');
+        setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),200);
+        showToast('🔓 Block unlocked ✓');
+        if(id==='iruaru')buildIruAruMC();
+        if(id==='naadj'){buildNaAdjVocab();buildNaAdjMC();}
+        if(id==='reading'){buildReading();buildComprehension();}
+      }
+      if(isUnlocked&&!isCurrent)sec.classList.remove('open');
+    } else {
+      sec.className='block-section locked';
+      if(status)status.textContent='🔒';
+      if(badge){badge.textContent='Waiting';badge.className='bh-badge badge-locked';}
+    }
+  });
+}
+
+function showToast(msg){const t=document.getElementById('unlock-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+document.addEventListener('fbReady',()=>{
+  const dot=document.getElementById('conn-dot');if(dot)dot.style.background='#166634';
+  const sub=document.querySelector('.waiting-sub');if(sub)sub.textContent='● connected — waiting for facilitator';
+  window._fbOnValue(val=>applyState(val||{}));
+});
+setTimeout(()=>{if(!window._fbReady){const ws=document.getElementById('waiting-state');if(ws)ws.innerHTML='<div class="waiting-icon">⚠️</div><div class="waiting-text" style="color:var(--warn)">Could not connect.</div><div class="waiting-sub">Check internet and reload.</div>';}},8000);
+
+let timerSecs=80*60;
+(function tick(){const m=Math.floor(timerSecs/60),s=timerSecs%60;const el=document.getElementById('p2-timer');if(el)el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(timerSecs>0){timerSecs--;setTimeout(tick,1000);}})();
+
+// ── NA-ADJECTIVES ──
+const NAADJ_VOCAB=[
+  {jp:'しんせつ',rom:'shinsetsu',en:'kind, considerate',note:'shinsetsu na hito = a kind person'},
+  {jp:'だいじょうぶ',rom:'daijoubu',en:'okay, fine, safe',note:'daijoubu desu = it is okay'},
+  {jp:'たいせつ',rom:'taisetsu',en:'important',note:'taisetsu na shigoto = important work'},
+  {jp:'まじめ',rom:'majime',en:'serious, diligent',note:'majime na hito = a diligent person'},
+  {jp:'べんり',rom:'benri',en:'convenient, useful',note:'benri na kikai = a useful machine'},
+];
+
+function buildNaAdjVocab(){
+  const grid=document.getElementById('naadj-vocab-grid');
+  if(!grid||grid.dataset.built)return;
+  grid.dataset.built='1';
+  NAADJ_VOCAB.forEach(a=>{
+    const card=document.createElement('div');card.className='na-adj-card';
+    card.innerHTML=`<div class="na-adj-jp">${a.jp}</div><div class="na-adj-romaji">${a.rom}</div><div class="na-adj-en">${a.en}</div><div class="na-adj-note">${a.note}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+const NAADJ_MC=[
+  {num:1,context:'You are describing your supervisor to a new worker.',sentence:'Supervisor wa ___ na hito desu.',opts:['shinsetsu','shinsetsu na','muzukashii'],answer:'shinsetsu',fb_correct:'✅ Shinsetsu — na-adjective before a noun needs na: shinsetsu na hito.',fb_wrong:'Shinsetsu is correct. Na-adjectives need na before a noun.'},
+  {num:2,context:'A coworker asks if the new machine is useful.',sentence:'Atarashii kikai wa ___ desu ka?',opts:['benri','benri na','hayai na'],answer:'benri',fb_correct:'✅ Benri desu — with desu, no na needed. Na only appears before a noun.',fb_wrong:'Benri is correct. With desu, just use the adjective directly.'},
+  {num:3,context:'You explain why safety checks are done every day.',sentence:'Anzen wa ___ desu kara, mainichi chekku shimasu.',opts:['taisetsu','taisetsu na','majime'],answer:'taisetsu',fb_correct:'✅ Taisetsu desu — statement form. Kara gives the reason.',fb_wrong:'Taisetsu is correct — taisetsu desu kara = because it is important.'},
+  {num:4,context:'Which sentence correctly uses a na-adjective before a noun?',sentence:'[Choose the correct sentence]',opts:['Majime na shigoto desu.','Majime shigoto desu.','Majimena desu.'],answer:'Majime na shigoto desu.',fb_correct:'✅ Majime na shigoto — na is required between the adjective and the noun.',fb_wrong:'Majime na shigoto is correct — na links the adjective to the noun.'},
+];
+let naAdjMCDone={};
+
+function buildNaAdjMC(){
+  const container=document.getElementById('naadj-mc');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  NAADJ_MC.forEach((item,idx)=>{
+    const div=document.createElement('div');div.className='mc-item';div.id='namc-'+idx;
+    const shuffled=[...item.opts].sort(()=>Math.random()-0.5);
+    const optsHtml=shuffled.map(o=>`<button class="mc-opt" id="naopt-${idx}-${o.replace(/[ .]/g,'_')}" onclick="naAdjCheck(${idx},this.dataset.v)" data-v="${o}">${o}</button>`).join('');
+    const blankHtml=item.sentence.includes('___')?`<span class="mc-blank" id="nablank-${idx}">___</span>`:`<span id="nablank-${idx}"></span>`;
+    div.innerHTML=`<div class="mc-num">Question ${item.num} of ${NAADJ_MC.length}</div><div class="mc-context">${item.context}</div><div class="mc-sentence">${item.sentence.replace('___',blankHtml)}</div><div class="mc-opts">${optsHtml}</div><div class="mc-feedback" id="nafb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function naAdjCheck(idx,chosen){
+  const item=NAADJ_MC[idx];
+  if(naAdjMCDone[idx])return;naAdjMCDone[idx]=true;
+  const correct=chosen===item.answer;
+  item.opts.forEach(o=>{const el=document.getElementById('naopt-'+idx+'-'+o.replace(/[ .]/g,'_'));if(el)el.classList.add('locked');});
+  const chosenEl=document.getElementById('naopt-'+idx+'-'+chosen.replace(/[ .]/g,'_'));
+  const ansEl=document.getElementById('naopt-'+idx+'-'+item.answer.replace(/[ .]/g,'_'));
+  const blank=document.getElementById('nablank-'+idx);
+  const fb=document.getElementById('nafb-'+idx);
+  const div=document.getElementById('namc-'+idx);
+  if(correct){if(chosenEl)chosenEl.classList.add('selected-correct');}
+  else{if(chosenEl)chosenEl.classList.add('selected-wrong');if(ansEl)ansEl.classList.add('show-correct');}
+  if(blank&&item.sentence.includes('___')){blank.textContent=item.answer;blank.classList.add('revealed');}
+  if(fb){fb.innerHTML=correct?item.fb_correct:item.fb_wrong;fb.className='mc-feedback show '+(correct?'ok':'bad');}
+  if(div)div.classList.add(correct?'correct-ans':'wrong-ans');
+}
+
+// ── READING ──
+const READING_SENTENCES=[
+  {
+    jp:'田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the established topic of this sentence. は introduces her as what we are talking about.">は</span>DENSO<span class="tap-particle de" data-particle="de" data-rule="で — location of action" data-reason="DENSO is where the action (working) takes place. で marks the place of an activity, not just existence.">で</span><ruby>働<rt>はたら</rt></ruby>いています。',
+    rom:'Tanaka-san wa DENSO de hataraite imasu.',
+    en:'Tanaka-san works at DENSO.'
+  },
+  {
+    jp:'今日、<ruby>新<rt>あたら</rt></ruby>しい<ruby>手順<rt>てじゅん</rt></ruby><span class="tap-particle ga" data-particle="ga" data-rule="が — new information" data-reason="The new procedure is being introduced for the first time. が points out what exists — new information.">が</span>あります。',
+    rom:'Kyou, atarashii tejun ga arimasu.',
+    en:'Today, there is a new procedure.'
+  },
+  {
+    jp:'<ruby>手順<rt>てじゅん</rt></ruby><span class="tap-particle wa" data-particle="wa" data-rule="は — continuing topic" data-reason="Tejun (the procedure) was just introduced with が. Now は takes over to describe it — the topic continues.">は</span><ruby>難<rt>むずか</rt></ruby>しいですから、田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the established topic again. は continues her as the subject we are talking about.">は</span>もう<ruby>一度<rt>いちど</rt></ruby><ruby>読<rt>よ</rt></ruby>みました。',
+    rom:'Tejun wa muzukashii desu kara, Tanaka-san wa mou ichi-do yomimashita.',
+    en:'The procedure is difficult, so Tanaka-san read it again.'
+  },
+  {
+    jp:'<ruby>機械<rt>きかい</rt></ruby><span class="tap-particle ga" data-particle="ga" data-rule="が — new information" data-reason="The machine is being introduced into the story for the first time. が points it out as new information.">が</span>ステーション2に<span class="tap-particle wa" data-particle="wa" data-rule="は — wait, this は is inside に" data-reason="This に is the location particle (at Station 2) — not は. が introduces the machine here.">あります。</span>',
+    rom:'Kikai ga Station 2 ni arimasu.',
+    en:'The machine is at Station 2.'
+  },
+  {
+    jp:'<ruby>機械<rt>きかい</rt></ruby><span class="tap-particle wa" data-particle="wa" data-rule="は — continuing topic" data-reason="The machine was just introduced with が. Now は takes over — it is the established topic and we are describing it (old, needs checking).">は</span><ruby>古<rt>ふる</rt></ruby>いですから、田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the established topic. は continues her.">は</span>スーパーバイザーに<ruby>話<rt>はな</rt></ruby>しました。',
+    rom:'Kikai wa furui desu kara, Tanaka-san wa supervisor ni hanashimashita.',
+    en:'The machine is old, so Tanaka-san spoke to the supervisor.'
+  },
+  {
+    jp:'スーパーバイザー<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="The supervisor is now the topic. は introduces them as what we are talking about.">は</span><ruby>事務所<rt>じむしょ</rt></ruby>にいます。',
+    rom:'Supervisor wa jimusho ni imasu.',
+    en:'The supervisor is in the office.'
+  },
+  {
+    jp:'スーパーバイザー<span class="tap-particle wa" data-particle="wa" data-rule="は — continuing topic" data-reason="The supervisor is still the topic — は continues. We are now describing their character (kind).">は</span><ruby>親切<rt>しんせつ</rt></ruby>ですから、田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the topic again. は continues her as the subject.">は</span><ruby>安心<rt>あんしん</rt></ruby>しました。',
+    rom:'Supervisor wa shinsetsu desu kara, Tanaka-san wa anshin shimashita.',
+    en:'The supervisor is kind, so Tanaka-san felt relieved.'
+  },
+  {
+    jp:'おつかれさまでした。',
+    rom:'Otsukaresama deshita.',
+    en:'Good work today.'
+  },
+];
+
+function buildReading(){
+  const card=document.getElementById('reading-card');
+  if(!card||card.dataset.built)return;
+  card.dataset.built='1';
+  const title=document.createElement('div');
+  title.className='reading-title';
+  title.innerHTML='田中さんの一日 <span>Tanaka-san no ichi-nichi</span>';
+  card.appendChild(title);
+  READING_SENTENCES.forEach((s,i)=>{
+    const row=document.createElement('div');row.className='reading-sentence';
+    row.innerHTML=`<div class="reading-jp">${s.jp}</div><div class="reading-romaji">${s.rom}</div><div class="reading-en">${s.en}</div>`;
+    card.appendChild(row);
+  });
+  // Attach tap handlers to all tap-particle elements
+  card.querySelectorAll('.tap-particle[data-particle]').forEach(el=>{
+    el.addEventListener('click',e=>{
+      e.stopPropagation();
+      showAnnotation(el);
+    });
+  });
+}
+
+let activeParticle=null;
+function showAnnotation(el){
+  if(activeParticle===el){closeAnnotation();return;}
+  if(activeParticle)activeParticle.classList.remove('active');
+  activeParticle=el;
+  el.classList.add('active');
+  const ann=document.getElementById('particle-annotation');
+  const pEl=document.getElementById('pa-particle');
+  const rEl=document.getElementById('pa-rule');
+  const reaEl=document.getElementById('pa-reason');
+  const p=el.dataset.particle;
+  pEl.className='pa-particle '+p;
+  pEl.textContent=el.textContent;
+  rEl.textContent=el.dataset.rule;
+  reaEl.textContent=el.dataset.reason;
+  // Position near element
+  const rect=el.getBoundingClientRect();
+  const vw=window.innerWidth;
+  ann.style.display='block';
+  const annW=Math.min(280,vw-20);
+  let left=rect.left;
+  if(left+annW>vw-10)left=vw-annW-10;
+  if(left<10)left=10;
+  let top=rect.bottom+8+window.scrollY;
+  ann.style.left=left+'px';
+  ann.style.top=top+'px';
+  ann.classList.add('show');
+}
+
+function closeAnnotation(){
+  if(activeParticle){activeParticle.classList.remove('active');activeParticle=null;}
+  document.getElementById('particle-annotation').classList.remove('show');
+}
+document.addEventListener('click',e=>{
+  const ann=document.getElementById('particle-annotation');
+  if(!ann.contains(e.target)&&!e.target.classList.contains('tap-particle'))closeAnnotation();
+});
+
+// ── COMPREHENSION ──
+const COMP_Q=[
+  {q:'Where is the machine?',opts:['Station 1','Station 2','Station 3','The office'],answer:'Station 2',fb:'Kikai ga Station 2 ni arimasu.'},
+  {q:'Why did Tanaka-san read the procedure again?',opts:['It was new','It was important','It was difficult','It was old'],answer:'It was difficult',fb:'Tejun wa muzukashii desu kara — the procedure is difficult.'},
+  {q:'Where is the supervisor?',opts:['Station 2','The break room','The factory floor','The office'],answer:'The office',fb:'Supervisor wa jimusho ni imasu.'},
+  {q:'How is the supervisor described?',opts:['Busy','Kind','Serious','Strict'],answer:'Kind',fb:'Supervisor wa shinsetsu desu — shinsetsu = kind (na-adjective).'},
+];
+let compDone={};
+
+function buildComprehension(){
+  const container=document.getElementById('comp-items');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  COMP_Q.forEach((q,idx)=>{
+    const div=document.createElement('div');div.className='comp-item';div.id='cq-'+idx;
+    const shuffled=[...q.opts].sort(()=>Math.random()-0.5);
+    const optsHtml=shuffled.map(o=>`<button class="comp-opt" id="copt-${idx}-${o.replace(/[ ']/g,'_')}" onclick="compCheck(${idx},this.dataset.v)" data-v="${o}">${o}</button>`).join('');
+    div.innerHTML=`<div class="comp-q">${idx+1}. ${q.q}</div><div class="comp-opts">${optsHtml}</div><div class="comp-fb" id="cfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function compCheck(idx,chosen){
+  if(compDone[idx])return;compDone[idx]=true;
+  const q=COMP_Q[idx];
+  const correct=chosen===q.answer;
+  q.opts.forEach(o=>{const el=document.getElementById('copt-'+idx+'-'+o.replace(/[ ']/g,'_'));if(el)el.classList.add('locked');});
+  const chosenEl=document.getElementById('copt-'+idx+'-'+chosen.replace(/[ ']/g,'_'));
+  const ansEl=document.getElementById('copt-'+idx+'-'+q.answer.replace(/[ ']/g,'_'));
+  const fb=document.getElementById('cfb-'+idx);
+  const div=document.getElementById('cq-'+idx);
+  if(correct){if(chosenEl)chosenEl.classList.add('correct');}
+  else{if(chosenEl)chosenEl.classList.add('wrong');if(ansEl)ansEl.classList.add('show-c');}
+  if(fb){fb.innerHTML=(correct?'✅ ':'❌ ')+q.fb;fb.className='comp-fb show '+(correct?'ok':'bad');}
+  if(div)div.classList.add(correct?'correct-ans':'wrong-ans');
+}
+
+
+const IRUARU_MC=[
+  {id:1,sentence:'Supervisor ___ jimusho ni imasu.',opts:['ga','wa','wo'],answer:'ga',context:'You are telling a coworker where the supervisor is.',fb_correct:'✅ が — marks the specific person who is there. New information.',fb_wrong:'が is correct — use が when pointing out who is at a location.'},
+  {id:2,sentence:'Kikai ___ Station 2 ni ___ .',opts:['ga · arimasu','wa · imasu','ga · imasu'],answer:'ga · arimasu',context:'The machine is at Station 2.',fb_correct:'✅ が + あります — thing (kikai), so あります. が for new/specific info.',fb_wrong:'が + あります: kikai is a thing → あります, not います.'},
+  {id:3,sentence:'Tanaka-san ___ doko ni imasu ka?',opts:['ga','wo','ni'],answer:'ga',context:'You are asking where Tanaka-san is.',fb_correct:'✅ が — asking about a specific person\'s location.',fb_wrong:'が is correct — Tanaka-san が doko に imasu ka?'},
+  {id:4,sentence:'Tejun ___ Station 1 ni ___ .',opts:['ga · arimasu','ga · imasu','wa · arimasu'],answer:'ga · arimasu',context:'The procedure sheet is at Station 1.',fb_correct:'✅ が + あります — tejun is a thing, not a person.',fb_wrong:'が + あります: tejun is a non-living object → あります.'},
+];
+let iruaruDone={};
+
+function buildIruAruMC(){
+  const container=document.getElementById('iruaru-mc');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  IRUARU_MC.forEach((item,idx)=>{
+    const div=document.createElement('div');div.className='iuaru-item';div.id='iam-'+idx;
+    const shuffled=[...item.opts].sort(()=>Math.random()-0.5);
+    const optsHtml=shuffled.map(o=>`<button class="iuaru-mc-opt" id="iamopt-${idx}-${o.replace(/[ ·]/g,'_')}" onclick="iruaruCheck(${idx},'${o}')">${o}</button>`).join('');
+    div.innerHTML=`<div style="font-size:12px;color:var(--text-3);font-style:italic;margin-bottom:6px;padding:6px 9px;background:var(--surface-2);border-left:3px solid var(--border-strong);border-radius:0 4px 4px 0;">${item.context}</div><div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:9px;line-height:1.7;">${item.sentence}</div><div>${optsHtml}</div><div class="iuaru-fb" id="iamfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function iruaruCheck(idx,chosen){
+  const item=IRUARU_MC[idx];
+  if(iruaruDone[idx])return;
+  iruaruDone[idx]=true;
+  const correct=chosen===item.answer;
+  item.opts.forEach(o=>{const el=document.getElementById('iamopt-'+idx+'-'+o.replace(/[ ·]/g,'_'));if(el)el.classList.add('locked');});
+  const chosenEl=document.getElementById('iamopt-'+idx+'-'+chosen.replace(/[ ·]/g,'_'));
+  const ansEl=document.getElementById('iamopt-'+idx+'-'+item.answer.replace(/[ ·]/g,'_'));
+  const fb=document.getElementById('iamfb-'+idx);
+  const div=document.getElementById('iam-'+idx);
+  if(correct){if(chosenEl)chosenEl.classList.add('correct');if(div)div.classList.add('correct-ans');}
+  else{if(chosenEl)chosenEl.classList.add('wrong');if(ansEl)ansEl.classList.add('show-c');if(div)div.classList.add('wrong-ans');}
+  if(fb){fb.innerHTML=correct?item.fb_correct:item.fb_wrong;fb.className='iuaru-fb show '+(correct?'ok':'bad');}
+}
+
+// ── て-IMASU EXAMPLES ──
+const TEIMASU_EX=[
+  {romaji:'Kikai wo tsuka<span style="color:var(--red)">tte imasu</span>.',jp:'機械を使っています。',en:'I\'m using the machine right now.',note:'tsukau (U-verb, -u→tte) + imasu'},
+  {romaji:'Kakunin wo shi<span style="color:var(--red)">te imasu</span>.',jp:'確認をしています。',en:'I\'m doing the check.',note:'suru (irregular) → shite + imasu'},
+  {romaji:'Tejun wo mi<span style="color:var(--red)">te imasu</span>.',jp:'手順を見ています。',en:'I\'m looking at the procedure.',note:'miru (RU-verb, drop ru) → mite + imasu'},
+  {romaji:'Ki<span style="color:var(--red)">te imasu</span>.',jp:'来ています。',en:'I\'m on my way / I\'ve come.',note:'kuru (irregular) → kite + imasu'},
+  {romaji:'Station ni de hatarai<span style="color:var(--red)">te imasu</span>.',jp:'ステーション2で働いています。',en:'I work at Station 2. (ongoing state)',note:'hataraku (U-verb, -ku→ite) + imasu'},
+];
+
+function buildTeimasuExamples(){
+  const container=document.getElementById('teimasu-examples');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  TEIMASU_EX.forEach(ex=>{
+    const div=document.createElement('div');div.className='teimasu-ex';
+    div.innerHTML=`<div class="teimasu-romaji">${ex.romaji}</div><div class="teimasu-jp">${ex.jp}</div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;"><div class="teimasu-en">${ex.en}</div><button class="speak-btn" onclick="speak(this.dataset.t)" data-t="${ex.jp}">🔊</button></div><div style="font-family:var(--mono);font-size:10px;color:var(--text-3);margin-top:5px;">${ex.note}</div>`;
+    container.appendChild(div);
+  });
+}
+
+// ── て-IMASU MC ──
+const TEIMASU_MC=[
+  {num:1,context:'Your line leader asks what you\'re doing right now.',sentence:'Kikai no settei wo ___ .',blank_pos:'Kikai no settei wo ',blank_after:' .',verb:'suru',opts:['shite imasu','shimashita','shite kudasai'],answer:'shite imasu',fb_correct:'✅ Shite imasu — suru te-form + imasu = ongoing action right now.',fb_wrong:'Shite imasu is correct. Te-form + imasu describes what you\'re doing right now.'},
+  {num:2,context:'A supervisor asks if someone is at Station 3.',sentence:'Station san ni ___ .',blank_pos:'Station san ni ',blank_after:' .',verb:'kuru',opts:['kite imasu','kimashita','kite kudasai'],answer:'kite imasu',fb_correct:'✅ Kite imasu — kuru te-form + imasu = ongoing state (they\'re there right now).',fb_wrong:'Kite imasu is correct. Te-form + imasu = current ongoing state.'},
+  {num:3,context:'You\'re reporting to your supervisor that the machine is currently running.',sentence:'Kikai ga ugo<span style="font-family:var(--mono);font-weight:700;color:var(--text-3);">___</span> .',blank_pos:'Kikai ga ',blank_after:' .',verb:'ugoku',opts:['ugoite imasu','ugokimashita','ugoite kudasai'],answer:'ugoite imasu',fb_correct:'✅ Ugoite imasu — ugoku (U-verb, -ku→ite) + imasu = machine is running right now.',fb_wrong:'Ugoite imasu is correct. Ugoku → ugoite + imasu = currently running.'},
+  {num:4,context:'You want to tell a coworker to check the procedure (not that you\'re checking it).',sentence:'Tejun wo ___ .',blank_pos:'Tejun wo ',blank_after:' .',verb:'miru',opts:['mite imasu','mite kudasai','mimashita'],answer:'mite kudasai',fb_correct:'✅ Mite kudasai — te-form + kudasai = polite request. Te-form + imasu would mean you\'re currently looking.',fb_wrong:'Mite kudasai is correct — this is a request. Mite imasu would mean you\'re currently looking at it.'},
+];
+
+let teimasuAnswers={};
+
+function buildTeimasuMC(){
+  const container=document.getElementById('teimasu-mc');
+  if(!container||container.dataset.built)return;
+  container.dataset.built='1';
+  TEIMASU_MC.forEach((item,idx)=>{
+    const div=document.createElement('div');div.className='mc-item';div.id='tmci-'+idx;
+    const blankHtml=`<span class="mc-blank" id="tmblank-${idx}">___</span>`;
+    const sentence=item.blank_pos+blankHtml+item.blank_after;
+    const shuffledTOpts=[...item.opts].map((o,i)=>({o,i})).sort(()=>Math.random()-0.5);
+    const safeOpts=shuffledTOpts.map(({o,i})=>`<button class="mc-opt" id="tmopt-${idx}-${i}" onclick="teimasuCheckByIndex(${idx},${i})">${o}</button>`).join('');
+    div.innerHTML=`<div class="mc-num"><span>Question ${item.num} of ${TEIMASU_MC.length}</span><span class="mc-verb-pill">${item.verb}</span></div><div class="mc-context">${item.context}</div><div class="mc-sentence">${sentence}</div><div class="mc-opts">${safeOpts}</div><div class="mc-feedback" id="tmfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function teimasuCheckByIndex(idx,optIdx){teimasuCheck(idx,TEIMASU_MC[idx].opts[optIdx]);}
+function teimasuCheck(idx,chosen){
+  const item=TEIMASU_MC[idx];
+  const chosenIdx=item.opts.indexOf(chosen);
+  const chosenEl=document.getElementById('tmopt-'+idx+'-'+chosenIdx);
+  if(!chosenEl||chosenEl.classList.contains('locked'))return;
+  teimasuAnswers[idx]={chosen,correct:chosen===item.answer};
+  item.opts.forEach((_o,_i)=>document.getElementById('tmopt-'+idx+'-'+_i)?.classList.add('locked'));
+  const correct=chosen===item.answer;
+  const answerEl=document.getElementById('tmopt-'+idx+'-'+item.opts.indexOf(item.answer));
+  const blank=document.getElementById('tmblank-'+idx);
+  const fb=document.getElementById('tmfb-'+idx);
+  const itemEl=document.getElementById('tmci-'+idx);
+  chosenEl.classList.add(correct?'selected-correct':'selected-wrong');
+  if(!correct&&answerEl)answerEl.classList.add('show-correct');
+  if(blank){blank.textContent=item.answer;blank.classList.add('revealed');}
+  if(fb){fb.innerHTML=correct?item.fb_correct:item.fb_wrong;fb.className='mc-feedback show '+(correct?'ok':'bad');}
+  if(itemEl)itemEl.classList.add(correct?'correct-ans':'wrong-ans');
+}
+
+// Build teimasu content when block opens
+
+
+
+
+
+
+</script>
+</body>
+</html>
