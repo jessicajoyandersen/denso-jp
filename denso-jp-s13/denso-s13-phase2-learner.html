@@ -187,6 +187,30 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
 .seb-sub{font-size:13px;color:var(--text-2);line-height:1.65;}
 #unlock-toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#1C1917;color:white;font-size:13px;font-weight:600;padding:8px 16px;border-radius:7px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:999;}
 #unlock-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* SPEED ROUND */
+.sr-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;}
+.sr-progress-bar{height:4px;background:var(--surface-2);}
+.sr-progress-fill{height:100%;background:var(--red);transition:width 0.3s ease;width:0%;}
+.sr-question-area{padding:22px 20px 18px;min-height:140px;display:flex;flex-direction:column;justify-content:center;}
+.sr-q-meta{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;}
+.sr-q-text{font-size:16px;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:4px;}
+.sr-q-sub{font-size:12px;color:var(--text-3);font-style:italic;}
+.sr-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 20px 20px;}
+.sr-opt{font-family:var(--mono);font-size:13px;font-weight:700;padding:12px 14px;border-radius:7px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;text-align:center;line-height:1.4;}
+.sr-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.sr-opt.correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.sr-opt.wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.sr-opt.show-c{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.sr-opt.locked{cursor:default;}
+.sr-feedback{padding:0 20px 14px;font-size:12px;line-height:1.6;color:var(--text-2);min-height:36px;}
+.sr-next-btn{display:block;width:calc(100% - 40px);margin:0 20px 18px;padding:11px;background:var(--text);color:white;border:none;border-radius:7px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;transition:background 0.12s;display:none;}
+.sr-next-btn:hover{background:#2c2825;}
+.sr-results{padding:28px 20px;text-align:center;display:none;}
+.sr-results-score{font-size:48px;font-weight:800;line-height:1;margin-bottom:4px;}
+.sr-results-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;}
+.sr-results-msg{font-size:13px;color:var(--text-2);line-height:1.7;}
+
 </style>
 </head>
 <body>
@@ -224,29 +248,9 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
   </div>
   <div class="block-body" id="body-recap">
     <div class="eyebrow">Block A</div>
-    <div class="section-title">What We Covered in Session 12</div>
-    <div class="section-sub">Quick reference. Today: は vs が (location sentences), na-adjectives, and a short reading activity.</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px;margin-bottom:18px;">
-      <div style="background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:7px;padding:11px 13px;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--blue);">に Location</div>
-        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">[thing] <span class="particle-ga">ga</span> [place] <span class="particle-ni">ni</span> arimasu</div>
-        <div style="font-family:var(--mono);font-size:11px;">[person] <span class="particle-ga">ga</span> [place] <span class="particle-ni">ni</span> imasu</div>
-      </div>
-      <div style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:7px;padding:11px 13px;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--gold);">I-Adjectives</div>
-        <div style="font-family:var(--mono);font-size:11px;margin-bottom:2px;">nemui · hayai · osoi</div>
-        <div style="font-family:var(--mono);font-size:11px;">muzukashii · furui · atarashii</div>
-      </div>
-      <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--red);">kara</div>
-        <div style="font-family:var(--mono);font-size:11px;">[reason] kara, [result]</div>
-        <div style="font-size:11px;color:var(--text-3);margin-top:3px;">because A, so B</div>
-      </div>
-    </div>
-    <div class="frame-box">
-      <div class="frame-label">Today — Session 13</div>
-      <div class="frame-text"><span class="particle-wa">は</span> vs <span class="particle-ga">が</span> in location sentences · na-adjectives (5 words) · Short reading: Tanaka-san no ichi-nichi</div>
-    </div>
+    <div class="section-title">Quick Review — S9 to S12</div>
+    <div class="section-sub">8 questions. Tap the correct answer. One shot per question.</div>
+    <div id="speed-round"></div>
   </div>
 </div>
 
@@ -503,6 +507,7 @@ function toggleBlock(id){
   const sec=document.getElementById('section-'+id);
   if(!sec.classList.contains('active-block')&&!sec.classList.contains('unlocked'))return;
   sec.classList.toggle('open',!sec.classList.contains('open'));
+  if(id==='recap')buildSpeedRound();
   if(id==='iruaru')buildIruAruMC();
   if(id==='naadj'){buildNaAdjVocab();buildNaAdjMC();}
   if(id==='reading'){buildReading();buildComprehension();}
@@ -533,7 +538,8 @@ function applyState(st){
         sec.classList.add('open');
         setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),200);
         showToast('🔓 Block unlocked ✓');
-        if(id==='iruaru')buildIruAruMC();
+        if(id==='recap')buildSpeedRound();
+  if(id==='iruaru')buildIruAruMC();
         if(id==='naadj'){buildNaAdjVocab();buildNaAdjMC();}
         if(id==='reading'){buildReading();buildComprehension();}
       }
@@ -874,6 +880,162 @@ function teimasuCheck(idx,chosen){
 
 
 
+
+// ── SPEED ROUND ──
+const SR_QUESTIONS = [
+  {
+    q: 'kaku → te-form?',
+    sub: 'U-verb Pattern 3',
+    opts: ['kaite','kakite','kaitte','kakimasu'],
+    answer: 'kaite',
+    fb: 'kaku → kaite (Pattern 3: -ku → -ite)'
+  },
+  {
+    q: 'Station 3 ___ itte kudasai.',
+    sub: 'Which particle?',
+    opts: ['ni','wa','ga','wo'],
+    answer: 'ni',
+    fb: 'に marks destination. Station 3 ni itte kudasai.'
+  },
+  {
+    q: 'The machine is at Station 2.',
+    sub: 'Choose the correct Japanese sentence.',
+    opts: ['Kikai ga Station 2 ni arimasu.','Kikai wa Station 2 ni imasu.','Kikai ga Station 2 ni imasu.','Kikai wo Station 2 ni arimasu.'],
+    answer: 'Kikai ga Station 2 ni arimasu.',
+    fb: 'が introduces the machine (new info). に location. あります for objects.'
+  },
+  {
+    q: 'Muzukashii desu ___ , mou ichi-do hanashite kudasai.',
+    sub: 'Which word fills the blank?',
+    opts: ['kara','ga','wa','kedo'],
+    answer: 'kara',
+    fb: 'kara connects the reason (difficult) to the request (say again).'
+  },
+  {
+    q: 'hanasu → past polite?',
+    sub: 'U-verb Pattern 4',
+    opts: ['hanashimashita','hanasimashita','hanashite','hanashimasu'],
+    answer: 'hanashimashita',
+    fb: 'hanasu → hanashi + mashita (Pattern 4: -su → -shi)'
+  },
+  {
+    q: 'I am checking right now.',
+    sub: 'Which form of suru?',
+    opts: ['shite imasu','shimashita','shimasu','shite kudasai'],
+    answer: 'shite imasu',
+    fb: 'て-imasu = ongoing action. suru → shite + imasu.'
+  },
+  {
+    q: 'Kono kikai wa furui desu.',
+    sub: 'What does furui mean?',
+    opts: ['old','new','fast','difficult'],
+    answer: 'old',
+    fb: 'furui = old (for objects). i-adjective from S12.'
+  },
+  {
+    q: 'Which sentence uses は correctly?',
+    sub: 'は vs が',
+    opts: [
+      'Tejun wa muzukashii desu.',
+      'Tejun ga muzukashii desu wa.',
+      'Wa tejun muzukashii desu.',
+      'Tejun ga wa muzukashii.'
+    ],
+    answer: 'Tejun wa muzukashii desu.',
+    fb: 'は marks the topic (tejun) and comes right after it. Tejun wa muzukashii desu.'
+  },
+];
+
+let srCurrent = 0;
+let srScore = 0;
+let srAnswered = false;
+
+function buildSpeedRound() {
+  const wrap = document.getElementById('speed-round');
+  if (!wrap || wrap.dataset.built) return;
+  wrap.dataset.built = '1';
+  wrap.innerHTML = `
+    <div class="sr-wrap">
+      <div class="sr-progress-bar"><div class="sr-progress-fill" id="sr-prog"></div></div>
+      <div class="sr-question-area" id="sr-q-area">
+        <div class="sr-q-meta" id="sr-meta"></div>
+        <div class="sr-q-text" id="sr-q-text"></div>
+        <div class="sr-q-sub" id="sr-q-sub"></div>
+      </div>
+      <div class="sr-opts" id="sr-opts"></div>
+      <div class="sr-feedback" id="sr-fb"></div>
+      <button class="sr-next-btn" id="sr-next" onclick="srNext()">Next →</button>
+      <div class="sr-results" id="sr-results"></div>
+    </div>`;
+  srShowQuestion(0);
+}
+
+function srShowQuestion(idx) {
+  srAnswered = false;
+  const q = SR_QUESTIONS[idx];
+  const total = SR_QUESTIONS.length;
+  document.getElementById('sr-meta').textContent = (idx + 1) + ' of ' + total;
+  document.getElementById('sr-q-text').textContent = q.q;
+  document.getElementById('sr-q-sub').textContent = q.sub;
+  document.getElementById('sr-fb').textContent = '';
+  document.getElementById('sr-next').style.display = 'none';
+  document.getElementById('sr-prog').style.width = (idx / total * 100) + '%';
+  const opts = document.getElementById('sr-opts');
+  opts.innerHTML = '';
+  const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+  shuffled.forEach(o => {
+    const btn = document.createElement('button');
+    btn.className = 'sr-opt';
+    btn.textContent = o;
+    btn.dataset.v = o;
+    btn.onclick = () => srAnswer(o);
+    opts.appendChild(btn);
+  });
+}
+
+function srAnswer(chosen) {
+  if (srAnswered) return;
+  srAnswered = true;
+  const q = SR_QUESTIONS[srCurrent];
+  const correct = chosen === q.answer;
+  if (correct) srScore++;
+  document.querySelectorAll('.sr-opt').forEach(btn => {
+    btn.classList.add('locked');
+    if (btn.dataset.v === q.answer) btn.classList.add(correct ? 'correct' : 'show-c');
+    if (btn.dataset.v === chosen && !correct) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('sr-fb');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + q.fb;
+  fb.style.color = correct ? 'var(--green)' : 'var(--warn)';
+  const nextBtn = document.getElementById('sr-next');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = srCurrent < SR_QUESTIONS.length - 1 ? 'Next →' : 'See Results →';
+}
+
+function srNext() {
+  srCurrent++;
+  if (srCurrent < SR_QUESTIONS.length) {
+    srShowQuestion(srCurrent);
+  } else {
+    srShowResults();
+  }
+}
+
+function srShowResults() {
+  document.getElementById('sr-q-area').style.display = 'none';
+  document.getElementById('sr-opts').style.display = 'none';
+  document.getElementById('sr-fb').style.display = 'none';
+  document.getElementById('sr-next').style.display = 'none';
+  document.getElementById('sr-prog').style.width = '100%';
+  const pct = Math.round(srScore / SR_QUESTIONS.length * 100);
+  const color = pct >= 88 ? 'var(--green)' : pct >= 62 ? 'var(--gold)' : 'var(--warn)';
+  const msg = pct === 100 ? 'Perfect — all S9–S12 grammar locked in.' :
+              pct >= 75 ? 'Strong. Any misses are good warm-up notes.' :
+              'Good effort — your facilitator will cover anything you missed.';
+  const res = document.getElementById('sr-results');
+  res.style.display = 'block';
+  res.innerHTML = `<div class="sr-results-score" style="color:${color}">${srScore}<span style="font-size:24px;color:var(--text-3)"> / ${SR_QUESTIONS.length}</span></div><div class="sr-results-label">S9–S12 Review Score</div><div class="sr-results-msg">${msg}</div>`;
+}
 </script>
 </body>
 </html>
