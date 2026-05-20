@@ -492,6 +492,9 @@ import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10
 const app=initializeApp({apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",authDomain:"denso-japanese.firebaseapp.com",databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",projectId:"denso-japanese",storageBucket:"denso-japanese.firebasestorage.app",messagingSenderId:"654718718217",appId:"1:654718718217:web:ecec2672bd5069c0b443d8"});
 const db=getDatabase(app);
 const dbRef=ref(db,"session13/phase2");
+import { getDatabase as getDb2, ref as ref2, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const srResultsRef=ref2(getDb2(app),"session13/phase2/speedRoundResults");
+window._srPush=(data)=>push(srResultsRef,data);
 window._fbReady=true;
 window._fbOnValue=(cb)=>onValue(dbRef,snap=>cb(snap.val()));
 document.dispatchEvent(new Event("fbReady"));
@@ -1029,12 +1032,16 @@ function srShowResults() {
   document.getElementById('sr-prog').style.width = '100%';
   const pct = Math.round(srScore / SR_QUESTIONS.length * 100);
   const color = pct >= 88 ? 'var(--green)' : pct >= 62 ? 'var(--gold)' : 'var(--warn)';
-  const msg = pct === 100 ? 'Perfect — all S9–S12 grammar locked in.' :
-              pct >= 75 ? 'Strong. Any misses are good warm-up notes.' :
-              'Good effort — your facilitator will cover anything you missed.';
+  const msg = pct === 100 ? 'Perfect — everything from S9 to S12 is solid.' :
+              pct >= 75 ? 'Strong work. Bring any questions to your facilitator.' :
+              'Good effort. Ask your facilitator about anything you were unsure of.';
   const res = document.getElementById('sr-results');
   res.style.display = 'block';
   res.innerHTML = `<div class="sr-results-score" style="color:${color}">${srScore}<span style="font-size:24px;color:var(--text-3)"> / ${SR_QUESTIONS.length}</span></div><div class="sr-results-label">S9–S12 Review Score</div><div class="sr-results-msg">${msg}</div>`;
+  // Push to Firebase
+  try {
+    if(window._srPush) window._srPush({score:srScore, total:SR_QUESTIONS.length, ts:Date.now()});
+  } catch(e){}
 }
 </script>
 </body>
