@@ -70,7 +70,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15
 <div class="page-body">
   <div class="page-header">
     <h1>Final Grammar Checkpoint</h1>
-    <p>15 items covering Sessions 9–13. Answer all, flag anything you want to review, then submit. Anonymous — no names collected.</p>
+    <p>16 items covering Sessions 9–13. Answer all, flag anything you want to review, then submit. Anonymous — no names collected.</p>
   </div>
   <div class="gc-wrap">
     <div id="gc-items-container"></div>
@@ -97,21 +97,22 @@ const HW_ITEMS=[
   {id:2,section:"Particles",type:"mc",context:"You are asking where the procedure sheet is.",sentence:"Tejun ___ doko ni arimasu ka?",opts:["ga","wa","ni","wo"],answer:"ga",hint:"Which particle introduces new information?"},
   {id:3,section:"Particles",type:"fill",context:"You are asking which one is the break room.",sentence:"Dore ___ kyuukeishitsu desu ka?",answer:["ga","が"],hint:"Which particle asks about a specific unknown thing?"},
   {id:4,section:"Particles",type:"mc",context:"Station 2 has a new machine.",sentence:"Station 2 ___ atarashii kikai ___ arimasu.",opts:["wa · ga","ga · wa","ni · ga","wa · wo"],answer:"wa · ga",hint:"は sets the topic (Station 2), が introduces what it has. Note: ni · ga also works — Station 2 ni atarashii kikai ga arimasu — but that says where the machine IS, not that Station 2 HAS it."},
+  {id:5,section:"Particles",type:"mc",context:"Tanaka-san is working at DENSO.",sentence:"Tanaka-san wa DENSO ___ hataraite imasu.",opts:["ga","wa","de","wo"],answer:"de",hint:"で — marks where an action takes place. We did not cover this fully in class, but で can mean something happens \"at\" a place, different from に which marks where something simply exists."},
   // Verb forms
-  {id:5,section:"Verb Forms",type:"mc",context:"You want to ask a coworker to write the procedure.",sentence:"Tejun wo ___ kudasai.",opts:["kakimasu","kakimashita","kaite","kaitte"],answer:"kaite",hint:"Te-form + kudasai = request. kaku → kaite (P3, -ku→ite)."},
-  {id:6,section:"Verb Forms",type:"fill",context:"The supervisor is currently checking the machine.",sentence:"Supervisor ga kikai wo ___ imasu.",answer:["chekku shite","チェックして","kakunin shite","確認して","mite","見て"],hint:"Te-form + imasu = ongoing. Also accepted: kakunin shite, mite."},
-  {id:7,section:"Verb Forms",type:"mc",context:"You told the supervisor about the problem. Choose the correct past form.",sentence:"Supervisor ni mondai wo ___.",opts:["tsutaemasu","tsutaemashita","tsutaete","tsutaemashta"],answer:"tsutaemashita",hint:"tsutaeru → tsutae + mashita (past polite, RU-verb)."},
-  {id:8,section:"Verb Forms",type:"mc",context:"Which sentence correctly describes an ongoing action?",sentence:"[Choose the correct sentence]",opts:["Tejun wo yomimasu.","Tejun wo yonde imasu.","Tejun wo yomimashita.","Tejun wo yonde kudasai."],answer:"Tejun wo yonde imasu.",hint:"Te-form + imasu = ongoing right now. yomu → yonde (P2)."},
+  {id:6,section:"Verb Forms",type:"mc",context:"You want to ask a coworker to write the procedure. (kaku — to write)",sentence:"Tejun wo ___ kudasai.",opts:["kakimasu","kakimashita","kaite","kaitte"],answer:"kaite",hint:"Te-form + kudasai = request. kaku → kaite (P3, -ku→ite)."},
+  {id:7,section:"Verb Forms",type:"fill",context:"The supervisor is currently checking the machine. (kakunin suru — to check)",sentence:"Supervisor ga kikai wo ___ imasu.",answer:["kakunin shite","確認して","chekku shite","チェックして","mite","見て"],hint:"kakunin suru → kakunin shite (te-form + imasu). Also accepted: mite imasu (miru → mite — focuses on the act of looking rather than confirming). chekku shite is accepted but more casual."},
+  {id:8,section:"Verb Forms",type:"mc",context:"You told the supervisor about the problem. (tsutaeru — to tell / convey)",sentence:"Supervisor ni mondai wo ___.",opts:["tsutaemasu","tsutaemashita","tsutaete","tsutaemashta"],answer:"tsutaemashita",hint:"tsutaeru → tsutae + mashita (past polite, RU-verb)."},
+  {id:9,section:"Verb Forms",type:"mc",context:"Which sentence correctly describes an ongoing action? (yomu — to read)",sentence:"[Choose the correct sentence]",opts:["Tejun wo yomimasu.","Tejun wo yonde imasu.","Tejun wo yomimashita.","Tejun wo yonde kudasai."],answer:"Tejun wo yonde imasu.",hint:"Te-form + imasu = ongoing right now. yomu → yonde (P2)."},
   // Adjectives
-  {id:9,section:"Adjectives",type:"mc",context:"The machine is old. Which adjective?",sentence:"Kono kikai wa ___ desu.",opts:["furui","atarashii","hayai","muzukashii"],answer:"furui",hint:"Furui = old (for objects). i-adjective."},
-  {id:10,section:"Adjectives",type:"mc",context:"The supervisor is kind. Na-adjective + desu.",sentence:"Supervisor wa ___ desu.",opts:["shinsetsu","shinsetsu na","shinsetsu ni","shinsetsu no"],answer:"shinsetsu",hint:"Na-adjective + desu — no な needed before desu."},
-  {id:11,section:"Adjectives",type:"mc",context:"This is a clean workspace. Choose the correct sentence.",sentence:"[Choose the correct sentence]",opts:["Koko wa kirei na basho desu.","Koko wa kirei basho desu.","Koko wa kirei desu.","Koko ga kirei no basho desu."],answer:"Koko wa kirei na basho desu.",hint:"Kirei na basho — な required before the noun."},
+  {id:10,section:"Adjectives",type:"mc",context:"The machine is old. Which adjective?",sentence:"Kono kikai wa ___ desu.",opts:["furui","atarashii","hayai","muzukashii"],answer:"furui",hint:"Furui = old (for objects). i-adjective."},
+  {id:11,section:"Adjectives",type:"mc",context:"The supervisor is kind. Na-adjective + desu.",sentence:"Supervisor wa ___ desu.",opts:["shinsetsu","shinsetsu na","shinsetsu ni","shinsetsu no"],answer:"shinsetsu",hint:"Na-adjective + desu — no な needed before desu."},
+  {id:12,section:"Adjectives",type:"mc",context:"This is a clean workspace. Choose the correct sentence.",sentence:"[Choose the correct sentence]",opts:["Koko wa kirei na sagyouba desu.","Koko wa kirei sagyouba desu.","Koko wa kirei no sagyouba desu.","Koko ga kireid na sagyouba desu."],answer:"Koko wa kirei na sagyouba desu.",hint:"Kirei na sagyouba — な is required between a na-adjective and a noun. (sagyouba = work cell / workspace)"},
   // Kara
-  {id:12,section:"kara",type:"mc",context:"The procedure is difficult, so please read it again.",sentence:"Tejun wa muzukashii desu ___ , mou ichi-do yonde kudasai.",opts:["kara","ga","wa","kedo"],answer:"kara",hint:"kara connects reason → result."},
-  {id:13,section:"kara",type:"fill",context:"I am tired, so I am going to sleep.",sentence:"Tsukarete imasu ___ , nemasu.",answer:["kara"],hint:"[reason] kara, [result]."},
+  {id:13,section:"kara",type:"mc",context:"The procedure is difficult, so please read it again.",sentence:"Tejun wa muzukashii desu ___ , mou ichi-do yonde kudasai.",opts:["kara","ga","wa","kedo"],answer:"kara",hint:"kara connects reason → result."},
+  {id:14,section:"kara",type:"fill",context:"I am tired, so I am going to sleep. (neru — to sleep)",sentence:"Tsukarete imasu ___ , nemasu.",answer:["kara"],hint:"[reason] kara, [result]."},
   // は vs が
-  {id:14,section:"は vs が",type:"mc",context:"Introduce the machine for the first time.",sentence:"___ Station 2 ni arimasu.",opts:["Kikai ga","Kikai wa","Kikai wo","Kikai ni"],answer:"Kikai ga",hint:"が introduces new information — first mention."},
-  {id:15,section:"は vs が",type:"mc",context:"The machine was just mentioned. Now describe it.",sentence:"Kikai ___ furui desu kara, chekku shite kudasai.",opts:["wa","ga","ni","wo"],answer:"wa",hint:"は continues an established topic — the machine is now known."},
+  {id:15,section:"は vs が",type:"mc",context:"Introduce the machine for the first time.",sentence:"___ Station 2 ni arimasu.",opts:["Kikai ga","Kikai wa","Kikai wo","Kikai ni"],answer:"Kikai ga",hint:"が introduces new information — first mention."},
+  {id:16,section:"は vs が",type:"mc",context:"The machine was just mentioned. Now describe it.",sentence:"Kikai ___ furui desu kara, chekku shite kudasai.",opts:["wa","ga","ni","wo"],answer:"wa",hint:"は continues an established topic — the machine is now known."},
 ];
 
 let gcAnswers={};let gcFlagged=new Set();let gcSubmitted=false;
@@ -236,7 +237,7 @@ function gcSubmit(){
 function showResults(correct){
   const panel=document.getElementById("gc-results-panel");
   const pct=Math.round(correct/HW_ITEMS.length*100);
-  const color=pct>=87?"var(--green)":pct>=67?"var(--gold)":"var(--warn)";
+  const color=pct>=88?"var(--green)":pct>=69?"var(--gold)":"var(--warn)";
   const msg=pct===100?"Outstanding — S9 to S13 fully locked in. You are ready for Level 2.":
             pct>=80?"Strong result. Bring your flagged items to your next session.":
             pct>=60?"Good effort. Review the sections you flagged — you have a solid base to build on.":

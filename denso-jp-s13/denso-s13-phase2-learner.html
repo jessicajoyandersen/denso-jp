@@ -433,7 +433,9 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
         <strong>で</strong> — marks where an action takes place (different from に which marks location of existence)<br>
         <strong>shinsetsu</strong> (親切) — kind, considerate (na-adj)<br>
         <strong>anshin shimashita</strong> (安心しました) — felt relieved (suru compound — preview only)<br>
-        <strong>hataraite imasu</strong> (働いています) — is working (hataraku, U-verb P3 → hataraite + imasu)
+        <strong>hataraite imasu</strong> (働いています) — is working (hataraku, U-verb P3 → hataraite + imasu)<br>
+        <strong>kantokusha</strong> (監督者) — supervisor (native Japanese term)<br>
+        <strong>tsutaemashita</strong> (伝えました) — told / conveyed (tsutaeru, RU-verb, past polite)
       </div>
     </div>
 
@@ -459,7 +461,7 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
       <div class="exc-scenario">A new worker asks about the supervisor.</div>
       <div class="exc-line"><div class="exc-speaker">New Worker</div><div class="exc-bubble">
         <div class="exc-romaji">Supervisor <span class="particle-wa">wa</span> doko <span class="particle-ni">ni</span> imasu ka?</div>
-        <div class="exc-jp">スーパーバイザーはどこにいますか？</div>
+        <div class="exc-jp">監督者（かんとくしゃ）はどこにいますか？</div>
         <div class="exc-en">Where is the supervisor?</div>
       </div></div>
       <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
@@ -474,10 +476,10 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
     <div class="exc-card">
       <div class="exc-scenario">You report that a machine needs attention.</div>
       <div class="exc-line"><div class="exc-speaker">Worker</div><div class="exc-bubble">
-        <div class="exc-romaji">Station 2 <span class="particle-ni">ni</span> furui kikai <span class="particle-ga">ga</span> arimasu. Kikai <span class="particle-wa">wa</span> daijoubu ja nai desu kara, chekku shite kudasai.</div>
-        <div class="exc-jp">ステーション2に古い機械があります。機械は大丈夫じゃないですから、チェックしてください。</div>
-        <div class="exc-en">There is an old machine at Station 2. The machine is not okay, so please check it.</div>
-        <button class="speak-btn" onclick="speak('ステーション2に古い機械があります。機械は大丈夫じゃないですから、チェックしてください。')" style="margin-top:5px;">🔊</button>
+        <div class="exc-romaji">Station 2 <span class="particle-ni">ni</span> furui kikai <span class="particle-ga">ga</span> arimasu. Kikai <span class="particle-wa">wa</span> daijoubu ja nai desu kara, kakunin shite kudasai.</div>
+        <div class="exc-jp">ステーション2に古い機械があります。機械は大丈夫じゃないですから、確認してください。</div>
+        <div class="exc-en">There is an old machine at Station 2. The machine is not okay, so please confirm it.</div>
+        <button class="speak-btn" onclick="speak('ステーション2に古い機械があります。機械は大丈夫じゃないですから、確認してください。')" style="margin-top:5px;">🔊</button>
       </div></div>
       <div class="exc-note">💡 が introduces the machine (new info). は then continues it as topic. daijoubu — na-adjective.</div>
     </div>
@@ -672,18 +674,18 @@ const READING_SENTENCES=[
     en:'The machine is at Station 2.'
   },
   {
-    jp:'<ruby>機械<rt>きかい</rt></ruby><span class="tap-particle wa" data-particle="wa" data-rule="は — continuing topic" data-reason="The machine was just introduced with が. Now は takes over — it is the established topic and we are describing it (old, needs checking).">は</span><ruby>古<rt>ふる</rt></ruby>いですから、田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the established topic. は continues her.">は</span>スーパーバイザーに<ruby>話<rt>はな</rt></ruby>しました。',
-    rom:'Kikai wa furui desu kara, Tanaka-san wa supervisor ni hanashimashita.',
-    en:'The machine is old, so Tanaka-san spoke to the supervisor.'
+    jp:'<ruby>機械<rt>きかい</rt></ruby><span class="tap-particle wa" data-particle="wa" data-rule="は — continuing topic" data-reason="The machine was just introduced with が. Now は takes over — it is the established topic and we are describing it (old, needs checking).">は</span><ruby>古<rt>ふる</rt></ruby>いですから、田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the established topic. は continues her.">は</span><ruby>監督者<rt>かんとくしゃ</rt></ruby>に<ruby>伝<rt>つた</rt></ruby>えました。',
+    rom:'Kikai wa furui desu kara, Tanaka-san wa kantokusha ni tsutaemashita.',
+    en:'The machine is old, so Tanaka-san told the supervisor.'
   },
   {
-    jp:'スーパーバイザー<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="The supervisor is now the topic. は introduces them as what we are talking about.">は</span><ruby>事務所<rt>じむしょ</rt></ruby>にいます。',
-    rom:'Supervisor wa jimusho ni imasu.',
-    en:'The supervisor is in the office.'
+    jp:'<ruby>監督者<rt>かんとくしゃ</rt></ruby><span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="The supervisor is now the topic. は introduces them as what we are talking about.">は</span><ruby>事務所<rt>じむしょ</rt></ruby>にいます。',
+    rom:'Kantokusha wa jimusho ni imasu.',
+    en:'The supervisor (kantokusha) is in the office.'
   },
   {
-    jp:'スーパーバイザー<span class="tap-particle wa" data-particle="wa" data-rule="は — continuing topic" data-reason="The supervisor is still the topic — は continues. We are now describing their character (kind).">は</span><ruby>親切<rt>しんせつ</rt></ruby>ですから、田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the topic again. は continues her as the subject.">は</span><ruby>安心<rt>あんしん</rt></ruby>しました。',
-    rom:'Supervisor wa shinsetsu desu kara, Tanaka-san wa anshin shimashita.',
+    jp:'<ruby>監督者<rt>かんとくしゃ</rt></ruby><span class="tap-particle wa" data-particle="wa" data-rule="は — continuing topic" data-reason="The supervisor is still the topic — は continues. We are now describing their character (kind).">は</span><ruby>親切<rt>しんせつ</rt></ruby>ですから、田中さん<span class="tap-particle wa" data-particle="wa" data-rule="は — topic" data-reason="Tanaka-san is the topic again. は continues her as the subject.">は</span><ruby>安心<rt>あんしん</rt></ruby>しました。',
+    rom:'Kantokusha wa shinsetsu desu kara, Tanaka-san wa anshin shimashita.',
     en:'The supervisor is kind, so Tanaka-san felt relieved.'
   },
   {
@@ -764,7 +766,7 @@ document.addEventListener('click',e=>{
 const COMP_Q=[
   {q:'Where is the machine?',opts:['Station 1','Station 2','Station 3','The office'],answer:'Station 2',fb:'Kikai ga Station 2 ni arimasu.'},
   {q:'Why did Tanaka-san read the procedure again?',opts:['It was new','It was important','It was difficult','It was old'],answer:'It was difficult',fb:'Tejun wa muzukashii desu kara — the procedure is difficult.'},
-  {q:'Where is the supervisor?',opts:['Station 2','The break room','The factory floor','The office'],answer:'The office',fb:'Supervisor wa jimusho ni imasu.'},
+  {q:'Where is the supervisor?',opts:['Station 2','The break room','The factory floor','The office'],answer:'The office',fb:'Kantokusha wa jimusho ni imasu.'},
   {q:'How is the supervisor described?',opts:['Busy','Kind','Serious','Strict'],answer:'Kind',fb:'Supervisor wa shinsetsu desu — shinsetsu = kind (na-adjective).'},
 ];
 let compDone={};
