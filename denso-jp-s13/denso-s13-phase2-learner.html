@@ -278,6 +278,25 @@ rt{font-size:9px;font-family:var(--jp);color:var(--text-3);}
         <span style="font-family:var(--mono);font-size:12px;">Tanaka-san <span class="particle-wa">wa</span> ima isogashii desu.</span> → Tanaka-san is busy right now. <span style="font-size:11px;color:var(--text-3);">(already mentioned — は continues)</span>
       </div>
     </div>
+
+    <div class="gold-box">
+      <div class="gold-label">～は ～が あります — "X has Y"</div>
+      <div class="gold-text">
+        You already know が + に + あります to say where something is.<br>
+        Now: は sets the topic, が introduces what it has.<br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Station 3 <span class="particle-wa">wa</span> tejun <span class="particle-ga">ga</span> arimasu.</span><br>
+        <span style="font-size:12px;color:var(--text-2);">Station 3 has a procedure.</span><br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Jimusho <span class="particle-wa">wa</span> atarashii kikai <span class="particle-ga">ga</span> arimasu.</span><br>
+        <span style="font-size:12px;color:var(--text-2);">The office has a new machine.</span><br><br>
+        <span style="font-family:var(--mono);font-size:12px;">Kono station <span class="particle-wa">wa</span> mondai <span class="particle-ga">ga</span> arimasu.</span><br>
+        <span style="font-size:12px;color:var(--text-2);">This station has a problem.</span>
+      </div>
+    </div>
+
+    <div class="div-heading">Quick Drill — は～が あります</div>
+    <div class="section-sub" style="margin-bottom:12px;">Choose the correct sentence for each situation.</div>
+    <div id="haga-mc"></div>
+
     <div class="iruaru-rule">
       <div class="iruaru-card iru">
         <div class="iruaru-title">います</div>
@@ -511,7 +530,7 @@ function toggleBlock(id){
   if(!sec.classList.contains('active-block')&&!sec.classList.contains('unlocked'))return;
   sec.classList.toggle('open',!sec.classList.contains('open'));
   if(id==='recap')buildSpeedRound();
-  if(id==='iruaru')buildIruAruMC();
+  if(id==='iruaru'){buildIruAruMC();buildHagaMC();}
   if(id==='naadj'){buildNaAdjVocab();buildNaAdjMC();}
   if(id==='reading'){buildReading();buildComprehension();}
 }
@@ -542,7 +561,7 @@ function applyState(st){
         setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}),200);
         showToast('🔓 Block unlocked ✓');
         if(id==='recap')buildSpeedRound();
-  if(id==='iruaru')buildIruAruMC();
+  if(id==='iruaru'){buildIruAruMC();buildHagaMC();}
         if(id==='naadj'){buildNaAdjVocab();buildNaAdjMC();}
         if(id==='reading'){buildReading();buildComprehension();}
       }
@@ -574,6 +593,8 @@ const NAADJ_VOCAB=[
   {jp:'たいせつ',rom:'taisetsu',en:'important',note:'taisetsu na shigoto = important work'},
   {jp:'まじめ',rom:'majime',en:'serious, diligent',note:'majime na hito = a diligent person'},
   {jp:'べんり',rom:'benri',en:'convenient, useful',note:'benri na kikai = a useful machine'},
+  {jp:'きれい',rom:'kirei',en:'clean, pretty',note:'kirei na basho = a clean place'},
+  {jp:'ふべん',rom:'fuben',en:'inconvenient, impractical',note:'fuben na tejun = an inconvenient procedure'},
 ];
 
 function buildNaAdjVocab(){
@@ -592,6 +613,8 @@ const NAADJ_MC=[
   {num:2,context:'A coworker asks if the new machine is useful.',sentence:'Atarashii kikai wa ___ desu ka?',opts:['benri','benri na','hayai na'],answer:'benri',fb_correct:'✅ Benri desu — with desu, no na needed. Na only appears before a noun.',fb_wrong:'Benri is correct. With desu, just use the adjective directly.'},
   {num:3,context:'You explain why safety checks are done every day.',sentence:'Anzen wa ___ desu kara, mainichi chekku shimasu.',opts:['taisetsu','taisetsu na','majime'],answer:'taisetsu',fb_correct:'✅ Taisetsu desu — statement form. Kara gives the reason.',fb_wrong:'Taisetsu is correct — taisetsu desu kara = because it is important.'},
   {num:4,context:'Which sentence correctly uses a na-adjective before a noun?',sentence:'[Choose the correct sentence]',opts:['Majime na shigoto desu.','Majime shigoto desu.','Majimena desu.'],answer:'Majime na shigoto desu.',fb_correct:'✅ Majime na shigoto — na is required between the adjective and the noun.',fb_wrong:'Majime na shigoto is correct — na links the adjective to the noun.'},
+  {num:5,context:'The workspace is clean. Which adjective fits?',sentence:'Kono basho wa ___ desu.',opts:['kirei','fuben','taisetsu','majime'],answer:'kirei',fb_correct:'✅ Kirei — clean/pretty. Kirei na basho = a clean place.',fb_wrong:'Kirei (clean/pretty) is correct here.'},
+  {num:6,context:'The new procedure is inconvenient — it takes too long.',sentence:'Atarashii tejun wa ___ desu.',opts:['fuben','benri','kirei','shinsetsu'],answer:'fuben',fb_correct:'✅ Fuben — inconvenient. The opposite of benri.',fb_wrong:'Fuben (inconvenient) is correct — the opposite of benri.'},
 ];
 let naAdjMCDone={};
 
@@ -1042,6 +1065,86 @@ function srShowResults() {
   try {
     if(window._srPush) window._srPush({score:srScore, total:SR_QUESTIONS.length, ts:Date.now()});
   } catch(e){}
+}
+
+// ── は～が あります DRILL ──
+const HAGA_MC = [
+  {
+    num:1,
+    context:'You want to say that Station 3 has a procedure sheet.',
+    opts:[
+      'Station 3 wa tejun ga arimasu.',
+      'Station 3 ni tejun wa arimasu.',
+      'Tejun wa Station 3 ga arimasu.',
+      'Station 3 ga tejun wa arimasu.'
+    ],
+    answer:'Station 3 wa tejun ga arimasu.',
+    fb_correct:'✅ は sets the topic (Station 3), が introduces what it has (tejun).',
+    fb_wrong:'Station 3 wa tejun ga arimasu — は topic, が introduces the thing that exists.'
+  },
+  {
+    num:2,
+    context:'You are reporting that this station has a problem.',
+    opts:[
+      'Kono station ni mondai ga imasu.',
+      'Kono station wa mondai ga arimasu.',
+      'Mondai wa kono station ga arimasu.',
+      'Kono station ga mondai wa arimasu.'
+    ],
+    answer:'Kono station wa mondai ga arimasu.',
+    fb_correct:'✅ は topic (this station), が introduces the problem. あります for a non-living thing.',
+    fb_wrong:'Kono station wa mondai ga arimasu — は topic, が introduces mondai, あります for objects.'
+  },
+  {
+    num:3,
+    context:'The office has a new procedure. Which sentence is correct?',
+    opts:[
+      'Jimusho wa atarashii tejun ga arimasu.',
+      'Jimusho ga atarashii tejun wa arimasu.',
+      'Atarashii tejun wa jimusho ga arimasu.',
+      'Jimusho ni atarashii tejun wa imasu.'
+    ],
+    answer:'Jimusho wa atarashii tejun ga arimasu.',
+    fb_correct:'✅ は sets jimusho as topic, が introduces the new procedure.',
+    fb_wrong:'Jimusho wa atarashii tejun ga arimasu — は topic (office), が introduces what it has.'
+  },
+];
+let hagaDone = {};
+
+function buildHagaMC() {
+  const container = document.getElementById('haga-mc');
+  if (!container || container.dataset.built) return;
+  container.dataset.built = '1';
+  HAGA_MC.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'mc-item';
+    div.id = 'hmc-' + idx;
+    const shuffled = [...item.opts].sort(() => Math.random() - 0.5);
+    const optsHtml = shuffled.map(o =>
+      `<button class="mc-opt" id="hopt-${idx}-${o.replace(/[ .,]/g,'_')}" onclick="hagaCheck(${idx},this.dataset.v)" data-v="${o}">${o}</button>`
+    ).join('');
+    div.innerHTML = `<div class="mc-num">Question ${item.num} of ${HAGA_MC.length}</div><div class="mc-context">${item.context}</div><div class="mc-opts">${optsHtml}</div><div class="mc-feedback" id="hfb-${idx}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function hagaCheck(idx, chosen) {
+  if (hagaDone[idx]) return;
+  hagaDone[idx] = true;
+  const item = HAGA_MC[idx];
+  const correct = chosen === item.answer;
+  item.opts.forEach(o => {
+    const el = document.getElementById('hopt-' + idx + '-' + o.replace(/[ .,]/g,'_'));
+    if (el) el.classList.add('locked');
+  });
+  const chosenEl = document.getElementById('hopt-' + idx + '-' + chosen.replace(/[ .,]/g,'_'));
+  const ansEl = document.getElementById('hopt-' + idx + '-' + item.answer.replace(/[ .,]/g,'_'));
+  const fb = document.getElementById('hfb-' + idx);
+  const div = document.getElementById('hmc-' + idx);
+  if (correct) { if (chosenEl) chosenEl.classList.add('selected-correct'); }
+  else { if (chosenEl) chosenEl.classList.add('selected-wrong'); if (ansEl) ansEl.classList.add('show-correct'); }
+  if (fb) { fb.innerHTML = correct ? item.fb_correct : item.fb_wrong; fb.className = 'mc-feedback show ' + (correct ? 'ok' : 'bad'); }
+  if (div) div.classList.add(correct ? 'correct-ans' : 'wrong-ans');
 }
 </script>
 </body>

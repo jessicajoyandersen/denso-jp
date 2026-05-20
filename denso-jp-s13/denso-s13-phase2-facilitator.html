@@ -276,7 +276,10 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
         </div>
         <div class="fac-card blue" style="margin-top:10px;">
           <div class="fac-card-label">Live results — Speed Round</div>
-          <div id="sr-live-panel" style="font-size:13px;color:#6B7585;">Waiting for submissions…</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div id="sr-live-panel" style="font-size:13px;color:#6B7585;flex:1;">Waiting for submissions…</div>
+            <button onclick="srResetResults()" style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:none;border:1.5px solid #3A3D48;border-radius:4px;color:#6B7585;padding:5px 10px;cursor:pointer;white-space:nowrap;margin-left:10px;" onmouseover="this.style.borderColor='#E87171';this.style.color='#E87171'" onmouseout="this.style.borderColor='#3A3D48';this.style.color='#6B7585'">↺ Reset</button>
+          </div>
         </div>
       </div>
 
@@ -346,6 +349,8 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
               <tr><td style="font-family:'IBM Plex Mono',monospace;">taisetsu</td><td>important</td><td>taisetsu <strong>na</strong> shigoto</td></tr>
               <tr><td style="font-family:'IBM Plex Mono',monospace;">majime</td><td>serious / diligent</td><td>majime <strong>na</strong> hito</td></tr>
               <tr><td style="font-family:'IBM Plex Mono',monospace;">benri</td><td>convenient / useful</td><td>benri <strong>na</strong> kikai</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">kirei</td><td>clean / pretty</td><td>kirei <strong>na</strong> basho</td></tr>
+              <tr><td style="font-family:'IBM Plex Mono',monospace;">fuben</td><td>inconvenient</td><td>fuben <strong>na</strong> tejun</td></tr>
             </tbody>
           </table>
         </div>
@@ -505,7 +510,7 @@ onValue(resultsRef,snap=>{
   }
 })
 // Speed round results listener
-import { ref as ref3, onValue as onValue3 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { ref as ref3, onValue as onValue3, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 const srRef=ref3(db,"session13/phase2/speedRoundResults");
 onValue3(srRef, snap=>{
   const panel=document.getElementById('sr-live-panel');
@@ -530,6 +535,10 @@ onValue3(srRef, snap=>{
   html+=`</div>`;
   panel.innerHTML=html;
 });
+window.srResetResults = function() {
+  if(!confirm('Clear all speed round submissions?')) return;
+  remove(srRef).catch(e=>console.error('Reset failed',e));
+};
 document.dispatchEvent(new Event("fbReady"));
 </script>
 
