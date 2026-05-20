@@ -312,7 +312,7 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
           <table class="qref-table">
             <thead><tr><th>Q</th><th>Subject</th><th>Answer</th><th>Why</th></tr></thead>
             <tbody>
-              <tr><td>1</td><td>hanchou が jimusho に ___</td><td style="color:#166534;">imasu</td><td>person → います</td></tr>
+              <tr><td>1</td><td>Kantokusha が jimusho に ___</td><td style="color:#166534;">imasu</td><td>person → います</td></tr>
               <tr><td>2</td><td>Kikai が Station 2 に ___</td><td style="color:#166534;">arimasu</td><td>object → あります</td></tr>
               <tr><td>3</td><td>Tanaka-san が doko に ___ ka?</td><td style="color:#166534;">imasu</td><td>person</td></tr>
               <tr><td>4</td><td>Tejun が Station 1 に ___</td><td style="color:#166534;">arimasu</td><td>object</td></tr>
@@ -368,6 +368,23 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
           <div class="watch-list">
             <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Omitting な:</strong> "shinsetsu hito" is wrong. Prompt: <em>"Na-adjective before a noun — what goes between them?"</em></div></div>
             <div class="watch-item"><div class="watch-icon">⚠️</div><div class="watch-text"><strong>Adding な with desu:</strong> "shinsetsu na desu" is non-standard. With desu, just adjective + desu.</div></div>
+          </div>
+        </div>
+        <div class="fac-card blue" style="margin-top:10px;">
+          <div class="fac-card-label">Live results — Review Activity</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div id="gc-submitted-count" style="font-size:13px;color:#6B7585;">Waiting for submissions…</div>
+          </div>
+          <div id="gc-score-bars" style="display:none;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span id="gc-avg-score" style="font-size:18px;font-weight:700;color:#E8E0D4;"></span>
+              <span id="gc-avg-pct" style="font-size:12px;color:#9BA3B0;"></span>
+            </div>
+            <div id="gc-score-dist" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
+          </div>
+          <div id="gc-flag-agg" style="display:none;margin-top:8px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E8B84B;margin-bottom:7px;">🚩 Most Flagged</div>
+            <div id="gc-flag-list" style="display:flex;flex-direction:column;gap:6px;"></div>
           </div>
         </div>
       </div>
@@ -427,8 +444,8 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
             <tbody>
               <tr><td>Where is the machine?</td><td style="color:#166534;">Station 2</td><td>Kikai ga Station 2 ni arimasu</td></tr>
               <tr><td>Why read again?</td><td style="color:#166534;">Difficult</td><td>Tejun wa muzukashii desu kara</td></tr>
-              <tr><td>Where is supervisor?</td><td style="color:#166534;">The office</td><td>hanchou wa jimusho ni imasu</td></tr>
-              <tr><td>How described?</td><td style="color:#166534;">Kind</td><td>hanchou wa shinsetsu desu</td></tr>
+              <tr><td>Where is supervisor?</td><td style="color:#166534;">The office</td><td>Kantokusha wa jimusho ni imasu</td></tr>
+              <tr><td>How described?</td><td style="color:#166534;">Kind</td><td>Kantokusha wa shinsetsu desu</td></tr>
             </tbody>
           </table>
         </div>
@@ -577,9 +594,18 @@ onValue3(cpRef, snap=>{
   results.forEach(r=>{(r.flagged||[]).forEach(qid=>{allFlagged[qid]=(allFlagged[qid]||0)+1;});});
   const flagEntries=Object.entries(allFlagged).sort((a,b)=>b[1]-a[1]);
   if(flagEntries.length>0){
-    html+=`<div style="margin-top:10px;font-size:11px;color:#9BA3B0;">Most flagged: `;
-    html+=flagEntries.slice(0,5).map(([qid,count])=>`<span style="color:#E8B84B;">Q${qid}</span> ×${count}`).join('  ');
-    html+=`</div>`;
+    html+=`<div style="margin-top:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#E8B84B;margin-bottom:7px;">🚩 Most Flagged</div><div style="display:flex;flex-direction:column;gap:6px;">`;
+    html+=flagEntries.slice(0,6).map(([qid,count])=>{
+      const bar=Math.round(count/total*100);
+      return `<div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#E8B84B;min-width:24px;">Q${qid}</span>
+        <div style="flex:1;height:6px;background:#2A2D38;border-radius:3px;overflow:hidden;">
+          <div style="width:${bar}%;height:100%;background:#E8B84B;border-radius:3px;"></div>
+        </div>
+        <span style="font-size:11px;color:#C8D0E0;">${count}/${total}</span>
+      </div>`;
+    }).join('');
+    html+=`</div></div>`;
   }
   panel.innerHTML=html;
 });
