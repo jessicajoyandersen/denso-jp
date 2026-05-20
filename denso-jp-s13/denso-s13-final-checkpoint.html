@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DENSO Japanese · Final Grammar Checkpoint</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#C8102E;--bg:#F5F3EE;--surface:#FFFFFF;--surface-2:#EFECE7;--border:#DDD9D2;--border-strong:#C5BFB5;--text:#1C1917;--text-2:#57534E;--text-3:#A8A29E;--green:#166534;--green-bg:rgba(22,101,52,0.08);--green-border:rgba(22,101,52,0.28);--gold:#92400E;--gold-bg:rgba(146,64,14,0.08);--gold-border:rgba(146,64,14,0.3);--blue:#1558A6;--blue-bg:rgba(21,88,166,0.07);--blue-border:rgba(21,88,166,0.25);--warn:#B22020;--mono:'IBM Plex Mono',monospace;--sans:'DM Sans',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh;padding:0 0 80px;}
+.topbar{background:var(--surface);border-bottom:3px solid var(--red);padding:10px 24px 0;display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.tb-logo{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.tb-org{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--text-3);}
+.tb-title{font-size:13px;font-weight:600;color:var(--text);}
+.hw-badge{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:9px;border:1.5px solid var(--red);color:var(--red);}
+.page-body{max-width:720px;margin:0 auto;padding:32px 20px 0;}
+.page-header{margin-bottom:28px;}
+.page-header h1{font-size:24px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-0.5px;}
+.page-header p{font-size:13px;color:var(--text-2);line-height:1.7;}
+.gc-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.gc-section-head{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);padding:14px 20px 6px;border-top:1px solid var(--border);}
+.gc-section-head:first-of-type{border-top:none;}
+.gc-item{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.gc-item:last-of-type{border-bottom:none;}
+.gc-item-num{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--text-3);min-width:24px;padding-top:3px;flex-shrink:0;}
+.gc-item-body{flex:1;}
+.gc-context{font-size:12px;color:var(--text-2);font-style:italic;margin-bottom:5px;padding:5px 9px;background:var(--surface-2);border-left:3px solid var(--border-strong);border-radius:0 4px 4px 0;}
+.gc-sentence{font-size:14px;font-weight:500;color:var(--text);line-height:1.7;margin-bottom:7px;}
+.gc-blank-input{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--red);background:transparent;border:none;border-bottom:2px solid var(--border-strong);outline:none;width:100px;padding:1px 4px;transition:border-color 0.15s;text-align:center;-webkit-appearance:none;}
+.gc-blank-input:focus{border-color:var(--red);}
+.gc-blank-input.correct{color:var(--green);border-color:var(--green-border);}
+.gc-blank-input.wrong{color:var(--warn);border-color:rgba(200,16,46,0.4);}
+.gc-blank-input:disabled{opacity:1;cursor:default;}
+.gc-mc-opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+.gc-mc-opt{font-family:var(--mono);font-size:12px;font-weight:700;padding:6px 12px;border-radius:5px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;transition:all 0.12s;}
+.gc-mc-opt:hover:not(.locked){border-color:var(--border-strong);background:#e4dfd7;}
+.gc-mc-opt.correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.gc-mc-opt.wrong{border-color:rgba(200,16,46,0.4);background:var(--red-bg);color:var(--red);}
+.gc-mc-opt.show-correct{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.gc-mc-opt.locked{cursor:default;}
+.gc-flag-btn{background:none;border:1.5px solid var(--border);border-radius:5px;font-size:13px;padding:4px 8px;cursor:pointer;transition:all 0.12s;flex-shrink:0;color:var(--text-3);}
+.gc-flag-btn:hover{border-color:var(--gold-border);color:var(--gold);}
+.gc-flag-btn.flagged{border-color:var(--gold-border);background:var(--gold-bg);color:var(--gold);}
+.gc-result-mark{font-size:14px;flex-shrink:0;padding-top:2px;display:none;}
+.gc-result-mark.show{display:block;}
+.gc-submit-area{padding:20px;border-top:1px solid var(--border);text-align:center;}
+.gc-submit-btn{font-family:var(--sans);font-size:14px;font-weight:700;background:var(--text);color:#fff;border:none;border-radius:7px;padding:12px 32px;cursor:pointer;transition:all 0.15s;opacity:0.4;pointer-events:none;}
+.gc-submit-btn.ready{opacity:1;pointer-events:auto;}
+.gc-submit-btn.ready:hover{background:#2c2825;}
+.gc-submit-btn.submitted{background:var(--green);cursor:default;}
+.gc-progress-note{font-size:12px;color:var(--text-3);margin-top:8px;}
+.gc-results-panel{display:none;margin-top:20px;padding:20px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;text-align:center;}
+.gc-results-panel.show{display:block;}
+.gc-score-big{font-size:48px;font-weight:800;line-height:1;margin-bottom:4px;}
+.gc-score-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;}
+.gc-score-msg{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:14px;}
+.gc-flag-summary{background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:6px;padding:10px 14px;text-align:left;margin-top:8px;}
+.gc-flag-summary-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="tb-logo">⛩</div>
+    <div><div class="tb-org">DENSO Manufacturing · Statesville, NC</div><div class="tb-title">Japanese Workplace Communication</div></div>
+  </div>
+  <div class="hw-badge">Final Checkpoint · S9–S13</div>
+</div>
+<div class="page-body">
+  <div class="page-header">
+    <h1>Final Grammar Checkpoint</h1>
+    <p>15 items covering Sessions 9–13. Answer all, flag anything you want to review, then submit. Anonymous — no names collected.</p>
+  </div>
+  <div class="gc-wrap">
+    <div id="gc-items-container"></div>
+    <div class="gc-submit-area">
+      <button class="gc-submit-btn" id="gc-submit-btn" onclick="gcSubmit()">Submit Checkpoint</button>
+      <div class="gc-progress-note" id="gc-progress-note">Answer all 15 items to submit.</div>
+    </div>
+  </div>
+  <div class="gc-results-panel" id="gc-results-panel"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const app=initializeApp({apiKey:"AIzaSyDN8v95BBjs0RlixIKailXEX7weqDVIFoY",authDomain:"denso-japanese.firebaseapp.com",databaseURL:"https://denso-japanese-default-rtdb.firebaseio.com",projectId:"denso-japanese",storageBucket:"denso-japanese.firebasestorage.app",messagingSenderId:"654718718217",appId:"1:654718718217:web:ecec2672bd5069c0b443d8"});
+const db=getDatabase(app);
+window._hwPush=(data)=>push(ref(db,"session13/finalCheckpoint/results"),data);
+</script>
+
+<script>
+const HW_ITEMS=[
+  // Particles
+  {id:1,section:"Particles",type:"mc",context:"You are sending a coworker to Station 3.",sentence:"Station 3 ___ itte kudasai.",opts:["ni","wa","ga","wo"],answer:"ni",hint:"Destination に — movement toward a place."},
+  {id:2,section:"Particles",type:"mc",context:"You are asking where the procedure sheet is.",sentence:"Tejun ___ doko ni arimasu ka?",opts:["ga","wa","ni","wo"],answer:"ga",hint:"が introduces new info — asking about something specific."},
+  {id:3,section:"Particles",type:"fill",context:"Tanaka-san is working at DENSO.",sentence:"Tanaka-san wa DENSO ___ hataraite imasu.",answer:["de","で"],hint:"で marks the location of an action."},
+  {id:4,section:"Particles",type:"mc",context:"Station 2 has a new machine.",sentence:"Station 2 ___ atarashii kikai ___ arimasu.",opts:["wa · ga","ga · wa","ni · ga","wa · wo"],answer:"wa · ga",hint:"は sets the topic (Station 2), が introduces what it has."},
+  // Verb forms
+  {id:5,section:"Verb Forms",type:"mc",context:"You want to ask a coworker to write the procedure.",sentence:"Tejun wo ___ kudasai.",opts:["kakimasu","kakimashita","kaite","kaitte"],answer:"kaite",hint:"Te-form + kudasai = request. kaku → kaite (P3, -ku→ite)."},
+  {id:6,section:"Verb Forms",type:"fill",context:"The supervisor is currently checking the machine.",sentence:"Supervisor ga kikai wo ___ imasu.",answer:["chekku shite","チェックして"],hint:"Suru compound te-form: chekku suru → chekku shite + imasu."},
+  {id:7,section:"Verb Forms",type:"mc",context:"You reported the problem. Choose the correct past form.",sentence:"Supervisor ni mondai wo ___.",opts:["hanashimasu","hanashimashita","hanashite","hanasimashita"],answer:"hanashimashita",hint:"hanasu → hanashi + mashita (past polite, P4)."},
+  {id:8,section:"Verb Forms",type:"mc",context:"Which sentence correctly describes an ongoing action?",sentence:"[Choose the correct sentence]",opts:["Tejun wo yomimasu.","Tejun wo yonde imasu.","Tejun wo yomimashita.","Tejun wo yonde kudasai."],answer:"Tejun wo yonde imasu.",hint:"Te-form + imasu = ongoing right now. yomu → yonde (P2)."},
+  // Adjectives
+  {id:9,section:"Adjectives",type:"mc",context:"The machine is old. Which adjective?",sentence:"Kono kikai wa ___ desu.",opts:["furui","atarashii","hayai","muzukashii"],answer:"furui",hint:"Furui = old (for objects). i-adjective."},
+  {id:10,section:"Adjectives",type:"mc",context:"The supervisor is kind. Na-adjective + desu.",sentence:"Supervisor wa ___ desu.",opts:["shinsetsu","shinsetsu na","shinsetsu ni","shinsetsu no"],answer:"shinsetsu",hint:"Na-adjective + desu — no な needed before desu."},
+  {id:11,section:"Adjectives",type:"mc",context:"This is a clean workspace. Choose the correct sentence.",sentence:"[Choose the correct sentence]",opts:["Koko wa kirei na basho desu.","Koko wa kirei basho desu.","Koko wa kireid desu.","Koko ga kirei no basho desu."],answer:"Koko wa kirei na basho desu.",hint:"Kirei na basho — な required before the noun."},
+  // Kara
+  {id:12,section:"kara",type:"mc",context:"The procedure is difficult, so please read it again.",sentence:"Tejun wa muzukashii desu ___ , mou ichi-do yonde kudasai.",opts:["kara","ga","wa","kedo"],answer:"kara",hint:"kara connects reason → result."},
+  {id:13,section:"kara",type:"fill",context:"I am tired, so I am going to sleep.",sentence:"Tsukarete imasu ___ , nemasu.",answer:["kara"],hint:"[reason] kara, [result]."},
+  // は vs が
+  {id:14,section:"は vs が",type:"mc",context:"Introduce the machine for the first time.",sentence:"___ Station 2 ni arimasu.",opts:["Kikai ga","Kikai wa","Kikai wo","Kikai ni"],answer:"Kikai ga",hint:"が introduces new information — first mention."},
+  {id:15,section:"は vs が",type:"mc",context:"The machine was just mentioned. Now describe it.",sentence:"Kikai ___ furui desu kara, chekku shite kudasai.",opts:["wa","ga","ni","wo"],answer:"wa",hint:"は continues an established topic — the machine is now known."},
+];
+
+let gcAnswers={};let gcFlagged=new Set();let gcSubmitted=false;
+
+function buildGC(){
+  const container=document.getElementById("gc-items-container");
+  if(!container||container.dataset.built)return;
+  container.dataset.built="1";
+  let currentSection="";
+  HW_ITEMS.forEach((item,idx)=>{
+    if(item.section!==currentSection){
+      currentSection=item.section;
+      const head=document.createElement("div");head.className="gc-section-head";head.textContent=currentSection;
+      container.appendChild(head);
+    }
+    const div=document.createElement("div");div.className="gc-item";div.id="gcitem-"+idx;
+    const numEl=document.createElement("div");numEl.className="gc-item-num";numEl.textContent=item.id;
+    const bodyEl=document.createElement("div");bodyEl.className="gc-item-body";
+    const markEl=document.createElement("div");markEl.className="gc-result-mark";markEl.id="gcmark-"+idx;
+    const flagBtn=document.createElement("button");flagBtn.className="gc-flag-btn";flagBtn.id="gcflag-"+idx;
+    flagBtn.textContent="🚩";flagBtn.onclick=()=>gcToggleFlag(idx);
+    const ctx=document.createElement("div");ctx.className="gc-context";ctx.textContent=item.context;
+    bodyEl.appendChild(ctx);
+    if(item.type==="fill"){
+      const parts=item.sentence.split("___");
+      const sentEl=document.createElement("div");sentEl.className="gc-sentence";
+      sentEl.innerHTML=parts[0]+`<input class="gc-blank-input" id="gcinp-${idx}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="___" oninput="gcCheckProgress()">`+(parts[1]||"");
+      bodyEl.appendChild(sentEl);
+      div.querySelector=div.querySelector||function(){};
+    } else {
+      const sentEl=document.createElement("div");sentEl.className="gc-sentence";sentEl.textContent=item.sentence;
+      bodyEl.appendChild(sentEl);
+      const optsEl=document.createElement("div");optsEl.className="gc-mc-opts";
+      const shuffled=[...item.opts].sort(()=>Math.random()-0.5);
+      shuffled.forEach(o=>{
+        const btn=document.createElement("button");btn.className="gc-mc-opt";
+        btn.id="gcopt-"+idx+"-"+o.replace(/[ ·.]/g,"_");btn.textContent=o;
+        btn.dataset.v=o;btn.onclick=()=>gcSelectMC(idx,o);
+        optsEl.appendChild(btn);
+      });
+      bodyEl.appendChild(optsEl);
+    }
+    div.appendChild(numEl);div.appendChild(bodyEl);div.appendChild(markEl);div.appendChild(flagBtn);
+    container.appendChild(div);
+  });
+  gcCheckProgress();
+  // Enter key on fill-in inputs
+  document.querySelectorAll(".gc-blank-input").forEach(inp=>{
+    inp.addEventListener("keydown",e=>{if(e.key==="Enter")gcCheckProgress();});
+  });
+}
+
+function gcToggleFlag(idx){
+  if(gcFlagged.has(idx))gcFlagged.delete(idx);else gcFlagged.add(idx);
+  const btn=document.getElementById("gcflag-"+idx);const item=document.getElementById("gcitem-"+idx);
+  if(btn)btn.classList.toggle("flagged",gcFlagged.has(idx));
+  if(item)item.style.background=gcFlagged.has(idx)?"rgba(146,64,14,0.04)":"";
+}
+
+function gcSelectMC(idx,chosen){
+  if(gcSubmitted)return;
+  gcAnswers[idx]=chosen;
+  HW_ITEMS[idx].opts.forEach(o=>{
+    const el=document.getElementById("gcopt-"+idx+"-"+o.replace(/[ ·.]/g,"_"));
+    if(el){el.style.borderColor="";el.classList.remove("selected");}
+  });
+  const chosenEl=document.getElementById("gcopt-"+idx+"-"+chosen.replace(/[ ·.]/g,"_"));
+  if(chosenEl)chosenEl.style.borderColor="var(--blue)";
+  gcCheckProgress();
+}
+
+function gcCheckProgress(){
+  let answered=0;
+  HW_ITEMS.forEach((item,idx)=>{
+    if(item.type==="fill"){const inp=document.getElementById("gcinp-"+idx);if(inp&&inp.value.trim())answered++;}
+    else if(gcAnswers[idx]!==undefined)answered++;
+  });
+  const note=document.getElementById("gc-progress-note");
+  const btn=document.getElementById("gc-submit-btn");
+  const rem=HW_ITEMS.length-answered;
+  if(note)note.textContent=rem>0?rem+" item"+(rem===1?"":"s")+" remaining.":"All done — ready to submit.";
+  if(btn)btn.classList.toggle("ready",rem===0);
+}
+
+function gcSubmit(){
+  if(gcSubmitted)return;
+  gcSubmitted=true;
+  const btn=document.getElementById("gc-submit-btn");
+  if(btn){btn.textContent="✓ Submitted";btn.className="gc-submit-btn submitted";}
+  let correct=0;
+  HW_ITEMS.forEach((item,idx)=>{
+    let isCorrect=false;
+    const mark=document.getElementById("gcmark-"+idx);
+    if(item.type==="fill"){
+      const inp=document.getElementById("gcinp-"+idx);
+      const val=(inp?.value||"").trim().toLowerCase();
+      const answers=item.answer.map(a=>a.toLowerCase());
+      isCorrect=answers.includes(val);
+      if(inp){inp.disabled=true;inp.classList.add(isCorrect?"correct":"wrong");if(!isCorrect)inp.value=item.answer[0];}
+    } else {
+      const chosen=gcAnswers[idx];
+      isCorrect=chosen===item.answer;
+      HW_ITEMS[idx].opts.forEach(o=>{
+        const el=document.getElementById("gcopt-"+idx+"-"+o.replace(/[ ·.]/g,"_"));
+        if(el){el.classList.add("locked");el.style.borderColor="";
+          if(o===item.answer)el.classList.add("correct");
+          else if(o===chosen&&!isCorrect)el.classList.add("wrong");}
+      });
+    }
+    if(isCorrect)correct++;
+    if(mark){mark.textContent=isCorrect?"✅":"❌";mark.classList.add("show");}
+  });
+  showResults(correct);
+  try{
+    if(window._hwPush){
+      const flaggedIds=[...gcFlagged].sort((a,b)=>a-b).map(i=>HW_ITEMS[i].id);
+      window._hwPush({score:correct,total:HW_ITEMS.length,flagged:flaggedIds,ts:Date.now()});
+    }
+  }catch(e){}
+}
+
+function showResults(correct){
+  const panel=document.getElementById("gc-results-panel");
+  const pct=Math.round(correct/HW_ITEMS.length*100);
+  const color=pct>=87?"var(--green)":pct>=67?"var(--gold)":"var(--warn)";
+  const msg=pct===100?"Outstanding — S9 to S13 fully locked in. You are ready for Level 2.":
+            pct>=80?"Strong result. Bring your flagged items to your next session.":
+            pct>=60?"Good effort. Review the sections you flagged — you have a solid base to build on.":
+            "Keep practicing. Bring your flagged items to your facilitator for review.";
+  const flagList=gcFlagged.size>0?`<div class="gc-flag-summary"><div class="gc-flag-summary-title">🚩 Flagged for review</div><div style="font-size:12px;color:var(--text-2);line-height:1.8;">`+[...gcFlagged].sort((a,b)=>a-b).map(i=>"Q"+HW_ITEMS[i].id+" — "+HW_ITEMS[i].context.slice(0,55)+"…").join("<br>")+`</div></div>`:"";
+  panel.innerHTML=`<div class="gc-score-big" style="color:${color}">${correct}<span style="font-size:24px;color:var(--text-3)"> / ${HW_ITEMS.length}</span></div><div class="gc-score-label">Final Checkpoint · S9–S13</div><div class="gc-score-msg">${msg}</div>${flagList}`;
+  panel.classList.add("show");
+  panel.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+buildGC();
+</script>
+</body>
+</html>
