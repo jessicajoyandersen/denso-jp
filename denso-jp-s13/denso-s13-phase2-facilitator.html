@@ -462,6 +462,14 @@ body{background:#0F1117;color:#C8D0E0;font-size:14px;}
           </div>
         </div>
       </div>
+      <!-- ═══ FINAL CHECKPOINT RESULTS ═══ -->
+      <div style="margin-top:16px;background:#1A1D25;border:1px solid #2A2D38;border-radius:8px;padding:14px 16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6B7585;">Final Checkpoint Results — S9–S13</div>
+          <button onclick="cpResetResults()" style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:none;border:1.5px solid #3A3D48;border-radius:4px;color:#6B7585;padding:4px 9px;cursor:pointer;" onmouseover="this.style.borderColor='#E87171';this.style.color='#E87171'" onmouseout="this.style.borderColor='#3A3D48';this.style.color='#6B7585'">↺ Reset</button>
+        </div>
+        <div id="cp-live-panel" style="font-size:13px;color:#6B7585;">Waiting for submissions…</div>
+      </div>
     </div><!-- /fac-main -->
   </div><!-- /fac-body -->
 </div><!-- /fac-shell -->
@@ -539,6 +547,48 @@ window.srResetResults = function() {
   if(!confirm('Clear all speed round submissions?')) return;
   remove(srRef).catch(e=>console.error('Reset failed',e));
 };
+
+// Final checkpoint results listener
+const cpRef=ref3(db,"session13/finalCheckpoint/results");
+onValue3(cpRef, snap=>{
+  const panel=document.getElementById('cp-live-panel');
+  if(!panel)return;
+  const val=snap.val();
+  if(!val){panel.innerHTML='<span style="color:#6B7585;">No submissions yet.</span>';return;}
+  const results=Object.values(val).sort((a,b)=>a.ts-b.ts);
+  const total=results.length;
+  const avg=(results.reduce((s,r)=>s+r.score,0)/total).toFixed(1);
+  const dist=new Array(16).fill(0);
+  results.forEach(r=>{if(r.score>=0&&r.score<=15)dist[r.score]++;});
+  let html=`<div style="margin-bottom:8px;"><span style="font-weight:700;color:#E8E0D4;">${total}</span> <span style="color:#9BA3B0;">submission${total===1?'':'s'}</span> &nbsp;·&nbsp; avg <span style="font-weight:700;color:#E8E0D4;">${avg}</span> / 15</div>`;
+  // Bar chart scores 0-15
+  const maxCount=Math.max(...dist,1);
+  html+=`<div style="display:flex;gap:3px;align-items:flex-end;height:44px;margin-bottom:4px;">`;
+  dist.forEach((c,s)=>{
+    const h=Math.round(c/maxCount*40);
+    const col=s>=13?'#4ADE80':s>=10?'#E8B84B':'#F87171';
+    html+=`<div title="${c} student${c===1?'':'s'} scored ${s}/15" style="flex:1;height:${Math.max(h,2)}px;background:${col};border-radius:2px 2px 0 0;"></div>`;
+  });
+  html+=`</div><div style="display:flex;gap:3px;">`;
+  dist.forEach((_,s)=>html+=`<div style="flex:1;text-align:center;font-size:8px;color:#6B7585;">${s}</div>`);
+  html+=`</div>`;
+  // Flagged summary
+  const allFlagged={};
+  results.forEach(r=>{(r.flagged||[]).forEach(qid=>{allFlagged[qid]=(allFlagged[qid]||0)+1;});});
+  const flagEntries=Object.entries(allFlagged).sort((a,b)=>b[1]-a[1]);
+  if(flagEntries.length>0){
+    html+=`<div style="margin-top:10px;font-size:11px;color:#9BA3B0;">Most flagged: `;
+    html+=flagEntries.slice(0,5).map(([qid,count])=>`<span style="color:#E8B84B;">Q${qid}</span> ×${count}`).join('  ');
+    html+=`</div>`;
+  }
+  panel.innerHTML=html;
+});
+
+window.cpResetResults = function() {
+  if(!confirm('Clear all final checkpoint submissions?')) return;
+  remove(cpRef).catch(e=>console.error('Reset failed',e));
+};
+
 document.dispatchEvent(new Event("fbReady"));
 </script>
 
